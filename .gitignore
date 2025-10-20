@@ -1,0 +1,5 @@
+# große Rohdaten und Datenbanken ignorieren
+raw/
+data/*.jsonl
+data/*.db
+*.db
