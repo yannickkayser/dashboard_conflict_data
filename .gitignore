@@ -3,3 +3,4 @@ raw/
 data/*.jsonl
 data/*.db
 *.db
+.venv311/
