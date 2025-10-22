@@ -4,3 +4,4 @@ data/*.jsonl
 data/*.db
 *.db
 .venv311/
+.venv/
