@@ -14,12 +14,12 @@ It automates data collection, processing, matching, analysis, and visualization 
 
 ```mermaid
 flowchart TD
-    A[External APIs<br>(ACLED, GNews, Tagesschau)] --> B[Data Ingestion Layer<br>(fetch_acled.py, fetch_news.py)]
-    B --> C[Processing Layer<br>(transform_clean.py)]
-    C --> D[Matching Layer<br>(match_events_articles.py)]
-    D --> E[SQLite Database<br>(conflict_news.db)]
-    E --> F[Analytics & NLP<br>(sentiment_model.py, topic_model.py)]
-    F --> G[Streamlit Dashboard<br>(app/dashboard.py)]
+    A[External APIs <br> (ACLED, GNews, Tagesschau)] --> B[Data Ingestion Layer <br> (fetch_acled.py, fetch_news.py)]
+    B --> C[Processing Layer <br> (transform_clean.py)]
+    C --> D[Matching Layer <br> (match_events_articles.py)]
+    D --> E[SQLite Database <br> (conflict_news.db)]
+    E --> F[Analytics & NLP <br> (sentiment_model.py, topic_model.py)]
+    F --> G[Streamlit Dashboard <br> (app/dashboard.py)]
 
     subgraph Automation
         H[update_scheduler.py]
