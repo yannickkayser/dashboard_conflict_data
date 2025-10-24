@@ -15,8 +15,6 @@ It automates data collection, processing, matching, analysis, and visualization 
 ```mermaid
 ## 🧭 System Architecture
 
-```mermaid
-flowchart TD
 
     %% === External APIs ===
     A1[ACLED API] --> B[Data Ingestion Layer]
@@ -55,7 +53,7 @@ flowchart TD
     class G frontend;
     class H automation;
 
-
+```
 
 ---
 
