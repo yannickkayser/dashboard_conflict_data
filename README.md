@@ -13,8 +13,6 @@ It automates data collection, processing, matching, analysis, and visualization 
 ## 🧭 System Architecture
 
 ```mermaid
-## 🧭 System Architecture
-
 
     %% === External APIs ===
     A1[ACLED API] --> B[Data Ingestion Layer]
