@@ -34,6 +34,7 @@ flowchart TD
 
 ## 🧩 Project Directory Structure
 
+```bash
 conflict-news-dashboard/
 │
 ├── app/ # Streamlit frontend
@@ -85,6 +86,7 @@ conflict-news-dashboard/
 ├── requirements.txt
 ├── README.md
 └── .env # Local credentials (excluded from Git)
+```
 
 ## 🗄️ Database Structure
 
