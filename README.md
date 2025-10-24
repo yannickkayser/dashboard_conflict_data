@@ -13,19 +13,49 @@ It automates data collection, processing, matching, analysis, and visualization 
 ## 🧭 System Architecture
 
 ```mermaid
-flowchart TD
-    A[External APIs <br> (ACLED, GNews, Tagesschau)] --> B[Data Ingestion Layer <br> (fetch_acled.py, fetch_news.py)]
-    B --> C[Processing Layer <br> (transform_clean.py)]
-    C --> D[Matching Layer <br> (match_events_articles.py)]
-    D --> E[SQLite Database <br> (conflict_news.db)]
-    E --> F[Analytics & NLP <br> (sentiment_model.py, topic_model.py)]
-    F --> G[Streamlit Dashboard <br> (app/dashboard.py)]
+## 🧭 System Architecture
 
+```mermaid
+flowchart TD
+
+    %% === External APIs ===
+    A1[ACLED API] --> B[Data Ingestion Layer]
+    A2[GNews API] --> B
+    A3[Tagesschau API] --> B
+
+    %% === Ingestion to Processing ===
+    B --> C[Processing and Cleaning Layer]
+    C --> D[Matching Layer (Events ↔ Articles)]
+
+    %% === Storage ===
+    D --> E[SQLite Database]
+
+    %% === Analytics and NLP ===
+    E --> F[Analytics and NLP Models]
+    F --> G[Streamlit Dashboard]
+
+    %% === Automation ===
     subgraph Automation
-        H[update_scheduler.py]
+        H[Weekly Update Scheduler]
     end
     H --> B
-````
+
+    %% === Styling ===
+    classDef api fill:#f9f9f9,stroke:#555,color:#000,stroke-width:1px;
+    classDef process fill:#ddeeff,stroke:#555,color:#000;
+    classDef storage fill:#fff3cd,stroke:#555,color:#000;
+    classDef analytics fill:#d4edda,stroke:#555,color:#000;
+    classDef frontend fill:#cce5ff,stroke:#555,color:#000;
+    classDef automation fill:#e2e3e5,stroke:#555,color:#000;
+
+    class A1,A2,A3 api;
+    class B,C,D process;
+    class E storage;
+    class F analytics;
+    class G frontend;
+    class H automation;
+
+
 
 ---
 
