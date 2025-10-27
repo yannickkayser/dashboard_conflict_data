@@ -8,12 +8,36 @@ import json
 import urllib.request
 import urllib.parse  
 import sqlite3
+import pandas as pd
 
 #################################
 # 1. Get Keywords + dates + location
-def get_querywords(db_path){
-    
-}
+def get_querywords(country, db_path):
+    """Extract keywords/entities from database."""
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    c.execute("""
+        SELECT event_id_cnty, event_date, country, location, actor, keywords, entities,
+        FROM events
+        WHERE country = :country 
+    """, {"country": country})
+
+    rows = c.fetchall()
+
+    columns = [col[0] for col in c.description]  # get column names dynamically
+
+    conn.close()
+
+    # ✅ Convert to DataFrame
+    df = pd.DataFrame(rows, columns=columns)
+
+    # ✅ Parse JSON fields (keywords and entities)
+    df["keywords"] = df["keywords"].apply(lambda x: json.loads(x) if x else [])
+    df["entities"] = df["entities"].apply(lambda x: json.loads(x) if x else [])
+
+    return df
+
 
 
 

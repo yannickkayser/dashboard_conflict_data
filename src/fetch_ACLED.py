@@ -110,20 +110,20 @@ def fetch_acled_data (country, time_period):
 ################################## 
 # 3. Newest dates in the database
 
-def get_newest_date(db_path):
+def get_newest_date(country, db_path):
 
     # connect to the database
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
     # query the newest date (most up to date)
-    query ="""
+    c.execute("""
             SELECT event_date 
             FROM events
+            WHERE country := country
             ORDER BY event_date DESC
             LIMIT 1
-            """
-    c.execute(query)
+            """, {"country":country})
     result = c.fetchone()
     c.close()
     return result[0] if result else "2000-01-01"
@@ -140,6 +140,8 @@ def load_json_to_db(json_path, db_path):
     c = conn.cursor()
 
     for event in data["data"]:
+        event.setdefault("entities", None)
+        event.setdefault("keywords", None)
         # Insert event
         c.execute('''
             INSERT OR IGNORE INTO events VALUES (

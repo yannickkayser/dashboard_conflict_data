@@ -14,7 +14,7 @@ from utils import load_config, init_logger
 
 
 # Load English NLP model
-nlp = spacy.load("en_core_web_trf")
+nlp = spacy.load("en_core_web_sm")
 
 # LOG 
 log = init_logger("KEYWORD-EXTRACTION")
@@ -62,16 +62,21 @@ def extract_information(text):
 
 ##################################
 # 4. Add infos to the database
-def load_keywords_database(db_path):
+def load_keywords_database(country, db_path):
     """Extract keywords/entities from event notes and insert into database."""
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
-    # Fetch events that don't yet have keywords/entities
-    c.execute("SELECT event_id_cnty, notes FROM events WHERE keywords IS NULL OR entities IS NULL")
+    c.execute("""
+        SELECT event_id_cnty, notes
+        FROM events
+        WHERE country = :country
+        AND (keywords IS NULL OR entities IS NULL)
+    """, {"country": country})
+
     rows = c.fetchall()
 
-    log.info(f"Processing {len(rows)} events...")
+    log.info(f"Found {len(rows)} events in {country} missing keyword/entity info.")
 
     for event_id_cnty, notes in rows:
         if not notes:
@@ -91,6 +96,7 @@ def load_keywords_database(db_path):
             "entities": entities_json,
             "keywords": keywords_json
         })
+        log.info(f"Found Entities and Keywords in the event #{event_id_cnty}")
 
         conn.commit()
 

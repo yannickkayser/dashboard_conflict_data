@@ -51,16 +51,15 @@ conflict-news-dashboard/
 │ ├── processed/ # Cleaned and merged data
 │ └── conflict_data.db # SQLite database
 │
-├── notebooks/ # Exploration & prototyping
-│ ├── EDA_conflicts.ipynb
-│ ├── EDA_media.ipynb
-│ └── Matching_Prototype.ipynb
+├── notebook/ # Exploration & prototyping
+│ ├── initial_data.ipynb
+│ └── Matching_Prototype.ipynb 
 │
 ├── pipeline/
 │ ├── init.py
-│ ├── fetch_acled.py # API ingestion: conflict data
-│ ├── fetch_news.py # API ingestion: media data
-│ ├── transform_clean.py # Cleaning, normalization
+│ ├── fetch_ACLED.py # API ingestion: conflict data
+│ ├── fetch_GNEWS.py # API ingestion: media data
+│ ├── extract_kewywords.py # Extract keywords from ACLED -> for fetch_GNEWS.API
 │ ├── match_events_articles.py # ML/NLP-based matching
 │ ├── load_to_db.py # Write data to SQLite
 │ └── update_scheduler.py # Weekly automation (cron/bash)
@@ -97,8 +96,8 @@ conflict-news-dashboard/
 #### 1. `conflict_events`
 | Column | Type | Description |
 |---------|------|-------------|
-| `event_id` | INTEGER (PK) | Unique ACLED event ID |
-| `date` | DATE | Date of event |
+| `event_cntry_id` | INTEGER (PK) | Unique ACLED event ID |
+| `event_date` | DATE | Date of event |
 | `country` | TEXT | Country where conflict occurred |
 | `region` | TEXT | ACLED region |
 | `event_type` | TEXT | Protest, battle, etc. |
