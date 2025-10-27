@@ -147,7 +147,7 @@ def load_json_to_db(json_path, db_path):
                 :event_type, :sub_event_type, :interaction, :civilian_targeting,
                 :iso, :region, :country, :admin1, :admin2, :admin3, :location,
                 :latitude, :longitude, :geo_precision, :source, :source_scale,
-                :notes, :fatalities, :tags, :timestamp
+                :notes, :fatalities, :tags, :timestamp, :entities, :keywords
             )
         ''', event)
 

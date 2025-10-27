@@ -4,6 +4,8 @@ from fetch_ACLED import fetch_acled_data, get_newest_date, load_json_to_db
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
+from extract_keywords import load_keywords_database
+
 from src.fetch_gnews import fetch_gnews_articles
 from src.match_and_load import match_and_load
 from src.utils import load_config, get_db_connection, get_latest_event_date
@@ -33,7 +35,11 @@ def main():
 
     ###################################
     # Get the keywords from the json
+    load_keywords_database(config["database"]["path"])
 
+
+    ###################################
+    # Fetch NEWS Data based on keywords
 
 
     gnews_file = fetch_gnews_articles(keywords)

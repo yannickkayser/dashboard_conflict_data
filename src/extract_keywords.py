@@ -12,9 +12,15 @@ from spacy.lang.en.stop_words import STOP_WORDS
 import sqlite3
 from utils import load_config, init_logger
 
+
 # Load English NLP model
 nlp = spacy.load("en_core_web_trf")
 
+# LOG 
+log = init_logger("KEYWORD-EXTRACTION")
+
+##################################
+# 1. Extract Entities
 def extract_entities(text):
     """Extract key entities with normalization."""
     doc = nlp(text)
@@ -24,7 +30,8 @@ def extract_entities(text):
             entities.add((ent.label_, ent.text.strip()))
     return list(entities)
 
-
+##################################
+# 2. Extract Entities
 def extract_keywords(text):
     doc = nlp(text)
     keywords = set()
@@ -42,6 +49,8 @@ def extract_keywords(text):
 
     return list(keywords)
 
+##################################
+# 3. Extract ALL Infor
 def extract_information(text):
     entities = extract_entities(text)
     keywords = extract_keywords(text)
@@ -50,3 +59,40 @@ def extract_information(text):
         "entities": entities,
         "keywords": keywords
     }
+
+##################################
+# 4. Add infos to the database
+def load_keywords_database(db_path):
+    """Extract keywords/entities from event notes and insert into database."""
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    # Fetch events that don't yet have keywords/entities
+    c.execute("SELECT event_id_cnty, notes FROM events WHERE keywords IS NULL OR entities IS NULL")
+    rows = c.fetchall()
+
+    log.info(f"Processing {len(rows)} events...")
+
+    for event_id_cnty, notes in rows:
+        if not notes:
+            continue
+
+        info = extract_information(notes)
+        entities_json = json.dumps(info["entities"], ensure_ascii=False)
+        keywords_json = json.dumps(info["keywords"], ensure_ascii=False)
+
+        c.execute('''
+            UPDATE events
+            SET entities = :entities,
+                keywords = :keywords
+            WHERE event_id_cnty = :event_id_cnty
+        ''', {
+            "event_id_cnty": event_id_cnty,
+            "entities": entities_json,
+            "keywords": keywords_json
+        })
+
+        conn.commit()
+
+    conn.close()
+    log.info("Database updated with keywords and entities.")

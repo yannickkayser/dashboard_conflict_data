@@ -49,7 +49,7 @@ conflict-news-dashboard/
 ├── data/
 │ ├── raw/ # JSON files from APIs
 │ ├── processed/ # Cleaned and merged data
-│ └── conflict_news.db # SQLite database
+│ └── conflict_data.db # SQLite database
 │
 ├── notebooks/ # Exploration & prototyping
 │ ├── EDA_conflicts.ipynb
@@ -80,7 +80,7 @@ conflict-news-dashboard/
 │ └── run_pipeline.sh
 │
 ├── config/
-│ ├── settings.yaml # API keys, DB path, update freq
+│ ├── config.yaml # API keys, DB path, update freq
 │ └── logging.conf
 │
 ├── requirements.txt
