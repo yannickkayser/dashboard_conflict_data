@@ -1,0 +1,950 @@
+{
+    "Afghanistan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2017-Present"
+    },
+    "Albania": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Algeria": {
+        "region": "Northern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "American Samoa": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Andorra": {
+        "region": "Europe",
+        "coverage": "Present"
+    },
+    "Angola": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Anguilla": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Antarctica": {
+        "region": "Antarctica",
+        "coverage": "1/2021-Present"
+    },
+    "Antigua and Barbuda": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Argentina": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Armenia": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Aruba": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Australia": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Austria": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Azerbaijan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Bahamas": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Bahrain": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Bailiwick of Guernsey": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Bailiwick of Jersey": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Bangladesh": {
+        "region": "South Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Barbados": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Belarus": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Belgium": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Belize": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Benin": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Bermuda": {
+        "region": "North America",
+        "coverage": "1/2018-Present"
+    },
+    "Bhutan": {
+        "region": "South Asia",
+        "coverage": "1/2020-Present"
+    },
+    "Bolivia": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Bosnia and Herzegovina": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Botswana": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Brazil": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "British Indian Ocean Territory": {
+        "region": "Eastern Africa",
+        "coverage": "1/2018-Present"
+    },
+    "British Virgin Islands": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Brunei": {
+        "region": "Southeast Asia",
+        "coverage": "1/2020-Present"
+    },
+    "Bulgaria": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Burkina Faso": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Burundi": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Cambodia": {
+        "region": "Southeast Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Cameroon": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Canada": {
+        "region": "North America",
+        "coverage": "1/2021-Present"
+    },
+    "Cape Verde": {
+        "region": "Western Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Caribbean Netherlands": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Cayman Islands": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Central African Republic": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Chad": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Chile": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "China": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Christmas Island": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Cocos (Keeling) Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Colombia": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Comoros": {
+        "region": "Eastern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Cook Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Costa Rica": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Croatia": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Cuba": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Curacao": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Cyprus": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Czech Republic": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Democratic Republic of Congo": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Denmark": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Djibouti": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Dominica": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Dominican Republic": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "East Timor": {
+        "region": "Southeast Asia",
+        "coverage": "1/2020-Present"
+    },
+    "Ecuador": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Egypt": {
+        "region": "Northern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "El Salvador": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Equatorial Guinea": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Eritrea": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Estonia": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "eSwatini": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Ethiopia": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Falkland Islands": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Faroe Islands": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Fiji": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Finland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "France": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "French Guiana": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "French Polynesia": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Gabon": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Gambia": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Georgia": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Germany": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Ghana": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Gibraltar": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Greece": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Greenland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Grenada": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Guadeloupe": {
+        "region": "Caribbean",
+        "coverage": "Present"
+    },
+    "Guam": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Guatemala": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Guinea": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Guinea-Bissau": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Guyana": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Haiti": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Heard Island and McDonald Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Honduras": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Hungary": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Iceland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "India": {
+        "region": "South Asia",
+        "coverage": "1/2016-Present"
+    },
+    "Indonesia": {
+        "region": "Southeast Asia",
+        "coverage": "1/2015-Present"
+    },
+    "Iran": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Iraq": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Ireland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Isle of Man": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Israel": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Italy": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Ivory Coast": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Jamaica": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Japan": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Jordan": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Kazakhstan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Kenya": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Kiribati": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Kosovo": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Kuwait": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Kyrgyzstan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Laos": {
+        "region": "Southeast Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Latvia": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Lebanon": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Lesotho": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Liberia": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Liechtenstein": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Lithuania": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Luxembourg": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Madagascar": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Malawi": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Malaysia": {
+        "region": "Southeast Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Maldives": {
+        "region": "South Asia",
+        "coverage": "1/2020-Present"
+    },
+    "Mali": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Malta": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Marshall Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Martinique": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Mauritania": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Mauritius": {
+        "region": "Eastern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Mayotte": {
+        "region": "Eastern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Mexico": {
+        "region": "North America",
+        "coverage": "1/2018-Present"
+    },
+    "Micronesia": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Monaco": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Mongolia": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Montenegro": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Montserrat": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Morocco": {
+        "region": "Northern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Mozambique": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Myanmar": {
+        "region": "Southeast Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Namibia": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Nauru": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Nepal": {
+        "region": "South Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Netherlands": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "New Caledonia": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "New Zealand": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Nicaragua": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Niger": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Nigeria": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Norfolk Island": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "North Korea": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "North Macedonia": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Northern Mariana Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Norway": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Oman": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Pakistan": {
+        "region": "South Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Palau": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Palestine": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Panama": {
+        "region": "Central America",
+        "coverage": "1/2018-Present"
+    },
+    "Papua New Guinea": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Paraguay": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Peru": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Philippines": {
+        "region": "Southeast Asia",
+        "coverage": "1/2016-Present"
+    },
+    "Pitcairn": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Poland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Puerto Rico": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Qatar": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Republic of Congo": {
+        "region": "Middle Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Reunion": {
+        "region": "Eastern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Romania": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Russia": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Rwanda": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Saint Helena, Ascension and Tristan da Cunha": {
+        "region": "Southern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Saint Kitts and Nevis": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Saint Lucia": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Saint Pierre and Miquelon": {
+        "region": "North America",
+        "coverage": "1/2021-Present"
+    },
+    "Saint Vincent and the Grenadines": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Saint-Barthelemy": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Saint-Martin": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Samoa": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "San Marino": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Sao Tome and Principe": {
+        "region": "Middle Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Saudi Arabia": {
+        "region": "Middle East",
+        "coverage": "1/2015-Present"
+    },
+    "Senegal": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Serbia": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "Seychelles": {
+        "region": "Eastern Africa",
+        "coverage": "1/2020-Present"
+    },
+    "Sierra Leone": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Singapore": {
+        "region": "Southeast Asia",
+        "coverage": "1/2020-Present"
+    },
+    "Sint Maarten": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Slovakia": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Slovenia": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Solomon Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Somalia": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "South Africa": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "South Georgia and the South Sandwich Islands": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "South Korea": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "South Sudan": {
+        "region": "Eastern Africa",
+        "coverage": "1/2011-Present"
+    },
+    "Spain": {
+        "region": "Europe",
+        "coverage": "1/2020-"
+    },
+    "Sri Lanka": {
+        "region": "South Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Sudan": {
+        "region": "Northern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Suriname": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Sweden": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Switzerland": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Syria": {
+        "region": "Middle East",
+        "coverage": "1/2017-Present"
+    },
+    "Taiwan": {
+        "region": "East Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Tajikistan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Tanzania": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Thailand": {
+        "region": "Southeast Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Togo": {
+        "region": "Western Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Tokelau": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Tonga": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Trinidad and Tobago": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Tunisia": {
+        "region": "Northern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Turkey": {
+        "region": "Middle East",
+        "coverage": "1/2016-Present"
+    },
+    "Turks and Caicos Islands": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Tuvalu": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Uganda": {
+        "region": "Eastern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Ukraine": {
+        "region": "Europe",
+        "coverage": "1/2018-Present"
+    },
+    "United Arab Emirates": {
+        "region": "Middle East",
+        "coverage": "1/2017-Present"
+    },
+    "United Kingdom": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "United States": {
+        "region": "North America",
+        "coverage": "1/2020-Present"
+    },
+    "United States Minor Outlying Islands": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Uruguay": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Uzbekistan": {
+        "region": "Caucasus and Central Asia",
+        "coverage": "1/2018-Present"
+    },
+    "Vanuatu": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Vatican City": {
+        "region": "Europe",
+        "coverage": "1/2020-Present"
+    },
+    "Venezuela": {
+        "region": "South America",
+        "coverage": "1/2018-Present"
+    },
+    "Vietnam": {
+        "region": "Southeast Asia",
+        "coverage": "1/2010-Present"
+    },
+    "Virgin Islands, US": {
+        "region": "Caribbean",
+        "coverage": "1/2018-Present"
+    },
+    "Wallis and Futuna": {
+        "region": "Oceania",
+        "coverage": "1/2021-Present"
+    },
+    "Zambia": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    },
+    "Zimbabwe": {
+        "region": "Southern Africa",
+        "coverage": "1/1997-Present"
+    }
+}

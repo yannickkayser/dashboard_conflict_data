@@ -5,7 +5,7 @@
 set -e
 
 # (2) Activate your Python virtual environment (adjust this path)
-source ~/virtualenvs/Dashboard_Project-_hGijfcO/bin/activate
+source ~/Uni/Master/Semester_3/Dashboard_Project/venv/Dashboard_Project-_hGijfcO
 
 # (3) Navigate to your project directory
 cd /Users/yannickkayser/Uni/Master/Semester_3/Dashboard_Project/src/
