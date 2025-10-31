@@ -120,12 +120,13 @@ def get_newest_date(country, db_path):
     c.execute("""
             SELECT event_date 
             FROM events
-            WHERE country := country
+            WHERE country = :country
             ORDER BY event_date DESC
             LIMIT 1
             """, {"country":country})
     result = c.fetchone()
     c.close()
+    conn.close()  # also good practice to close the connection
     return result[0] if result else "2000-01-01"
 
 

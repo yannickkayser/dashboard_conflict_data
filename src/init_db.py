@@ -126,9 +126,8 @@ def create_database(db_path):
             inter1 TEXT,
             actor2 TEXT, 
             assoc_actor_2 TEXT,
-            inter2,
+            inter2 TEXT,
             interaction TEXT,
-            actor_name TEXT UNIQUE,
             civilian_targeting TEXT,
             iso INTEGER,
             region TEXT,
@@ -167,7 +166,8 @@ def load_json_to_db(json_path, db_path):
         c.execute('''
             INSERT OR IGNORE INTO events VALUES (
                 :event_id_cnty, :event_date, :year, :time_precision, :disorder_type,
-                :event_type, :sub_event_type, :interaction, :civilian_targeting,
+                :event_type, :sub_event_type, :actor1, :assoc_actor_1, :inter1, :actor2, 
+                :assoc_actor_2, :inter2, :interaction, :civilian_targeting,
                 :iso, :region, :country, :admin1, :admin2, :admin3, :location,
                 :latitude, :longitude, :geo_precision, :source, :source_scale,
                 :notes, :fatalities, :tags, :timestamp
@@ -183,7 +183,7 @@ def load_json_to_db(json_path, db_path):
 
 
 # Get the dictionary with country names
-with open("acled_coverage.json", "r", encoding="utf-8") as f:
+with open("../data/acled_coverage.json", "r", encoding="utf-8") as f:
     acled_coverage = json.load(f)
 
 
@@ -191,13 +191,13 @@ with open("acled_coverage.json", "r", encoding="utf-8") as f:
 #  Run for all countries
 # ----------------------------
 # get access token
-access_token = get_access_token(config["acled"]["username"], config["acled"]["password"], config["acled"]["token_url"])
 
-for country_name in acled_coverage.keys():
-    print(f"Analyzing {country_name}")
-    fetch_acled_data(country_name, 2024, access_token)
-    wait_time = random.uniform(1, 3)  # wait between 1 and 3 seconds
-    time.sleep(wait_time)
+#access_token = get_access_token(config["acled"]["username"], config["acled"]["password"], config["acled"]["token_url"])
+#for country_name in acled_coverage.keys():
+#    print(f"Analyzing {country_name}")
+#    fetch_acled_data(country_name, 2024, access_token)
+#    wait_time = random.uniform(1, 3)  # wait between 1 and 3 seconds
+#    time.sleep(wait_time)
 
 # took 36 mins !!!
 
@@ -212,8 +212,8 @@ json_files = glob.glob(os.path.join(raw_folder, "*.json"))
 
 # 3. Loop over each file and load it into the database
 for json_file in json_files:
-    print(f"Loading {json_file} into database...")
-    load_json_to_db(json_file,config["database"]["path"])
+     print(f"Loading {json_file} into database...")
+     load_json_to_db(json_file,config["database"]["path"])
 
 print("All JSON files loaded successfully.")
 # took 3.6 s

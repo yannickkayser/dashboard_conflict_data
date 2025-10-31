@@ -1,3 +1,7 @@
+# pipline.py
+#
+# script to automatically update the ACLED database every 2-7 days 
+
 
 from utils import load_config
 from fetch_ACLED import fetch_acled_data, get_newest_date, load_json_to_db
