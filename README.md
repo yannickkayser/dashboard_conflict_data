@@ -55,8 +55,8 @@ conflict-news-dashboard/
 │ ├── initial_data.ipynb
 │ └── Matching_Prototype.ipynb 
 │
-├── pipeline/
-│ ├── init.py
+├── src/
+│ ├── init_db.py # load, create and fill initial database
 │ ├── fetch_ACLED.py # API ingestion: conflict data
 │ ├── fetch_GNEWS.py # API ingestion: media data
 │ ├── extract_kewywords.py # Extract keywords from ACLED -> for fetch_GNEWS.API
@@ -75,7 +75,6 @@ conflict-news-dashboard/
 │ └── test_matching.py
 │
 ├── scripts/
-│ ├── init_db.py
 │ └── run_pipeline.sh
 │
 ├── config/
@@ -89,7 +88,7 @@ conflict-news-dashboard/
 
 ## 🗄️ Database Structure
 
-**Database:** `conflict_news.db`
+**Database:** `conflict_data.db`
 
 ### Tables Overview
 
@@ -106,31 +105,20 @@ conflict-news-dashboard/
 | `longitude` | REAL | Geo coordinates |
 | `notes` | TEXT | Event summary |
 
-#### 2. `media_articles`
-| Column | Type | Description |
-|---------|------|-------------|
-| `article_id` | INTEGER (PK) | Unique ID for article |
-| `source` | TEXT | GNews, Tagesschau, etc. |
-| `title` | TEXT | Headline text |
-| `content` | TEXT | Article body |
-| `url` | TEXT | Source URL |
-| `country` | TEXT | Extracted/mentioned country |
-| `published_at` | DATE | Publication date |
-| `sentiment` | REAL | Polarity score |
-| `emotion` | TEXT | Dominant emotion label |
-| `keywords` | TEXT | Extracted keywords |
 
-#### 3. `event_article_matches`
-| Column | Type | Description |
-|---------|------|-------------|
-| `match_id` | INTEGER (PK) | Unique match identifier |
-| `event_id` | INTEGER (FK) | Linked conflict event |
-| `article_id` | INTEGER (FK) | Linked media article |
-| `similarity_score` | REAL | Cosine similarity or ML score |
-| `temporal_distance` | INTEGER | Days between event & article |
-| `geographic_distance` | REAL | Distance in km |
-| `match_confidence` | REAL | Combined confidence metric |
 
----
+## Initialize Project
+
+Initialize project:
+'''
+uv run src/init_db.py
+'''
+Downloads the latest files for the year specified in the script (2024), creates and loads into the database.
+
+Check for the latest dates in the database
+'''
+uv run src/util_date.py
+'''
+
 
 
