@@ -1,4 +1,5 @@
 # große Rohdaten und Datenbanken ignorieren
+# Can you see this
 raw/
 data/*.jsonl
 data/*.db
