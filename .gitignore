@@ -1,6 +1,7 @@
 # große Rohdaten und Datenbanken ignorieren
 # Can you see this
 raw/
+config/
 data/*.jsonl
 data/*.db
 *.db
