@@ -1,0 +1,15 @@
+acled:
+  token_url: "https://acleddata.com/oauth/token"
+  api_url: "https://acleddata.com/api/acled/read?_format=json"
+  username: "yannick.kayser@students.uni-mannheim.de"
+  password: "pohxiw-hokgas-2qacPu"
+
+gnews:
+  api_url: "https://gnews.io/api/v4/search"
+  api_key: "cbc7d3f5fe399cb90da7301863ecf370"
+
+database:
+  path: "../data/conflict_data.db"
+
+country_name:
+  path: "../data/acled_coverage.json"
