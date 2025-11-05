@@ -364,25 +364,6 @@ The main table contains 30 columns storing comprehensive event information:
 
 ---
 
-## Configuration
-
-The pipeline expects a `config.yaml` file with the following structure:
-
-```yaml
-acled:
-  username: "your_username"
-  password: "your_password"
-  token_url: "https://acleddata.com/api/auth/token"
-
-database:
-  path: "../data/acled.db"
-
-country_name:
-  path: "../data/acled_coverage.json"
-```
-
----
-
 ## Workflow Summary
 
 1. **Initialization** (`init_db.py`): Fetch historical data and create database
@@ -403,5 +384,35 @@ country_name:
 - `dateutil`: Date calculations
 - `urllib`: URL encoding (for GNews API)
 
+---
 
+## Examples:
+
+Example: Query Database for Analysis
+
+```python
+import sqlite3
+import pandas as pd
+from utils import load_config
+
+# Connect to database
+config = load_config()
+conn = sqlite3.connect(config["database"]["path"])
+
+# Example: Get all protests in Germany in 2024
+query = """
+    SELECT event_date, location, actor1, sub_event_type, notes, fatalities
+    FROM events
+    WHERE country = 'Germany'
+    AND year = 2024
+    AND event_type = 'Protests'
+    ORDER BY event_date DESC
+"""
+
+df = pd.read_sql_query(query, conn)
+print(f"Found {len(df)} protest events in Germany (2024)")
+print(df.head())
+
+conn.close()
+````
 
