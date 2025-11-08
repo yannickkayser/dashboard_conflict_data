@@ -1,88 +1,136 @@
-# fetch_GNEWS.py 
-# Script for fetching GNEWS Data
-# the function can be called weekly to update the database, based on the Keywords from ACLED
+"""
+fetch_GNEWS.py
+Fetch all GNews articles between 2023-01-01 and 2025-11-08 (paid plan with historical access).
+Stores all articles in a local SQLite database.
+"""
 
-#################################
-# import package
-import json
-import urllib.request
-import urllib.parse  
-import sqlite3
-import pandas as pd
+import time
+import requests
+import sqlalchemy as db
+from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 
-#################################
-# 1. Get Keywords + dates + location
-def get_querywords(country, db_path):
-    """Extract keywords/entities from database."""
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
+# =============================
+# 1. API CONFIGURATION
+# =============================
+API_KEY = "cbc7d3f5fe399cb90da7301863ecf370"   
+BASE_URL = "https://gnews.io/api/v4/search"
+LANG = "de"
+COUNTRY = "de"
+QUERY = (
+    "Protest OR Demonstration OR Streik OR Blockade OR "
+    "Gewalt OR Angriff OR Konflikt OR Aufstand OR Wahl OR Militär OR Politik OR Menschenrechte OR Bürgerkrieg OR Pressefreiheit OR Militär"
+    )
 
-    c.execute("""
-        SELECT event_id_cnty, event_date, country, location, actor, keywords, entities,
-        FROM events
-        WHERE country = :country 
-    """, {"country": country})
+# =============================
+# 2. DATABASE CONFIGURATION
+# =============================
+DATABASE_URI = "sqlite:///gnews_articles.db"
+engine = db.create_engine(DATABASE_URI)
+metadata = db.MetaData()
 
-    rows = c.fetchall()
-
-    columns = [col[0] for col in c.description]  # get column names dynamically
-
-    conn.close()
-
-    # ✅ Convert to DataFrame
-    df = pd.DataFrame(rows, columns=columns)
-
-    # ✅ Parse JSON fields (keywords and entities)
-    df["keywords"] = df["keywords"].apply(lambda x: json.loads(x) if x else [])
-    df["entities"] = df["entities"].apply(lambda x: json.loads(x) if x else [])
-
-    return df
-
-
-
-
-
-# Replace with your real API key
-#apikey = "XXXXXXXXXXXX"
-
-# Define search parameters
-query = 'protest OR konflikt OR demonstration OR aufstand OR streik'  # keywords in German
-lang = "de"       # German language
-country = "de"    # Germany as country of publication
-max_results = 10  # number of articles to retrieve
-
-# Define date range for January 2024 (ISO 8601 format)
-date_from = "2024-01-01T00:00:00Z"
-date_to = "2024-01-31T23:59:59Z"
-
-# URL encode the query string to handle spaces and special characters
-encoded_query = urllib.parse.quote(query)
-
-# Construct API URL
-url = (
-    f"https://gnews.io/api/v4/search?"
-    f"q={encoded_query}"
-    f"&lang={lang}"
-    f"&country={country}"
-    f"&from={date_from}"
-    f"&to={date_to}"
-    f"&max={max_results}"
-    f"&sortby=relevance"
-    f"&apikey={apikey}"
+articles_table = db.Table(
+    "articles",
+    metadata,
+    db.Column("id", db.String, primary_key=True),
+    db.Column("publishedAt", db.DateTime),
+    db.Column("title", db.String),
+    db.Column("description", db.String),
+    db.Column("content", db.String),
+    db.Column("url", db.String),
+    db.Column("source_name", db.String),
+    db.Column("source_url", db.String),
 )
+metadata.create_all(engine)
+connection = engine.connect()
 
-# Fetch and parse JSON response
-with urllib.request.urlopen(url) as response:
-    data = json.loads(response.read().decode("utf-8"))
-    articles = data.get("articles", [])
+# =============================
+# 3. HELPER FUNCTIONS
+# =============================
+def save_articles(article_list):
+    """Insert all fetched articles into the database."""
+    for article in article_list:
+        try:
+            data = {
+                "id": article.get("url"),
+                "publishedAt": datetime.fromisoformat(article["publishedAt"].replace("Z", "+00:00")),
+                "title": article.get("title"),
+                "description": article.get("description"),
+                "content": article.get("content"),
+                "url": article.get("url"),
+                "source_name": article["source"].get("name"),
+                "source_url": article["source"].get("url"),
+            }
+            connection.execute(articles_table.insert(), [data])
+        except Exception as e:
+            # Duplicate entries or other DB constraint violations
+            print(f"⚠️ Skipping article: {e}")
 
-    if not articles:
-        print("No articles found for the specified parameters.")
-    else:
-        for i, article in enumerate(articles, 1):
-            print(f"\nArticle {i}")
-            print(f"Title: {article.get('title')}")
-            print(f"Description: {article.get('description')}")
-            print(f"Published At: {article.get('publishedAt')}")
-            print(f"Source: {article.get('source', {}).get('name')}")
-            print(f"URL: {article.get('url')}")
+def fetch_articles_for_day(date):
+    """Fetch all paginated articles for a single day."""
+    next_date = date + timedelta(days=1)
+    page = 1
+    total_fetched = 0
+
+    while True:
+        params = {
+            "q": QUERY,
+            "token": API_KEY,
+            "lang": LANG,
+            "country": COUNTRY,
+            "from": date.strftime("%Y-%m-%dT00:00:00Z"),
+            "to": next_date.strftime("%Y-%m-%dT00:00:00Z"),
+            "sortby": "relevance",
+            "page": page,
+            "max": 100,  # ignored by some plans, but harmless
+        }
+        r = requests.get(BASE_URL, params=params)
+
+        if r.status_code != 200:
+            print(f"❌ Error {r.status_code} for {date.date()}: {r.text}")
+            break
+
+        res = r.json()
+        articles = res.get("articles", [])
+        if not articles:
+            break  # no more pages
+
+        save_articles(articles)
+        total_fetched += len(articles)
+        print(f"✅ {len(articles)} articles fetched from page {page} ({date.date()})")
+
+        # Stop if fewer than 25 articles (end of pagination)
+        if len(articles) < 25:
+            break
+
+        page += 1
+        time.sleep(1)  # respect API rate limit
+
+    print(f"📅 Total {total_fetched} articles saved for {date.date()}")
+
+
+def fetch_articles_monthly(start_date, end_date):
+    """Iterate month by month and fetch all articles."""
+    current = start_date
+    while current < end_date:
+        next_month = current + relativedelta(months=1)
+        print(f"\n=== Fetching month: {current.strftime('%B %Y')} ===")
+
+        day = current
+        while day < next_month and day < end_date:
+            fetch_articles_for_day(day)
+            day += timedelta(days=1)
+
+        current = next_month
+
+
+# =============================
+# 4. RUN SCRIPT
+# =============================
+if __name__ == "__main__":
+    start_date = datetime(2023, 1, 1)
+    end_date = datetime(2025, 11, 8)
+
+    print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
+    fetch_articles_monthly(start_date, end_date)
+    print("✅ All articles saved in gnews_articles.db.")
