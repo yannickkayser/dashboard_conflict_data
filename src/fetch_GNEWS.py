@@ -18,8 +18,7 @@ BASE_URL = "https://gnews.io/api/v4/search"
 LANG = "de"
 COUNTRY = "de"
 QUERY = (
-    "Protest OR Demonstration OR Streik OR Blockade OR "
-    "Gewalt OR Angriff OR Konflikt OR Aufstand OR Wahl OR Militär OR Politik OR Menschenrechte OR Bürgerkrieg OR Pressefreiheit OR Militär"
+    "Protest OR Demonstration OR Streik OR Unruhen OR Ausschreitungen OR Gewalt OR Angriff OR Anschlag OR Terror OR Extremismus OR Polizei OR Festnahme OR Krieg OR Konflikt OR Wahl OR Korruption"
     )
 
 # =============================
@@ -42,15 +41,14 @@ articles_table = db.Table(
     db.Column("source_url", db.String),
 )
 metadata.create_all(engine)
-connection = engine.connect()
+engine = db.create_engine(DATABASE_URI)
 
 # =============================
 # 3. HELPER FUNCTIONS
 # =============================
 def save_articles(article_list):
-    """Insert all fetched articles into the database."""
-    for article in article_list:
-        try:
+    with engine.begin() as conn:   # <-- automatisch commit
+        for article in article_list:
             data = {
                 "id": article.get("url"),
                 "publishedAt": datetime.fromisoformat(article["publishedAt"].replace("Z", "+00:00")),
@@ -61,13 +59,11 @@ def save_articles(article_list):
                 "source_name": article["source"].get("name"),
                 "source_url": article["source"].get("url"),
             }
-            connection.execute(articles_table.insert(), [data])
-        except Exception as e:
-            # Duplicate entries or other DB constraint violations
-            print(f"⚠️ Skipping article: {e}")
+            stmt = db.insert(articles_table).prefix_with("OR IGNORE")
+            conn.execute(stmt, [data])
+
 
 def fetch_articles_for_day(date):
-    """Fetch all paginated articles for a single day."""
     next_date = date + timedelta(days=1)
     page = 1
     total_fetched = 0
@@ -82,29 +78,39 @@ def fetch_articles_for_day(date):
             "to": next_date.strftime("%Y-%m-%dT00:00:00Z"),
             "sortby": "relevance",
             "page": page,
-            "max": 100,  # ignored by some plans, but harmless
+            "max": 100,
         }
+
         r = requests.get(BASE_URL, params=params)
 
+        # 💥 Rate Limit erreicht → Skript vollständig stoppen
+        if r.status_code in [403, 429]:
+            print(f"❌ RATE LIMIT erreicht bei {date.date()} page {page}")
+            print(f"   Antwort: {r.text}")
+            raise SystemExit("⛔ Skript gestoppt wegen Rate Limit.")
+
+        # Andere API-Fehler
         if r.status_code != 200:
-            print(f"❌ Error {r.status_code} for {date.date()}: {r.text}")
-            break
+            print(f"❌ Error {r.status_code} für {date.date()}: {r.text}")
+            raise SystemExit("⛔ Skript gestoppt wegen API-Fehler.")
 
         res = r.json()
         articles = res.get("articles", [])
         if not articles:
-            break  # no more pages
+            break
 
         save_articles(articles)
         total_fetched += len(articles)
         print(f"✅ {len(articles)} articles fetched from page {page} ({date.date()})")
 
-        # Stop if fewer than 25 articles (end of pagination)
         if len(articles) < 25:
             break
 
         page += 1
-        time.sleep(1)  # respect API rate limit
+        time.sleep(1)
+
+    print(f"📅 Total {total_fetched} articles saved for {date.date()}")
+
 
     print(f"📅 Total {total_fetched} articles saved for {date.date()}")
 
@@ -128,9 +134,15 @@ def fetch_articles_monthly(start_date, end_date):
 # 4. RUN SCRIPT
 # =============================
 if __name__ == "__main__":
-    start_date = datetime(2023, 1, 1)
-    end_date = datetime(2025, 11, 8)
+    start_date = datetime(2019, 4, 2)
+    end_date = datetime(2025, 11, 7)
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
     fetch_articles_monthly(start_date, end_date)
     print("✅ All articles saved in gnews_articles.db.")
+
+
+import os
+print("Working directory:", os.getcwd())
+print("DB path:", os.path.abspath("gnews_articles.db"))
+print("Size (bytes):", os.path.getsize("gnews_articles.db"))
