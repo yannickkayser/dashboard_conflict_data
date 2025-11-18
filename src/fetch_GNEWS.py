@@ -24,7 +24,7 @@ QUERY = (
 # =============================
 # 2. DATABASE CONFIGURATION
 # =============================
-DATABASE_URI = "sqlite:///gnews_articles.db"
+DATABASE_URI = "sqlite:///../data/gnews_articles.db"
 engine = db.create_engine(DATABASE_URI)
 metadata = db.MetaData()
 
