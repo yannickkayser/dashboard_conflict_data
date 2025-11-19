@@ -1,9 +1,11 @@
+
 """
 fetch_GNEWS.py
 Fetch all GNews articles between 2023-01-01 and 2025-11-08 (paid plan with historical access).
 Stores all articles in a local SQLite database.
 """
-
+import os
+print("Working directory:", os.getcwd())
 import time
 import requests
 import sqlalchemy as db
@@ -24,7 +26,20 @@ QUERY = (
 # =============================
 # 2. DATABASE CONFIGURATION
 # =============================
-DATABASE_URI = "sqlite:///../data/gnews_articles.db"
+
+# Build absolute path to /data/ directory
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+DATA_DIR = os.path.abspath(DATA_DIR)
+
+# Ensure directory exists
+os.makedirs(DATA_DIR, exist_ok=True)
+
+# Full DB path
+DB_PATH = os.path.join(DATA_DIR, "gnews_articles.db")
+
+DATABASE_URI = f"sqlite:///{DB_PATH}"
+
+print("Using DB:", DATABASE_URI)
 engine = db.create_engine(DATABASE_URI)
 metadata = db.MetaData()
 
@@ -135,14 +150,15 @@ def fetch_articles_monthly(start_date, end_date):
 # =============================
 if __name__ == "__main__":
     start_date = datetime(2020, 10, 21)
-    end_date = datetime(2025, 11, 18)
+    end_date = datetime(2025, 11, 19)
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
     fetch_articles_monthly(start_date, end_date)
     print("✅ All articles saved in gnews_articles.db.")
 
 
-import os
 print("Working directory:", os.getcwd())
-print("DB path:", os.path.abspath("gnews_articles.db"))
-print("Size (bytes):", os.path.getsize("gnews_articles.db"))
+print("DB path:", DB_PATH)
+print("Size (bytes):", os.path.getsize(DB_PATH))
+
+
