@@ -3,7 +3,7 @@
 raw/
 config/
 data/*.jsonl
-#data/*.db
+data/*.db
 *.db
 .venv311/
 .venv/
