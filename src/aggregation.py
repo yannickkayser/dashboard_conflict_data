@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 from utils import get_db_connection, init_logger
 
-CONFLICT_SCHEME_NAME = "actor1_assoc1_v1"
+CONFLICT_SCHEME_NAME = "country_actor1_assoc1_v1"
 # <-- NEW: compute DB path relative to this file, not the current working dir
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = PROJECT_ROOT / "data" / "conflict_data.db"
@@ -43,7 +43,7 @@ def build_conflict_mapping(conn, logger):
 
     # 1) Load data from the events table
     query = """
-        SELECT event_id_cnty, actor1, assoc_actor_1
+        SELECT event_id_cnty, actor1, assoc_actor_1, country
         FROM events
     """
     events = pd.read_sql(query, conn)
@@ -52,8 +52,9 @@ def build_conflict_mapping(conn, logger):
     # 2) Clean & create a grouping key
     events["actor1"] = events["actor1"].fillna("NA").astype(str).str.strip()
     events["assoc_actor_1"] = events["assoc_actor_1"].fillna("NA").astype(str).str.strip()
+    events["country"] = events["country"].fillna("NA").astype(str).str.strip()
 
-    events["conflict_key"] = events["actor1"] + "|" + events["assoc_actor_1"]
+    events["conflict_key"] = events["actor1"] + "|" + events["assoc_actor_1"] + "|" + events["country"]
 
     # 3) Turn each unique conflict_key into an integer id
     # pd.factorize returns (codes, unique_values)
@@ -119,8 +120,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# ----------------------------------------------
-
-### 
 
