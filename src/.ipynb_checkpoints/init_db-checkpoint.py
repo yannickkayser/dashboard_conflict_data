@@ -195,7 +195,7 @@ with open("../data/acled_coverage.json", "r", encoding="utf-8") as f:
 #access_token = get_access_token(config["acled"]["username"], config["acled"]["password"], config["acled"]["token_url"])
 #for country_name in acled_coverage.keys():
 #    print(f"Analyzing {country_name}")
-#    fetch_acled_data(country_name, 2024, access_token)
+#    fetch_acled_data(country_name, 2020, access_token)
 #    wait_time = random.uniform(1, 3)  # wait between 1 and 3 seconds
 #    time.sleep(wait_time)
 
@@ -205,7 +205,7 @@ with open("../data/acled_coverage.json", "r", encoding="utf-8") as f:
 raw_folder = "../raw"
 
 # 1. Create database (only needs to be done once)
-create_database(config["database"]["path"])
+#create_database(config["database"]["path"])
 
 # 2. Get all JSON files in the folder
 json_files = glob.glob(os.path.join(raw_folder, "*.json"))
