@@ -1,3 +1,4 @@
+
 """
 fetch_GNEWS.py
 Fetch all GNews articles between 2023-01-01 and 2025-11-08 (paid plan with historical access).
