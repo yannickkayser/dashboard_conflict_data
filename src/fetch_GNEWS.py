@@ -20,7 +20,7 @@ BASE_URL = "https://gnews.io/api/v4/search"
 LANG = "de"
 COUNTRY = "de"
 QUERY = (
-    "Protest OR Demonstration OR Streik OR Unruhen OR Ausschreitungen OR Gewalt OR Angriff OR Anschlag OR Terror OR Extremismus OR Polizei OR Festnahme OR Krieg OR Konflikt OR Wahl OR Korruption"
+    "Protest OR Demonstration OR Unruhen OR Ausschreitungen OR Gewalt OR Angriff OR Anschlag OR Terror OR Extremismus OR Krieg OR Konflikt OR Korruption"
     )
 
 # =============================
@@ -35,7 +35,7 @@ DATA_DIR = os.path.abspath(DATA_DIR)
 os.makedirs(DATA_DIR, exist_ok=True)
 
 # Full DB path
-DB_PATH = os.path.join(DATA_DIR, "gnews_articles.db")
+DB_PATH = os.path.join(DATA_DIR, "gnews_articles_from2023.db")
 
 DATABASE_URI = f"sqlite:///{DB_PATH}"
 
@@ -149,7 +149,7 @@ def fetch_articles_monthly(start_date, end_date):
 # 4. RUN SCRIPT
 # =============================
 if __name__ == "__main__":
-    start_date = datetime(2021, 10, 22)
+    start_date = datetime(2023, 3, 4)
     end_date = datetime(2025, 11, 25)
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
