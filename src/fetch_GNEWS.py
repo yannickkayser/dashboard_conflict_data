@@ -149,14 +149,14 @@ def fetch_articles_monthly(start_date, end_date):
 # 4. RUN SCRIPT
 # =============================
 if __name__ == "__main__":
-    start_date = datetime(2023, 11, 15)
+    start_date = datetime(2024, 6, 16)
     end_date = datetime(2025, 11, 25)
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
     fetch_articles_monthly(start_date, end_date)
     print("✅ All articles saved in gnews_articles.db.")
 
-
+S
 print("Working directory:", os.getcwd())
 print("DB path:", DB_PATH)
 print("Size (bytes):", os.path.getsize(DB_PATH))
