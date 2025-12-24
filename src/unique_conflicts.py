@@ -27,7 +27,7 @@ STOPWORDS = {
     "police","army","soldiers","people","civilians","forces","security",
     # added later after first review
     "against", "there", "demonstration", "protest", "demand", "members", "gathered", "demonstrators",
-    "protestors", 
+    "protestors"
 }
 
 # ------------
