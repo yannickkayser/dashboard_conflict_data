@@ -149,7 +149,7 @@ def fetch_articles_monthly(start_date, end_date):
 # 4. RUN SCRIPT
 # =============================
 if __name__ == "__main__":
-    start_date = datetime(2025, 2, 23)
+    start_date = datetime(2025, 7, 12)
     end_date = datetime(2025, 12, 21)
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
