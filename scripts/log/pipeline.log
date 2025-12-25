@@ -10,3 +10,32 @@ Traceback (most recent call last):
     acled_coverage = json.load(f)
                      ^^^^
 NameError: name 'json' is not defined. Did you forget to import 'json'?
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 66, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 32, in main
+    acled_coverage = json.load(f)
+                     ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 33, in main
+    acled_coverage = json.load(f)
+                     ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc9 in position 27: invalid continuation byte
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 33, in main
+    acled_coverage = json.load(f)
+                     ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc9 in position 27: invalid continuation byte

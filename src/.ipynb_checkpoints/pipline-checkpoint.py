@@ -3,6 +3,7 @@
 # script to automatically update the ACLED database every 2-7 days 
 
 import os
+import json
 from utils import load_config
 from fetch_ACLED import fetch_acled_data, get_newest_date, load_json_to_db
 from datetime import datetime

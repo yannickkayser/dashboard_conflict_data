@@ -14,6 +14,7 @@ from typing import Optional, Iterable, Tuple, List
 
 from transformers import pipeline
 
+
 # ----------------
 # Paths
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -26,18 +27,17 @@ TARGET_TABLE = "articles_eng"
 CONFLICT_COUNTRY_TABLE = "events"
 CONFLICT_COUNTRY_COL = "country"
 
+
 # ----------------
 # Runtime knobs
-BATCH_SIZE = 50                     # smaller, because content translation is heavy
-TEST_LIMIT: Optional[int] = 400     # set None for full run
+BATCH_SIZE = 50                      # smaller, because content translation is heavy
+TEST_LIMIT: Optional[int] = 400      # set None for full run (start small!)
 TRANSLATION_MODEL = "Helsinki-NLP/opus-mt-de-en"
 
 # Chunking to avoid truncation
-# Keep chunks conservative; translation models/pipelines have max input lengths and may truncate otherwise. [web:989]
-CONTENT_CHUNK_CHARS = 1500
-CONTENT_TRANSLATE_BATCH_SIZE = 8
-
+CONTENT_CHUNK_CHARS = 2000           # rough, conservative; adjust if too slow
 MAX_EMPTY_CONTENT_FRACTION_WARN = 0.2
+
 
 # ----------------
 # Keyword extraction
@@ -94,6 +94,7 @@ MANUAL_COUNTRY_ALIAS_PATCHES = {
     "Viet Nam": {"vietnam"},
     "Ukraine": {"kiev"},
 }
+
 
 def strip_accents(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
@@ -168,11 +169,6 @@ def top_keywords(text: str, k: int = 3) -> list[Optional[str]]:
         top.append(None)
     return top[:3]
 
-def drop_target_table(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute(f"DROP TABLE IF EXISTS {TARGET_TABLE};")  # recreate from scratch [web:1022]
-    conn.commit()
-
 def ensure_target_schema(conn: sqlite3.Connection) -> None:
     cur = conn.cursor()
     cur.execute(f"""
@@ -186,8 +182,8 @@ def ensure_target_schema(conn: sqlite3.Connection) -> None:
             title_en TEXT,
             description_en TEXT,
 
-            content TEXT,
-            content_en TEXT,
+            content TEXT,        -- original content (copy from source)
+            content_en TEXT,     -- translated content
 
             article_country TEXT,
             article_country_score INTEGER,
@@ -199,6 +195,12 @@ def ensure_target_schema(conn: sqlite3.Connection) -> None:
     cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_publishedAt ON {TARGET_TABLE}(publishedAt);")
     cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_article_country ON {TARGET_TABLE}(article_country);")
     cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_url ON {TARGET_TABLE}(url);")
+    conn.commit()
+
+def clear_target_table(conn: sqlite3.Connection) -> None:
+    cur = conn.cursor()
+    cur.execute(f"DELETE FROM {TARGET_TABLE};")
+    cur.execute("DELETE FROM sqlite_sequence WHERE name = ?;", (TARGET_TABLE,))
     conn.commit()
 
 def fetch_source_batches(conn: sqlite3.Connection, batch_size: int, limit: Optional[int] = None) -> Iterable[list[Tuple]]:
@@ -231,18 +233,14 @@ def to_date_yyyy_mm_dd(published_at: Optional[str]) -> Optional[str]:
     s = str(published_at)
     return s[:10] if len(s) >= 10 else None
 
-_SENT_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
-
 def chunk_text(s: str, chunk_chars: int) -> List[str]:
-    s = (s or "").strip()
+    s = s or ""
+    s = s.strip()
     if not s:
         return [""]
 
-    # Prefer sentence boundaries -> better translation quality than arbitrary slicing.
-    # Then pack sentences into <= chunk_chars.
-    s = re.sub(r"\s+", " ", s)
-    sentences = _SENT_SPLIT_RE.split(s)
-
+    # split on paragraph boundaries when possible
+    parts = re.split(r"\n\s*\n+", s)
     chunks: List[str] = []
     cur = ""
 
@@ -252,45 +250,38 @@ def chunk_text(s: str, chunk_chars: int) -> List[str]:
             chunks.append(cur.strip())
         cur = ""
 
-    for sent in sentences:
-        sent = sent.strip()
-        if not sent:
+    for p in parts:
+        p = p.strip()
+        if not p:
             continue
-
-        # if a single sentence is too long, hard-split it
-        if len(sent) > chunk_chars:
-            for i in range(0, len(sent), chunk_chars):
-                piece = sent[i:i+chunk_chars].strip()
-                if not piece:
-                    continue
-                if len(cur) + 1 + len(piece) > chunk_chars:
+        if len(p) > chunk_chars:
+            # hard split long paragraphs
+            for i in range(0, len(p), chunk_chars):
+                seg = p[i:i+chunk_chars]
+                if len(cur) + 1 + len(seg) > chunk_chars:
                     flush()
-                cur = (cur + " " + piece).strip() if cur else piece
-            continue
-
-        if len(cur) + 1 + len(sent) > chunk_chars:
-            flush()
-        cur = (cur + " " + sent).strip() if cur else sent
+                cur = (cur + "\n" + seg).strip() if cur else seg
+        else:
+            if len(cur) + 2 + len(p) > chunk_chars:
+                flush()
+            cur = (cur + "\n\n" + p).strip() if cur else p
 
     flush()
     return chunks or [""]
 
-def translate_texts(translator, texts: List[str], batch_size: int) -> List[str]:
+def translate_texts(translator, texts: list[str]) -> list[str]:
+    # Pipeline truncation: if truncation=True and no max_length is set, the tokenizer/model limits apply,
+    # so we avoid losing content by chunking before calling the pipeline. [web:989]
     texts = [t if isinstance(t, str) else "" for t in texts]
     if all((not t.strip()) for t in texts):
         return ["" for _ in texts]
-    # Pipeline/tokenizer limits can truncate long inputs; we keep inputs short via chunking. [web:989]
-    outputs = translator(texts, batch_size=batch_size, truncation=True)
+    outputs = translator(texts, batch_size=8, truncation=True)
     return [o["translation_text"] for o in outputs]
 
 def translate_long_text(translator, text: str) -> str:
     chunks = chunk_text(text, CONTENT_CHUNK_CHARS)
-    out: List[str] = []
-    # translate chunks in mini-batches to use GPU efficiently
-    for i in range(0, len(chunks), CONTENT_TRANSLATE_BATCH_SIZE):
-        batch = chunks[i:i+CONTENT_TRANSLATE_BATCH_SIZE]
-        out.extend(translate_texts(translator, batch, batch_size=CONTENT_TRANSLATE_BATCH_SIZE))
-    return "\n\n".join([c for c in out if c is not None])
+    out_chunks = translate_texts(translator, chunks)
+    return "\n\n".join([c for c in out_chunks if c is not None])
 
 def insert_translated_batch(
     conn: sqlite3.Connection,
@@ -308,10 +299,11 @@ def insert_translated_batch(
 
     published_date = [to_date_yyyy_mm_dd(x) for x in publishedAt]
 
-    title_en = translate_texts(translator, title, batch_size=8)
-    description_en = translate_texts(translator, description, batch_size=8)
+    # translate short fields in batch
+    title_en = translate_texts(translator, title)
+    description_en = translate_texts(translator, description)
 
-    # Translate content with chunking so we don't lose parts due to max input length. [web:989]
+    # translate content row-by-row (because it's long and chunked)
     content_en = [translate_long_text(translator, c or "") for c in content]
 
     to_insert = []
@@ -357,11 +349,10 @@ def main():
     conn.execute("PRAGMA journal_mode=WAL;")
     conn.execute("PRAGMA synchronous=NORMAL;")
     try:
-        # OPTION 1: Drop and recreate articles_eng to guarantee schema is fresh. [web:1022]
-        print(f"Dropping target table (recreate): {TARGET_TABLE}")
-        drop_target_table(conn)
-
         ensure_target_schema(conn)
+
+        print(f"Clearing target table: {TARGET_TABLE}")
+        clear_target_table(conn)
 
         print(f"Loading translation model: {TRANSLATION_MODEL}")
         translator = pipeline("translation_de_to_en", model=TRANSLATION_MODEL)
@@ -370,6 +361,7 @@ def main():
         empty_content = 0
 
         for batch in fetch_source_batches(conn, BATCH_SIZE, TEST_LIMIT):
+            # quick monitoring
             empty_content += sum(1 for r in batch if not (r[3] or "").strip())
             insert_translated_batch(conn, batch, translator, country_aliases)
             total_in += len(batch)
