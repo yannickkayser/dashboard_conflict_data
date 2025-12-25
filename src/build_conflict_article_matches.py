@@ -1,390 +1,417 @@
-# gnews_translate_to_articles_eng_no_content.py
-#
-# Builds articles_eng from articles, translates title/description/content,
-# copies original content into articles_eng.content, and stores English translation in content_en.
-# Also computes article_country + kw_1..kw_3 using conflict-country aliases.
-
-import os
 import re
 import sqlite3
 import unicodedata
-from collections import Counter
 from pathlib import Path
-from typing import Optional, Iterable, Tuple, List
-
-from transformers import pipeline
+from typing import Optional, Dict, List, Tuple
 
 # ----------------
 # Paths
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-GNEWS_DB = PROJECT_ROOT / "data" / "gnews_articles_from2023.db"
 CONFLICT_DB = PROJECT_ROOT / "data" / "conflict_data.db"
+GNEWS_DB = PROJECT_ROOT / "data" / "gnews_articles_from2023.db"
 
-SOURCE_TABLE = "articles"
-TARGET_TABLE = "articles_eng"
+# Tables
+CONFLICT_TABLE = "conflict_features"
+ART_TABLE = "articles_eng"
 
-CONFLICT_COUNTRY_TABLE = "events"
-CONFLICT_COUNTRY_COL = "country"
+# Output tables (in conflict_db)
+T_BEST = "conflict_article_bestmatch"          # optional: 1-best per conflict
+T_WIDE = "conflict_article_bestmatch_wide"     # required: MANY-to-MANY wide output
+
+# Hard match window
+EXTRA_DAYS = 2
+
+# Scoring knobs
+ACTOR_WEIGHT = 2
+KW_WEIGHT = 1
+MIN_ACTOR_LEN = 4
+
+# Threshold: keep every (conflict, article) with total_score >= threshold
+MATCH_THRESHOLD = 2
+
 
 # ----------------
-# Runtime knobs
-BATCH_SIZE = 50                     # smaller, because content translation is heavy
-TEST_LIMIT: Optional[int] = 400     # set None for full run
-TRANSLATION_MODEL = "Helsinki-NLP/opus-mt-de-en"
-
-# Chunking to avoid truncation
-# Keep chunks conservative; translation models/pipelines have max input lengths and may truncate otherwise. [web:989]
-CONTENT_CHUNK_CHARS = 1500
-CONTENT_TRANSLATE_BATCH_SIZE = 8
-
-MAX_EMPTY_CONTENT_FRACTION_WARN = 0.2
-
-# ----------------
-# Keyword extraction
-TOKEN_RE = re.compile(r"[A-Za-z]{3,}")
-
-STOPWORDS = {
-    "the","a","an","and","or","to","of","in","on","for","with","at","by","from",
-    "is","are","was","were","be","been","being","as","that","this","it","its",
-    "their","they","them","he","she","his","her","you","we","our","us",
-    "after","before","during","over","under","into","out","up","down",
-    "near","around","about","between","within","across",
-    "said","report","reports","according","allegedly",
-    "killed","injured","attack","attacked","clash","clashes","protest","protests",
-    "police","army","soldiers","people","civilians","forces","security",
-    "against","there","demonstration","demand","members","gathered","demonstrators",
-    "protestors",
-}
-
-GERMANY_CITY_ALIASES = {
-    "Berlin","Hamburg","Munich","Muenchen","München","Cologne","Koeln","Köln",
-    "Frankfurt","Frankfurt am Main","Dusseldorf","Düsseldorf","Stuttgart","Leipzig",
-    "Dortmund","Bremen","Essen","Dresden","Nuremberg","Nuernberg","Nürnberg",
-    "Hanover","Hannover","Duisburg","Wuppertal","Bochum","Bielefeld","Bonn",
-    "Mannheim","Karlsruhe","Augsburg","Wiesbaden","Gelsenkirchen",
-    "Monchengladbach","Mönchengladbach","Braunschweig","Chemnitz","Kiel","Aachen",
-    "Halle","Halle (Saale)","Magdeburg","Freiburg","Freiburg im Breisgau",
-    "Krefeld","Luebeck","Lübeck","Oberhausen","Erfurt","Mainz","Rostock","Kassel",
-    "Hagen","Saarbruecken","Saarbrücken","Hamm","Potsdam","Ludwigshafen",
-    "Ludwigshafen am Rhein","Oldenburg","Leverkusen","Osnabrueck","Osnabrück",
-    "Solingen","Heidelberg","Herne","Neuss","Darmstadt","Paderborn","Regensburg",
-    "Ingolstadt","Wuerzburg","Würzburg","Ulm","Offenbach","Offenbach am Main",
-    "Heilbronn","Pforzheim","Wolfsburg","Goettingen","Göttingen",
-}
-
-GERMANY_STATE_ALIASES = {
-    "Baden-Württemberg","Baden Württemberg","Bavaria","Bayern","Berlin","Brandenburg",
-    "Bremen","Hamburg","Hesse","Hessen","Lower Saxony","Niedersachsen",
-    "Mecklenburg-Western Pomerania","Mecklenburg-Vorpommern","North Rhine-Westphalia",
-    "Nordrhein-Westfalen","Rhineland-Palatinate","Rheinland-Pfalz","Saarland","Saxony",
-    "Sachsen","Saxony-Anhalt","Sachsen-Anhalt","Schleswig-Holstein","Thuringia",
-    "Thüringen","Thueringen",
-}
-
-MANUAL_COUNTRY_ALIAS_PATCHES = {
-    "United States": {"us", "u.s.", "u.s", "usa", "united states of america", "american"},
-    "United Kingdom": {"uk", "u.k.", "u.k", "britain", "great britain"},
-    "Côte d’Ivoire": {"ivory coast", "cote d'ivoire", "cote d ivoire", "cote divoire"},
-    "Democratic Republic of the Congo": {"drc", "dr congo", "congo-kinshasa"},
-    "Republic of the Congo": {"congo-brazzaville"},
-    "Türkiye": {"turkey"},
-    "Czechia": {"czech republic"},
-    "Eswatini": {"swaziland"},
-    "Myanmar": {"burma"},
-    "Viet Nam": {"vietnam"},
-    "Ukraine": {"kiev"},
-}
-
+# Text helpers
 def strip_accents(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
 
-def normalize_text(s: str) -> str:
-    return strip_accents((s or "").lower())
 
-def regex_count(text_norm: str, alias_norm: str) -> int:
-    pattern = r"(?<![a-z])" + re.escape(alias_norm) + r"(?![a-z])"
-    return len(re.findall(pattern, text_norm))
+def norm(s: Optional[str]) -> str:
+    return strip_accents((s or "").lower()).strip()
 
-def load_conflict_countries(conflict_db_path: Path) -> list[str]:
-    conn = sqlite3.connect(str(conflict_db_path))
-    try:
-        cur = conn.cursor()
-        rows = cur.execute(
-            f"""
-            SELECT DISTINCT {CONFLICT_COUNTRY_COL}
-            FROM {CONFLICT_COUNTRY_TABLE}
-            WHERE {CONFLICT_COUNTRY_COL} IS NOT NULL AND TRIM({CONFLICT_COUNTRY_COL}) <> ''
-            ORDER BY {CONFLICT_COUNTRY_COL};
-            """
-        ).fetchall()
-        return [r[0] for r in rows]
-    finally:
-        conn.close()
 
-def build_country_aliases_from_conflicts(conflict_countries: list[str]) -> dict[str, set[str]]:
-    aliases: dict[str, set[str]] = {}
-    for c in conflict_countries:
-        base = {normalize_text(c)}
-        patch = MANUAL_COUNTRY_ALIAS_PATCHES.get(c, set())
-        aliases[c] = set(base) | {normalize_text(p) for p in patch}
+def collapse_ws(s: str) -> str:
+    return re.sub(r"\s+", " ", (s or "")).strip()
 
-    if "Germany" in aliases:
-        extra = (
-            {"germany", "german", "deutschland"} |
-            {normalize_text(x) for x in GERMANY_CITY_ALIASES} |
-            {normalize_text(x) for x in GERMANY_STATE_ALIASES}
-        )
-        aliases["Germany"] |= extra
-    return aliases
 
-def guess_country(text: str, country_aliases: dict[str, set[str]]) -> tuple[Optional[str], int]:
-    t = normalize_text(text)
-    if not t.strip():
-        return None, 0
+def boundary_regex(term_norm: str) -> re.Pattern:
+    # boundary-ish match to reduce substring false positives (e.g., "iran" in "tirana")
+    return re.compile(r"(?<![a-z])" + re.escape(term_norm) + r"(?![a-z])")
 
-    best_country, best_score = None, 0
-    for country, aliases in country_aliases.items():
-        score = 0
-        for a in aliases:
-            score += regex_count(t, a)
-        if score > best_score:
-            best_country, best_score = country, score
-    return best_country, best_score
 
-def top_keywords(text: str, k: int = 3) -> list[Optional[str]]:
-    if not text or not text.strip():
-        return [None, None, None]
+def actor_terms(c: sqlite3.Row) -> List[str]:
+    terms = [norm(c["actor1"]), norm(c["primary_assoc_actor_1"]), norm(c["assoc_actor_1"])]
+    return [t for t in terms if t and len(t) >= MIN_ACTOR_LEN]
 
-    text_l = str(text).lower()
-    toks = []
-    for tok in TOKEN_RE.findall(text_l):
-        if tok in STOPWORDS:
-            continue
-        toks.append(tok)
 
-    c = Counter(toks)
-    top = [w for w, _ in c.most_common(k)]
-    while len(top) < 3:
-        top.append(None)
-    return top[:3]
+def kw_terms_conflict(c: sqlite3.Row) -> List[str]:
+    terms = [norm(c["top_keyword_1"]), norm(c["top_keyword_2"]), norm(c["top_keyword_3"])]
+    return [t for t in terms if t]
 
-def drop_target_table(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute(f"DROP TABLE IF EXISTS {TARGET_TABLE};")  # recreate from scratch [web:1022]
-    conn.commit()
 
-def ensure_target_schema(conn: sqlite3.Connection) -> None:
-    cur = conn.cursor()
-    cur.execute(f"""
-        CREATE TABLE IF NOT EXISTS {TARGET_TABLE} (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            publishedAt TEXT,
-            url TEXT,
-            source_name TEXT,
-            source_url TEXT,
+def kw_terms_article(a: sqlite3.Row) -> List[str]:
+    terms = [norm(a["kw_1"]), norm(a["kw_2"]), norm(a["kw_3"])]
+    return [t for t in terms if t]
 
-            title_en TEXT,
-            description_en TEXT,
 
-            content TEXT,
-            content_en TEXT,
+def compute_actor_score(c: sqlite3.Row, article_text_norm: str) -> Tuple[int, str]:
+    hits = []
+    for t in actor_terms(c):
+        if boundary_regex(t).search(article_text_norm):
+            hits.append(t)
+    hits = sorted(set(hits))
+    return len(hits), ",".join(hits)
 
-            article_country TEXT,
-            article_country_score INTEGER,
-            kw_1 TEXT,
-            kw_2 TEXT,
-            kw_3 TEXT
-        );
-    """)
-    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_publishedAt ON {TARGET_TABLE}(publishedAt);")
-    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_article_country ON {TARGET_TABLE}(article_country);")
-    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_url ON {TARGET_TABLE}(url);")
-    conn.commit()
 
-def fetch_source_batches(conn: sqlite3.Connection, batch_size: int, limit: Optional[int] = None) -> Iterable[list[Tuple]]:
-    cur = conn.cursor()
-    base_sql = f"""
-        SELECT
-            publishedAt,
-            title,
-            description,
-            content,
-            url,
-            source_name,
-            source_url
-        FROM {SOURCE_TABLE}
-        ORDER BY rowid
+def compute_kw_score(c: sqlite3.Row, a: sqlite3.Row) -> Tuple[int, str]:
+    cset = set(kw_terms_conflict(c))
+    aset = set(kw_terms_article(a))
+    matched = sorted(cset.intersection(aset))
+    return len(matched), ",".join(matched)
+
+
+# ----------------
+# SQLite schema helpers
+def get_table_columns(conn: sqlite3.Connection, table: str) -> List[str]:
+    rows = conn.execute(f"PRAGMA table_info({table});").fetchall()
+    return [r[1] for r in rows]
+
+
+def add_column_if_missing(conn: sqlite3.Connection, table: str, col: str, coltype: str) -> None:
+    cols = set(get_table_columns(conn, table))
+    if col not in cols:
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {col} {coltype};")
+
+
+def ensure_conflict_has_bestmatch_columns(conn: sqlite3.Connection) -> None:
     """
-    if limit is not None:
-        base_sql += f" LIMIT {int(limit)}"
-    cur.execute(base_sql)
+    These columns are ONLY for the optional in-place enrichment of conflict_features
+    with ONE bestmatched article (many-to-many can't be stored in a single row).
+    """
+    needed: Dict[str, str] = {
+        "matched_article_rowid": "INTEGER",
+        "match_total_score": "INTEGER",
+        "match_actor_score": "INTEGER",
+        "match_kw_score": "INTEGER",
+        "matched_actors": "TEXT",
+        "matched_keywords": "TEXT",
 
-    while True:
-        rows = cur.fetchmany(batch_size)
-        if not rows:
-            break
-        yield rows
-
-def to_date_yyyy_mm_dd(published_at: Optional[str]) -> Optional[str]:
-    if not published_at:
-        return None
-    s = str(published_at)
-    return s[:10] if len(s) >= 10 else None
-
-_SENT_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
-
-def chunk_text(s: str, chunk_chars: int) -> List[str]:
-    s = (s or "").strip()
-    if not s:
-        return [""]
-
-    # Prefer sentence boundaries -> better translation quality than arbitrary slicing.
-    # Then pack sentences into <= chunk_chars.
-    s = re.sub(r"\s+", " ", s)
-    sentences = _SENT_SPLIT_RE.split(s)
-
-    chunks: List[str] = []
-    cur = ""
-
-    def flush():
-        nonlocal cur
-        if cur.strip():
-            chunks.append(cur.strip())
-        cur = ""
-
-    for sent in sentences:
-        sent = sent.strip()
-        if not sent:
-            continue
-
-        # if a single sentence is too long, hard-split it
-        if len(sent) > chunk_chars:
-            for i in range(0, len(sent), chunk_chars):
-                piece = sent[i:i+chunk_chars].strip()
-                if not piece:
-                    continue
-                if len(cur) + 1 + len(piece) > chunk_chars:
-                    flush()
-                cur = (cur + " " + piece).strip() if cur else piece
-            continue
-
-        if len(cur) + 1 + len(sent) > chunk_chars:
-            flush()
-        cur = (cur + " " + sent).strip() if cur else sent
-
-    flush()
-    return chunks or [""]
-
-def translate_texts(translator, texts: List[str], batch_size: int) -> List[str]:
-    texts = [t if isinstance(t, str) else "" for t in texts]
-    if all((not t.strip()) for t in texts):
-        return ["" for _ in texts]
-    # Pipeline/tokenizer limits can truncate long inputs; we keep inputs short via chunking. [web:989]
-    outputs = translator(texts, batch_size=batch_size, truncation=True)
-    return [o["translation_text"] for o in outputs]
-
-def translate_long_text(translator, text: str) -> str:
-    chunks = chunk_text(text, CONTENT_CHUNK_CHARS)
-    out: List[str] = []
-    # translate chunks in mini-batches to use GPU efficiently
-    for i in range(0, len(chunks), CONTENT_TRANSLATE_BATCH_SIZE):
-        batch = chunks[i:i+CONTENT_TRANSLATE_BATCH_SIZE]
-        out.extend(translate_texts(translator, batch, batch_size=CONTENT_TRANSLATE_BATCH_SIZE))
-    return "\n\n".join([c for c in out if c is not None])
-
-def insert_translated_batch(
-    conn: sqlite3.Connection,
-    batch_rows: list[Tuple],
-    translator,
-    country_aliases: dict[str, set[str]],
-) -> None:
-    publishedAt = [r[0] for r in batch_rows]
-    title = [r[1] for r in batch_rows]
-    description = [r[2] for r in batch_rows]
-    content = [r[3] for r in batch_rows]
-    url = [r[4] for r in batch_rows]
-    source_name = [r[5] for r in batch_rows]
-    source_url = [r[6] for r in batch_rows]
-
-    published_date = [to_date_yyyy_mm_dd(x) for x in publishedAt]
-
-    title_en = translate_texts(translator, title, batch_size=8)
-    description_en = translate_texts(translator, description, batch_size=8)
-
-    # Translate content with chunking so we don't lose parts due to max input length. [web:989]
-    content_en = [translate_long_text(translator, c or "") for c in content]
-
-    to_insert = []
-    for i in range(len(batch_rows)):
-        analysis_text = (title_en[i] or "") + " " + (description_en[i] or "") + " " + (content_en[i] or "")
-        country, score = guess_country(analysis_text, country_aliases)
-        kw1, kw2, kw3 = top_keywords(analysis_text, k=3)
-
-        to_insert.append((
-            published_date[i], url[i], source_name[i], source_url[i],
-            title_en[i], description_en[i],
-            content[i], content_en[i],
-            country, score, kw1, kw2, kw3
-        ))
-
-    cur = conn.cursor()
-    cur.executemany(f"""
-        INSERT INTO {TARGET_TABLE} (
-            publishedAt, url, source_name, source_url,
-            title_en, description_en,
-            content, content_en,
-            article_country, article_country_score,
-            kw_1, kw_2, kw_3
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-    """, to_insert)
+        "article_publishedAt": "TEXT",
+        "article_url": "TEXT",
+        "article_source_name": "TEXT",
+        "article_source_url": "TEXT",
+        "article_title_en": "TEXT",
+        "article_description_en": "TEXT",
+        "article_content": "TEXT",
+        "article_content_en": "TEXT",
+        "article_country": "TEXT",
+        "article_country_score": "INTEGER",
+        "article_kw_1": "TEXT",
+        "article_kw_2": "TEXT",
+        "article_kw_3": "TEXT",
+    }
+    for col, coltype in needed.items():
+        add_column_if_missing(conn, CONFLICT_TABLE, col, coltype)
     conn.commit()
+
 
 def main():
-    print("cwd:", os.getcwd())
-    print("GNEWS_DB:", GNEWS_DB)
-    print("CONFLICT_DB:", CONFLICT_DB)
-
-    if not GNEWS_DB.exists():
-        raise FileNotFoundError(f"Missing GNews DB: {GNEWS_DB}")
     if not CONFLICT_DB.exists():
-        raise FileNotFoundError(f"Missing conflict DB: {CONFLICT_DB}")
+        raise FileNotFoundError(CONFLICT_DB)
+    if not GNEWS_DB.exists():
+        raise FileNotFoundError(GNEWS_DB)
 
-    conflict_countries = load_conflict_countries(CONFLICT_DB)
-    print(f"Loaded {len(conflict_countries)} countries from conflict_data.db")
-    country_aliases = build_country_aliases_from_conflicts(conflict_countries)
+    with sqlite3.connect(str(CONFLICT_DB)) as con:
+        con.row_factory = sqlite3.Row
+        con.execute("PRAGMA journal_mode=WAL;")
+        con.execute("PRAGMA synchronous=NORMAL;")
 
-    conn = sqlite3.connect(str(GNEWS_DB))
-    conn.execute("PRAGMA journal_mode=WAL;")
-    conn.execute("PRAGMA synchronous=NORMAL;")
-    try:
-        # OPTION 1: Drop and recreate articles_eng to guarantee schema is fresh. [web:1022]
-        print(f"Dropping target table (recreate): {TARGET_TABLE}")
-        drop_target_table(conn)
+        # Attach GNews DB for cross-db joins. [web:861]
+        con.execute("ATTACH DATABASE ? AS gnews", (str(GNEWS_DB),))
 
-        ensure_target_schema(conn)
+        # Optional: allow in-place bestmatch enrichment of conflict_features
+        ensure_conflict_has_bestmatch_columns(con)
 
-        print(f"Loading translation model: {TRANSLATION_MODEL}")
-        translator = pipeline("translation_de_to_en", model=TRANSLATION_MODEL)
+        # Drop and recreate output tables
+        con.executescript(f"""
+        DROP TABLE IF EXISTS {T_BEST};
+        DROP TABLE IF EXISTS {T_WIDE};
 
-        total_in = 0
-        empty_content = 0
+        CREATE TABLE {T_BEST} (
+            conflict_rowid INTEGER,
+            article_rowid  INTEGER,
+            total_score    INTEGER,
+            actor_score    INTEGER,
+            kw_score       INTEGER,
+            matched_actors TEXT,
+            matched_keywords TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_{T_BEST}_conflict ON {T_BEST}(conflict_rowid);
 
-        for batch in fetch_source_batches(conn, BATCH_SIZE, TEST_LIMIT):
-            empty_content += sum(1 for r in batch if not (r[3] or "").strip())
-            insert_translated_batch(conn, batch, translator, country_aliases)
-            total_in += len(batch)
-            print(f"Processed: {total_in} rows")
+        CREATE TABLE {T_WIDE} (
+            -- conflict identifier
+            conflict_rowid INTEGER,
+            matched_article_rowid INTEGER,
 
-        if total_in > 0:
-            frac = empty_content / total_in
-            if frac > MAX_EMPTY_CONTENT_FRACTION_WARN:
-                print(f"Warning: {frac:.1%} rows had empty content")
+            -- match scores
+            match_total_score INTEGER,
+            match_actor_score INTEGER,
+            match_kw_score INTEGER,
+            matched_actors TEXT,
+            matched_keywords TEXT,
 
-        n = conn.execute(f"SELECT COUNT(*) FROM {TARGET_TABLE};").fetchone()[0]
-        print(f"Done. {TARGET_TABLE} rows: {n}")
-    finally:
-        conn.close()
-        print("Closed DB connection.")
+            -- conflict fields (copied from conflict_features)
+            -- NOTE: filled by INSERT..SELECT below as c.*
+            -- (SQLite doesn't have "c.*" inside CREATE TABLE definition)
+            dummy INTEGER
+        );
+        DROP TABLE {T_WIDE};
+        """)
+
+        # 1) Hard-filter candidates (country + publishedAt window)
+        cand_sql = f"""
+        SELECT
+            c.rowid AS conflict_rowid,
+            a.rowid AS article_rowid,
+
+            c.*,
+
+            a.publishedAt, a.url, a.source_name, a.source_url,
+            a.title_en, a.description_en, a.content, a.content_en,
+            a.article_country, a.article_country_score,
+            a.kw_1, a.kw_2, a.kw_3
+        FROM {CONFLICT_TABLE} c
+        JOIN gnews.{ART_TABLE} a
+          ON a.article_country = c.country
+         AND date(a.publishedAt) BETWEEN date(c.start_date)
+                                   AND date(c.end_date, '+{EXTRA_DAYS} days')
+        ORDER BY c.rowid, a.publishedAt, a.rowid
+        """
+        candidates = con.execute(cand_sql).fetchall()
+
+        # 2) Score candidates; keep ALL matches above threshold; also track best
+        best_by_conflict: Dict[int, Tuple] = {}
+        wide_rows = []
+
+        for r in candidates:
+            conflict_rowid = r["conflict_rowid"]
+
+            article_text = collapse_ws(f"{r['title_en'] or ''} {r['description_en'] or ''} {r['content_en'] or ''}")
+            article_text_norm = norm(article_text)
+
+            actor_score, matched_actors = compute_actor_score(r, article_text_norm)
+            kw_score, matched_keywords = compute_kw_score(r, r)
+            total_score = ACTOR_WEIGHT * actor_score + KW_WEIGHT * kw_score
+
+            if total_score < MATCH_THRESHOLD:
+                continue
+
+            # store for MANY-to-MANY wide output (we'll materialize via CREATE TABLE AS SELECT)
+            # easiest: insert into a temp list first
+            wide_rows.append((
+                conflict_rowid,
+                r["article_rowid"],
+                total_score,
+                actor_score,
+                kw_score,
+                matched_actors,
+                matched_keywords,
+                r["article_rowid"],  # repeated for later join if needed
+            ))
+
+            # track best match per conflict too (optional)
+            if conflict_rowid not in best_by_conflict:
+                best_by_conflict[conflict_rowid] = (r, total_score, actor_score, kw_score, matched_actors, matched_keywords)
+            else:
+                old_r, old_total, *_ = best_by_conflict[conflict_rowid]
+                old_pub = old_r["publishedAt"] or ""
+                old_rowid = old_r["article_rowid"]
+                pub = r["publishedAt"] or ""
+
+                better = False
+                if total_score > old_total:
+                    better = True
+                elif total_score == old_total:
+                    if pub < old_pub:
+                        better = True
+                    elif pub == old_pub and r["article_rowid"] < old_rowid:
+                        better = True
+
+                if better:
+                    best_by_conflict[conflict_rowid] = (r, total_score, actor_score, kw_score, matched_actors, matched_keywords)
+
+        # 3) Write bestmatch table (optional but handy)
+        rows_best = []
+        for conflict_rowid, (r, total_score, actor_score, kw_score, matched_actors, matched_keywords) in best_by_conflict.items():
+            rows_best.append((
+                conflict_rowid,
+                r["article_rowid"],
+                total_score,
+                actor_score,
+                kw_score,
+                matched_actors,
+                matched_keywords
+            ))
+
+        con.executemany(
+            f"""
+            INSERT INTO {T_BEST}(
+                conflict_rowid, article_rowid,
+                total_score, actor_score, kw_score,
+                matched_actors, matched_keywords
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            rows_best
+        )
+        con.commit()
+
+        # 4) Materialize MANY-to-MANY wide table:
+        # Create a temporary match table from the Python-scored results, then join to c.* and a.*
+        con.executescript("""
+        DROP TABLE IF EXISTS _tmp_matches;
+        CREATE TABLE _tmp_matches (
+            conflict_rowid INTEGER,
+            article_rowid  INTEGER,
+            total_score    INTEGER,
+            actor_score    INTEGER,
+            kw_score       INTEGER,
+            matched_actors TEXT,
+            matched_keywords TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx__tmp_matches_conflict ON _tmp_matches(conflict_rowid);
+        CREATE INDEX IF NOT EXISTS idx__tmp_matches_article  ON _tmp_matches(article_rowid);
+        """)
+        con.executemany(
+            """
+            INSERT INTO _tmp_matches(
+                conflict_rowid, article_rowid,
+                total_score, actor_score, kw_score,
+                matched_actors, matched_keywords
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            [x[:7] for x in wide_rows]
+        )
+        con.commit()
+
+        # Now build the real wide table from tmp matches + full conflict + full article columns
+        con.executescript(f"""
+        DROP TABLE IF EXISTS {T_WIDE};
+
+        CREATE TABLE {T_WIDE} AS
+        SELECT
+            c.rowid AS conflict_rowid,
+
+            m.article_rowid AS matched_article_rowid,
+            m.total_score   AS match_total_score,
+            m.actor_score   AS match_actor_score,
+            m.kw_score      AS match_kw_score,
+            m.matched_actors,
+            m.matched_keywords,
+
+            c.*,
+
+            a.publishedAt AS article_publishedAt,
+            a.url         AS article_url,
+            a.source_name AS article_source_name,
+            a.source_url  AS article_source_url,
+            a.title_en    AS article_title_en,
+            a.description_en AS article_description_en,
+            a.content     AS article_content,
+            a.content_en  AS article_content_en,
+            a.article_country,
+            a.article_country_score,
+            a.kw_1 AS article_kw_1,
+            a.kw_2 AS article_kw_2,
+            a.kw_3 AS article_kw_3
+
+        FROM _tmp_matches m
+        JOIN {CONFLICT_TABLE} c
+          ON c.rowid = m.conflict_rowid
+        JOIN gnews.{ART_TABLE} a
+          ON a.rowid = m.article_rowid
+        ;
+        CREATE INDEX IF NOT EXISTS idx_{T_WIDE}_conflict ON {T_WIDE}(conflict_rowid);
+        CREATE INDEX IF NOT EXISTS idx_{T_WIDE}_country ON {T_WIDE}(country);
+        """)
+        con.commit()
+
+        # optional: drop temp
+        con.execute("DROP TABLE IF EXISTS _tmp_matches;")
+        con.commit()
+
+        # 5) In-place enrichment of conflict_features with ONE best match (optional)
+        # (If you don't want this, you can delete this whole block.)
+        con.execute(f"""
+            UPDATE {CONFLICT_TABLE}
+            SET
+                matched_article_rowid = NULL,
+                match_total_score = NULL,
+                match_actor_score = NULL,
+                match_kw_score = NULL,
+                matched_actors = NULL,
+                matched_keywords = NULL,
+
+                article_publishedAt = NULL,
+                article_url = NULL,
+                article_source_name = NULL,
+                article_source_url = NULL,
+                article_title_en = NULL,
+                article_description_en = NULL,
+                article_content = NULL,
+                article_content_en = NULL,
+                article_country = NULL,
+                article_country_score = NULL,
+                article_kw_1 = NULL,
+                article_kw_2 = NULL,
+                article_kw_3 = NULL
+        """)
+        con.commit()
+
+        # Fill back bestmatches from T_BEST
+        fill_sql = f"""
+        UPDATE {CONFLICT_TABLE}
+        SET
+            matched_article_rowid = (
+                SELECT article_rowid FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            ),
+            match_total_score = (
+                SELECT total_score FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            ),
+            match_actor_score = (
+                SELECT actor_score FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            ),
+            match_kw_score = (
+                SELECT kw_score FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            ),
+            matched_actors = (
+                SELECT matched_actors FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            ),
+            matched_keywords = (
+                SELECT matched_keywords FROM {T_BEST} m WHERE m.conflict_rowid = {CONFLICT_TABLE}.rowid
+            )
+        ;
+        """
+        con.execute(fill_sql)
+        con.commit()
+
+        n_best = con.execute(f"SELECT COUNT(*) FROM {T_BEST};").fetchone()[0]
+        n_wide = con.execute(f"SELECT COUNT(*) FROM {T_WIDE};").fetchone()[0]
+        print(f"Done. bestmatch rows: {n_best} | wide (many-to-many) rows: {n_wide}")
+        print("conflict_article_bestmatch_wide now contains ALL matches with score >= threshold.")
+        print("conflict_features enriched with ONE best match (optional).")
+
 
 if __name__ == "__main__":
     main()
