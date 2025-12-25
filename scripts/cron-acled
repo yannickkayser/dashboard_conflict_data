@@ -1,4 +1,3 @@
-PATH=/usr/local/bin:/usr/bin:/bin
-PYTHONUNBUFFERED=1
 
-* * * * * /usr/bin/flock -n conflictmediamirror/dashboard_conflict_data/scripts/tmp/pipeline.lock conflictmediamirror/dashboard_conflict_data/venv/bin/python conflictmediamirror/dashboard_conflict_data/src/pipeline.py >> conflictmediamirror/dashboard_conflict_data/scripts/log/pipeline.log 2>&1
+* * * * * /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/scripts/run_pipeline.sh
+

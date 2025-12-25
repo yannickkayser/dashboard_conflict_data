@@ -1,1 +1,12 @@
 conflictmediamirror/dashboard_conflict_data/venv/bin/python: can't open file '/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipeline.py': [Errno 2] No such file or directory
+conflictmediamirror/dashboard_conflict_data/venv/bin/python: can't open file '/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipeline.py': [Errno 2] No such file or directory
+/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/venv/bin/python: can't open file '/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipeline.py': [Errno 2] No such file or directory
+/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/venv/bin/python: can't open file '/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipeline.py': [Errno 2] No such file or directory
+/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/venv/bin/python: can't open file '/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipeline.py': [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 66, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 32, in main
+    acled_coverage = json.load(f)
+                     ^^^^
+NameError: name 'json' is not defined. Did you forget to import 'json'?
