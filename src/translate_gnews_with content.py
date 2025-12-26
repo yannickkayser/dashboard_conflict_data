@@ -31,7 +31,7 @@ CONFLICT_COUNTRY_COL = "country"
 # ----------------
 # Runtime knobs
 BATCH_SIZE = 50                      # smaller, because content translation is heavy
-TEST_LIMIT: Optional[int] = 400      # set None for full run (start small!)
+TEST_LIMIT: Optional[int] = None      # set None for full run (start small!)
 TRANSLATION_MODEL = "Helsinki-NLP/opus-mt-de-en"
 
 # Chunking to avoid truncation

@@ -60,7 +60,8 @@ def fetch_acled_data (country, time_period):
     params = {
         "country": country,
         "event_date": time_period,
-        "event_date_where": "BETWEEN"
+        "event_date_where": "BETWEEN",
+        "limit": 5000,  # explicit limit
     }
 
     print(f"\n[{datetime.now()}] Fetching ACLED data for {country} from {time_period}")
@@ -75,6 +76,10 @@ def fetch_acled_data (country, time_period):
         print(
             "Request successful"
         )
+
+        ### Check if there are more data and pagination is needed
+        all_data = []
+        page = 1
 
         number_entries = response.json()["total_count"]
         print(f"Total number of entries: {number_entries} for {country}")

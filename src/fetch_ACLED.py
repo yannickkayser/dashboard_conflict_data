@@ -60,8 +60,61 @@ def fetch_acled_data (country, time_period):
     params = {
         "country": country,
         "event_date": time_period,
-        "event_date_where": "BETWEEN"
+        "event_date_where": "BETWEEN",
+        "limit": 5000,  # explicit limit
     }
+
+    all_data = []
+    page = 1
+
+    while True:
+        params["page"] = page
+
+        response = requests.get(
+            BASE_URL,
+            params=params,
+            headers={
+                "Authorization": f"Bearer {my_token}",
+                "Content-Type": "application/json"
+            }
+        )
+
+        if response.status_code != 200:
+            print(f"❌ Request failed for page {page}: {response.status_code}")
+            print(response.text)
+            break
+
+        page_data = response.json().get("data", [])
+        print(f"Page {page}: received {len(page_data)} rows")
+
+        if not page_data:
+            print("No data returned — stopping pagination.")
+            break
+
+        all_data.extend(page_data)
+
+        # Stop if we got fewer than the limit → last page
+        if len(page_data) < params["limit"]:
+            print("Reached final page.")
+            break
+
+        page += 1
+        time.sleep(random.uniform(0.5, 1.5))  # polite delay
+
+    
+    """# Save all combined data
+    if all_data:
+        folder_path = "../raw"
+        os.makedirs(folder_path, exist_ok=True)
+
+        output_filename = os.path.join(folder_path, f"ACLEDoutput_{country}_{year}.json")
+
+        with open(output_filename, "w", encoding="utf-8") as f:
+            json.dump({"data": all_data}, f, ensure_ascii=False, indent=4)
+
+        print(f"✅ Saved {len(all_data)} total rows to {output_filename}")
+    else:
+        print("⚠️ No data retrieved.")
 
     print(f"\n[{datetime.now()}] Fetching ACLED data for {country} from {time_period}")
 
@@ -104,7 +157,7 @@ def fetch_acled_data (country, time_period):
 
     else:
         print("Request unsucessfull, try again")
-
+    """
 
 
 ################################## 

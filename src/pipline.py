@@ -26,10 +26,10 @@ def main():
     full_path = os.path.join(base_dir, db_path)
     
     # Get the dictionary with country names
-    full_path_cn = os.path.join(base_dir, db_path)
+    full_path_cn = os.path.join(base_dir, cn_path)
 
 
-    with open(full_path_cn, "r", encoding="utf-8") as f:
+    with open(full_path_cn, "r", encoding="UTF-8") as f:
         acled_coverage = json.load(f)
 
     # for all countries

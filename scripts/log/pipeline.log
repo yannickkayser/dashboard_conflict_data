@@ -39,3 +39,2785 @@ Traceback (most recent call last):
                  ^^^^^^^^^
   File "<frozen codecs>", line 322, in decode
 UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc9 in position 27: invalid continuation byte
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 33, in main
+    acled_coverage = json.load(f)
+                     ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xcb in position 27: invalid continuation byte
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 33, in main
+    acled_coverage = json.load(f)
+                     ^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.12/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+                 ^^^^^^^^^
+  File "<frozen codecs>", line 322, in decode
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xcb in position 27: invalid continuation byte
+
+[2025-12-26 09:19:01.249383] Fetching ACLED data for Afghanistan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 258 for Afghanistan
+Saving data to ../raw/ACLEDouput_Afghanistan_2024-10-29|2024-12-26.json
+Updating database for Afghanistan
+
+[2025-12-26 09:19:09.352429] Fetching ACLED data for Albania from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 15 for Albania
+Saving data to ../raw/ACLEDouput_Albania_2024-10-29|2024-12-26.json
+Updating database for Albania
+
+[2025-12-26 09:19:17.164944] Fetching ACLED data for Algeria from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 21 for Algeria
+Saving data to ../raw/ACLEDouput_Algeria_2024-10-26|2024-12-26.json
+Updating database for Algeria
+
+[2025-12-26 09:19:25.173786] Fetching ACLED data for American Samoa from 2022-12-19|2024-12-26
+Request successful
+Total number of entries: 1 for American Samoa
+Saving data to ../raw/ACLEDouput_American Samoa_2022-12-19|2024-12-26.json
+Updating database for American Samoa
+
+[2025-12-26 09:19:32.958147] Fetching ACLED data for Andorra from 2024-03-08|2024-12-26
+Request successful
+Total number of entries: 2 for Andorra
+Saving data to ../raw/ACLEDouput_Andorra_2024-03-08|2024-12-26.json
+Updating database for Andorra
+
+[2025-12-26 09:19:40.350431] Fetching ACLED data for Angola from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 8 for Angola
+Saving data to ../raw/ACLEDouput_Angola_2024-10-24|2024-12-26.json
+Updating database for Angola
+
+[2025-12-26 09:19:48.234283] Fetching ACLED data for Anguilla from 2024-05-08|2024-12-26
+Request successful
+Total number of entries: 1 for Anguilla
+Saving data to ../raw/ACLEDouput_Anguilla_2024-05-08|2024-12-26.json
+Updating database for Anguilla
+
+[2025-12-26 09:19:55.839873] Fetching ACLED data for Antarctica from 2024-04-30|2024-12-26
+Request successful
+Total number of entries: 1 for Antarctica
+Saving data to ../raw/ACLEDouput_Antarctica_2024-04-30|2024-12-26.json
+Updating database for Antarctica
+
+[2025-12-26 09:20:03.977353] Fetching ACLED data for Antigua and Barbuda from 2024-09-02|2024-12-26
+Request successful
+Total number of entries: 2 for Antigua and Barbuda
+Saving data to ../raw/ACLEDouput_Antigua and Barbuda_2024-09-02|2024-12-26.json
+Updating database for Antigua and Barbuda
+
+[2025-12-26 09:20:11.546837] Fetching ACLED data for Argentina from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 257 for Argentina
+Saving data to ../raw/ACLEDouput_Argentina_2024-10-29|2024-12-26.json
+Updating database for Argentina
+
+[2025-12-26 09:20:19.521415] Fetching ACLED data for Armenia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 32 for Armenia
+Saving data to ../raw/ACLEDouput_Armenia_2024-10-29|2024-12-26.json
+Updating database for Armenia
+
+[2025-12-26 09:20:27.648623] Fetching ACLED data for Aruba from 2024-08-17|2024-12-26
+Request successful
+Total number of entries: 1 for Aruba
+Saving data to ../raw/ACLEDouput_Aruba_2024-08-17|2024-12-26.json
+Updating database for Aruba
+
+[2025-12-26 09:20:35.418315] Fetching ACLED data for Australia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 131 for Australia
+Saving data to ../raw/ACLEDouput_Australia_2024-10-28|2024-12-26.json
+Updating database for Australia
+
+[2025-12-26 09:20:43.972144] Fetching ACLED data for Austria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 38 for Austria
+Saving data to ../raw/ACLEDouput_Austria_2024-10-29|2024-12-26.json
+Updating database for Austria
+
+[2025-12-26 09:20:52.367225] Fetching ACLED data for Azerbaijan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 16 for Azerbaijan
+Saving data to ../raw/ACLEDouput_Azerbaijan_2024-10-29|2024-12-26.json
+Updating database for Azerbaijan
+
+[2025-12-26 09:21:00.717815] Fetching ACLED data for Bahamas from 2024-09-27|2024-12-26
+Request successful
+Total number of entries: 3 for Bahamas
+Saving data to ../raw/ACLEDouput_Bahamas_2024-09-27|2024-12-26.json
+Updating database for Bahamas
+
+[2025-12-26 09:21:08.739455] Fetching ACLED data for Bahrain from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 158 for Bahrain
+Saving data to ../raw/ACLEDouput_Bahrain_2024-10-29|2024-12-26.json
+Updating database for Bahrain
+
+[2025-12-26 09:21:16.313724] Fetching ACLED data for Bailiwick of Guernsey from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Bailiwick of Guernsey
+Saving data to ../raw/ACLEDouput_Bailiwick of Guernsey_2024-03-19|2024-12-26.json
+Updating database for Bailiwick of Guernsey
+
+[2025-12-26 09:21:24.459645] Fetching ACLED data for Bailiwick of Jersey from 2021-12-10|2024-12-26
+Request successful
+Total number of entries: 1 for Bailiwick of Jersey
+Saving data to ../raw/ACLEDouput_Bailiwick of Jersey_2021-12-10|2024-12-26.json
+Updating database for Bailiwick of Jersey
+
+[2025-12-26 09:21:33.148122] Fetching ACLED data for Bangladesh from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 580 for Bangladesh
+Saving data to ../raw/ACLEDouput_Bangladesh_2024-10-29|2024-12-26.json
+Updating database for Bangladesh
+
+[2025-12-26 09:21:40.413466] Fetching ACLED data for Barbados from 2024-01-30|2024-12-26
+Request successful
+Total number of entries: 1 for Barbados
+Saving data to ../raw/ACLEDouput_Barbados_2024-01-30|2024-12-26.json
+Updating database for Barbados
+
+[2025-12-26 09:21:48.078972] Fetching ACLED data for Belarus from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 40 for Belarus
+Saving data to ../raw/ACLEDouput_Belarus_2024-10-29|2024-12-26.json
+Updating database for Belarus
+
+[2025-12-26 09:21:55.517555] Fetching ACLED data for Belgium from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 158 for Belgium
+Saving data to ../raw/ACLEDouput_Belgium_2024-10-29|2024-12-26.json
+Updating database for Belgium
+
+[2025-12-26 09:22:02.843120] Fetching ACLED data for Belize from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 7 for Belize
+Saving data to ../raw/ACLEDouput_Belize_2024-10-26|2024-12-26.json
+Updating database for Belize
+
+[2025-12-26 09:22:10.374460] Fetching ACLED data for Benin from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 60 for Benin
+Saving data to ../raw/ACLEDouput_Benin_2024-10-28|2024-12-26.json
+Updating database for Benin
+
+[2025-12-26 09:22:17.721693] Fetching ACLED data for Bermuda from 2024-06-10|2024-12-26
+Request successful
+Total number of entries: 1 for Bermuda
+Saving data to ../raw/ACLEDouput_Bermuda_2024-06-10|2024-12-26.json
+Updating database for Bermuda
+
+[2025-12-26 09:22:25.417713] Fetching ACLED data for Bhutan from 2024-08-11|2024-12-26
+Request successful
+Total number of entries: 1 for Bhutan
+Saving data to ../raw/ACLEDouput_Bhutan_2024-08-11|2024-12-26.json
+Updating database for Bhutan
+
+[2025-12-26 09:22:33.316194] Fetching ACLED data for Bolivia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 293 for Bolivia
+Saving data to ../raw/ACLEDouput_Bolivia_2024-10-29|2024-12-26.json
+Updating database for Bolivia
+
+[2025-12-26 09:22:40.816334] Fetching ACLED data for Bosnia and Herzegovina from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 49 for Bosnia and Herzegovina
+Saving data to ../raw/ACLEDouput_Bosnia and Herzegovina_2024-10-27|2024-12-26.json
+Updating database for Bosnia and Herzegovina
+
+[2025-12-26 09:22:48.183990] Fetching ACLED data for Botswana from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 6 for Botswana
+Saving data to ../raw/ACLEDouput_Botswana_2024-10-26|2024-12-26.json
+Updating database for Botswana
+
+[2025-12-26 09:22:55.571706] Fetching ACLED data for Brazil from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1811 for Brazil
+Saving data to ../raw/ACLEDouput_Brazil_2024-10-29|2024-12-26.json
+Updating database for Brazil
+
+[2025-12-26 09:23:03.389644] Fetching ACLED data for British Indian Ocean Territory from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for British Indian Ocean Territory
+Saving data to ../raw/ACLEDouput_British Indian Ocean Territory_2000-01-01|2024-12-26.json
+Updating database for British Indian Ocean Territory
+
+[2025-12-26 09:23:12.166489] Fetching ACLED data for British Virgin Islands from 2024-02-14|2024-12-26
+Request successful
+Total number of entries: 1 for British Virgin Islands
+Saving data to ../raw/ACLEDouput_British Virgin Islands_2024-02-14|2024-12-26.json
+Updating database for British Virgin Islands
+
+[2025-12-26 09:23:19.759821] Fetching ACLED data for Brunei from 2023-11-04|2024-12-26
+Request successful
+Total number of entries: 1 for Brunei
+Saving data to ../raw/ACLEDouput_Brunei_2023-11-04|2024-12-26.json
+Updating database for Brunei
+
+[2025-12-26 09:23:27.055662] Fetching ACLED data for Bulgaria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 135 for Bulgaria
+Saving data to ../raw/ACLEDouput_Bulgaria_2024-10-29|2024-12-26.json
+Updating database for Bulgaria
+
+[2025-12-26 09:23:34.669630] Fetching ACLED data for Burkina Faso from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 284 for Burkina Faso
+Saving data to ../raw/ACLEDouput_Burkina Faso_2024-10-29|2024-12-26.json
+Updating database for Burkina Faso
+
+[2025-12-26 09:23:42.357967] Fetching ACLED data for Burundi from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 62 for Burundi
+Saving data to ../raw/ACLEDouput_Burundi_2024-10-29|2024-12-26.json
+Updating database for Burundi
+
+[2025-12-26 09:23:50.171672] Fetching ACLED data for Cambodia from 2024-10-19|2024-12-26
+Request successful
+Total number of entries: 8 for Cambodia
+Saving data to ../raw/ACLEDouput_Cambodia_2024-10-19|2024-12-26.json
+Updating database for Cambodia
+
+[2025-12-26 09:23:58.005034] Fetching ACLED data for Cameroon from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 712 for Cameroon
+Saving data to ../raw/ACLEDouput_Cameroon_2024-10-29|2024-12-26.json
+Updating database for Cameroon
+
+[2025-12-26 09:24:05.985132] Fetching ACLED data for Canada from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 360 for Canada
+Saving data to ../raw/ACLEDouput_Canada_2024-10-29|2024-12-26.json
+Updating database for Canada
+
+[2025-12-26 09:24:13.501684] Fetching ACLED data for Cape Verde from 2024-10-23|2024-12-26
+Request successful
+Total number of entries: 6 for Cape Verde
+Saving data to ../raw/ACLEDouput_Cape Verde_2024-10-23|2024-12-26.json
+Updating database for Cape Verde
+
+[2025-12-26 09:24:21.407632] Fetching ACLED data for Caribbean Netherlands from 2024-08-17|2024-12-26
+Request successful
+Total number of entries: 1 for Caribbean Netherlands
+Saving data to ../raw/ACLEDouput_Caribbean Netherlands_2024-08-17|2024-12-26.json
+Updating database for Caribbean Netherlands
+
+[2025-12-26 09:24:28.909118] Fetching ACLED data for Cayman Islands from 2024-10-13|2024-12-26
+Request successful
+Total number of entries: 1 for Cayman Islands
+Saving data to ../raw/ACLEDouput_Cayman Islands_2024-10-13|2024-12-26.json
+Updating database for Cayman Islands
+
+[2025-12-26 09:24:36.209103] Fetching ACLED data for Central African Republic from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 113 for Central African Republic
+Saving data to ../raw/ACLEDouput_Central African Republic_2024-10-29|2024-12-26.json
+Updating database for Central African Republic
+
+[2025-12-26 09:24:43.637099] Fetching ACLED data for Chad from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 22 for Chad
+Saving data to ../raw/ACLEDouput_Chad_2024-10-27|2024-12-26.json
+Updating database for Chad
+
+[2025-12-26 09:24:50.824732] Fetching ACLED data for Chile from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 213 for Chile
+Saving data to ../raw/ACLEDouput_Chile_2024-10-29|2024-12-26.json
+Updating database for Chile
+
+[2025-12-26 09:24:58.152857] Fetching ACLED data for China from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 316 for China
+Saving data to ../raw/ACLEDouput_China_2024-10-29|2024-12-26.json
+Updating database for China
+
+[2025-12-26 09:25:06.640273] Fetching ACLED data for Christmas Island from 2022-02-09|2024-12-26
+Request successful
+Total number of entries: 1 for Christmas Island
+Saving data to ../raw/ACLEDouput_Christmas Island_2022-02-09|2024-12-26.json
+Updating database for Christmas Island
+
+[2025-12-26 09:25:14.460780] Fetching ACLED data for Cocos (Keeling) Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Cocos (Keeling) Islands
+Saving data to ../raw/ACLEDouput_Cocos (Keeling) Islands_2000-01-01|2024-12-26.json
+Updating database for Cocos (Keeling) Islands
+
+[2025-12-26 09:25:23.171014] Fetching ACLED data for Colombia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 704 for Colombia
+Saving data to ../raw/ACLEDouput_Colombia_2024-10-29|2024-12-26.json
+Updating database for Colombia
+
+[2025-12-26 09:25:31.001097] Fetching ACLED data for Comoros from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 5 for Comoros
+Saving data to ../raw/ACLEDouput_Comoros_2024-10-28|2024-12-26.json
+Updating database for Comoros
+
+[2025-12-26 09:25:38.344278] Fetching ACLED data for Cook Islands from 2024-09-20|2024-12-26
+Request successful
+Total number of entries: 1 for Cook Islands
+Saving data to ../raw/ACLEDouput_Cook Islands_2024-09-20|2024-12-26.json
+Updating database for Cook Islands
+
+[2025-12-26 09:25:46.520071] Fetching ACLED data for Costa Rica from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 21 for Costa Rica
+Saving data to ../raw/ACLEDouput_Costa Rica_2024-10-28|2024-12-26.json
+Updating database for Costa Rica
+
+[2025-12-26 09:25:54.489374] Fetching ACLED data for Croatia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 78 for Croatia
+Saving data to ../raw/ACLEDouput_Croatia_2024-10-29|2024-12-26.json
+Updating database for Croatia
+
+[2025-12-26 09:26:02.133265] Fetching ACLED data for Cuba from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 24 for Cuba
+Saving data to ../raw/ACLEDouput_Cuba_2024-10-28|2024-12-26.json
+Updating database for Cuba
+
+[2025-12-26 09:26:10.062954] Fetching ACLED data for Curacao from 2024-10-10|2024-12-26
+Request successful
+Total number of entries: 1 for Curacao
+Saving data to ../raw/ACLEDouput_Curacao_2024-10-10|2024-12-26.json
+Updating database for Curacao
+
+[2025-12-26 09:26:17.649020] Fetching ACLED data for Cyprus from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 66 for Cyprus
+Saving data to ../raw/ACLEDouput_Cyprus_2024-10-29|2024-12-26.json
+Updating database for Cyprus
+
+[2025-12-26 09:26:25.497112] Fetching ACLED data for Czech Republic from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 32 for Czech Republic
+Saving data to ../raw/ACLEDouput_Czech Republic_2024-10-28|2024-12-26.json
+Updating database for Czech Republic
+
+[2025-12-26 09:26:32.927830] Fetching ACLED data for Democratic Republic of Congo from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 413 for Democratic Republic of Congo
+Saving data to ../raw/ACLEDouput_Democratic Republic of Congo_2024-10-29|2024-12-26.json
+Updating database for Democratic Republic of Congo
+
+[2025-12-26 09:26:40.257933] Fetching ACLED data for Denmark from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 65 for Denmark
+Saving data to ../raw/ACLEDouput_Denmark_2024-10-28|2024-12-26.json
+Updating database for Denmark
+
+[2025-12-26 09:26:48.031989] Fetching ACLED data for Djibouti from 2024-10-04|2024-12-26
+Request successful
+Total number of entries: 3 for Djibouti
+Saving data to ../raw/ACLEDouput_Djibouti_2024-10-04|2024-12-26.json
+Updating database for Djibouti
+
+[2025-12-26 09:26:55.540843] Fetching ACLED data for Dominica from 2024-10-16|2024-12-26
+Request successful
+Total number of entries: 2 for Dominica
+Saving data to ../raw/ACLEDouput_Dominica_2024-10-16|2024-12-26.json
+Updating database for Dominica
+
+[2025-12-26 09:27:02.931424] Fetching ACLED data for Dominican Republic from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 25 for Dominican Republic
+Saving data to ../raw/ACLEDouput_Dominican Republic_2024-10-29|2024-12-26.json
+Updating database for Dominican Republic
+
+[2025-12-26 09:27:10.503916] Fetching ACLED data for East Timor from 2024-10-23|2024-12-26
+Request successful
+Total number of entries: 4 for East Timor
+Saving data to ../raw/ACLEDouput_East Timor_2024-10-23|2024-12-26.json
+Updating database for East Timor
+
+[2025-12-26 09:27:18.030874] Fetching ACLED data for Ecuador from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 507 for Ecuador
+Saving data to ../raw/ACLEDouput_Ecuador_2024-10-29|2024-12-26.json
+Updating database for Ecuador
+
+[2025-12-26 09:27:25.585699] Fetching ACLED data for Egypt from 2024-10-22|2024-12-26
+Request successful
+Total number of entries: 14 for Egypt
+Saving data to ../raw/ACLEDouput_Egypt_2024-10-22|2024-12-26.json
+Updating database for Egypt
+
+[2025-12-26 09:27:33.185745] Fetching ACLED data for El Salvador from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 33 for El Salvador
+Saving data to ../raw/ACLEDouput_El Salvador_2024-10-28|2024-12-26.json
+Updating database for El Salvador
+
+[2025-12-26 09:27:40.772035] Fetching ACLED data for Equatorial Guinea from 2024-08-15|2024-12-26
+Request successful
+Total number of entries: 2 for Equatorial Guinea
+Saving data to ../raw/ACLEDouput_Equatorial Guinea_2024-08-15|2024-12-26.json
+Updating database for Equatorial Guinea
+
+[2025-12-26 09:27:48.179225] Fetching ACLED data for Eritrea from 2024-10-02|2024-12-26
+Request successful
+Total number of entries: 2 for Eritrea
+Saving data to ../raw/ACLEDouput_Eritrea_2024-10-02|2024-12-26.json
+Updating database for Eritrea
+
+[2025-12-26 09:27:55.920633] Fetching ACLED data for Estonia from 2024-10-17|2024-12-26
+Request successful
+Total number of entries: 3 for Estonia
+Saving data to ../raw/ACLEDouput_Estonia_2024-10-17|2024-12-26.json
+Updating database for Estonia
+
+[2025-12-26 09:28:04.482755] Fetching ACLED data for eSwatini from 2024-10-15|2024-12-26
+Request successful
+Total number of entries: 8 for eSwatini
+Saving data to ../raw/ACLEDouput_eSwatini_2024-10-15|2024-12-26.json
+Updating database for eSwatini
+
+[2025-12-26 09:28:12.222186] Fetching ACLED data for Ethiopia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 520 for Ethiopia
+Saving data to ../raw/ACLEDouput_Ethiopia_2024-10-29|2024-12-26.json
+Updating database for Ethiopia
+
+[2025-12-26 09:28:20.230550] Fetching ACLED data for Falkland Islands from 2021-11-04|2024-12-26
+Request successful
+Total number of entries: 1 for Falkland Islands
+Saving data to ../raw/ACLEDouput_Falkland Islands_2021-11-04|2024-12-26.json
+Updating database for Falkland Islands
+
+[2025-12-26 09:28:28.128745] Fetching ACLED data for Faroe Islands from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Faroe Islands
+Saving data to ../raw/ACLEDouput_Faroe Islands_2024-03-19|2024-12-26.json
+Updating database for Faroe Islands
+
+[2025-12-26 09:28:35.706034] Fetching ACLED data for Fiji from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 3 for Fiji
+Saving data to ../raw/ACLEDouput_Fiji_2024-10-24|2024-12-26.json
+Updating database for Fiji
+
+[2025-12-26 09:28:43.312436] Fetching ACLED data for Finland from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 52 for Finland
+Saving data to ../raw/ACLEDouput_Finland_2024-10-25|2024-12-26.json
+Updating database for Finland
+
+[2025-12-26 09:28:50.708707] Fetching ACLED data for France from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1103 for France
+Saving data to ../raw/ACLEDouput_France_2024-10-29|2024-12-26.json
+Updating database for France
+
+[2025-12-26 09:28:58.459348] Fetching ACLED data for French Guiana from 2024-10-22|2024-12-26
+Request successful
+Total number of entries: 7 for French Guiana
+Saving data to ../raw/ACLEDouput_French Guiana_2024-10-22|2024-12-26.json
+Updating database for French Guiana
+
+[2025-12-26 09:29:06.153806] Fetching ACLED data for French Polynesia from 2024-10-19|2024-12-26
+Request successful
+Total number of entries: 3 for French Polynesia
+Saving data to ../raw/ACLEDouput_French Polynesia_2024-10-19|2024-12-26.json
+Updating database for French Polynesia
+
+[2025-12-26 09:29:13.833698] Fetching ACLED data for Gabon from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 12 for Gabon
+Saving data to ../raw/ACLEDouput_Gabon_2024-10-26|2024-12-26.json
+Updating database for Gabon
+
+[2025-12-26 09:29:21.544964] Fetching ACLED data for Gambia from 2024-10-03|2024-12-26
+Request successful
+Total number of entries: 3 for Gambia
+Saving data to ../raw/ACLEDouput_Gambia_2024-10-03|2024-12-26.json
+Updating database for Gambia
+
+[2025-12-26 09:29:28.891570] Fetching ACLED data for Georgia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 181 for Georgia
+Saving data to ../raw/ACLEDouput_Georgia_2024-10-29|2024-12-26.json
+Updating database for Georgia
+
+[2025-12-26 09:29:36.540970] Fetching ACLED data for Germany from 2024-10-31|2024-12-26
+Request successful
+Total number of entries: 526 for Germany
+Saving data to ../raw/ACLEDouput_Germany_2024-10-31|2024-12-26.json
+Updating database for Germany
+
+[2025-12-26 09:29:44.190697] Fetching ACLED data for Ghana from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 137 for Ghana
+Saving data to ../raw/ACLEDouput_Ghana_2024-10-29|2024-12-26.json
+Updating database for Ghana
+
+[2025-12-26 09:29:51.995172] Fetching ACLED data for Gibraltar from 2023-04-30|2024-12-26
+Request successful
+Total number of entries: 1 for Gibraltar
+Saving data to ../raw/ACLEDouput_Gibraltar_2023-04-30|2024-12-26.json
+Updating database for Gibraltar
+
+[2025-12-26 09:29:59.828055] Fetching ACLED data for Greece from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 106 for Greece
+Saving data to ../raw/ACLEDouput_Greece_2024-10-28|2024-12-26.json
+Updating database for Greece
+
+[2025-12-26 09:30:09.080766] Fetching ACLED data for Greenland from 2024-07-21|2024-12-26
+Request successful
+Total number of entries: 11 for Greenland
+Saving data to ../raw/ACLEDouput_Greenland_2024-07-21|2024-12-26.json
+Updating database for Greenland
+
+[2025-12-26 09:30:16.906669] Fetching ACLED data for Grenada from 2023-11-20|2024-12-26
+Request successful
+Total number of entries: 1 for Grenada
+Saving data to ../raw/ACLEDouput_Grenada_2023-11-20|2024-12-26.json
+Updating database for Grenada
+
+[2025-12-26 09:30:25.509777] Fetching ACLED data for Guadeloupe from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 4 for Guadeloupe
+Saving data to ../raw/ACLEDouput_Guadeloupe_2024-10-29|2024-12-26.json
+Updating database for Guadeloupe
+
+[2025-12-26 09:30:33.040452] Fetching ACLED data for Guam from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 4 for Guam
+Saving data to ../raw/ACLEDouput_Guam_2024-10-29|2024-12-26.json
+Updating database for Guam
+
+[2025-12-26 09:30:42.663262] Fetching ACLED data for Guatemala from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 57 for Guatemala
+Saving data to ../raw/ACLEDouput_Guatemala_2024-10-29|2024-12-26.json
+Updating database for Guatemala
+
+[2025-12-26 09:30:50.828866] Fetching ACLED data for Guinea from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 30 for Guinea
+Saving data to ../raw/ACLEDouput_Guinea_2024-10-29|2024-12-26.json
+Updating database for Guinea
+
+[2025-12-26 09:30:58.163965] Fetching ACLED data for Guinea-Bissau from 2024-10-02|2024-12-26
+Request successful
+Total number of entries: 8 for Guinea-Bissau
+Saving data to ../raw/ACLEDouput_Guinea-Bissau_2024-10-02|2024-12-26.json
+Updating database for Guinea-Bissau
+
+[2025-12-26 09:31:06.092179] Fetching ACLED data for Guyana from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 2 for Guyana
+Saving data to ../raw/ACLEDouput_Guyana_2024-10-27|2024-12-26.json
+Updating database for Guyana
+
+[2025-12-26 09:31:14.386489] Fetching ACLED data for Haiti from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 432 for Haiti
+Saving data to ../raw/ACLEDouput_Haiti_2024-10-29|2024-12-26.json
+Updating database for Haiti
+
+[2025-12-26 09:31:22.029522] Fetching ACLED data for Heard Island and McDonald Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Heard Island and McDonald Islands
+Saving data to ../raw/ACLEDouput_Heard Island and McDonald Islands_2000-01-01|2024-12-26.json
+[2025-12-26 09:30:01.209393] Fetching ACLED data for Afghanistan from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 4 for Afghanistan
+Saving data to ../raw/ACLEDouput_Afghanistan_2024-12-26|2024-12-26.json
+Updating database for Afghanistan
+
+[2025-12-26 09:30:03.096119] Fetching ACLED data for Albania from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Albania
+Saving data to ../raw/ACLEDouput_Albania_2024-12-20|2024-12-26.json
+Updating database for Albania
+
+[2025-12-26 09:30:04.777196] Fetching ACLED data for Algeria from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Algeria
+Saving data to ../raw/ACLEDouput_Algeria_2024-12-24|2024-12-26.json
+Updating database for Algeria
+
+[2025-12-26 09:30:06.471855] Fetching ACLED data for American Samoa from 2022-12-19|2024-12-26
+Request successful
+Total number of entries: 1 for American Samoa
+Saving data to ../raw/ACLEDouput_American Samoa_2022-12-19|2024-12-26.json
+Updating database for American Samoa
+
+[2025-12-26 09:30:14.877457] Fetching ACLED data for Andorra from 2024-10-31|2024-12-26
+Request successful
+Total number of entries: 1 for Andorra
+Saving data to ../raw/ACLEDouput_Andorra_2024-10-31|2024-12-26.json
+Updating database for Andorra
+
+[2025-12-26 09:30:22.961315] Fetching ACLED data for Angola from 2024-12-17|2024-12-26
+Request successful
+Total number of entries: 1 for Angola
+Saving data to ../raw/ACLEDouput_Angola_2024-12-17|2024-12-26.json
+Updating database for Angola
+
+[2025-12-26 09:30:24.601679] Fetching ACLED data for Anguilla from 2024-05-08|2024-12-26
+Request successful
+Total number of entries: 1 for Anguilla
+Saving data to ../raw/ACLEDouput_Anguilla_2024-05-08|2024-12-26.json
+Updating database for Anguilla
+
+[2025-12-26 09:30:32.419956] Fetching ACLED data for Antarctica from 2024-04-30|2024-12-26
+Request successful
+Total number of entries: 1 for Antarctica
+Saving data to ../raw/ACLEDouput_Antarctica_2024-04-30|2024-12-26.json
+Updating database for Antarctica
+
+[2025-12-26 09:30:42.227302] Fetching ACLED data for Antigua and Barbuda from 2024-11-05|2024-12-26
+Request successful
+Total number of entries: 1 for Antigua and Barbuda
+Saving data to ../raw/ACLEDouput_Antigua and Barbuda_2024-11-05|2024-12-26.json
+Updating database for Antigua and Barbuda
+
+[2025-12-26 09:30:50.410708] Fetching ACLED data for Argentina from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 3 for Argentina
+Saving data to ../raw/ACLEDouput_Argentina_2024-12-26|2024-12-26.json
+Updating database for Argentina
+
+[2025-12-26 09:30:51.862312] Fetching ACLED data for Armenia from 2024-12-17|2024-12-26
+Request successful
+Total number of entries: 1 for Armenia
+Saving data to ../raw/ACLEDouput_Armenia_2024-12-17|2024-12-26.json
+Updating database for Armenia
+
+[2025-12-26 09:30:53.427877] Fetching ACLED data for Aruba from 2024-08-17|2024-12-26
+Request successful
+Total number of entries: 1 for Aruba
+Saving data to ../raw/ACLEDouput_Aruba_2024-08-17|2024-12-26.json
+Updating database for Aruba
+
+[2025-12-26 09:31:01.442761] Fetching ACLED data for Australia from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 2 for Australia
+Saving data to ../raw/ACLEDouput_Australia_2024-12-24|2024-12-26.json
+Updating database for Australia
+
+[2025-12-26 09:31:03.120000] Fetching ACLED data for Austria from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Austria
+Saving data to ../raw/ACLEDouput_Austria_2024-12-20|2024-12-26.json
+Updating database for Austria
+
+[2025-12-26 09:31:04.713614] Fetching ACLED data for Azerbaijan from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Azerbaijan
+Saving data to ../raw/ACLEDouput_Azerbaijan_2024-12-23|2024-12-26.json
+Updating database for Azerbaijan
+
+[2025-12-26 09:31:06.527721] Fetching ACLED data for Bahamas from 2024-12-04|2024-12-26
+Request successful
+Total number of entries: 2 for Bahamas
+Saving data to ../raw/ACLEDouput_Bahamas_2024-12-04|2024-12-26.json
+Updating database for Bahamas
+
+[2025-12-26 09:31:08.238862] Fetching ACLED data for Bahrain from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Bahrain
+Saving data to ../raw/ACLEDouput_Bahrain_2024-12-26|2024-12-26.json
+Updating database for Bahrain
+
+[2025-12-26 09:31:09.676493] Fetching ACLED data for Bailiwick of Guernsey from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Bailiwick of Guernsey
+Saving data to ../raw/ACLEDouput_Bailiwick of Guernsey_2024-03-19|2024-12-26.json
+Updating database for Bailiwick of Guernsey
+
+[2025-12-26 09:31:17.584410] Fetching ACLED data for Bailiwick of Jersey from 2021-12-10|2024-12-26
+Request successful
+Total number of entries: 1 for Bailiwick of Jersey
+Saving data to ../raw/ACLEDouput_Bailiwick of Jersey_2021-12-10|2024-12-26.json
+Updating database for Bailiwick of Jersey
+
+[2025-12-26 09:31:26.131231] Fetching ACLED data for Bangladesh from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 11 for Bangladesh
+Saving data to ../raw/ACLEDouput_Bangladesh_2024-12-26|2024-12-26.json
+Updating database for Bangladesh
+
+[2025-12-26 09:31:27.710373] Fetching ACLED data for Barbados from 2024-01-30|2024-12-26
+Request successful
+Total number of entries: 1 for Barbados
+Saving data to ../raw/ACLEDouput_Barbados_2024-01-30|2024-12-26.json
+Updating database for Barbados
+
+[2025-12-26 09:31:35.466457] Fetching ACLED data for Belarus from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Belarus
+Saving data to ../raw/ACLEDouput_Belarus_2024-12-23|2024-12-26.json
+Updating database for Belarus
+
+[2025-12-26 09:31:37.021146] Fetching ACLED data for Belgium from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Belgium
+Saving data to ../raw/ACLEDouput_Belgium_2024-12-24|2024-12-26.json
+Updating database for Belgium
+
+[2025-12-26 09:31:38.664175] Fetching ACLED data for Belize from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Belize
+Saving data to ../raw/ACLEDouput_Belize_2024-12-25|2024-12-26.json
+Updating database for Belize
+
+[2025-12-26 09:31:40.226337] Fetching ACLED data for Benin from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Benin
+Saving data to ../raw/ACLEDouput_Benin_2024-12-26|2024-12-26.json
+Updating database for Benin
+
+[2025-12-26 09:31:41.699865] Fetching ACLED data for Bermuda from 2024-06-10|2024-12-26
+Request successful
+Total number of entries: 1 for Bermuda
+Saving data to ../raw/ACLEDouput_Bermuda_2024-06-10|2024-12-26.json
+Updating database for Bermuda
+
+[2025-12-26 09:31:48.905094] Fetching ACLED data for Bhutan from 2024-08-11|2024-12-26
+Request successful
+Total number of entries: 1 for Bhutan
+Saving data to ../raw/ACLEDouput_Bhutan_2024-08-11|2024-12-26.json
+Updating database for Bhutan
+
+[2025-12-26 09:31:56.905711] Fetching ACLED data for Bolivia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 3 for Bolivia
+Saving data to ../raw/ACLEDouput_Bolivia_2024-12-26|2024-12-26.json
+Updating database for Bolivia
+
+[2025-12-26 09:31:58.269788] Fetching ACLED data for Bosnia and Herzegovina from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Bosnia and Herzegovina
+Saving data to ../raw/ACLEDouput_Bosnia and Herzegovina_2024-12-26|2024-12-26.json
+Updating database for Bosnia and Herzegovina
+
+[2025-12-26 09:31:59.797044] Fetching ACLED data for Botswana from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Botswana
+Saving data to ../raw/ACLEDouput_Botswana_2024-12-20|2024-12-26.json
+Updating database for Botswana
+
+[2025-12-26 09:32:01.752428] Fetching ACLED data for Brazil from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 18 for Brazil
+Saving data to ../raw/ACLEDouput_Brazil_2024-12-26|2024-12-26.json
+Updating database for Brazil
+
+[2025-12-26 09:32:03.770398] Fetching ACLED data for British Indian Ocean Territory from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for British Indian Ocean Territory
+Saving data to ../raw/ACLEDouput_British Indian Ocean Territory_2000-01-01|2024-12-26.json
+Updating database for British Indian Ocean Territory
+
+[2025-12-26 09:32:12.540814] Fetching ACLED data for British Virgin Islands from 2024-02-14|2024-12-26
+Request successful
+Total number of entries: 1 for British Virgin Islands
+Saving data to ../raw/ACLEDouput_British Virgin Islands_2024-02-14|2024-12-26.json
+Updating database for British Virgin Islands
+
+[2025-12-26 09:32:19.936572] Fetching ACLED data for Brunei from 2023-11-04|2024-12-26
+Request successful
+Total number of entries: 1 for Brunei
+Saving data to ../raw/ACLEDouput_Brunei_2023-11-04|2024-12-26.json
+Updating database for Brunei
+
+[2025-12-26 09:32:27.864366] Fetching ACLED data for Bulgaria from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 3 for Bulgaria
+Saving data to ../raw/ACLEDouput_Bulgaria_2024-12-26|2024-12-26.json
+Updating database for Bulgaria
+
+[2025-12-26 09:32:29.251869] Fetching ACLED data for Burkina Faso from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 4 for Burkina Faso
+Saving data to ../raw/ACLEDouput_Burkina Faso_2024-12-26|2024-12-26.json
+Updating database for Burkina Faso
+
+[2025-12-26 09:32:30.911067] Fetching ACLED data for Burundi from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Burundi
+Saving data to ../raw/ACLEDouput_Burundi_2024-12-26|2024-12-26.json
+Updating database for Burundi
+
+[2025-12-26 09:32:32.386408] Fetching ACLED data for Cambodia from 2024-12-18|2024-12-26
+Request successful
+Total number of entries: 1 for Cambodia
+Saving data to ../raw/ACLEDouput_Cambodia_2024-12-18|2024-12-26.json
+Updating database for Cambodia
+
+[2025-12-26 09:32:34.066288] Fetching ACLED data for Cameroon from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 9 for Cameroon
+Saving data to ../raw/ACLEDouput_Cameroon_2024-12-26|2024-12-26.json
+Updating database for Cameroon
+
+[2025-12-26 09:32:35.620527] Fetching ACLED data for Canada from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Canada
+Saving data to ../raw/ACLEDouput_Canada_2024-12-26|2024-12-26.json
+Updating database for Canada
+
+[2025-12-26 09:32:37.052509] Fetching ACLED data for Cape Verde from 2024-12-01|2024-12-26
+Request successful
+Total number of entries: 1 for Cape Verde
+Saving data to ../raw/ACLEDouput_Cape Verde_2024-12-01|2024-12-26.json
+Updating database for Cape Verde
+
+[2025-12-26 09:32:38.859846] Fetching ACLED data for Caribbean Netherlands from 2024-08-17|2024-12-26
+Request successful
+Total number of entries: 1 for Caribbean Netherlands
+Saving data to ../raw/ACLEDouput_Caribbean Netherlands_2024-08-17|2024-12-26.json
+Updating database for Caribbean Netherlands
+
+[2025-12-26 09:32:46.602257] Fetching ACLED data for Cayman Islands from 2024-10-13|2024-12-26
+Request successful
+Total number of entries: 1 for Cayman Islands
+Saving data to ../raw/ACLEDouput_Cayman Islands_2024-10-13|2024-12-26.json
+Updating database for Cayman Islands
+
+[2025-12-26 09:32:54.955758] Fetching ACLED data for Central African Republic from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Central African Republic
+Saving data to ../raw/ACLEDouput_Central African Republic_2024-12-26|2024-12-26.json
+Updating database for Central African Republic
+
+[2025-12-26 09:32:56.413410] Fetching ACLED data for Chad from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Chad
+Saving data to ../raw/ACLEDouput_Chad_2024-12-26|2024-12-26.json
+Updating database for Chad
+
+[2025-12-26 09:32:57.870794] Fetching ACLED data for Chile from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Chile
+Saving data to ../raw/ACLEDouput_Chile_2024-12-25|2024-12-26.json
+Updating database for Chile
+
+[2025-12-26 09:32:59.323972] Fetching ACLED data for China from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 3 for China
+Saving data to ../raw/ACLEDouput_China_2024-12-26|2024-12-26.json
+Updating database for China
+
+[2025-12-26 09:33:00.717154] Fetching ACLED data for Christmas Island from 2022-02-09|2024-12-26
+Request successful
+Total number of entries: 1 for Christmas Island
+Saving data to ../raw/ACLEDouput_Christmas Island_2022-02-09|2024-12-26.json
+Updating database for Christmas Island
+
+[2025-12-26 09:33:09.243854] Fetching ACLED data for Cocos (Keeling) Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Cocos (Keeling) Islands
+Saving data to ../raw/ACLEDouput_Cocos (Keeling) Islands_2000-01-01|2024-12-26.json
+Updating database for Cocos (Keeling) Islands
+
+[2025-12-26 09:33:18.387977] Fetching ACLED data for Colombia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 9 for Colombia
+Saving data to ../raw/ACLEDouput_Colombia_2024-12-26|2024-12-26.json
+Updating database for Colombia
+
+[2025-12-26 09:33:19.963956] Fetching ACLED data for Comoros from 2024-12-13|2024-12-26
+Request successful
+Total number of entries: 1 for Comoros
+Saving data to ../raw/ACLEDouput_Comoros_2024-12-13|2024-12-26.json
+Updating database for Comoros
+
+[2025-12-26 09:33:21.565775] Fetching ACLED data for Cook Islands from 2024-09-20|2024-12-26
+Request successful
+Total number of entries: 1 for Cook Islands
+Saving data to ../raw/ACLEDouput_Cook Islands_2024-09-20|2024-12-26.json
+Updating database for Cook Islands
+
+[2025-12-26 09:33:29.069608] Fetching ACLED data for Costa Rica from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Costa Rica
+Saving data to ../raw/ACLEDouput_Costa Rica_2024-12-20|2024-12-26.json
+Updating database for Costa Rica
+
+[2025-12-26 09:33:30.524554] Fetching ACLED data for Croatia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Croatia
+Saving data to ../raw/ACLEDouput_Croatia_2024-12-26|2024-12-26.json
+Updating database for Croatia
+
+[2025-12-26 09:33:31.990289] Fetching ACLED data for Cuba from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Cuba
+Saving data to ../raw/ACLEDouput_Cuba_2024-12-23|2024-12-26.json
+Updating database for Cuba
+
+[2025-12-26 09:33:33.908238] Fetching ACLED data for Curacao from 2024-10-10|2024-12-26
+Request successful
+Total number of entries: 1 for Curacao
+Saving data to ../raw/ACLEDouput_Curacao_2024-10-10|2024-12-26.json
+Updating database for Curacao
+
+[2025-12-26 09:33:41.490467] Fetching ACLED data for Cyprus from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for Cyprus
+Saving data to ../raw/ACLEDouput_Cyprus_2024-12-26|2024-12-26.json
+Updating database for Cyprus
+
+[2025-12-26 09:33:42.937269] Fetching ACLED data for Czech Republic from 2024-12-19|2024-12-26
+Request successful
+Total number of entries: 1 for Czech Republic
+Saving data to ../raw/ACLEDouput_Czech Republic_2024-12-19|2024-12-26.json
+Updating database for Czech Republic
+
+[2025-12-26 09:33:44.441933] Fetching ACLED data for Democratic Republic of Congo from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 3 for Democratic Republic of Congo
+Saving data to ../raw/ACLEDouput_Democratic Republic of Congo_2024-12-26|2024-12-26.json
+Updating database for Democratic Republic of Congo
+
+[2025-12-26 09:33:45.835200] Fetching ACLED data for Denmark from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Denmark
+Saving data to ../raw/ACLEDouput_Denmark_2024-12-24|2024-12-26.json
+Updating database for Denmark
+
+[2025-12-26 09:33:47.257525] Fetching ACLED data for Djibouti from 2024-12-16|2024-12-26
+Request successful
+Total number of entries: 1 for Djibouti
+Saving data to ../raw/ACLEDouput_Djibouti_2024-12-16|2024-12-26.json
+Updating database for Djibouti
+
+[2025-12-26 09:33:48.774989] Fetching ACLED data for Dominica from 2024-12-16|2024-12-26
+Request successful
+Total number of entries: 1 for Dominica
+Saving data to ../raw/ACLEDouput_Dominica_2024-12-16|2024-12-26.json
+Updating database for Dominica
+
+[2025-12-26 09:33:50.267255] Fetching ACLED data for Dominican Republic from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Dominican Republic
+Saving data to ../raw/ACLEDouput_Dominican Republic_2024-12-23|2024-12-26.json
+Updating database for Dominican Republic
+
+[2025-12-26 09:33:51.804903] Fetching ACLED data for East Timor from 2024-12-12|2024-12-26
+Request successful
+Total number of entries: 1 for East Timor
+Saving data to ../raw/ACLEDouput_East Timor_2024-12-12|2024-12-26.json
+Updating database for East Timor
+
+[2025-12-26 09:33:53.442719] Fetching ACLED data for Ecuador from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 6 for Ecuador
+Saving data to ../raw/ACLEDouput_Ecuador_2024-12-26|2024-12-26.json
+Updating database for Ecuador
+
+[2025-12-26 09:33:54.875501] Fetching ACLED data for Egypt from 2024-12-22|2024-12-26
+Request successful
+Total number of entries: 1 for Egypt
+Saving data to ../raw/ACLEDouput_Egypt_2024-12-22|2024-12-26.json
+Updating database for Egypt
+
+[2025-12-26 09:33:56.328296] Fetching ACLED data for El Salvador from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for El Salvador
+Saving data to ../raw/ACLEDouput_El Salvador_2024-12-24|2024-12-26.json
+Updating database for El Salvador
+
+[2025-12-26 09:33:57.850564] Fetching ACLED data for Equatorial Guinea from 2024-08-15|2024-12-26
+Request successful
+Total number of entries: 2 for Equatorial Guinea
+Saving data to ../raw/ACLEDouput_Equatorial Guinea_2024-08-15|2024-12-26.json
+Updating database for Equatorial Guinea
+
+[2025-12-26 09:34:06.061047] Fetching ACLED data for Eritrea from 2024-11-07|2024-12-26
+Request successful
+Total number of entries: 1 for Eritrea
+Saving data to ../raw/ACLEDouput_Eritrea_2024-11-07|2024-12-26.json
+Updating database for Eritrea
+
+[2025-12-26 09:34:13.887626] Fetching ACLED data for Estonia from 2024-12-02|2024-12-26
+Request successful
+Total number of entries: 1 for Estonia
+Saving data to ../raw/ACLEDouput_Estonia_2024-12-02|2024-12-26.json
+Updating database for Estonia
+
+[2025-12-26 09:34:15.516918] Fetching ACLED data for eSwatini from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for eSwatini
+Saving data to ../raw/ACLEDouput_eSwatini_2024-12-25|2024-12-26.json
+Updating database for eSwatini
+
+[2025-12-26 09:34:17.940742] Fetching ACLED data for Ethiopia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 8 for Ethiopia
+Saving data to ../raw/ACLEDouput_Ethiopia_2024-12-26|2024-12-26.json
+Updating database for Ethiopia
+
+[2025-12-26 09:34:19.373554] Fetching ACLED data for Falkland Islands from 2021-11-04|2024-12-26
+Request successful
+Total number of entries: 1 for Falkland Islands
+Saving data to ../raw/ACLEDouput_Falkland Islands_2021-11-04|2024-12-26.json
+Updating database for Falkland Islands
+
+[2025-12-26 09:34:27.298999] Fetching ACLED data for Faroe Islands from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Faroe Islands
+Saving data to ../raw/ACLEDouput_Faroe Islands_2024-03-19|2024-12-26.json
+Updating database for Faroe Islands
+
+[2025-12-26 09:34:34.828334] Fetching ACLED data for Fiji from 2024-12-10|2024-12-26
+Request successful
+Total number of entries: 1 for Fiji
+Saving data to ../raw/ACLEDouput_Fiji_2024-12-10|2024-12-26.json
+Updating database for Fiji
+
+[2025-12-26 09:34:36.442577] Fetching ACLED data for Finland from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Finland
+Saving data to ../raw/ACLEDouput_Finland_2024-12-25|2024-12-26.json
+Updating database for Finland
+
+[2025-12-26 09:34:37.988461] Fetching ACLED data for France from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for France
+Saving data to ../raw/ACLEDouput_France_2024-12-26|2024-12-26.json
+Updating database for France
+
+[2025-12-26 09:34:39.584680] Fetching ACLED data for French Guiana from 2024-12-05|2024-12-26
+Request successful
+Total number of entries: 3 for French Guiana
+Saving data to ../raw/ACLEDouput_French Guiana_2024-12-05|2024-12-26.json
+Updating database for French Guiana
+
+[2025-12-26 09:34:41.487144] Fetching ACLED data for French Polynesia from 2024-12-05|2024-12-26
+Request successful
+Total number of entries: 1 for French Polynesia
+Saving data to ../raw/ACLEDouput_French Polynesia_2024-12-05|2024-12-26.json
+Updating database for French Polynesia
+
+[2025-12-26 09:34:43.156631] Fetching ACLED data for Gabon from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Gabon
+Saving data to ../raw/ACLEDouput_Gabon_2024-12-23|2024-12-26.json
+Updating database for Gabon
+
+[2025-12-26 09:34:44.608678] Fetching ACLED data for Gambia from 2024-12-14|2024-12-26
+Request successful
+Total number of entries: 1 for Gambia
+Saving data to ../raw/ACLEDouput_Gambia_2024-12-14|2024-12-26.json
+Updating database for Gambia
+
+[2025-12-26 09:34:46.093846] Fetching ACLED data for Georgia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for Georgia
+Saving data to ../raw/ACLEDouput_Georgia_2024-12-26|2024-12-26.json
+Updating database for Georgia
+
+[2025-12-26 09:34:47.453042] Fetching ACLED data for Germany from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Germany
+Saving data to ../raw/ACLEDouput_Germany_2024-12-25|2024-12-26.json
+Updating database for Germany
+
+[2025-12-26 09:34:48.884332] Fetching ACLED data for Ghana from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Ghana
+Saving data to ../raw/ACLEDouput_Ghana_2024-12-26|2024-12-26.json
+Updating database for Ghana
+
+[2025-12-26 09:34:50.310704] Fetching ACLED data for Gibraltar from 2023-04-30|2024-12-26
+Request successful
+Total number of entries: 1 for Gibraltar
+Saving data to ../raw/ACLEDouput_Gibraltar_2023-04-30|2024-12-26.json
+Updating database for Gibraltar
+
+[2025-12-26 09:34:57.722733] Fetching ACLED data for Greece from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Greece
+Saving data to ../raw/ACLEDouput_Greece_2024-12-26|2024-12-26.json
+Updating database for Greece
+
+[2025-12-26 09:34:59.227942] Fetching ACLED data for Greenland from 2024-12-10|2024-12-26
+Request successful
+Total number of entries: 8 for Greenland
+Saving data to ../raw/ACLEDouput_Greenland_2024-12-10|2024-12-26.json
+Updating database for Greenland
+
+[2025-12-26 09:35:01.306473] Fetching ACLED data for Grenada from 2023-11-20|2024-12-26
+Request successful
+Total number of entries: 1 for Grenada
+Saving data to ../raw/ACLEDouput_Grenada_2023-11-20|2024-12-26.json
+Updating database for Grenada
+
+[2025-12-26 09:35:10.134090] Fetching ACLED data for Guadeloupe from 2024-12-05|2024-12-26
+Request successful
+Total number of entries: 1 for Guadeloupe
+Saving data to ../raw/ACLEDouput_Guadeloupe_2024-12-05|2024-12-26.json
+Updating database for Guadeloupe
+
+[2025-12-26 09:35:11.833528] Fetching ACLED data for Guam from 2024-12-19|2024-12-26
+Request successful
+Total number of entries: 1 for Guam
+Saving data to ../raw/ACLEDouput_Guam_2024-12-19|2024-12-26.json
+Updating database for Guam
+
+[2025-12-26 09:35:13.434070] Fetching ACLED data for Guatemala from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Guatemala
+Saving data to ../raw/ACLEDouput_Guatemala_2024-12-24|2024-12-26.json
+Updating database for Guatemala
+
+[2025-12-26 09:35:16.232417] Fetching ACLED data for Guinea from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Guinea
+Saving data to ../raw/ACLEDouput_Guinea_2024-12-26|2024-12-26.json
+Updating database for Guinea
+
+[2025-12-26 09:35:17.667500] Fetching ACLED data for Guinea-Bissau from 2024-12-12|2024-12-26
+Request successful
+Total number of entries: 1 for Guinea-Bissau
+Saving data to ../raw/ACLEDouput_Guinea-Bissau_2024-12-12|2024-12-26.json
+Updating database for Guinea-Bissau
+
+[2025-12-26 09:35:19.434747] Fetching ACLED data for Guyana from 2024-12-19|2024-12-26
+Request successful
+Total number of entries: 1 for Guyana
+Saving data to ../raw/ACLEDouput_Guyana_2024-12-19|2024-12-26.json
+Updating database for Guyana
+
+[2025-12-26 09:35:20.917954] Fetching ACLED data for Haiti from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 6 for Haiti
+Saving data to ../raw/ACLEDouput_Haiti_2024-12-26|2024-12-26.json
+Updating database for Haiti
+
+[2025-12-26 09:35:22.256136] Fetching ACLED data for Heard Island and McDonald Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Heard Island and McDonald Islands
+Saving data to ../raw/ACLEDouput_Heard Island and McDonald Islands_2000-01-01|2024-12-26.json
+Updating database for Heard Island and McDonald Islands
+
+[2025-12-26 09:31:31.040284] Fetching ACLED data for Honduras from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 132 for Honduras
+Saving data to ../raw/ACLEDouput_Honduras_2024-10-29|2024-12-26.json
+Updating database for Honduras
+
+[2025-12-26 09:31:38.246007] Fetching ACLED data for Hungary from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 18 for Hungary
+Saving data to ../raw/ACLEDouput_Hungary_2024-10-26|2024-12-26.json
+Updating database for Hungary
+
+[2025-12-26 09:31:45.692107] Fetching ACLED data for Iceland from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 11 for Iceland
+Saving data to ../raw/ACLEDouput_Iceland_2024-10-29|2024-12-26.json
+Updating database for Iceland
+
+[2025-12-26 09:31:53.223425] Fetching ACLED data for India from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3911 for India
+Saving data to ../raw/ACLEDouput_India_2024-10-29|2024-12-26.json
+Updating database for India
+
+[2025-12-26 09:32:01.361798] Fetching ACLED data for Indonesia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 783 for Indonesia
+Saving data to ../raw/ACLEDouput_Indonesia_2024-10-29|2024-12-26.json
+Updating database for Indonesia
+
+[2025-12-26 09:32:10.188819] Fetching ACLED data for Iran from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 607 for Iran
+Saving data to ../raw/ACLEDouput_Iran_2024-10-29|2024-12-26.json
+Updating database for Iran
+
+[2025-12-26 09:32:17.804410] Fetching ACLED data for Iraq from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1470 for Iraq
+Saving data to ../raw/ACLEDouput_Iraq_2024-10-29|2024-12-26.json
+Updating database for Iraq
+
+[2025-12-26 09:32:25.700388] Fetching ACLED data for Ireland from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 50 for Ireland
+Saving data to ../raw/ACLEDouput_Ireland_2024-10-29|2024-12-26.json
+Updating database for Ireland
+
+[2025-12-26 09:32:33.022959] Fetching ACLED data for Isle of Man from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Isle of Man
+Saving data to ../raw/ACLEDouput_Isle of Man_2024-03-19|2024-12-26.json
+Updating database for Isle of Man
+
+[2025-12-26 09:32:40.447561] Fetching ACLED data for Israel from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 859 for Israel
+Saving data to ../raw/ACLEDouput_Israel_2024-10-29|2024-12-26.json
+Updating database for Israel
+
+[2025-12-26 09:32:48.119765] Fetching ACLED data for Italy from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 532 for Italy
+Saving data to ../raw/ACLEDouput_Italy_2024-10-29|2024-12-26.json
+Updating database for Italy
+
+[2025-12-26 09:32:55.667876] Fetching ACLED data for Ivory Coast from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 50 for Ivory Coast
+Saving data to ../raw/ACLEDouput_Ivory Coast_2024-10-29|2024-12-26.json
+Updating database for Ivory Coast
+
+[2025-12-26 09:33:03.554474] Fetching ACLED data for Jamaica from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 77 for Jamaica
+Saving data to ../raw/ACLEDouput_Jamaica_2024-10-29|2024-12-26.json
+Updating database for Jamaica
+
+[2025-12-26 09:33:11.220221] Fetching ACLED data for Japan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 266 for Japan
+Saving data to ../raw/ACLEDouput_Japan_2024-10-29|2024-12-26.json
+Updating database for Japan
+
+[2025-12-26 09:33:20.445909] Fetching ACLED data for Jordan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 27 for Jordan
+Saving data to ../raw/ACLEDouput_Jordan_2024-10-29|2024-12-26.json
+Updating database for Jordan
+
+[2025-12-26 09:33:28.693028] Fetching ACLED data for Kazakhstan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 100 for Kazakhstan
+Saving data to ../raw/ACLEDouput_Kazakhstan_2024-10-29|2024-12-26.json
+Updating database for Kazakhstan
+
+[2025-12-26 09:33:36.330892] Fetching ACLED data for Kenya from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 498 for Kenya
+Saving data to ../raw/ACLEDouput_Kenya_2024-10-29|2024-12-26.json
+Updating database for Kenya
+
+[2025-12-26 09:33:43.968086] Fetching ACLED data for Kiribati from 2024-08-19|2024-12-26
+Request successful
+Total number of entries: 1 for Kiribati
+Saving data to ../raw/ACLEDouput_Kiribati_2024-08-19|2024-12-26.json
+Updating database for Kiribati
+
+[2025-12-26 09:33:51.330304] Fetching ACLED data for Kosovo from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 33 for Kosovo
+Saving data to ../raw/ACLEDouput_Kosovo_2024-10-29|2024-12-26.json
+Updating database for Kosovo
+
+[2025-12-26 09:33:58.520898] Fetching ACLED data for Kuwait from 2024-07-01|2024-12-26
+Request successful
+Total number of entries: 1 for Kuwait
+Saving data to ../raw/ACLEDouput_Kuwait_2024-07-01|2024-12-26.json
+Updating database for Kuwait
+
+[2025-12-26 09:34:07.037778] Fetching ACLED data for Kyrgyzstan from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 23 for Kyrgyzstan
+Saving data to ../raw/ACLEDouput_Kyrgyzstan_2024-10-27|2024-12-26.json
+Updating database for Kyrgyzstan
+
+[2025-12-26 09:34:14.418268] Fetching ACLED data for Laos from 2024-01-22|2024-12-26
+Request successful
+Total number of entries: 1 for Laos
+Saving data to ../raw/ACLEDouput_Laos_2024-01-22|2024-12-26.json
+Updating database for Laos
+
+[2025-12-26 09:34:21.953883] Fetching ACLED data for Latvia from 2024-10-16|2024-12-26
+Request successful
+Total number of entries: 8 for Latvia
+Saving data to ../raw/ACLEDouput_Latvia_2024-10-16|2024-12-26.json
+Updating database for Latvia
+
+[2025-12-26 09:34:29.695663] Fetching ACLED data for Lebanon from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3453 for Lebanon
+Saving data to ../raw/ACLEDouput_Lebanon_2024-10-29|2024-12-26.json
+Updating database for Lebanon
+
+[2025-12-26 09:34:37.226987] Fetching ACLED data for Lesotho from 2024-09-16|2024-12-26
+Request successful
+Total number of entries: 1 for Lesotho
+Saving data to ../raw/ACLEDouput_Lesotho_2024-09-16|2024-12-26.json
+Updating database for Lesotho
+
+[2025-12-26 09:34:44.963182] Fetching ACLED data for Liberia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 19 for Liberia
+Saving data to ../raw/ACLEDouput_Liberia_2024-10-28|2024-12-26.json
+Updating database for Liberia
+
+[2025-12-26 09:34:53.471870] Fetching ACLED data for Liechtenstein from 2024-03-08|2024-12-26
+Request successful
+Total number of entries: 1 for Liechtenstein
+Saving data to ../raw/ACLEDouput_Liechtenstein_2024-03-08|2024-12-26.json
+Updating database for Liechtenstein
+
+[2025-12-26 09:35:01.312554] Fetching ACLED data for Lithuania from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 20 for Lithuania
+Saving data to ../raw/ACLEDouput_Lithuania_2024-10-27|2024-12-26.json
+Updating database for Lithuania
+
+[2025-12-26 09:35:10.484959] Fetching ACLED data for Luxembourg from 2024-10-07|2024-12-26
+Request successful
+Total number of entries: 7 for Luxembourg
+Saving data to ../raw/ACLEDouput_Luxembourg_2024-10-07|2024-12-26.json
+Updating database for Luxembourg
+
+[2025-12-26 09:35:18.430441] Fetching ACLED data for Madagascar from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 85 for Madagascar
+Saving data to ../raw/ACLEDouput_Madagascar_2024-10-29|2024-12-26.json
+Updating database for Madagascar
+
+[2025-12-26 09:35:25.788706] Fetching ACLED data for Malawi from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 29 for Malawi
+Saving data to ../raw/ACLEDouput_Malawi_2024-10-28|2024-12-26.json
+Updating database for Malawi
+
+[2025-12-26 09:35:33.363769] Fetching ACLED data for Malaysia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 34 for Malaysia
+Saving data to ../raw/ACLEDouput_Malaysia_2024-10-28|2024-12-26.json
+Updating database for Malaysia
+
+[2025-12-26 09:35:40.816725] Fetching ACLED data for Maldives from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 14 for Maldives
+Saving data to ../raw/ACLEDouput_Maldives_2024-10-25|2024-12-26.json
+Updating database for Heard Island and McDonald Islands
+
+[2025-12-26 09:35:30.617172] Fetching ACLED data for Honduras from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for Honduras
+Saving data to ../raw/ACLEDouput_Honduras_2024-12-26|2024-12-26.json
+Updating database for Honduras
+
+[2025-12-26 09:35:32.002121] Fetching ACLED data for Hungary from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Hungary
+Saving data to ../raw/ACLEDouput_Hungary_2024-12-20|2024-12-26.json
+Updating database for Hungary
+
+[2025-12-26 09:35:33.813588] Fetching ACLED data for Iceland from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Iceland
+Saving data to ../raw/ACLEDouput_Iceland_2024-12-23|2024-12-26.json
+Updating database for Iceland
+
+[2025-12-26 09:35:35.177519] Fetching ACLED data for India from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 52 for India
+Saving data to ../raw/ACLEDouput_India_2024-12-26|2024-12-26.json
+Updating database for India
+
+[2025-12-26 09:35:36.696616] Fetching ACLED data for Indonesia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 5 for Indonesia
+Saving data to ../raw/ACLEDouput_Indonesia_2024-12-26|2024-12-26.json
+Updating database for Indonesia
+
+[2025-12-26 09:35:38.073844] Fetching ACLED data for Iran from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Iran
+Saving data to ../raw/ACLEDouput_Iran_2024-12-26|2024-12-26.json
+Updating database for Iran
+
+[2025-12-26 09:35:39.507779] Fetching ACLED data for Iraq from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 23 for Iraq
+Saving data to ../raw/ACLEDouput_Iraq_2024-12-26|2024-12-26.json
+Updating database for Iraq
+
+[2025-12-26 09:35:41.166489] Fetching ACLED data for Ireland from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Ireland
+Saving data to ../raw/ACLEDouput_Ireland_2024-12-26|2024-12-26.json
+Updating database for Ireland
+
+[2025-12-26 09:35:42.631950] Fetching ACLED data for Isle of Man from 2024-03-19|2024-12-26
+Request successful
+Total number of entries: 1 for Isle of Man
+Saving data to ../raw/ACLEDouput_Isle of Man_2024-03-19|2024-12-26.json
+Updating database for Isle of Man
+
+[2025-12-26 09:35:51.143762] Fetching ACLED data for Israel from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 3 for Israel
+Saving data to ../raw/ACLEDouput_Israel_2024-12-25|2024-12-26.json
+Updating database for Israel
+
+[2025-12-26 09:35:52.698590] Fetching ACLED data for Italy from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 2 for Italy
+Saving data to ../raw/ACLEDouput_Italy_2024-12-24|2024-12-26.json
+Updating database for Italy
+
+[2025-12-26 09:35:54.143687] Fetching ACLED data for Ivory Coast from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Ivory Coast
+Saving data to ../raw/ACLEDouput_Ivory Coast_2024-12-25|2024-12-26.json
+Updating database for Ivory Coast
+
+[2025-12-26 09:35:55.589468] Fetching ACLED data for Jamaica from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Jamaica
+Saving data to ../raw/ACLEDouput_Jamaica_2024-12-24|2024-12-26.json
+Updating database for Jamaica
+
+[2025-12-26 09:35:57.034078] Fetching ACLED data for Japan from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 4 for Japan
+Saving data to ../raw/ACLEDouput_Japan_2024-12-26|2024-12-26.json
+Updating database for Japan
+
+[2025-12-26 09:35:58.403053] Fetching ACLED data for Jordan from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 5 for Jordan
+Saving data to ../raw/ACLEDouput_Jordan_2024-12-20|2024-12-26.json
+Updating database for Jordan
+
+[2025-12-26 09:36:00.137734] Fetching ACLED data for Kazakhstan from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for Kazakhstan
+Saving data to ../raw/ACLEDouput_Kazakhstan_2024-12-26|2024-12-26.json
+Updating database for Kazakhstan
+
+[2025-12-26 09:36:01.641565] Fetching ACLED data for Kenya from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 4 for Kenya
+Saving data to ../raw/ACLEDouput_Kenya_2024-12-26|2024-12-26.json
+Updating database for Kenya
+
+[2025-12-26 09:36:03.259880] Fetching ACLED data for Kiribati from 2024-08-19|2024-12-26
+Request successful
+Total number of entries: 1 for Kiribati
+Saving data to ../raw/ACLEDouput_Kiribati_2024-08-19|2024-12-26.json
+Updating database for Kiribati
+
+[2025-12-26 09:36:11.112356] Fetching ACLED data for Kosovo from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Kosovo
+Saving data to ../raw/ACLEDouput_Kosovo_2024-12-25|2024-12-26.json
+Updating database for Kosovo
+
+[2025-12-26 09:36:12.534364] Fetching ACLED data for Kuwait from 2024-07-01|2024-12-26
+Request successful
+Total number of entries: 1 for Kuwait
+Saving data to ../raw/ACLEDouput_Kuwait_2024-07-01|2024-12-26.json
+Updating database for Kuwait
+
+[2025-12-26 09:36:20.702290] Fetching ACLED data for Kyrgyzstan from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 1 for Kyrgyzstan
+Saving data to ../raw/ACLEDouput_Kyrgyzstan_2024-12-24|2024-12-26.json
+Updating database for Kyrgyzstan
+
+[2025-12-26 09:36:22.102669] Fetching ACLED data for Laos from 2024-01-22|2024-12-26
+Request successful
+Total number of entries: 1 for Laos
+Saving data to ../raw/ACLEDouput_Laos_2024-01-22|2024-12-26.json
+Updating database for Laos
+
+[2025-12-26 09:36:29.570746] Fetching ACLED data for Latvia from 2024-12-17|2024-12-26
+Request successful
+Total number of entries: 1 for Latvia
+Saving data to ../raw/ACLEDouput_Latvia_2024-12-17|2024-12-26.json
+Updating database for Latvia
+
+[2025-12-26 09:36:31.091137] Fetching ACLED data for Lebanon from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 17 for Lebanon
+Saving data to ../raw/ACLEDouput_Lebanon_2024-12-26|2024-12-26.json
+Updating database for Lebanon
+
+[2025-12-26 09:36:32.547936] Fetching ACLED data for Lesotho from 2024-09-16|2024-12-26
+Request successful
+Total number of entries: 1 for Lesotho
+Saving data to ../raw/ACLEDouput_Lesotho_2024-09-16|2024-12-26.json
+Updating database for Lesotho
+
+[2025-12-26 09:36:40.407827] Fetching ACLED data for Liberia from 2024-12-18|2024-12-26
+Request successful
+Total number of entries: 1 for Liberia
+Saving data to ../raw/ACLEDouput_Liberia_2024-12-18|2024-12-26.json
+Updating database for Liberia
+
+[2025-12-26 09:36:42.212377] Fetching ACLED data for Liechtenstein from 2024-03-08|2024-12-26
+Request successful
+Total number of entries: 1 for Liechtenstein
+Saving data to ../raw/ACLEDouput_Liechtenstein_2024-03-08|2024-12-26.json
+Updating database for Liechtenstein
+
+[2025-12-26 09:36:50.333244] Fetching ACLED data for Lithuania from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Lithuania
+Saving data to ../raw/ACLEDouput_Lithuania_2024-12-20|2024-12-26.json
+Updating database for Lithuania
+
+[2025-12-26 09:36:51.888372] Fetching ACLED data for Luxembourg from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Luxembourg
+Saving data to ../raw/ACLEDouput_Luxembourg_2024-12-23|2024-12-26.json
+Updating database for Luxembourg
+
+[2025-12-26 09:36:53.273037] Fetching ACLED data for Madagascar from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Madagascar
+Saving data to ../raw/ACLEDouput_Madagascar_2024-12-26|2024-12-26.json
+Updating database for Madagascar
+
+[2025-12-26 09:36:54.761043] Fetching ACLED data for Malawi from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 1 for Malawi
+Saving data to ../raw/ACLEDouput_Malawi_2024-12-20|2024-12-26.json
+Updating database for Malawi
+
+[2025-12-26 09:36:56.175589] Fetching ACLED data for Malaysia from 2024-12-20|2024-12-26
+Request successful
+Total number of entries: 2 for Malaysia
+Saving data to ../raw/ACLEDouput_Malaysia_2024-12-20|2024-12-26.json
+Updating database for Malaysia
+
+[2025-12-26 09:36:57.678712] Fetching ACLED data for Maldives from 2024-12-25|2024-12-26
+Request successful
+Total number of entries: 1 for Maldives
+Saving data to ../raw/ACLEDouput_Maldives_2024-12-25|2024-12-26.json
+Updating database for Maldives
+
+[2025-12-26 09:36:59.078208] Fetching ACLED data for Mali from 2024-12-26|2024-12-26
+Updating database for Maldives
+
+[2025-12-26 09:35:48.252467] Fetching ACLED data for Mali from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 327 for Mali
+Saving data to ../raw/ACLEDouput_Mali_2024-10-29|2024-12-26.json
+Updating database for Mali
+
+[2025-12-26 09:35:55.935264] Fetching ACLED data for Malta from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 13 for Malta
+Saving data to ../raw/ACLEDouput_Malta_2024-10-28|2024-12-26.json
+Updating database for Malta
+
+[2025-12-26 09:36:03.706121] Fetching ACLED data for Marshall Islands from 2024-03-01|2024-12-26
+Request successful
+Total number of entries: 1 for Marshall Islands
+Saving data to ../raw/ACLEDouput_Marshall Islands_2024-03-01|2024-12-26.json
+Updating database for Marshall Islands
+
+[2025-12-26 09:36:11.786251] Fetching ACLED data for Martinique from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 9 for Martinique
+Saving data to ../raw/ACLEDouput_Martinique_2024-10-28|2024-12-26.json
+Updating database for Martinique
+
+[2025-12-26 09:36:19.765313] Fetching ACLED data for Mauritania from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 77 for Mauritania
+Saving data to ../raw/ACLEDouput_Mauritania_2024-10-28|2024-12-26.json
+Updating database for Mauritania
+
+[2025-12-26 09:36:26.883220] Fetching ACLED data for Mauritius from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 28 for Mauritius
+Saving data to ../raw/ACLEDouput_Mauritius_2024-10-29|2024-12-26.json
+Updating database for Mauritius
+
+[2025-12-26 09:36:34.331333] Fetching ACLED data for Mayotte from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 6 for Mayotte
+Saving data to ../raw/ACLEDouput_Mayotte_2024-10-29|2024-12-26.json
+Updating database for Mayotte
+
+[2025-12-26 09:36:41.736398] Fetching ACLED data for Mexico from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 2326 for Mexico
+Saving data to ../raw/ACLEDouput_Mexico_2024-10-29|2024-12-26.json
+Updating database for Mexico
+
+[2025-12-26 09:36:49.995059] Fetching ACLED data for Micronesia from 2023-03-07|2024-12-26
+Request successful
+Total number of entries: 1 for Micronesia
+Saving data to ../raw/ACLEDouput_Micronesia_2023-03-07|2024-12-26.json
+Updating database for Micronesia
+
+[2025-12-26 09:36:57.166015] Fetching ACLED data for Monaco from 2024-09-26|2024-12-26
+Request successful
+Total number of entries: 1 for Monaco
+Saving data to ../raw/ACLEDouput_Monaco_2024-09-26|2024-12-26.json
+Updating database for Monaco
+
+[2025-12-26 09:37:05.319339] Fetching ACLED data for Mongolia from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 13 for Mongolia
+Saving data to ../raw/ACLEDouput_Mongolia_2024-10-25|2024-12-26.json
+Updating database for Mongolia
+
+[2025-12-26 09:37:13.002243] Fetching ACLED data for Montenegro from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 37 for Montenegro
+Saving data to ../raw/ACLEDouput_Montenegro_2024-10-28|2024-12-26.json
+Updating database for Montenegro
+
+[2025-12-26 09:37:20.602140] Fetching ACLED data for Montserrat from 2022-04-07|2024-12-26
+Request successful
+Total number of entries: 1 for Montserrat
+Saving data to ../raw/ACLEDouput_Montserrat_2022-04-07|2024-12-26.json
+Updating database for Montserrat
+
+[2025-12-26 09:37:28.546738] Fetching ACLED data for Morocco from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 526 for Morocco
+Saving data to ../raw/ACLEDouput_Morocco_2024-10-29|2024-12-26.json
+Updating database for Morocco
+
+[2025-12-26 09:37:36.285044] Fetching ACLED data for Mozambique from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 462 for Mozambique
+Saving data to ../raw/ACLEDouput_Mozambique_2024-10-29|2024-12-26.json
+Updating database for Mozambique
+
+[2025-12-26 09:37:44.173104] Fetching ACLED data for Myanmar from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 2677 for Myanmar
+Saving data to ../raw/ACLEDouput_Myanmar_2024-10-29|2024-12-26.json
+Updating database for Myanmar
+
+[2025-12-26 09:37:52.262147] Fetching ACLED data for Namibia from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 7 for Namibia
+Saving data to ../raw/ACLEDouput_Namibia_2024-10-24|2024-12-26.json
+Updating database for Namibia
+
+[2025-12-26 09:38:00.004173] Fetching ACLED data for Nauru from 2023-10-30|2024-12-26
+Request successful
+Total number of entries: 1 for Nauru
+Saving data to ../raw/ACLEDouput_Nauru_2023-10-30|2024-12-26.json
+Updating database for Nauru
+
+[2025-12-26 09:38:08.154300] Fetching ACLED data for Nepal from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 152 for Nepal
+Saving data to ../raw/ACLEDouput_Nepal_2024-10-29|2024-12-26.json
+Updating database for Nepal
+
+[2025-12-26 09:38:15.909523] Fetching ACLED data for Netherlands from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 163 for Netherlands
+Saving data to ../raw/ACLEDouput_Netherlands_2024-10-29|2024-12-26.json
+Updating database for Netherlands
+
+[2025-12-26 09:38:23.605825] Fetching ACLED data for New Caledonia from 2024-10-16|2024-12-26
+Request successful
+Total number of entries: 1 for New Caledonia
+Saving data to ../raw/ACLEDouput_New Caledonia_2024-10-16|2024-12-26.json
+Updating database for New Caledonia
+
+[2025-12-26 09:38:31.189048] Fetching ACLED data for New Zealand from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 26 for New Zealand
+Saving data to ../raw/ACLEDouput_New Zealand_2024-10-25|2024-12-26.json
+Updating database for New Zealand
+
+[2025-12-26 09:38:39.458661] Fetching ACLED data for Nicaragua from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 27 for Nicaragua
+Saving data to ../raw/ACLEDouput_Nicaragua_2024-10-27|2024-12-26.json
+Updating database for Nicaragua
+
+[2025-12-26 09:38:46.945574] Fetching ACLED data for Niger from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 109 for Niger
+Saving data to ../raw/ACLEDouput_Niger_2024-10-29|2024-12-26.json
+Updating database for Niger
+
+[2025-12-26 09:38:54.431009] Fetching ACLED data for Nigeria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 972 for Nigeria
+Saving data to ../raw/ACLEDouput_Nigeria_2024-10-29|2024-12-26.json
+Updating database for Nigeria
+
+[2025-12-26 09:39:02.478192] Fetching ACLED data for Norfolk Island from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Norfolk Island
+Saving data to ../raw/ACLEDouput_Norfolk Island_2000-01-01|2024-12-26.json
+Updating database for Norfolk Island
+
+[2025-12-26 09:39:11.841773] Fetching ACLED data for North Korea from 2024-10-23|2024-12-26
+Request successful
+Total number of entries: 14 for North Korea
+Saving data to ../raw/ACLEDouput_North Korea_2024-10-23|2024-12-26.json
+Updating database for North Korea
+
+[2025-12-26 09:39:19.051212] Fetching ACLED data for North Macedonia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 25 for North Macedonia
+Saving data to ../raw/ACLEDouput_North Macedonia_2024-10-29|2024-12-26.json
+Updating database for North Macedonia
+
+[2025-12-26 09:39:26.726272] Fetching ACLED data for Northern Mariana Islands from 2024-05-22|2024-12-26
+Request successful
+Total number of entries: 1 for Northern Mariana Islands
+Saving data to ../raw/ACLEDouput_Northern Mariana Islands_2024-05-22|2024-12-26.json
+Updating database for Northern Mariana Islands
+
+[2025-12-26 09:39:34.612015] Fetching ACLED data for Norway from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 95 for Norway
+Saving data to ../raw/ACLEDouput_Norway_2024-10-27|2024-12-26.json
+Updating database for Norway
+
+[2025-12-26 09:39:42.376161] Fetching ACLED data for Oman from 2024-07-15|2024-12-26
+Request successful
+Total number of entries: 3 for Oman
+Saving data to ../raw/ACLEDouput_Oman_2024-07-15|2024-12-26.json
+Updating database for Oman
+
+[2025-12-26 09:39:49.564083] Fetching ACLED data for Pakistan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1546 for Pakistan
+Saving data to ../raw/ACLEDouput_Pakistan_2024-10-29|2024-12-26.json
+Updating database for Pakistan
+
+[2025-12-26 09:39:57.174287] Fetching ACLED data for Palau from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 5 for Mali
+Saving data to ../raw/ACLEDouput_Mali_2024-12-26|2024-12-26.json
+Updating database for Mali
+
+[2025-12-26 09:37:00.534869] Fetching ACLED data for Malta from 2024-12-17|2024-12-26
+Request successful
+Total number of entries: 1 for Malta
+Saving data to ../raw/ACLEDouput_Malta_2024-12-17|2024-12-26.json
+Updating database for Malta
+
+[2025-12-26 09:37:02.162009] Fetching ACLED data for Marshall Islands from 2024-03-01|2024-12-26
+Request successful
+Total number of entries: 1 for Marshall Islands
+Saving data to ../raw/ACLEDouput_Marshall Islands_2024-03-01|2024-12-26.json
+Updating database for Marshall Islands
+
+[2025-12-26 09:37:09.938935] Fetching ACLED data for Martinique from 2024-12-05|2024-12-26
+Request successful
+Total number of entries: 1 for Martinique
+Saving data to ../raw/ACLEDouput_Martinique_2024-12-05|2024-12-26.json
+Updating database for Martinique
+
+[2025-12-26 09:37:11.606194] Fetching ACLED data for Mauritania from 2024-12-23|2024-12-26
+Request successful
+Total number of entries: 1 for Mauritania
+Saving data to ../raw/ACLEDouput_Mauritania_2024-12-23|2024-12-26.json
+Updating database for Mauritania
+
+[2025-12-26 09:37:13.393088] Fetching ACLED data for Mauritius from 2024-12-24|2024-12-26
+Request successful
+Total number of entries: 2 for Mauritius
+Saving data to ../raw/ACLEDouput_Mauritius_2024-12-24|2024-12-26.json
+Updating database for Mauritius
+
+[2025-12-26 09:37:14.847421] Fetching ACLED data for Mayotte from 2024-12-09|2024-12-26
+Request successful
+Total number of entries: 1 for Mayotte
+Saving data to ../raw/ACLEDouput_Mayotte_2024-12-09|2024-12-26.json
+Updating database for Mayotte
+
+[2025-12-26 09:37:16.395735] Fetching ACLED data for Mexico from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 23 for Mexico
+Saving data to ../raw/ACLEDouput_Mexico_2024-12-26|2024-12-26.json
+Updating database for Mexico
+
+[2025-12-26 09:37:17.826125] Fetching ACLED data for Micronesia from 2023-03-07|2024-12-26
+Request successful
+Total number of entries: 1 for Micronesia
+Saving data to ../raw/ACLEDouput_Micronesia_2023-03-07|2024-12-26.json
+Updating database for Micronesia
+
+[2025-12-26 09:37:25.882479] Fetching ACLED data for Monaco from 2024-09-26|2024-12-26
+Request successful
+Total number of entries: 1 for Monaco
+Saving data to ../raw/ACLEDouput_Monaco_2024-09-26|2024-12-26.json
+Updating database for Monaco
+
+[2025-12-26 09:37:34.292226] Fetching ACLED data for Mongolia from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Mongolia
+Saving data to ../raw/ACLEDouput_Mongolia_2024-12-26|2024-12-26.json
+Updating database for Mongolia
+
+[2025-12-26 09:37:35.816529] Fetching ACLED data for Montenegro from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 2 for Montenegro
+Saving data to ../raw/ACLEDouput_Montenegro_2024-12-26|2024-12-26.json
+Updating database for Montenegro
+
+[2025-12-26 09:37:37.277712] Fetching ACLED data for Montserrat from 2022-04-07|2024-12-26
+Request successful
+Total number of entries: 1 for Montserrat
+Saving data to ../raw/ACLEDouput_Montserrat_2022-04-07|2024-12-26.json
+Updating database for Montserrat
+
+[2025-12-26 09:37:45.280794] Fetching ACLED data for Morocco from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 4 for Morocco
+Saving data to ../raw/ACLEDouput_Morocco_2024-12-26|2024-12-26.json
+Updating database for Morocco
+
+[2025-12-26 09:37:46.679961] Fetching ACLED data for Mozambique from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 17 for Mozambique
+Saving data to ../raw/ACLEDouput_Mozambique_2024-12-26|2024-12-26.json
+Updating database for Mozambique
+
+[2025-12-26 09:37:48.084729] Fetching ACLED data for Myanmar from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 2677 for Myanmar
+Saving data to ../raw/ACLEDouput_Myanmar_2024-10-29|2024-12-26.json
+Updating database for Myanmar
+
+[2025-12-26 09:37:56.041072] Fetching ACLED data for Namibia from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 7 for Namibia
+Saving data to ../raw/ACLEDouput_Namibia_2024-10-24|2024-12-26.json
+Updating database for Namibia
+
+[2025-12-26 09:38:04.273225] Fetching ACLED data for Nauru from 2023-10-30|2024-12-26
+Request successful
+Total number of entries: 1 for Nauru
+Saving data to ../raw/ACLEDouput_Nauru_2023-10-30|2024-12-26.json
+Updating database for Nauru
+
+[2025-12-26 09:38:13.155984] Fetching ACLED data for Nepal from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 152 for Nepal
+Saving data to ../raw/ACLEDouput_Nepal_2024-10-29|2024-12-26.json
+Updating database for Nepal
+
+[2025-12-26 09:38:20.571875] Fetching ACLED data for Netherlands from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 163 for Netherlands
+Saving data to ../raw/ACLEDouput_Netherlands_2024-10-29|2024-12-26.json
+Updating database for Netherlands
+
+[2025-12-26 09:38:28.513687] Fetching ACLED data for New Caledonia from 2024-10-16|2024-12-26
+Request successful
+Total number of entries: 1 for New Caledonia
+Saving data to ../raw/ACLEDouput_New Caledonia_2024-10-16|2024-12-26.json
+Updating database for New Caledonia
+
+[2025-12-26 09:38:36.259172] Fetching ACLED data for New Zealand from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 26 for New Zealand
+Saving data to ../raw/ACLEDouput_New Zealand_2024-10-25|2024-12-26.json
+Updating database for New Zealand
+
+[2025-12-26 09:38:44.220301] Fetching ACLED data for Nicaragua from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 27 for Nicaragua
+Saving data to ../raw/ACLEDouput_Nicaragua_2024-10-27|2024-12-26.json
+Updating database for Nicaragua
+
+[2025-12-26 09:38:52.511830] Fetching ACLED data for Niger from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 109 for Niger
+Saving data to ../raw/ACLEDouput_Niger_2024-10-29|2024-12-26.json
+Updating database for Niger
+
+[2025-12-26 09:38:59.728866] Fetching ACLED data for Nigeria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 972 for Nigeria
+Saving data to ../raw/ACLEDouput_Nigeria_2024-10-29|2024-12-26.json
+Updating database for Nigeria
+
+[2025-12-26 09:39:07.826994] Fetching ACLED data for Norfolk Island from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Norfolk Island
+Saving data to ../raw/ACLEDouput_Norfolk Island_2000-01-01|2024-12-26.json
+Updating database for Norfolk Island
+
+[2025-12-26 09:39:16.341094] Fetching ACLED data for North Korea from 2024-10-23|2024-12-26
+Request successful
+Total number of entries: 14 for North Korea
+Saving data to ../raw/ACLEDouput_North Korea_2024-10-23|2024-12-26.json
+Updating database for North Korea
+
+[2025-12-26 09:39:24.499971] Fetching ACLED data for North Macedonia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 25 for North Macedonia
+Saving data to ../raw/ACLEDouput_North Macedonia_2024-10-29|2024-12-26.json
+Updating database for North Macedonia
+
+[2025-12-26 09:39:32.420552] Fetching ACLED data for Northern Mariana Islands from 2024-05-22|2024-12-26
+Request successful
+Total number of entries: 1 for Northern Mariana Islands
+Saving data to ../raw/ACLEDouput_Northern Mariana Islands_2024-05-22|2024-12-26.json
+Updating database for Northern Mariana Islands
+
+[2025-12-26 09:39:39.889706] Fetching ACLED data for Norway from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 95 for Norway
+Saving data to ../raw/ACLEDouput_Norway_2024-10-27|2024-12-26.json
+Updating database for Norway
+
+[2025-12-26 09:39:47.383589] Fetching ACLED data for Oman from 2024-07-15|2024-12-26
+Request successful
+Total number of entries: 3 for Oman
+Saving data to ../raw/ACLEDouput_Oman_2024-07-15|2024-12-26.json
+Updating database for Oman
+
+[2025-12-26 09:39:55.442406] Fetching ACLED data for Pakistan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1546 for Pakistan
+Saving data to ../raw/ACLEDouput_Pakistan_2024-10-29|2024-12-26.json
+Updating database for Pakistan
+
+[2025-12-26 09:40:04.107121] Fetching ACLED data for Palau from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 1 for Palau
+Saving data to ../raw/ACLEDouput_Palau_2000-01-01|2024-12-26.json
+Request successful
+Total number of entries: 1 for Palau
+Saving data to ../raw/ACLEDouput_Palau_2000-01-01|2024-12-26.json
+Updating database for Palau
+
+[2025-12-26 09:40:07.001781] Fetching ACLED data for Palestine from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3218 for Palestine
+Saving data to ../raw/ACLEDouput_Palestine_2024-10-29|2024-12-26.json
+Updating database for Palestine
+
+[2025-12-26 09:40:14.644124] Fetching ACLED data for Panama from 2024-10-21|2024-12-26
+Request successful
+Total number of entries: 42 for Panama
+Saving data to ../raw/ACLEDouput_Panama_2024-10-21|2024-12-26.json
+Updating database for Panama
+
+[2025-12-26 09:40:22.088282] Fetching ACLED data for Papua New Guinea from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 53 for Papua New Guinea
+Saving data to ../raw/ACLEDouput_Papua New Guinea_2024-10-26|2024-12-26.json
+Updating database for Papua New Guinea
+
+[2025-12-26 09:40:30.380561] Fetching ACLED data for Paraguay from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 140 for Paraguay
+Saving data to ../raw/ACLEDouput_Paraguay_2024-10-29|2024-12-26.json
+Updating database for Paraguay
+
+[2025-12-26 09:40:37.332140] Fetching ACLED data for Peru from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 380 for Peru
+Saving data to ../raw/ACLEDouput_Peru_2024-10-29|2024-12-26.json
+Updating database for Peru
+
+[2025-12-26 09:40:45.032350] Fetching ACLED data for Philippines from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 145 for Philippines
+Saving data to ../raw/ACLEDouput_Philippines_2024-10-28|2024-12-26.json
+Updating database for Philippines
+
+[2025-12-26 09:40:53.029734] Fetching ACLED data for Pitcairn from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Pitcairn
+Saving data to ../raw/ACLEDouput_Pitcairn_2000-01-01|2024-12-26.json
+Updating database for Pitcairn
+
+[2025-12-26 09:41:01.323413] Fetching ACLED data for Poland from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 98 for Poland
+Saving data to ../raw/ACLEDouput_Poland_2024-10-29|2024-12-26.json
+Updating database for Poland
+
+[2025-12-26 09:41:09.153652] Fetching ACLED data for Puerto Rico from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 64 for Puerto Rico
+Saving data to ../raw/ACLEDouput_Puerto Rico_2024-10-28|2024-12-26.json
+Updating database for Puerto Rico
+
+[2025-12-26 09:41:16.390459] Fetching ACLED data for Qatar from 2024-01-03|2024-12-26
+Request successful
+Total number of entries: 1 for Qatar
+Saving data to ../raw/ACLEDouput_Qatar_2024-01-03|2024-12-26.json
+Updating database for Qatar
+
+[2025-12-26 09:41:24.132396] Fetching ACLED data for Republic of Congo from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 2 for Republic of Congo
+Saving data to ../raw/ACLEDouput_Republic of Congo_2024-10-24|2024-12-26.json
+Updating database for Republic of Congo
+
+[2025-12-26 09:41:31.693057] Fetching ACLED data for Reunion from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 22 for Reunion
+Saving data to ../raw/ACLEDouput_Reunion_2024-10-29|2024-12-26.json
+Updating database for Reunion
+
+[2025-12-26 09:41:39.456276] Fetching ACLED data for Romania from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 47 for Romania
+Saving data to ../raw/ACLEDouput_Romania_2024-10-29|2024-12-26.json
+Updating database for Romania
+
+[2025-12-26 09:41:46.486936] Fetching ACLED data for Russia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 2997 for Russia
+Saving data to ../raw/ACLEDouput_Russia_2024-10-29|2024-12-26.json
+Updating database for Russia
+
+[2025-12-26 09:41:54.605731] Fetching ACLED data for Rwanda from 2024-10-10|2024-12-26
+Request successful
+Total number of entries: 4 for Rwanda
+Saving data to ../raw/ACLEDouput_Rwanda_2024-10-10|2024-12-26.json
+Updating database for Rwanda
+
+[2025-12-26 09:42:02.218758] Fetching ACLED data for Saint Helena, Ascension and Tristan da Cunha from 2020-12-12|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Helena, Ascension and Tristan da Cunha
+Saving data to ../raw/ACLEDouput_Saint Helena, Ascension and Tristan da Cunha_2020-12-12|2024-12-26.json
+Updating database for Saint Helena, Ascension and Tristan da Cunha
+
+[2025-12-26 09:42:09.727985] Fetching ACLED data for Saint Kitts and Nevis from 2023-03-28|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Kitts and Nevis
+Saving data to ../raw/ACLEDouput_Saint Kitts and Nevis_2023-03-28|2024-12-26.json
+Updating database for Saint Kitts and Nevis
+
+[2025-12-26 09:42:17.027789] Fetching ACLED data for Saint Lucia from 2024-10-22|2024-12-26
+Request successful
+Total number of entries: 2 for Saint Lucia
+Saving data to ../raw/ACLEDouput_Saint Lucia_2024-10-22|2024-12-26.json
+Updating database for Saint Lucia
+
+[2025-12-26 09:42:24.265642] Fetching ACLED data for Saint Pierre and Miquelon from 2024-07-07|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Pierre and Miquelon
+Saving data to ../raw/ACLEDouput_Saint Pierre and Miquelon_2024-07-07|2024-12-26.json
+Updating database for Saint Pierre and Miquelon
+
+[2025-12-26 09:42:32.139941] Fetching ACLED data for Saint Vincent and the Grenadines from 2024-01-27|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Vincent and the Grenadines
+Saving data to ../raw/ACLEDouput_Saint Vincent and the Grenadines_2024-01-27|2024-12-26.json
+Updating database for Saint Vincent and the Grenadines
+
+[2025-12-26 09:42:39.537841] Fetching ACLED data for Saint-Barthelemy from 2024-07-07|2024-12-26
+Request successful
+Total number of entries: 1 for Saint-Barthelemy
+Saving data to ../raw/ACLEDouput_Saint-Barthelemy_2024-07-07|2024-12-26.json
+Updating database for Saint-Barthelemy
+
+[2025-12-26 09:42:46.989140] Fetching ACLED data for Saint-Martin from 2024-04-20|2024-12-26
+Request successful
+Total number of entries: 2 for Saint-Martin
+Saving data to ../raw/ACLEDouput_Saint-Martin_2024-04-20|2024-12-26.json
+Updating database for Saint-Martin
+
+[2025-12-26 09:42:55.492276] Fetching ACLED data for Samoa from 2024-01-06|2024-12-26
+Request successful
+Total number of entries: 1 for Samoa
+Saving data to ../raw/ACLEDouput_Samoa_2024-01-06|2024-12-26.json
+Updating database for Samoa
+
+[2025-12-26 09:43:03.459932] Fetching ACLED data for San Marino from 2024-03-15|2024-12-26
+Request successful
+Total number of entries: 1 for San Marino
+Saving data to ../raw/ACLEDouput_San Marino_2024-03-15|2024-12-26.json
+Updating database for San Marino
+
+[2025-12-26 09:43:11.047504] Fetching ACLED data for Sao Tome and Principe from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 3 for Sao Tome and Principe
+Saving data to ../raw/ACLEDouput_Sao Tome and Principe_2024-10-24|2024-12-26.json
+Updating database for Sao Tome and Principe
+
+[2025-12-26 09:43:19.273403] Fetching ACLED data for Saudi Arabia from 2024-08-18|2024-12-26
+Request successful
+Total number of entries: 2 for Saudi Arabia
+Saving data to ../raw/ACLEDouput_Saudi Arabia_2024-08-18|2024-12-26.json
+Updating database for Saudi Arabia
+
+[2025-12-26 09:43:26.761989] Fetching ACLED data for Senegal from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 29 for Senegal
+Saving data to ../raw/ACLEDouput_Senegal_2024-10-28|2024-12-26.json
+Updating database for Senegal
+
+[2025-12-26 09:43:34.974889] Fetching ACLED data for Serbia from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 289 for Serbia
+Saving data to ../raw/ACLEDouput_Serbia_2024-10-26|2024-12-26.json
+Updating database for Serbia
+
+[2025-12-26 09:43:43.259094] Fetching ACLED data for Seychelles from 2024-08-10|2024-12-26
+Request successful
+Total number of entries: 2 for Seychelles
+Saving data to ../raw/ACLEDouput_Seychelles_2024-08-10|2024-12-26.json
+Updating database for Seychelles
+
+[2025-12-26 09:43:50.726206] Fetching ACLED data for Sierra Leone from 2024-10-17|2024-12-26
+Request successful
+Total number of entries: 5 for Sierra Leone
+Saving data to ../raw/ACLEDouput_Sierra Leone_2024-10-17|2024-12-26.json
+Updating database for Sierra Leone
+
+[2025-12-26 09:43:58.179511] Fetching ACLED data for Singapore from 2024-10-24|2024-12-26
+Updating database for Palau
+
+[2025-12-26 09:40:13.144507] Fetching ACLED data for Palestine from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3218 for Palestine
+Saving data to ../raw/ACLEDouput_Palestine_2024-10-29|2024-12-26.json
+Updating database for Palestine
+
+[2025-12-26 09:40:21.234031] Fetching ACLED data for Panama from 2024-10-21|2024-12-26
+Request successful
+Total number of entries: 42 for Panama
+Saving data to ../raw/ACLEDouput_Panama_2024-10-21|2024-12-26.json
+Updating database for Panama
+
+[2025-12-26 09:40:28.870947] Fetching ACLED data for Papua New Guinea from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 53 for Papua New Guinea
+Saving data to ../raw/ACLEDouput_Papua New Guinea_2024-10-26|2024-12-26.json
+Updating database for Papua New Guinea
+
+[2025-12-26 09:40:36.580719] Fetching ACLED data for Paraguay from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 140 for Paraguay
+Saving data to ../raw/ACLEDouput_Paraguay_2024-10-29|2024-12-26.json
+Updating database for Paraguay
+
+[2025-12-26 09:40:44.686149] Fetching ACLED data for Peru from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 380 for Peru
+Saving data to ../raw/ACLEDouput_Peru_2024-10-29|2024-12-26.json
+Updating database for Peru
+
+[2025-12-26 09:40:52.451045] Fetching ACLED data for Philippines from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 145 for Philippines
+Saving data to ../raw/ACLEDouput_Philippines_2024-10-28|2024-12-26.json
+Updating database for Philippines
+
+[2025-12-26 09:40:59.762908] Fetching ACLED data for Pitcairn from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for Pitcairn
+Saving data to ../raw/ACLEDouput_Pitcairn_2000-01-01|2024-12-26.json
+Updating database for Pitcairn
+
+[2025-12-26 09:41:08.488461] Fetching ACLED data for Poland from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 98 for Poland
+Saving data to ../raw/ACLEDouput_Poland_2024-10-29|2024-12-26.json
+Updating database for Poland
+
+[2025-12-26 09:41:16.881438] Fetching ACLED data for Puerto Rico from 2024-12-26|2024-12-26
+Request successful
+Total number of entries: 1 for Puerto Rico
+Saving data to ../raw/ACLEDouput_Puerto Rico_2024-12-26|2024-12-26.json
+Updating database for Puerto Rico
+
+[2025-12-26 09:41:18.402720] Fetching ACLED data for Qatar from 2024-01-03|2024-12-26
+Request successful
+Total number of entries: 1 for Qatar
+Saving data to ../raw/ACLEDouput_Qatar_2024-01-03|2024-12-26.json
+Updating database for Qatar
+
+[2025-12-26 09:41:26.005878] Fetching ACLED data for Republic of Congo from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 2 for Republic of Congo
+Saving data to ../raw/ACLEDouput_Republic of Congo_2024-10-24|2024-12-26.json
+Updating database for Republic of Congo
+
+[2025-12-26 09:41:33.928145] Fetching ACLED data for Reunion from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 22 for Reunion
+Saving data to ../raw/ACLEDouput_Reunion_2024-10-29|2024-12-26.json
+Updating database for Reunion
+
+[2025-12-26 09:41:40.912794] Fetching ACLED data for Romania from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 47 for Romania
+Saving data to ../raw/ACLEDouput_Romania_2024-10-29|2024-12-26.json
+Updating database for Romania
+
+[2025-12-26 09:41:48.165976] Fetching ACLED data for Russia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 2997 for Russia
+Saving data to ../raw/ACLEDouput_Russia_2024-10-29|2024-12-26.json
+Updating database for Russia
+
+[2025-12-26 09:41:56.852353] Fetching ACLED data for Rwanda from 2024-10-10|2024-12-26
+Request successful
+Total number of entries: 4 for Rwanda
+Saving data to ../raw/ACLEDouput_Rwanda_2024-10-10|2024-12-26.json
+Updating database for Rwanda
+
+[2025-12-26 09:42:04.183391] Fetching ACLED data for Saint Helena, Ascension and Tristan da Cunha from 2020-12-12|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Helena, Ascension and Tristan da Cunha
+Saving data to ../raw/ACLEDouput_Saint Helena, Ascension and Tristan da Cunha_2020-12-12|2024-12-26.json
+Updating database for Saint Helena, Ascension and Tristan da Cunha
+
+[2025-12-26 09:42:12.232770] Fetching ACLED data for Saint Kitts and Nevis from 2023-03-28|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Kitts and Nevis
+Saving data to ../raw/ACLEDouput_Saint Kitts and Nevis_2023-03-28|2024-12-26.json
+Updating database for Saint Kitts and Nevis
+
+[2025-12-26 09:42:19.638194] Fetching ACLED data for Saint Lucia from 2024-10-22|2024-12-26
+Request successful
+Total number of entries: 2 for Saint Lucia
+Saving data to ../raw/ACLEDouput_Saint Lucia_2024-10-22|2024-12-26.json
+Updating database for Saint Lucia
+
+[2025-12-26 09:42:26.619583] Fetching ACLED data for Saint Pierre and Miquelon from 2024-07-07|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Pierre and Miquelon
+Saving data to ../raw/ACLEDouput_Saint Pierre and Miquelon_2024-07-07|2024-12-26.json
+Updating database for Saint Pierre and Miquelon
+
+[2025-12-26 09:42:34.122125] Fetching ACLED data for Saint Vincent and the Grenadines from 2024-01-27|2024-12-26
+Request successful
+Total number of entries: 1 for Saint Vincent and the Grenadines
+Saving data to ../raw/ACLEDouput_Saint Vincent and the Grenadines_2024-01-27|2024-12-26.json
+Updating database for Saint Vincent and the Grenadines
+
+[2025-12-26 09:42:41.392355] Fetching ACLED data for Saint-Barthelemy from 2024-07-07|2024-12-26
+Request successful
+Total number of entries: 1 for Saint-Barthelemy
+Saving data to ../raw/ACLEDouput_Saint-Barthelemy_2024-07-07|2024-12-26.json
+Updating database for Saint-Barthelemy
+
+[2025-12-26 09:42:48.863093] Fetching ACLED data for Saint-Martin from 2024-04-20|2024-12-26
+Request successful
+Total number of entries: 2 for Saint-Martin
+Saving data to ../raw/ACLEDouput_Saint-Martin_2024-04-20|2024-12-26.json
+Updating database for Saint-Martin
+
+[2025-12-26 09:42:55.892434] Fetching ACLED data for Samoa from 2024-01-06|2024-12-26
+Request successful
+Total number of entries: 1 for Samoa
+Saving data to ../raw/ACLEDouput_Samoa_2024-01-06|2024-12-26.json
+Updating database for Samoa
+
+[2025-12-26 09:43:03.849730] Fetching ACLED data for San Marino from 2024-03-15|2024-12-26
+Request successful
+Total number of entries: 1 for San Marino
+Saving data to ../raw/ACLEDouput_San Marino_2024-03-15|2024-12-26.json
+Updating database for San Marino
+
+[2025-12-26 09:43:11.812047] Fetching ACLED data for Sao Tome and Principe from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 3 for Sao Tome and Principe
+Saving data to ../raw/ACLEDouput_Sao Tome and Principe_2024-10-24|2024-12-26.json
+Updating database for Sao Tome and Principe
+
+[2025-12-26 09:43:19.662902] Fetching ACLED data for Saudi Arabia from 2024-08-18|2024-12-26
+Request successful
+Total number of entries: 2 for Saudi Arabia
+Saving data to ../raw/ACLEDouput_Saudi Arabia_2024-08-18|2024-12-26.json
+Updating database for Saudi Arabia
+
+[2025-12-26 09:43:27.194764] Fetching ACLED data for Senegal from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 29 for Senegal
+Saving data to ../raw/ACLEDouput_Senegal_2024-10-28|2024-12-26.json
+Updating database for Senegal
+
+[2025-12-26 09:43:34.372375] Fetching ACLED data for Serbia from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 289 for Serbia
+Saving data to ../raw/ACLEDouput_Serbia_2024-10-26|2024-12-26.json
+Updating database for Serbia
+
+[2025-12-26 09:43:42.063676] Fetching ACLED data for Seychelles from 2024-08-10|2024-12-26
+Request successful
+Total number of entries: 2 for Seychelles
+Saving data to ../raw/ACLEDouput_Seychelles_2024-08-10|2024-12-26.json
+Updating database for Seychelles
+
+[2025-12-26 09:43:49.611119] Fetching ACLED data for Sierra Leone from 2024-10-17|2024-12-26
+Request successful
+Total number of entries: 5 for Sierra Leone
+Saving data to ../raw/ACLEDouput_Sierra Leone_2024-10-17|2024-12-26.json
+Updating database for Sierra Leone
+
+[2025-12-26 09:43:56.873145] Fetching ACLED data for Singapore from 2024-10-24|2024-12-26
+Request successful
+Total number of entries: 2 for Singapore
+Saving data to ../raw/ACLEDouput_Singapore_2024-10-24|2024-12-26.json
+Updating database for Singapore
+
+[2025-12-26 09:44:04.566780] Fetching ACLED data for Sint Maarten from 2024-08-19|2024-12-26
+Request successful
+Total number of entries: 1 for Sint Maarten
+Saving data to ../raw/ACLEDouput_Sint Maarten_2024-08-19|2024-12-26.json
+Updating database for Sint Maarten
+
+[2025-12-26 09:44:12.644554] Fetching ACLED data for Slovakia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 19 for Slovakia
+Saving data to ../raw/ACLEDouput_Slovakia_2024-10-29|2024-12-26.json
+Updating database for Slovakia
+
+[2025-12-26 09:44:20.404487] Fetching ACLED data for Slovenia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 15 for Slovenia
+Saving data to ../raw/ACLEDouput_Slovenia_2024-10-28|2024-12-26.json
+Updating database for Slovenia
+
+[2025-12-26 09:44:27.536139] Fetching ACLED data for Solomon Islands from 2024-04-17|2024-12-26
+Request successful
+Total number of entries: 1 for Solomon Islands
+Saving data to ../raw/ACLEDouput_Solomon Islands_2024-04-17|2024-12-26.json
+Updating database for Solomon Islands
+
+[2025-12-26 09:44:34.687608] Fetching ACLED data for Somalia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 584 for Somalia
+Saving data to ../raw/ACLEDouput_Somalia_2024-10-29|2024-12-26.json
+Updating database for Somalia
+
+[2025-12-26 09:44:42.115829] Fetching ACLED data for South Africa from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 320 for South Africa
+Saving data to ../raw/ACLEDouput_South Africa_2024-10-29|2024-12-26.json
+Updating database for South Africa
+
+[2025-12-26 09:44:49.289837] Fetching ACLED data for South Georgia and the South Sandwich Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for South Georgia and the South Sandwich Islands
+Saving data to ../raw/ACLEDouput_South Georgia and the South Sandwich Islands_2000-01-01|2024-12-26.json
+Updating database for South Georgia and the South Sandwich Islands
+
+[2025-12-26 09:44:57.774965] Fetching ACLED data for South Korea from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1450 for South Korea
+Saving data to ../raw/ACLEDouput_South Korea_2024-10-29|2024-12-26.json
+Updating database for South Korea
+
+[2025-12-26 09:45:05.977732] Fetching ACLED data for South Sudan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 245 for South Sudan
+Saving data to ../raw/ACLEDouput_South Sudan_2024-10-29|2024-12-26.json
+Updating database for South Sudan
+
+[2025-12-26 09:45:13.738704] Fetching ACLED data for Spain from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 624 for Spain
+Saving data to ../raw/ACLEDouput_Spain_2024-10-29|2024-12-26.json
+Updating database for Spain
+
+[2025-12-26 09:45:21.495249] Fetching ACLED data for Sri Lanka from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 88 for Sri Lanka
+Saving data to ../raw/ACLEDouput_Sri Lanka_2024-10-29|2024-12-26.json
+Updating database for Sri Lanka
+
+[2025-12-26 09:45:29.028962] Fetching ACLED data for Sudan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1377 for Sudan
+Saving data to ../raw/ACLEDouput_Sudan_2024-10-29|2024-12-26.json
+Updating database for Sudan
+
+[2025-12-26 09:45:36.764153] Fetching ACLED data for Suriname from 2024-10-21|2024-12-26
+Request successful
+Total number of entries: 4 for Suriname
+Saving data to ../raw/ACLEDouput_Suriname_2024-10-21|2024-12-26.json
+Updating database for Suriname
+
+[2025-12-26 09:45:44.658717] Fetching ACLED data for Sweden from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 161 for Sweden
+Saving data to ../raw/ACLEDouput_Sweden_2024-10-29|2024-12-26.json
+Updating database for Sweden
+
+[2025-12-26 09:45:52.568601] Fetching ACLED data for Switzerland from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 22 for Switzerland
+Saving data to ../raw/ACLEDouput_Switzerland_2024-10-26|2024-12-26.json
+Updating database for Switzerland
+
+[2025-12-26 09:46:00.249293] Fetching ACLED data for Syria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3167 for Syria
+Saving data to ../raw/ACLEDouput_Syria_2024-10-29|2024-12-26.json
+Updating database for Syria
+
+[2025-12-26 09:46:08.924350] Fetching ACLED data for Taiwan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 139 for Taiwan
+Saving data to ../raw/ACLEDouput_Taiwan_2024-10-29|2024-12-26.json
+Updating database for Taiwan
+
+[2025-12-26 09:46:16.011787] Fetching ACLED data for Tajikistan from 2024-06-28|2024-12-26
+Request successful
+Total number of entries: 1 for Tajikistan
+Saving data to ../raw/ACLEDouput_Tajikistan_2024-06-28|2024-12-26.json
+Updating database for Tajikistan
+
+[2025-12-26 09:46:24.446868] Fetching ACLED data for Tanzania from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 21 for Tanzania
+Saving data to ../raw/ACLEDouput_Tanzania_2024-10-27|2024-12-26.json
+Updating database for Tanzania
+
+[2025-12-26 09:46:32.124203] Fetching ACLED data for Thailand from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 61 for Thailand
+Saving data to ../raw/ACLEDouput_Thailand_2024-10-29|2024-12-26.json
+Updating database for Thailand
+
+[2025-12-26 09:46:40.083450] Fetching ACLED data for Togo from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 9 for Togo
+Saving data to ../raw/ACLEDouput_Togo_2024-10-25|2024-12-26.json
+Updating database for Togo
+
+[2025-12-26 09:46:48.666073] Fetching ACLED data for Tokelau from 2023-01-26|2024-12-26
+Request successful
+Total number of entries: 1 for Tokelau
+Saving data to ../raw/ACLEDouput_Tokelau_2023-01-26|2024-12-26.json
+Updating database for Tokelau
+
+[2025-12-26 09:46:56.539622] Fetching ACLED data for Tonga from 2024-08-27|2024-12-26
+Request successful
+Total number of entries: 2 for Tonga
+Saving data to ../raw/ACLEDouput_Tonga_2024-08-27|2024-12-26.json
+Updating database for Tonga
+
+[2025-12-26 09:47:04.602104] Fetching ACLED data for Trinidad and Tobago from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 91 for Trinidad and Tobago
+Saving data to ../raw/ACLEDouput_Trinidad and Tobago_2024-10-28|2024-12-26.json
+Updating database for Trinidad and Tobago
+
+[2025-12-26 09:47:12.156330] Fetching ACLED data for Tunisia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 61 for Tunisia
+Saving data to ../raw/ACLEDouput_Tunisia_2024-10-28|2024-12-26.json
+Updating database for Tunisia
+
+[2025-12-26 09:47:20.098920] Fetching ACLED data for Turkey from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 934 for Turkey
+Saving data to ../raw/ACLEDouput_Turkey_2024-10-29|2024-12-26.json
+Updating database for Turkey
+
+[2025-12-26 09:47:27.776414] Fetching ACLED data for Turks and Caicos Islands from 2023-11-06|2024-12-26
+Request successful
+Total number of entries: 1 for Turks and Caicos Islands
+Saving data to ../raw/ACLEDouput_Turks and Caicos Islands_2023-11-06|2024-12-26.json
+Updating database for Turks and Caicos Islands
+
+[2025-12-26 09:47:35.745376] Fetching ACLED data for Tuvalu from 2024-01-26|2024-12-26
+Request successful
+Total number of entries: 1 for Tuvalu
+Saving data to ../raw/ACLEDouput_Tuvalu_2024-01-26|2024-12-26.json
+Updating database for Tuvalu
+
+[2025-12-26 09:47:43.403242] Fetching ACLED data for Uganda from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 81 for Uganda
+Saving data to ../raw/ACLEDouput_Uganda_2024-10-29|2024-12-26.json
+Updating database for Uganda
+
+[2025-12-26 09:47:50.951966] Fetching ACLED data for Ukraine from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 9573 for Ukraine
+------- Attention --------
+Ukraine has more entries than, need to perfom pagination
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 137, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+
+Request successful
+Total number of entries: 2 for Singapore
+Saving data to ../raw/ACLEDouput_Singapore_2024-10-24|2024-12-26.json
+Updating database for Singapore
+
+[2025-12-26 09:44:05.681954] Fetching ACLED data for Sint Maarten from 2024-08-19|2024-12-26
+Request successful
+Total number of entries: 1 for Sint Maarten
+Saving data to ../raw/ACLEDouput_Sint Maarten_2024-08-19|2024-12-26.json
+Updating database for Sint Maarten
+
+[2025-12-26 09:44:13.741751] Fetching ACLED data for Slovakia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 19 for Slovakia
+Saving data to ../raw/ACLEDouput_Slovakia_2024-10-29|2024-12-26.json
+Updating database for Slovakia
+
+[2025-12-26 09:44:21.385420] Fetching ACLED data for Slovenia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 15 for Slovenia
+Saving data to ../raw/ACLEDouput_Slovenia_2024-10-28|2024-12-26.json
+Updating database for Slovenia
+
+[2025-12-26 09:44:29.101517] Fetching ACLED data for Solomon Islands from 2024-04-17|2024-12-26
+Request successful
+Total number of entries: 1 for Solomon Islands
+Saving data to ../raw/ACLEDouput_Solomon Islands_2024-04-17|2024-12-26.json
+Updating database for Solomon Islands
+
+[2025-12-26 09:44:36.487147] Fetching ACLED data for Somalia from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 584 for Somalia
+Saving data to ../raw/ACLEDouput_Somalia_2024-10-29|2024-12-26.json
+Updating database for Somalia
+
+[2025-12-26 09:44:44.319085] Fetching ACLED data for South Africa from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 320 for South Africa
+Saving data to ../raw/ACLEDouput_South Africa_2024-10-29|2024-12-26.json
+Updating database for South Africa
+
+[2025-12-26 09:44:51.739213] Fetching ACLED data for South Georgia and the South Sandwich Islands from 2000-01-01|2024-12-26
+Request successful
+Total number of entries: 0 for South Georgia and the South Sandwich Islands
+Saving data to ../raw/ACLEDouput_South Georgia and the South Sandwich Islands_2000-01-01|2024-12-26.json
+Updating database for South Georgia and the South Sandwich Islands
+
+[2025-12-26 09:45:00.459673] Fetching ACLED data for South Korea from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1450 for South Korea
+Saving data to ../raw/ACLEDouput_South Korea_2024-10-29|2024-12-26.json
+Updating database for South Korea
+
+[2025-12-26 09:45:09.338014] Fetching ACLED data for South Sudan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 245 for South Sudan
+Saving data to ../raw/ACLEDouput_South Sudan_2024-10-29|2024-12-26.json
+Updating database for South Sudan
+
+[2025-12-26 09:45:16.859142] Fetching ACLED data for Spain from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 624 for Spain
+Saving data to ../raw/ACLEDouput_Spain_2024-10-29|2024-12-26.json
+Updating database for Spain
+
+[2025-12-26 09:45:24.307009] Fetching ACLED data for Sri Lanka from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 88 for Sri Lanka
+Saving data to ../raw/ACLEDouput_Sri Lanka_2024-10-29|2024-12-26.json
+Updating database for Sri Lanka
+
+[2025-12-26 09:45:31.616476] Fetching ACLED data for Sudan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 1377 for Sudan
+Saving data to ../raw/ACLEDouput_Sudan_2024-10-29|2024-12-26.json
+Updating database for Sudan
+
+[2025-12-26 09:45:39.291715] Fetching ACLED data for Suriname from 2024-10-21|2024-12-26
+Request successful
+Total number of entries: 4 for Suriname
+Saving data to ../raw/ACLEDouput_Suriname_2024-10-21|2024-12-26.json
+Updating database for Suriname
+
+[2025-12-26 09:45:46.873486] Fetching ACLED data for Sweden from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 161 for Sweden
+Saving data to ../raw/ACLEDouput_Sweden_2024-10-29|2024-12-26.json
+Updating database for Sweden
+
+[2025-12-26 09:45:54.639146] Fetching ACLED data for Switzerland from 2024-10-26|2024-12-26
+Request successful
+Total number of entries: 22 for Switzerland
+Saving data to ../raw/ACLEDouput_Switzerland_2024-10-26|2024-12-26.json
+Updating database for Switzerland
+
+[2025-12-26 09:46:01.808630] Fetching ACLED data for Syria from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 3167 for Syria
+Saving data to ../raw/ACLEDouput_Syria_2024-10-29|2024-12-26.json
+Updating database for Syria
+
+[2025-12-26 09:46:09.986628] Fetching ACLED data for Taiwan from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 139 for Taiwan
+Saving data to ../raw/ACLEDouput_Taiwan_2024-10-29|2024-12-26.json
+Updating database for Taiwan
+
+[2025-12-26 09:46:17.623062] Fetching ACLED data for Tajikistan from 2024-06-28|2024-12-26
+Request successful
+Total number of entries: 1 for Tajikistan
+Saving data to ../raw/ACLEDouput_Tajikistan_2024-06-28|2024-12-26.json
+Updating database for Tajikistan
+
+[2025-12-26 09:46:25.120549] Fetching ACLED data for Tanzania from 2024-10-27|2024-12-26
+Request successful
+Total number of entries: 21 for Tanzania
+Saving data to ../raw/ACLEDouput_Tanzania_2024-10-27|2024-12-26.json
+Updating database for Tanzania
+
+[2025-12-26 09:46:33.208647] Fetching ACLED data for Thailand from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 61 for Thailand
+Saving data to ../raw/ACLEDouput_Thailand_2024-10-29|2024-12-26.json
+Updating database for Thailand
+
+[2025-12-26 09:46:40.908154] Fetching ACLED data for Togo from 2024-10-25|2024-12-26
+Request successful
+Total number of entries: 9 for Togo
+Saving data to ../raw/ACLEDouput_Togo_2024-10-25|2024-12-26.json
+Updating database for Togo
+
+[2025-12-26 09:46:48.230217] Fetching ACLED data for Tokelau from 2023-01-26|2024-12-26
+Request successful
+Total number of entries: 1 for Tokelau
+Saving data to ../raw/ACLEDouput_Tokelau_2023-01-26|2024-12-26.json
+Updating database for Tokelau
+
+[2025-12-26 09:46:55.896249] Fetching ACLED data for Tonga from 2024-08-27|2024-12-26
+Request successful
+Total number of entries: 2 for Tonga
+Saving data to ../raw/ACLEDouput_Tonga_2024-08-27|2024-12-26.json
+Updating database for Tonga
+
+[2025-12-26 09:47:04.975820] Fetching ACLED data for Trinidad and Tobago from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 91 for Trinidad and Tobago
+Saving data to ../raw/ACLEDouput_Trinidad and Tobago_2024-10-28|2024-12-26.json
+Updating database for Trinidad and Tobago
+
+[2025-12-26 09:47:12.581330] Fetching ACLED data for Tunisia from 2024-10-28|2024-12-26
+Request successful
+Total number of entries: 61 for Tunisia
+Saving data to ../raw/ACLEDouput_Tunisia_2024-10-28|2024-12-26.json
+Updating database for Tunisia
+
+[2025-12-26 09:47:19.681185] Fetching ACLED data for Turkey from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 934 for Turkey
+Saving data to ../raw/ACLEDouput_Turkey_2024-10-29|2024-12-26.json
+Updating database for Turkey
+
+[2025-12-26 09:47:27.093475] Fetching ACLED data for Turks and Caicos Islands from 2023-11-06|2024-12-26
+Request successful
+Total number of entries: 1 for Turks and Caicos Islands
+Saving data to ../raw/ACLEDouput_Turks and Caicos Islands_2023-11-06|2024-12-26.json
+Updating database for Turks and Caicos Islands
+
+[2025-12-26 09:47:35.177849] Fetching ACLED data for Tuvalu from 2024-01-26|2024-12-26
+Request successful
+Total number of entries: 1 for Tuvalu
+Saving data to ../raw/ACLEDouput_Tuvalu_2024-01-26|2024-12-26.json
+Updating database for Tuvalu
+
+[2025-12-26 09:47:42.758859] Fetching ACLED data for Uganda from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 81 for Uganda
+Saving data to ../raw/ACLEDouput_Uganda_2024-10-29|2024-12-26.json
+Updating database for Uganda
+
+[2025-12-26 09:47:50.630873] Fetching ACLED data for Ukraine from 2024-10-29|2024-12-26
+Request successful
+Total number of entries: 9573 for Ukraine
+------- Attention --------
+Ukraine has more entries than, need to perfom pagination
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 137, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
