@@ -2821,3 +2821,289 @@ Traceback (most recent call last):
     with open(json_path, "r", encoding="utf-8") as f:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 4 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+Page 1: received 11 rows
+Reached final page.
+Traceback (most recent call last):
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 67, in <module>
+    main()
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/pipline.py", line 54, in main
+    load_json_to_db(acled_file, full_path)
+  File "/home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/src/fetch_ACLED.py", line 190, in load_json_to_db
+    with open(json_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
