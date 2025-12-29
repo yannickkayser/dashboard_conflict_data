@@ -9,6 +9,8 @@ from pathlib import Path
 from typing import Optional, Iterable, Tuple
 
 from transformers import pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 # ----------------
 # Paths (script is in .../dashboard_conflict_data/src/)
@@ -267,6 +269,69 @@ def translate_texts(translator, texts: list[str]) -> list[str]:
     outputs = translator(texts, batch_size=16, truncation=True)
     return [o["translation_text"] for o in outputs]
 
+
+#tf-idf
+def ensure_tfidf_column(conn: sqlite3.Connection, table: str) -> None:
+    ensure_column(conn, table, "tfidf_terms", "TEXT")
+    ensure_column(conn, table, "tfidf_version", "TEXT")  # optional, für Debug/Reproduzierbarkeit
+
+
+def build_doc(text_parts: list[Optional[str]]) -> str:
+    return " ".join([str(x) for x in text_parts if x and str(x).strip()])
+
+
+def compute_and_store_tfidf_terms(
+    conn: sqlite3.Connection,
+    table: str,
+    rowid_col: str,
+    text_cols: list[str],
+    top_n: int = 15,
+    min_df: int = 5,
+    ngram_max: int = 1,
+) -> None:
+    """
+    Creates/updates a TEXT column 'tfidf_terms' with top-N tf-idf terms per row.
+    Stores as comma-separated list. Fits TF-IDF on all rows in the table.
+    """
+    ensure_tfidf_column(conn, table)
+
+    cur = conn.cursor()
+    cols_sql = ", ".join(text_cols)
+    rows = cur.execute(f"SELECT {rowid_col}, {cols_sql} FROM {table};").fetchall()
+
+    rowids = []
+    docs = []
+    for r in rows:
+        rowids.append(r[0])
+        docs.append(build_doc(list(r[1:])))
+
+    # Fit TF-IDF on whole corpus; then extract top terms per doc. [web:339]
+    vectorizer = TfidfVectorizer(
+        stop_words="english",
+        ngram_range=(1, ngram_max),
+        min_df=min_df,
+    )
+    X = vectorizer.fit_transform(docs)
+    vocab = vectorizer.get_feature_names_out()
+
+    updates = []
+    for i, rid in enumerate(rowids):
+        row = X.getrow(i)
+        if row.nnz == 0:
+            terms = ""
+        else:
+            # take top N by tf-idf weight within the document
+            idx = row.indices
+            data = row.data
+            top_idx = idx[data.argsort()[::-1][:top_n]]
+            terms = ",".join(vocab[top_idx])
+        updates.append((terms, rid))
+
+    cur.executemany(f"UPDATE {table} SET tfidf_terms = ? WHERE {rowid_col} = ?;", updates)
+    cur.execute(f"UPDATE {table} SET tfidf_version = ?;", (f"top{top_n}_minDf{min_df}_ng{ngram_max}",))
+    conn.commit()
+
+
 def classify_one(acled_classifier, text_de: str) -> str:
     if not text_de or not str(text_de).strip():
         return "Other"
@@ -370,6 +435,19 @@ def main():
 
         n = conn.execute(f"SELECT COUNT(*) FROM {TARGET_TABLE};").fetchone()[0]
         print(f"Done. {TARGET_TABLE} rows: {n}")
+
+        print(f"Computing TF-IDF terms for {TARGET_TABLE} ...")
+        compute_and_store_tfidf_terms(
+            conn=conn,
+            table=TARGET_TABLE,
+            rowid_col="id",
+            text_cols=["title_en", "description_en"],  # + "content_en" falls du es füllst
+            top_n=15,
+            min_df=5,
+            ngram_max=2,  # unigrams+bigrams
+        )
+        print("TF-IDF done.")
+
     finally:
         conn.close()
         print("Closed DB connection.")
