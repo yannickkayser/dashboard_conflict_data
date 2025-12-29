@@ -1,5 +1,4 @@
 # gnews_translate_to_articles_eng_with_country_and_event_type.py
-
 import os
 import re
 import sqlite3
@@ -7,14 +6,13 @@ import unicodedata
 from collections import Counter
 from pathlib import Path
 from typing import Optional, Iterable, Tuple
+import time
 
 from transformers import pipeline
-from sklearn.feature_extraction.text import TfidfVectorizer
-
 
 # ----------------
-# Paths (script is in .../dashboard_conflict_data/src/)
-PROJECT_ROOT = Path(__file__).resolve().parents[1]  # -> .../dashboard_conflict_data
+# Paths
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 GNEWS_DB = PROJECT_ROOT / "data" / "gnews_articles_from2023.db"
 CONFLICT_DB = PROJECT_ROOT / "data" / "conflict_data.db"
 
@@ -25,12 +23,19 @@ CONFLICT_COUNTRY_TABLE = "events"
 CONFLICT_COUNTRY_COL = "country"
 
 # ----------------
-# Runtime knobs
+# Runtime knobs (edit here)
 BATCH_SIZE = 100
-TEST_LIMIT: Optional[int] = 400  # e.g., 600 for quick test; None for full run
+TEST_LIMIT: Optional[int] = 200         # “400 weitere Zeilen” testen
+CLEAR_TARGET_FIRST = False               # True: table leeren + neu starten; False: anhängen
 
-TRANSLATION_MODEL = "Helsinki-NLP/opus-mt-de-en"     # German -> English (MarianMT) [web:7]
-ZSC_MODEL = "facebook/bart-large-mnli"              # zero-shot classifier
+# Models
+TRANSLATION_MODEL = "Helsinki-NLP/opus-mt-de-en"
+ACLED_ZSC_MODEL = "facebook/bart-large-mnli"
+
+# NEW: country model (multilingual NLI -> zero-shot)
+COUNTRY_ZSC_MODEL = "joeddav/xlm-roberta-large-xnli"
+COUNTRY_CANDIDATE_TOPK = 4              # bei dir typischerweise 1-4 Länder → 5-8 ist gut
+COUNTRY_HYPOTHESIS_TEMPLATE = "This article is mainly about {}."
 
 # ----------------
 # ACLED EVENT CLASSIFICATION
@@ -44,9 +49,8 @@ ACLED_EVENT_TYPES = [
 ]
 
 # ----------------
-# Keyword extraction
-TOKEN_RE = re.compile(r"[A-Za-z]{3,}")  # words >= 3 letters
-
+# Keyword extraction (nur für kw_1..3; Country läuft jetzt über Hybrid)
+TOKEN_RE = re.compile(r"[A-Za-z]{3,}")
 STOPWORDS = {
     "the","a","an","and","or","to","of","in","on","for","with","at","by","from",
     "is","are","was","were","be","been","being","as","that","this","it","its",
@@ -117,7 +121,6 @@ MANUAL_COUNTRY_ALIAS_PATCHES = {
     "Ukraine": {"kiev"},
 }
 
-
 def strip_accents(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
 
@@ -160,44 +163,52 @@ def build_country_aliases_from_conflicts(conflict_countries: list[str]) -> dict[
         aliases["Germany"] |= extra
     return aliases
 
-def guess_country(text: str, country_aliases: dict[str, set[str]]) -> tuple[Optional[str], int]:
+# --- NEW: candidates + zero-shot chooser ---
+
+def guess_country_candidates(text: str, country_aliases: dict[str, set[str]], k: int = 8) -> list[tuple[str, int]]:
     t = normalize_text(text)
     if not t.strip():
-        return None, 0
-
-    best_country, best_score = None, 0
+        return []
+    scored = []
     for country, aliases in country_aliases.items():
         score = 0
         for a in aliases:
             score += regex_count(t, a)
-        if score > best_score:
-            best_country, best_score = country, score
-    return best_country, best_score
+        if score > 0:
+            scored.append((country, score))
+    scored.sort(key=lambda x: x[1], reverse=True)
+    return scored[:k]
+
+def choose_country_zero_shot(country_classifier, text_en: str, candidates: list[str]) -> tuple[Optional[str], float]:
+    if not text_en or not text_en.strip() or not candidates:
+        return None, 0.0
+
+    res = country_classifier(
+        text_en,
+        candidate_labels=candidates,
+        hypothesis_template=COUNTRY_HYPOTHESIS_TEMPLATE,
+        multi_label=False,
+        truncation=True,
+    )
+    # returns labels sorted by score [web:520]
+    return res["labels"][0], float(res["scores"][0])
+
+# ----------------
 
 def top_keywords(text: str, k: int = 3) -> list[Optional[str]]:
     if not text or not str(text).strip():
         return [None, None, None]
-
     text_l = str(text).lower()
     toks = []
     for tok in TOKEN_RE.findall(text_l):
         if tok in STOPWORDS:
             continue
         toks.append(tok)
-
     c = Counter(toks)
     top = [w for w, _ in c.most_common(k)]
     while len(top) < 3:
         top.append(None)
     return top[:3]
-
-def ensure_column(conn: sqlite3.Connection, table: str, column: str, coltype: str) -> None:
-    # SQLite has ALTER TABLE ADD COLUMN, but often no IF NOT EXISTS, so check PRAGMA table_info. [web:30]
-    cur = conn.cursor()
-    cols = [r[1] for r in cur.execute(f"PRAGMA table_info({table});").fetchall()]
-    if column not in cols:
-        cur.execute(f"ALTER TABLE {table} ADD COLUMN {column} {coltype};")
-        conn.commit()
 
 def ensure_target_schema(conn: sqlite3.Connection) -> None:
     cur = conn.cursor()
@@ -210,12 +221,8 @@ def ensure_target_schema(conn: sqlite3.Connection) -> None:
             source_url TEXT,
             title_en TEXT,
             description_en TEXT,
-            content_en TEXT,
             article_country TEXT,
             article_country_score INTEGER,
-            kw_1 TEXT,
-            kw_2 TEXT,
-            kw_3 TEXT,
             event_type TEXT
         );
     """)
@@ -224,8 +231,6 @@ def ensure_target_schema(conn: sqlite3.Connection) -> None:
     cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{TARGET_TABLE}_url ON {TARGET_TABLE}(url);")
     conn.commit()
 
-    # In case table existed without these cols:
-    ensure_column(conn, TARGET_TABLE, "event_type", "TEXT")
 
 def clear_target_table(conn: sqlite3.Connection) -> None:
     cur = conn.cursor()
@@ -233,11 +238,7 @@ def clear_target_table(conn: sqlite3.Connection) -> None:
     cur.execute("DELETE FROM sqlite_sequence WHERE name = ?;", (TARGET_TABLE,))
     conn.commit()
 
-def fetch_source_batches(
-    conn: sqlite3.Connection,
-    batch_size: int,
-    limit: Optional[int] = None
-) -> Iterable[list[Tuple]]:
+def fetch_source_batches(conn: sqlite3.Connection, batch_size: int, limit: Optional[int] = None):
     cur = conn.cursor()
     base_sql = f"""
         SELECT
@@ -254,7 +255,6 @@ def fetch_source_batches(
     if limit is not None:
         base_sql += f" LIMIT {int(limit)}"
     cur.execute(base_sql)
-
     while True:
         rows = cur.fetchmany(batch_size)
         if not rows:
@@ -265,72 +265,8 @@ def translate_texts(translator, texts: list[str]) -> list[str]:
     texts = [t if isinstance(t, str) else "" for t in texts]
     if all((not t.strip()) for t in texts):
         return ["" for _ in texts]
-    # pipeline translation usage (MarianMT via pipeline). [web:7]
     outputs = translator(texts, batch_size=16, truncation=True)
     return [o["translation_text"] for o in outputs]
-
-
-#tf-idf
-def ensure_tfidf_column(conn: sqlite3.Connection, table: str) -> None:
-    ensure_column(conn, table, "tfidf_terms", "TEXT")
-    ensure_column(conn, table, "tfidf_version", "TEXT")  # optional, für Debug/Reproduzierbarkeit
-
-
-def build_doc(text_parts: list[Optional[str]]) -> str:
-    return " ".join([str(x) for x in text_parts if x and str(x).strip()])
-
-
-def compute_and_store_tfidf_terms(
-    conn: sqlite3.Connection,
-    table: str,
-    rowid_col: str,
-    text_cols: list[str],
-    top_n: int = 15,
-    min_df: int = 5,
-    ngram_max: int = 1,
-) -> None:
-    """
-    Creates/updates a TEXT column 'tfidf_terms' with top-N tf-idf terms per row.
-    Stores as comma-separated list. Fits TF-IDF on all rows in the table.
-    """
-    ensure_tfidf_column(conn, table)
-
-    cur = conn.cursor()
-    cols_sql = ", ".join(text_cols)
-    rows = cur.execute(f"SELECT {rowid_col}, {cols_sql} FROM {table};").fetchall()
-
-    rowids = []
-    docs = []
-    for r in rows:
-        rowids.append(r[0])
-        docs.append(build_doc(list(r[1:])))
-
-    # Fit TF-IDF on whole corpus; then extract top terms per doc. [web:339]
-    vectorizer = TfidfVectorizer(
-        stop_words="english",
-        ngram_range=(1, ngram_max),
-        min_df=min_df,
-    )
-    X = vectorizer.fit_transform(docs)
-    vocab = vectorizer.get_feature_names_out()
-
-    updates = []
-    for i, rid in enumerate(rowids):
-        row = X.getrow(i)
-        if row.nnz == 0:
-            terms = ""
-        else:
-            # take top N by tf-idf weight within the document
-            idx = row.indices
-            data = row.data
-            top_idx = idx[data.argsort()[::-1][:top_n]]
-            terms = ",".join(vocab[top_idx])
-        updates.append((terms, rid))
-
-    cur.executemany(f"UPDATE {table} SET tfidf_terms = ? WHERE {rowid_col} = ?;", updates)
-    cur.execute(f"UPDATE {table} SET tfidf_version = ?;", (f"top{top_n}_minDf{min_df}_ng{ngram_max}",))
-    conn.commit()
-
 
 def classify_one(acled_classifier, text_de: str) -> str:
     if not text_de or not str(text_de).strip():
@@ -341,7 +277,6 @@ def classify_one(acled_classifier, text_de: str) -> str:
             candidate_labels=ACLED_EVENT_TYPES,
             truncation=True,
         )
-        # zero-shot pipeline returns labels sorted by likelihood. [web:117]
         return res["labels"][0] if res.get("labels") else "Other"
     except Exception:
         return "Other"
@@ -352,7 +287,7 @@ def to_date_yyyy_mm_dd(published_at: Optional[str]) -> Optional[str]:
     s = str(published_at)
     return s[:10] if len(s) >= 10 else None
 
-def insert_batch(conn, batch_rows, translator, acled_classifier, country_aliases) -> None:
+def insert_batch(conn, batch_rows, translator, acled_classifier, country_aliases, country_classifier) -> None:
     publishedAt = [r[0] for r in batch_rows]
     title_de = [r[1] for r in batch_rows]
     desc_de = [r[2] for r in batch_rows]
@@ -366,36 +301,51 @@ def insert_batch(conn, batch_rows, translator, acled_classifier, country_aliases
     title_en = translate_texts(translator, title_de)
     description_en = translate_texts(translator, desc_de)
 
+    
+
     to_insert = []
+    t_country = 0.0
+
     for i in range(len(batch_rows)):
         analysis_text_en = (title_en[i] or "") + " " + (description_en[i] or "")
         analysis_text_de = f"{title_de[i] or ''} {desc_de[i] or ''} {content_de[i] or ''}".strip()
 
-        country, score = guess_country(analysis_text_en, country_aliases)
-        kw1, kw2, kw3 = top_keywords(analysis_text_en, k=3)
-        event_type = classify_one(acled_classifier, analysis_text_de)
+        cand_scored = guess_country_candidates(analysis_text_en, country_aliases, k=COUNTRY_CANDIDATE_TOPK)
+        candidates = [c for (c, _s) in cand_scored]
 
-        content_en = None  # intentionally not filled
+        t0 = time.perf_counter()
+        if len(candidates) == 0:
+            country, zs_score = None, 0.0
+        elif len(candidates) == 1:
+            country, zs_score = candidates[0], 1.0
+        else:
+            country, zs_score = choose_country_zero_shot(country_classifier, analysis_text_en, candidates)
+        t_country += (time.perf_counter() - t0)
+
+        event_type = classify_one(acled_classifier, analysis_text_de)
 
         to_insert.append((
             published_date[i], url[i], source_name[i], source_url[i],
-            title_en[i], description_en[i], content_en,
-            country, score,
-            kw1, kw2, kw3,
+            title_en[i], description_en[i],
+            country, int(zs_score * 100),
             event_type,
         ))
+
+    print(f"[batch] country_time_s={t_country:.2f} avg_country_ms={1000*t_country/len(batch_rows):.1f}")
+
+
 
     cur = conn.cursor()
     cur.executemany(f"""
         INSERT INTO {TARGET_TABLE} (
             publishedAt, url, source_name, source_url,
-            title_en, description_en, content_en,
+            title_en, description_en,
             article_country, article_country_score,
-            kw_1, kw_2, kw_3,
             event_type
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
     """, to_insert)
     conn.commit()
+
 
 def main():
     print("cwd:", os.getcwd())
@@ -403,13 +353,7 @@ def main():
     print("GNEWS_DB:", GNEWS_DB)
     print("CONFLICT_DB:", CONFLICT_DB)
 
-    if not GNEWS_DB.exists():
-        raise FileNotFoundError(f"Missing GNews DB: {GNEWS_DB}")
-    if not CONFLICT_DB.exists():
-        raise FileNotFoundError(f"Missing conflict DB: {CONFLICT_DB}")
-
     conflict_countries = load_conflict_countries(CONFLICT_DB)
-    print(f"Loaded {len(conflict_countries)} countries from conflict_data.db")
     country_aliases = build_country_aliases_from_conflicts(conflict_countries)
 
     conn = sqlite3.connect(str(GNEWS_DB))
@@ -418,35 +362,38 @@ def main():
     try:
         ensure_target_schema(conn)
 
-        print(f"Clearing target table: {TARGET_TABLE}")
-        clear_target_table(conn)
+        if CLEAR_TARGET_FIRST:
+            print(f"Clearing target table: {TARGET_TABLE}")
+            clear_target_table(conn)
 
         print(f"Loading translation model: {TRANSLATION_MODEL}")
         translator = pipeline("translation_de_to_en", model=TRANSLATION_MODEL)
 
-        print(f"Loading zero-shot classifier: {ZSC_MODEL}")
-        acled_classifier = pipeline("zero-shot-classification", model=ZSC_MODEL)
+        print(f"Loading ACLED zero-shot classifier: {ACLED_ZSC_MODEL}")
+        acled_classifier = pipeline("zero-shot-classification", model=ACLED_ZSC_MODEL)
+
+        print(f"Loading COUNTRY zero-shot classifier: {COUNTRY_ZSC_MODEL}")
+        country_classifier = pipeline("zero-shot-classification", model=COUNTRY_ZSC_MODEL)
 
         total = 0
         for batch in fetch_source_batches(conn, BATCH_SIZE, TEST_LIMIT):
-            insert_batch(conn, batch, translator, acled_classifier, country_aliases)
+            insert_batch(conn, batch, translator, acled_classifier, country_aliases, country_classifier)
             total += len(batch)
             print(f"Processed: {total} rows")
 
         n = conn.execute(f"SELECT COUNT(*) FROM {TARGET_TABLE};").fetchone()[0]
         print(f"Done. {TARGET_TABLE} rows: {n}")
 
-        print(f"Computing TF-IDF terms for {TARGET_TABLE} ...")
-        compute_and_store_tfidf_terms(
-            conn=conn,
-            table=TARGET_TABLE,
-            rowid_col="id",
-            text_cols=["title_en", "description_en"],  # + "content_en" falls du es füllst
-            top_n=15,
-            min_df=5,
-            ngram_max=2,  # unigrams+bigrams
-        )
-        print("TF-IDF done.")
+        # Fill missing country with Germany
+        cur = conn.cursor()
+        cur.execute(f"""
+            UPDATE {TARGET_TABLE}
+            SET article_country = 'Germany'
+            WHERE article_country IS NULL OR TRIM(article_country) = '';
+        """)
+        conn.commit()
+        print("Filled NULL/empty article_country with 'Germany'.")
+
 
     finally:
         conn.close()
@@ -454,3 +401,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
