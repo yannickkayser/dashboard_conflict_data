@@ -32,7 +32,7 @@ CONFLICT_COUNTRY_COL = "country"
 FIT_TFIDF = False  # True: fit + save vectorizer; False: load + transform only
 
 TEST_LIMIT_TFIDF: Optional[int] = None   # only used when fitting or (optional) when transforming missing
-TEST_LIMIT_UPDATE: Optional[int] = 400  # how many missing IDs to backfill in this run (tfidf+eng)
+TEST_LIMIT_UPDATE: Optional[int] = 100  # how many missing IDs to backfill in this run (tfidf+eng)
 
 BATCH_SIZE = 200
 TRANSLATE_BATCH_SIZE = 32

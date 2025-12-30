@@ -25,7 +25,7 @@ CONFLICT_COUNTRY_COL = "country"
 # ----------------
 # Runtime knobs (edit here)
 BATCH_SIZE = 100
-TEST_LIMIT: Optional[int] = 200         # “400 weitere Zeilen” testen
+TEST_LIMIT: Optional[int] = 100         # “400 weitere Zeilen” testen
 CLEAR_TARGET_FIRST = False               # True: table leeren + neu starten; False: anhängen
 
 # Models
