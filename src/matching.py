@@ -5,13 +5,21 @@ import sqlite3
 from datetime import datetime, timedelta
 import re
 from collections import defaultdict
+from pathlib import Path
 
 # -------------------------
 # CONFIG (adjust as needed)
 # -------------------------
-GNEWS_DB = "data/gnews_articles_from2023.db"
-CONFLICT_DB = "data/conflict_data.db"
-OUT_DB = "data/article_conflict_matches.db"
+from pathlib import Path
+
+# matching.py liegt in dashboard_conflict_data/src/
+PROJECT_ROOT = Path(__file__).resolve().parents[1]   # .../dashboard_conflict_data
+DATA_DIR = PROJECT_ROOT / "data"
+
+GNEWS_DB = str(DATA_DIR / "gnews_articles_from2023.db")
+CONFLICT_DB = str(DATA_DIR / "conflict_data.db")
+OUT_DB = str(DATA_DIR / "article_conflict_matches.db")
+
 
 ART_TABLE = "articles_eng"
 ART_ID = "id"
@@ -89,6 +97,8 @@ def allowed_countries(article_country: str):
 # Build conflict indices (in RAM)
 # -------------------------
 def load_conflicts():
+    p = Path(CONFLICT_DB)
+    print("CONFLICT_DB =", p, "exists =", p.exists())
     con = sqlite3.connect(CONFLICT_DB)
     con.row_factory = sqlite3.Row
     cur = con.cursor()
@@ -150,6 +160,7 @@ def main():
     gcur = g.cursor()
 
     out = init_out_db()
+    g.execute("ATTACH DATABASE ? AS outdb", (OUT_DB,))
     ocur = out.cursor()
 
     # Speed pragmas
@@ -162,14 +173,18 @@ def main():
 
     # Stream articles
     q = f"""
-    SELECT {ART_ID} AS aid,
-           {ART_DATE} AS published_at,
-           {ART_COUNTRY} AS country,
-           {ART_TERMS} AS terms
-    FROM {ART_TABLE}
-    WHERE {ART_DATE} IS NOT NULL
-      AND {ART_COUNTRY} IS NOT NULL
-    """
+    SELECT a.{ART_ID} AS aid,
+        a.{ART_DATE} AS published_at,
+        a.{ART_COUNTRY} AS country,
+        a.{ART_TERMS} AS terms
+    FROM {ART_TABLE} a
+    LEFT JOIN outdb.matches m
+        ON m.article_id = a.{ART_ID}
+    WHERE a.{ART_DATE} IS NOT NULL
+    AND a.{ART_COUNTRY} IS NOT NULL
+    AND m.article_id IS NULL
+"""
+
     gcur.execute(q)
 
     insert_buf = []
@@ -241,6 +256,49 @@ def main():
             print(f"Processed {n_articles:,} articles | matched {n_matched:,}")
 
     g.close()
+
+        # -------------------------
+    # Build materialized wide table for dashboard QA
+    # -------------------------
+    cur = out.cursor()
+
+    # Attach the other DBs to the OUT_DB connection
+    cur.execute("ATTACH DATABASE ? AS gnewsdb", (GNEWS_DB,))
+    cur.execute("ATTACH DATABASE ? AS conflictdb", (CONFLICT_DB,))
+
+    # Rebuild table
+    cur.execute("DROP TABLE IF EXISTS match_details")
+
+    # Wide table: matches + all article columns + all conflict columns
+    cur.execute(f"""
+        CREATE TABLE match_details AS
+        SELECT
+            m.article_id,
+            m.conflict_id,
+            m.score,
+            m.overlap,
+            m.article_date,
+            m.article_country,
+            a.*,
+            c.*
+        FROM matches m
+        LEFT JOIN gnewsdb.{ART_TABLE} a
+               ON a.{ART_ID} = m.article_id
+        LEFT JOIN conflictdb.{CON_TABLE} c
+               ON c.{CON_ID} = m.conflict_id
+    """)
+
+    # Indexes for fast dashboard filtering
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_md_conflict_id ON match_details(conflict_id)")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_md_article_id  ON match_details(article_id)")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_md_score       ON match_details(score)")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_md_country     ON match_details(article_country)")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_md_date        ON match_details(article_date)")
+
+    out.commit()
+
+    
+
 
     # Threshold: data-driven based on the observed candidate score distribution
     # simple: use e.g. 90th percentile as "matched", 95th as "high confidence"
