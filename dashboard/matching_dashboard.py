@@ -12,300 +12,331 @@ import streamlit as st
 # -------------------------
 PROJECT_ROOT = Path(__file__).resolve().parents[1]  # .../dashboard_conflict_data
 DATA_DIR = PROJECT_ROOT / "data"
-OUT_DB = DATA_DIR / "article_conflict_matches.db"
 
-DETAILS_TABLE = "match_details"  # created by your matching script (Option B)
+OUT_DB = DATA_DIR / "article_conflict_matches.db"   # contains match_details
+CONFLICT_DB = DATA_DIR / "conflict_data.db"         # contains conflict_features
 
-st.set_page_config(page_title="Matching QA (match_details)", layout="wide")
+DETAILS_TABLE = "match_details"
+FEATURES_TABLE = "conflict_features"
+
+st.set_page_config(page_title="Matching QA + conflict_features", layout="wide")
 
 
 # -------------------------
 # DB helpers
 # -------------------------
 @st.cache_resource
-def get_conn():
+def get_out_conn():
     return sqlite3.connect(str(OUT_DB), check_same_thread=False)
 
 
+@st.cache_resource
+def get_conf_conn():
+    return sqlite3.connect(str(CONFLICT_DB), check_same_thread=False)
+
+
 @st.cache_data(ttl=30)
-def qdf(sql: str, params=None) -> pd.DataFrame:
-    conn = get_conn()
-    return pd.read_sql_query(sql, conn, params=params or [])
+def qdf_out(sql: str, params=None) -> pd.DataFrame:
+    return pd.read_sql_query(sql, get_out_conn(), params=params or [])
 
 
-def detect_cols():
-    df = qdf(f"PRAGMA table_info({DETAILS_TABLE})")
+@st.cache_data(ttl=30)
+def qdf_conf(sql: str, params=None) -> pd.DataFrame:
+    return pd.read_sql_query(sql, get_conf_conn(), params=params or [])
+
+
+@st.cache_data(ttl=120)
+def table_cols(which: str, table: str) -> set[str]:
+    if which == "out":
+        df = qdf_out(f"PRAGMA table_info({table})")
+    else:
+        df = qdf_conf(f"PRAGMA table_info({table})")
     return set(df["name"].tolist())
 
 
-COLS = detect_cols()
-
-
-def pick(*names, required=False):
+def pick(colset: set[str], *names, required=False):
     for n in names:
-        if n in COLS:
+        if n in colset:
             return n
     if required:
         raise RuntimeError(f"None of the columns exist: {names}")
     return None
 
 
-def col_list(cols):
-    return [c for c in cols if c and c in COLS]
+def col_list(colset: set[str], cols):
+    return [c for c in cols if c and c in colset]
+
+
+def contains_filter(df: pd.DataFrame, col: str, needle: str) -> pd.DataFrame:
+    if not needle or col not in df.columns:
+        return df
+    return df[df[col].astype(str).str.lower().str.contains(needle.lower(), na=False)]
 
 
 # -------------------------
-# Column mapping
+# App
 # -------------------------
-# conflict columns
-C_CONFLICT_ID = pick("conflict_id", required=True)
-C_CONFLICT_KEY = pick("conflict_key")  # name of conflict
-C_COUNTRY = pick("country", "conflict_country", "conf_country")
-C_START = pick("start_date", "conflict_start", "conf_start")
-C_END = pick("end_date", "conflict_end", "conf_end")
+st.title("Conflict–Article Dashboard")
 
-# match columns
-C_SCORE = pick("score", required=True)
-C_OVERLAP = pick("overlap", required=True)
-C_ARTICLE_DATE = pick("article_date", "publishedAt", "published_at")
-C_ARTICLE_COUNTRY = pick("article_country", "country_article", "art_country")
+tab_match, tab_features = st.tabs(["Matching (match_details)", "conflict_features"])  # [web:1040]
 
-# article columns
-A_TITLE = pick("title_en", "title", "art_title_en", "art_title")
-A_DESC = pick("description_en", "description", "art_description_en", "art_description")
-A_URL = pick("url", "art_url")
-A_SOURCE = pick("source_name", "source", "publisher", "art_source_name")
+# =========================================================
+# TAB 1: match_details
+# =========================================================
+with tab_match:
+    if not OUT_DB.exists():
+        st.error(f"Missing DB: {OUT_DB}")
+        st.stop()
 
+    MD_COLS = table_cols("out", DETAILS_TABLE)
 
-# -------------------------
-# UI
-# -------------------------
-st.title("Article–Conflict Matching QA (match_details)")
+    # required
+    C_CONFLICT_ID = pick(MD_COLS, "conflict_id", required=True)
+    C_SCORE = pick(MD_COLS, "score", required=True)
+    C_OVERLAP = pick(MD_COLS, "overlap", required=True)
 
-if not OUT_DB.exists():
-    st.error(f"OUT_DB not found: {OUT_DB}")
-    st.stop()
+    # optional
+    C_CONFLICT_KEY = pick(MD_COLS, "conflict_key")
+    C_COUNTRY = pick(MD_COLS, "country")
+    C_START = pick(MD_COLS, "start_date")
+    C_END = pick(MD_COLS, "end_date")
 
-# Sidebar controls
-with st.sidebar:
-    st.header("Filters")
+    A_PUB = pick(MD_COLS, "publishedAt", "article_date")
+    A_ARTICLE_COUNTRY = pick(MD_COLS, "article_country")
+    A_SOURCE = pick(MD_COLS, "source_name")
+    A_TITLE = pick(MD_COLS, "title_en", "title")
+    A_DESC = pick(MD_COLS, "description_en", "description")
+    A_URL = pick(MD_COLS, "url")
 
-    country = st.text_input("Conflict country contains", value="").strip()
-    min_n = st.number_input("Min matched articles per conflict", min_value=0, value=1, step=1)
+    A_TFIDF = pick(MD_COLS, "tfidf_terms_en")
+    C_TFIDF = pick(MD_COLS, "tfidf_terms_conflict")
 
-    score_min = st.slider("Score min", 0.0, 1.0, 0.0, 0.01)
-    overlap_min = st.slider("Overlap min", 0, 20, 1, 1)
-
-    max_conflicts = st.slider("Max conflicts shown", 50, 5000, 500, 50)
-    max_articles = st.slider("Max articles shown per conflict", 50, 2000, 300, 50)
-
-    st.divider()
-    st.header("QA shortcuts")
-    show_low_score = st.checkbox("Show lowest-score examples (spot false positives)", value=False)
-    show_top_sources = st.checkbox("Show top sources for conflict", value=True)
-
-
-# -------------------------
-# Conflict summary table
-# -------------------------
-where = []
-params = []
-
-if C_COUNTRY and country:
-    where.append(f"LOWER({C_COUNTRY}) LIKE ?")
-    params.append(f"%{country.lower()}%")
-
-where.append(f"{C_SCORE} >= ?")
-params.append(float(score_min))
-where.append(f"{C_OVERLAP} >= ?")
-params.append(int(overlap_min))
-
-where_sql = "WHERE " + " AND ".join(where) if where else ""
-
-group_cols = [C_CONFLICT_ID]
-if C_CONFLICT_KEY:
-    group_cols.append(C_CONFLICT_KEY)
-if C_COUNTRY:
-    group_cols.append(C_COUNTRY)
-if C_START:
-    group_cols.append(C_START)
-if C_END:
-    group_cols.append(C_END)
-
-select_cols = []
-for c in group_cols:
-    if c == C_CONFLICT_ID:
-        select_cols.append(f"{c} AS conflict_id")
-    elif c == C_CONFLICT_KEY:
-        select_cols.append(f"{c} AS conflict_key")
-    else:
-        select_cols.append(c)
-
-conf_summary_sql = f"""
-SELECT
-    {", ".join(select_cols)},
-    COUNT(DISTINCT article_id) AS n_articles,
-    AVG({C_SCORE}) AS avg_score,
-    MAX({C_SCORE}) AS max_score,
-    AVG({C_OVERLAP}) AS avg_overlap,
-    MAX({C_OVERLAP}) AS max_overlap
-FROM {DETAILS_TABLE}
-{where_sql}
-GROUP BY {", ".join(group_cols)}
-ORDER BY n_articles DESC, max_score DESC
-LIMIT ?
-"""
-conf_df = qdf(conf_summary_sql, params + [int(max_conflicts)])
-
-# Put conflict_key next to conflict_id (conflict_id first)
-front = ["conflict_id"] + (["conflict_key"] if "conflict_key" in conf_df.columns else [])
-rest = [c for c in conf_df.columns if c not in front]
-conf_df = conf_df[front + rest]
-
-conf_df = conf_df[conf_df["n_articles"] >= int(min_n)].reset_index(drop=True)
-
-# Top-line metrics
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Conflicts (filtered)", f"{len(conf_df):,}")
-c2.metric("Sum matched articles", f"{int(conf_df['n_articles'].sum()):,}" if not conf_df.empty else "0")
-c3.metric("Mean avg_score", f"{conf_df['avg_score'].mean():.3f}" if not conf_df.empty else "n/a")
-c4.metric("Mean avg_overlap", f"{conf_df['avg_overlap'].mean():.2f}" if not conf_df.empty else "n/a")
-
-st.subheader("Conflicts")
-st.caption("Click a row to inspect all matched articles for that conflict (under current score/overlap filters).")
-
-event = st.dataframe(
-    conf_df,
-    use_container_width=True,
-    hide_index=True,
-    on_select="rerun",
-    selection_mode="single-row",
-)
-
-# --- IMPORTANT: define selected_conflict_id BEFORE using it ---
-selected_conflict_id = 0
-if event and event.selection.rows:
-    row_idx = event.selection.rows[0]
-    selected_conflict_id = int(conf_df.iloc[row_idx]["conflict_id"])
-
-# Manual fallback
-selected_conflict_id = st.number_input(
-    "Selected conflict_id (manual override)",
-    min_value=0,
-    value=int(selected_conflict_id),
-    step=1,
-)
-
-# Load conflict_key (after selected_conflict_id exists)
-conf_key = None
-if C_CONFLICT_KEY and selected_conflict_id > 0:
-    tmp = qdf(
-        f"SELECT {C_CONFLICT_KEY} AS conflict_key FROM {DETAILS_TABLE} WHERE conflict_id=? LIMIT 1",
-        [int(selected_conflict_id)],
-    )
-    if not tmp.empty:
-        conf_key = tmp.loc[0, "conflict_key"]
-
-st.divider()
-
-# -------------------------
-# Articles for selected conflict
-# -------------------------
-if selected_conflict_id and selected_conflict_id > 0:
-    if conf_key:
-        st.subheader(f"Matched articles for conflict_id={selected_conflict_id} — {conf_key}")
-    else:
-        st.subheader(f"Matched articles for conflict_id={selected_conflict_id}")
-
-    awhere = [
-        "conflict_id = ?",
-        f"{C_SCORE} >= ?",
-        f"{C_OVERLAP} >= ?",
+    # extra columns requested for bottom table (if they exist in match_details)
+    EXTRA = [
+        "event_type",
+        "disorder_type",
+        "event_type_mode",
+        "event_type_conflict",  # if you renamed event_type_mode -> event_type_conflict in another pipeline
     ]
-    aparams = [int(selected_conflict_id), float(score_min), int(overlap_min)]
 
-    order = "score ASC" if show_low_score else "score DESC"
+    st.header("Conflicts")
 
-    show_cols = col_list([
-        "article_id",
-        C_ARTICLE_DATE,
-        C_ARTICLE_COUNTRY,
-        C_SCORE,
-        C_OVERLAP,
-        A_SOURCE,
-        A_TITLE,
-        A_DESC,
-        A_URL,
-    ])
+    # --- Filters above conflict table ---
+    f1, f2, f3, f4, f5, f6 = st.columns([1.2, 2.2, 1.2, 1.2, 1.2, 1.2])
+    with f1:
+        filt_country = st.text_input("Conflict country contains", value="")
+    with f2:
+        filt_key = st.text_input("Conflict key contains", value="")
+    with f3:
+        min_n = st.number_input("Min matched articles", min_value=0, value=1, step=1)
+    with f4:
+        score_min = st.slider("Score min", 0.0, 1.0, 0.0, 0.01)
+    with f5:
+        overlap_min = st.slider("Overlap min", 0, 30, 1, 1)
+    with f6:
+        max_conflicts = st.number_input("Max conflicts", min_value=50, value=500, step=50)
 
-    sql_articles = f"""
-    SELECT {", ".join(show_cols) if show_cols else "*"}
+    max_articles = st.slider("Max articles per selected conflict", 50, 2000, 300, 50)
+
+    # --- conflict summary query ---
+    group_cols = [C_CONFLICT_ID]
+    select_cols = [f"{C_CONFLICT_ID} AS conflict_id"]
+
+    if C_CONFLICT_KEY:
+        group_cols.append(C_CONFLICT_KEY)
+        select_cols.append(f"{C_CONFLICT_KEY} AS conflict_key")
+    if C_COUNTRY:
+        group_cols.append(C_COUNTRY)
+        select_cols.append(C_COUNTRY)
+    if C_START:
+        group_cols.append(C_START)
+        select_cols.append(C_START)
+    if C_END:
+        group_cols.append(C_END)
+        select_cols.append(C_END)
+
+    conf_summary_sql = f"""
+    SELECT
+        {", ".join(select_cols)},
+        COUNT(DISTINCT article_id) AS n_articles,
+        AVG({C_SCORE}) AS avg_score,
+        MAX({C_SCORE}) AS max_score,
+        AVG({C_OVERLAP}) AS avg_overlap,
+        MAX({C_OVERLAP}) AS max_overlap
     FROM {DETAILS_TABLE}
-    WHERE {" AND ".join(awhere)}
-    ORDER BY {order}, {C_OVERLAP} DESC
+    WHERE {C_SCORE} >= ?
+      AND {C_OVERLAP} >= ?
+    GROUP BY {", ".join(group_cols)}
+    ORDER BY n_articles DESC, max_score DESC
     LIMIT ?
     """
-    art_df = qdf(sql_articles, aparams + [int(max_articles)])
+    conf_df = qdf_out(conf_summary_sql, [float(score_min), int(overlap_min), int(max_conflicts)])
 
-    if art_df.empty:
-        st.info("No articles for this conflict under current filters.")
+    # apply text filters
+    if "country" in conf_df.columns and filt_country.strip():
+        conf_df = contains_filter(conf_df, "country", filt_country.strip())
+    if "conflict_key" in conf_df.columns and filt_key.strip():
+        conf_df = contains_filter(conf_df, "conflict_key", filt_key.strip())
+
+    # min_n filter
+    if "n_articles" in conf_df.columns:
+        conf_df = conf_df[conf_df["n_articles"] >= int(min_n)].reset_index(drop=True)
+
+    # metrics
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Conflicts shown", f"{len(conf_df):,}")
+    m2.metric("Sum matched articles", f"{int(conf_df['n_articles'].sum()):,}" if not conf_df.empty else "0")
+    m3.metric("Score min", f"{score_min:.2f}")
+    m4.metric("Overlap min", f"{overlap_min:d}")
+
+    st.caption("Select a conflict row to show its matched articles below.")
+    event = st.dataframe(
+        conf_df,
+        use_container_width=True,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+    )  # [web:733]
+
+    selected_conflict_id = 0
+    selected_conflict_key = None
+
+    if event and event.selection.rows:
+        i = event.selection.rows[0]
+        selected_conflict_id = int(conf_df.iloc[i]["conflict_id"])
+        if "conflict_key" in conf_df.columns:
+            selected_conflict_key = conf_df.iloc[i].get("conflict_key")
+
+    selected_conflict_id = st.number_input(
+        "Selected conflict_id (manual override)",
+        min_value=0,
+        value=int(selected_conflict_id),
+        step=1,
+    )
+
+    if selected_conflict_id <= 0:
+        st.info("Select a conflict above to inspect its matched articles.")
     else:
-        m1, m2, m3, m4 = st.columns(4)
-        m1.metric("Articles shown", f"{len(art_df):,}")
-        m2.metric("Avg score", f"{art_df[C_SCORE].mean():.3f}")
-        m3.metric("Median score", f"{art_df[C_SCORE].median():.3f}")
-        m4.metric("Avg overlap", f"{art_df[C_OVERLAP].mean():.2f}")
+        header = f"Matched articles for conflict_id={selected_conflict_id}"
+        if selected_conflict_key:
+            header += f" — {selected_conflict_key}"
+        st.subheader(header)
 
-        col_config = {}
-        if A_URL and A_URL in art_df.columns:
-            col_config[A_URL] = st.column_config.LinkColumn("url", display_text="open")
+        show_cols = col_list(MD_COLS, [
+            "article_id",
+            A_PUB,
+            C_COUNTRY,
+            A_ARTICLE_COUNTRY,
+            *EXTRA,
+            C_SCORE,
+            C_OVERLAP,
+            A_SOURCE,
+            A_TITLE,
+            A_DESC,
+            A_URL,
+            A_TFIDF,
+            C_TFIDF,
+        ])
 
-        st.dataframe(
-            art_df,
-            use_container_width=True,
-            hide_index=True,
-            column_config=col_config,
-        )
+        sql_articles = f"""
+        SELECT {", ".join(show_cols) if show_cols else "*"}
+        FROM {DETAILS_TABLE}
+        WHERE conflict_id = ?
+          AND {C_SCORE} >= ?
+          AND {C_OVERLAP} >= ?
+        ORDER BY {C_SCORE} DESC, {C_OVERLAP} DESC
+        LIMIT ?
+        """
+        art_df = qdf_out(sql_articles, [int(selected_conflict_id), float(score_min), int(overlap_min), int(max_articles)])
 
-        qa1, qa2 = st.columns(2)
-
-        with qa1:
-            st.markdown("### Score distribution (quick)")
-            bins = pd.cut(
-                art_df[C_SCORE],
-                bins=[0, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0],
-                include_lowest=True,
-            )
-            dist = bins.value_counts().sort_index().rename_axis("score_bin").reset_index(name="n")
-            st.dataframe(dist, hide_index=True, use_container_width=True)
-
-        with qa2:
-            st.markdown("### Overlap distribution (quick)")
-            od = art_df[C_OVERLAP].value_counts().sort_index().reset_index()
-            od.columns = ["overlap", "n"]
-            st.dataframe(od, hide_index=True, use_container_width=True)
-
-        if show_top_sources and A_SOURCE and A_SOURCE in art_df.columns:
-            st.markdown("### Top sources (outlets)")
-            src = (
-                art_df[A_SOURCE]
-                .fillna("(missing)")
-                .value_counts()
-                .head(20)
-                .reset_index()
-            )
-            src.columns = ["source_name", "n_articles"]
-            st.dataframe(src, hide_index=True, use_container_width=True)
-
-        st.markdown("### Conflict metadata (from match_details)")
-        meta_cols = col_list([C_CONFLICT_ID, C_CONFLICT_KEY, C_COUNTRY, C_START, C_END])
-        if meta_cols:
-            meta = qdf(
-                f"SELECT {', '.join(meta_cols)} FROM {DETAILS_TABLE} WHERE conflict_id=? LIMIT 1",
-                [int(selected_conflict_id)],
-            )
-            st.dataframe(meta, hide_index=True, use_container_width=True)
+        if art_df.empty:
+            st.info("No articles for this conflict under current thresholds.")
         else:
-            st.info("No conflict metadata columns detected in match_details.")
-else:
-    st.info("Select a conflict above to inspect its matched articles.")
+            a1, a2, a3, a4 = st.columns(4)
+            a1.metric("Articles shown", f"{len(art_df):,}")
+            a2.metric("Avg score", f"{art_df[C_SCORE].mean():.3f}")
+            a3.metric("Median score", f"{art_df[C_SCORE].median():.3f}")
+            a4.metric("Avg overlap", f"{art_df[C_OVERLAP].mean():.2f}")
+
+            col_config = {}
+            if A_URL and A_URL in art_df.columns:
+                col_config[A_URL] = st.column_config.LinkColumn("url", display_text="open")
+
+            st.dataframe(
+                art_df,
+                use_container_width=True,
+                hide_index=True,
+                column_config=col_config,
+            )
+
+# =========================================================
+# TAB 2: conflict_features
+# =========================================================
+with tab_features:
+    if not CONFLICT_DB.exists():
+        st.error(f"Missing DB: {CONFLICT_DB}")
+        st.stop()
+
+    CF_COLS = table_cols("conf", FEATURES_TABLE)
+
+    st.header("conflict_features")
+
+    # Load full table once (simple + robust)
+    cf_df = qdf_conf(f"SELECT * FROM {FEATURES_TABLE}")
+
+    # ---- Filters ABOVE conflict_features table ----
+    # To avoid 30+ filters always visible, choose which columns to filter.
+    default_filter_cols = [c for c in [
+        "conflict_key",
+        "country",
+        "actor1",
+        "primary_assoc_actor_1",
+        "assoc_actor_1",
+        "disorder_type_mode",
+        "event_type_mode",
+        "event_type_conflict",
+        "n_events",
+        "total_fatalities",
+        "start_date",
+        "end_date",
+        "tfidf_terms_conflict",
+    ] if c in CF_COLS]
+
+    st.subheader("Filters")
+    filter_cols = st.multiselect(
+        "Columns to filter (contains)",
+        options=sorted(list(CF_COLS)),
+        default=default_filter_cols,
+    )
+
+    filters = {}
+    if filter_cols:
+        cols_per_row = 3
+        for i in range(0, len(filter_cols), cols_per_row):
+            row = filter_cols[i:i + cols_per_row]
+            ui = st.columns(len(row))
+            for j, colname in enumerate(row):
+                with ui[j]:
+                    filters[colname] = st.text_input(f"{colname} contains", value="", key=f"cf_{colname}")
+
+    # apply filters (contains)
+    cf_f = cf_df.copy()
+    for colname, needle in filters.items():
+        if needle.strip():
+            cf_f = contains_filter(cf_f, colname, needle.strip())
+
+    limit_rows = st.slider("Max rows shown", 50, 20000, 2000, 50)
+    st.caption("Showing all columns from conflict_features (filtered).")
+    st.dataframe(cf_f.head(int(limit_rows)), use_container_width=True, hide_index=True)
+
+    st.divider()
+
+    st.subheader("Conflicts by n_events (desc)")
+    if "conflict_key" in cf_f.columns and "n_events" in cf_f.columns:
+        top = cf_f[["conflict_id", "conflict_key", "n_events"]].copy()
+        top["n_events"] = pd.to_numeric(top["n_events"], errors="coerce")
+        top = top.sort_values("n_events", ascending=False)
+        st.dataframe(top, use_container_width=True, hide_index=True)
+    else:
+        st.warning("Required columns not found: conflict_key and/or n_events.")
+

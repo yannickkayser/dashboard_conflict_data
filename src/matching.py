@@ -32,7 +32,7 @@ CON_ID = "conflict_id"
 CON_COUNTRY = "country"
 CON_START = "start_date"           # "YYYY-MM-DD"
 CON_END = "end_date"               # "YYYY-MM-DD"
-CON_TERMS = "tfidf_terms_en"       # visible in your screenshot [file:5][file:6]
+CON_TERMS = "tfidf_terms_conflict"       # visible in your screenshot [file:5][file:6]
 
 # Matching rules
 WINDOW_DAYS = 3

@@ -10,7 +10,8 @@ def main() -> None:
         raise FileNotFoundError(f"DB not found: {GNEWS_DB}")
 
     with sqlite3.connect(str(GNEWS_DB)) as con:
-        con.execute("DROP TABLE IF EXISTS matches;")
+        con.execute("DROP TABLE IF EXISTS atch_details;")
+        con.execute("DROP TABLE IF EXISTS tresholds;")
         con.commit()
 
     print("Dropped table (if it existed): articles_eng")

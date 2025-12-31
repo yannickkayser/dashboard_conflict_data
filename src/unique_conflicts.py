@@ -180,7 +180,7 @@ def ensure_conflict_features_schema(conn, logger):
         ("assoc_actor_1", "TEXT"),
         ("disorder_type_mode", "TEXT"),
         ("event_type_mode", "TEXT"),
-        ("tfidf_terms_en", "TEXT"),
+        ("tfidf_terms_conflict", "TEXT"),
         ("start_date", "TEXT"),
         ("end_date", "TEXT"),
         ("mid_date", "TEXT"),
@@ -464,7 +464,7 @@ def ensure_conflict_notes_tfidf_table(conn, logger):
     cur.execute("""
         CREATE TABLE IF NOT EXISTS conflict_notes_tfidf(
             conflict_id INTEGER PRIMARY KEY,
-            tfidf_terms_en TEXT
+            tfidf_terms_conflict TEXT
         );
     """)
     conn.commit()
@@ -536,7 +536,7 @@ def build_conflict_notes_tfidf(conn, logger, scheme_name=None, top_k=50):
         inserts.append((cid, tfidf_json))
 
     cur.executemany("""
-        INSERT OR REPLACE INTO conflict_notes_tfidf (conflict_id, tfidf_terms_en)
+        INSERT OR REPLACE INTO conflict_notes_tfidf (conflict_id, tfidf_terms_conflict)
         VALUES (?, ?);
     """, inserts)
     conn.commit()
@@ -547,23 +547,23 @@ def push_tfidf_into_conflict_features(conn, logger):
     cur = conn.cursor()
     cur.execute(f"""
         UPDATE {FEATURES_TABLE}
-        SET tfidf_terms_en = (
-            SELECT ctf.tfidf_terms_en
+        SET tfidf_terms_conflict = (
+            SELECT ctf.tfidf_terms_conflict
             FROM conflict_notes_tfidf ctf
             WHERE ctf.conflict_id = {FEATURES_TABLE}.conflict_id
         )
         WHERE conflict_id IN (SELECT conflict_id FROM conflict_notes_tfidf);
     """)
     conn.commit()
-    logger.info("TF-IDF pushed into conflict_features (tfidf_terms_en).")
+    logger.info("TF-IDF pushed into conflict_features (tfidf_terms_conflict).")
 
 def convert_conflict_features_tfidf_json_to_csv(conn, logger):
     cur = conn.cursor()
 
     rows = cur.execute("""
-        SELECT conflict_id, tfidf_terms_en
+        SELECT conflict_id, tfidf_terms_conflict
         FROM conflict_features
-        WHERE tfidf_terms_en IS NOT NULL AND TRIM(tfidf_terms_en) <> '';
+        WHERE tfidf_terms_conflict IS NOT NULL AND TRIM(tfidf_terms_conflict) <> '';
     """).fetchall()
 
     updates = []
@@ -586,11 +586,11 @@ def convert_conflict_features_tfidf_json_to_csv(conn, logger):
 
     cur.executemany("""
         UPDATE conflict_features
-        SET tfidf_terms_en = ?
+        SET tfidf_terms_conflict = ?
         WHERE conflict_id = ?;
     """, updates)
     conn.commit()
-    logger.info("Converted conflict_features.tfidf_terms_en from JSON to CSV terms (no weights).")
+    logger.info("Converted conflict_features.tfidf_terms_conflict from JSON to CSV terms (no weights).")
 
 
 
