@@ -14,13 +14,15 @@ CONFLICT_DB = DATA_DIR / "conflict_data.db"  # contains conflict_country
 # Output
 OUT_DB = DATA_DIR / "matching_country.db"
 
-ART_TABLE = "article_eng"
+ART_TABLE = "articles_eng"
 CONFLICT_TABLE = "conflict_country"
-OUT_TABLE = "match_country_wide"
+
+# Outputs
+OUT_TABLE_WIDE = "match_country_wide"   # articles_eng cols + ALL conflict_country cols (legacy behavior)
+OUT_TABLE_SLIM = "match_country_slim"   # articles_eng cols + ONLY conflict_country.country
 
 
 def table_cols(cur: sqlite3.Cursor, db_alias: str, table: str) -> list[str]:
-    # PRAGMA table_info returns one row per column; column name is in field [1]. [web:86]
     rows = cur.execute(f"PRAGMA {db_alias}.table_info({table});").fetchall()
     return [r[1] for r in rows]
 
@@ -32,17 +34,15 @@ def main():
     logger.info("CONFLICT_DB=%s", CONFLICT_DB)
     logger.info("OUT_DB=%s", OUT_DB)
 
-    # OUT_DB is the main db we write to; inputs are attached for cross-db join. [web:82][web:80]
     conn = get_db_connection(str(OUT_DB))
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
     try:
-        # Optional speed pragmas
         cur.execute("PRAGMA journal_mode=WAL;")
         cur.execute("PRAGMA synchronous=NORMAL;")
 
-        # Attach sources
+        # Attach sources (cross-db join). [web:124]
         cur.execute("ATTACH DATABASE ? AS art;", (str(ART_DB),))
         cur.execute("ATTACH DATABASE ? AS conf;", (str(CONFLICT_DB),))
 
@@ -56,23 +56,47 @@ def main():
             raise RuntimeError(f"Table not found or empty schema: conf.{CONFLICT_TABLE}")
 
         if "article_country" not in art_cols:
-            raise RuntimeError("Missing column: art.article_eng.article_country")
+            raise RuntimeError("Missing column: art.articles_eng.article_country")
         if "country" not in conf_cols:
             raise RuntimeError("Missing column: conf.conflict_country.country")
 
-        # Prefix columns to avoid name collisions in the output table
-        art_select = ",\n            ".join([f'a."{c}" AS art_{c}' for c in art_cols])
-        conf_select = ",\n            ".join([f'c."{c}" AS conf_{c}' for c in conf_cols])
+        # --- Exclude columns you don't want to propagate even if they still exist physically
+        EXCLUDE_ART_COLS = {"event_type", "tfidf_terms_de", "tfidf_terms_en"}
+        art_cols_filtered = [c for c in art_cols if c not in EXCLUDE_ART_COLS]
 
-        logger.info("Rebuilding output table %s (ONLY matched rows via INNER JOIN)...", OUT_TABLE)
-        cur.execute(f"DROP TABLE IF EXISTS {OUT_TABLE};")
+        # Prefix columns to avoid name collisions in outputs
+        art_select = ",\n            ".join([f'a."{c}" AS art_{c}' for c in art_cols_filtered])
 
-        # ONLY matched rows: INNER JOIN. [web:99]
+        # Original behavior (wide): keep all conflict columns
+        conf_select_all = ",\n            ".join([f'c."{c}" AS conf_{c}' for c in conf_cols])
+
+        # New slim behavior: keep only country
+        conf_select_country_only = 'TRIM(c."country") AS country'
+
+        # -------------------------
+        # Output 1: WIDE (legacy)
+        logger.info("Rebuilding %s (matched rows, includes ALL conflict columns)...", OUT_TABLE_WIDE)
+        cur.execute(f"DROP TABLE IF EXISTS {OUT_TABLE_WIDE};")
         cur.execute(f"""
-            CREATE TABLE {OUT_TABLE} AS
+            CREATE TABLE {OUT_TABLE_WIDE} AS
             SELECT
             {art_select},
-            {conf_select}
+            {conf_select_all}
+            FROM art.{ART_TABLE} a
+            INNER JOIN conf.{CONFLICT_TABLE} c
+              ON TRIM(a.article_country) = TRIM(c.country);
+        """)  # CREATE TABLE AS SELECT creates+populates from query. [web:76]
+        conn.commit()
+
+        # -------------------------
+        # Output 2: SLIM (requested)
+        logger.info("Rebuilding %s (matched rows, ONLY articles_eng + country)...", OUT_TABLE_SLIM)
+        cur.execute(f"DROP TABLE IF EXISTS {OUT_TABLE_SLIM};")
+        cur.execute(f"""
+            CREATE TABLE {OUT_TABLE_SLIM} AS
+            SELECT
+            {art_select},
+            {conf_select_country_only}
             FROM art.{ART_TABLE} a
             INNER JOIN conf.{CONFLICT_TABLE} c
               ON TRIM(a.article_country) = TRIM(c.country);
@@ -80,12 +104,16 @@ def main():
         conn.commit()
 
         logger.info("Creating indexes...")
-        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE}_art_country ON {OUT_TABLE}(art_article_country);")
-        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE}_conf_country ON {OUT_TABLE}(conf_country);")
+        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_WIDE}_art_country ON {OUT_TABLE_WIDE}(art_article_country);")
+        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_WIDE}_conf_country ON {OUT_TABLE_WIDE}(conf_country);")
+        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_SLIM}_art_country ON {OUT_TABLE_SLIM}(art_article_country);")
+        cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_SLIM}_country ON {OUT_TABLE_SLIM}(country);")
         conn.commit()
 
-        n = cur.execute(f"SELECT COUNT(*) FROM {OUT_TABLE};").fetchone()[0]
-        logger.info("Done. Rows in %s: %d", OUT_TABLE, n)
+        n_wide = cur.execute(f"SELECT COUNT(*) FROM {OUT_TABLE_WIDE};").fetchone()[0]
+        n_slim = cur.execute(f"SELECT COUNT(*) FROM {OUT_TABLE_SLIM};").fetchone()[0]
+        logger.info("Done. Rows in %s: %d", OUT_TABLE_WIDE, n_wide)
+        logger.info("Done. Rows in %s: %d", OUT_TABLE_SLIM, n_slim)
 
     except Exception:
         logger.exception("matching_country failed.")

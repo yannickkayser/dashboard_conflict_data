@@ -457,144 +457,6 @@ def rebuild_conflict_type_counts(conn, logger, scheme_name=None):
 
 
 # --------------------
-# TF-IDF (notes -> conflict)
-
-def ensure_conflict_notes_tfidf_table(conn, logger):
-    cur = conn.cursor()
-    cur.execute("""
-        CREATE TABLE IF NOT EXISTS conflict_notes_tfidf(
-            conflict_id INTEGER PRIMARY KEY,
-            tfidf_terms_conflict TEXT
-        );
-    """)
-    conn.commit()
-    logger.info("conflict_notes_tfidf schema ensured.")
-
-
-def build_conflict_notes_tfidf(conn, logger, scheme_name=None, top_k=50):
-    cur = conn.cursor()
-    logger.info("Building TF-IDF from notes (merged per conflict)%s ...",
-                f" for scheme={scheme_name}" if scheme_name else "")
-
-    cur.execute("DELETE FROM conflict_notes_tfidf;")
-    conn.commit()
-
-    if scheme_name:
-        sql = """
-            SELECT ec.conflict_id, e.notes
-            FROM event_conflict ec
-            JOIN events e ON e.event_id_cnty = ec.event_id_cnty
-            WHERE ec.conflict_scheme = ?
-              AND e.notes IS NOT NULL AND TRIM(e.notes) <> '';
-        """
-        rows = cur.execute(sql, (scheme_name,))
-    else:
-        sql = """
-            SELECT ec.conflict_id, e.notes
-            FROM event_conflict ec
-            JOIN events e ON e.event_id_cnty = ec.event_id_cnty
-            WHERE e.notes IS NOT NULL AND TRIM(e.notes) <> '';
-        """
-        rows = cur.execute(sql)
-
-    doc_tf = defaultdict(Counter)
-    doc_len = Counter()
-
-    for cid, notes in rows:
-        text = str(notes).lower()
-        toks = [t for t in TOKEN_RE.findall(text) if t not in STOPWORDS]
-        if not toks:
-            continue
-        doc_tf[cid].update(toks)
-        doc_len[cid] += len(toks)
-
-    conflict_ids = list(doc_tf.keys())
-    N = len(conflict_ids)
-    logger.info("TF-IDF corpus size (conflicts with notes): %d", N)
-
-    if N == 0:
-        logger.info("No notes found; skipping TF-IDF.")
-        return
-
-    df = Counter()
-    for cid in conflict_ids:
-        for term in doc_tf[cid].keys():
-            df[term] += 1
-
-    inserts = []
-    for cid in conflict_ids:
-        L = doc_len[cid]
-        scored = []
-        for term, cnt in doc_tf[cid].items():
-            tf = cnt / float(L)
-            idf = 1.0 + math.log((1.0 + N) / (1.0 + df[term]))  # smooth idf
-            scored.append((term, tf * idf))
-
-        scored.sort(key=lambda x: x[1], reverse=True)
-        top = [{"term": t, "tfidf": float(s)} for t, s in scored[:top_k]]
-        tfidf_json = json.dumps(top, ensure_ascii=False)
-        inserts.append((cid, tfidf_json))
-
-    cur.executemany("""
-        INSERT OR REPLACE INTO conflict_notes_tfidf (conflict_id, tfidf_terms_conflict)
-        VALUES (?, ?);
-    """, inserts)
-    conn.commit()
-    logger.info("Inserted TF-IDF JSON for %d conflicts.", len(inserts))
-
-
-def push_tfidf_into_conflict_features(conn, logger):
-    cur = conn.cursor()
-    cur.execute(f"""
-        UPDATE {FEATURES_TABLE}
-        SET tfidf_terms_conflict = (
-            SELECT ctf.tfidf_terms_conflict
-            FROM conflict_notes_tfidf ctf
-            WHERE ctf.conflict_id = {FEATURES_TABLE}.conflict_id
-        )
-        WHERE conflict_id IN (SELECT conflict_id FROM conflict_notes_tfidf);
-    """)
-    conn.commit()
-    logger.info("TF-IDF pushed into conflict_features (tfidf_terms_conflict).")
-
-def convert_conflict_features_tfidf_json_to_csv(conn, logger):
-    cur = conn.cursor()
-
-    rows = cur.execute("""
-        SELECT conflict_id, tfidf_terms_conflict
-        FROM conflict_features
-        WHERE tfidf_terms_conflict IS NOT NULL AND TRIM(tfidf_terms_conflict) <> '';
-    """).fetchall()
-
-    updates = []
-    for cid, js in rows:
-        try:
-            arr = json.loads(js)  # [{"term": "...", "tfidf": ...}, ...]
-        except Exception:
-            continue
-
-        seen = set()
-        terms = []
-        for item in arr:
-            t = (item.get("term") or "").strip()
-            if not t or t in seen:
-                continue
-            seen.add(t)
-            terms.append(t)
-
-        updates.append((",".join(terms) if terms else None, cid))
-
-    cur.executemany("""
-        UPDATE conflict_features
-        SET tfidf_terms_conflict = ?
-        WHERE conflict_id = ?;
-    """, updates)
-    conn.commit()
-    logger.info("Converted conflict_features.tfidf_terms_conflict from JSON to CSV terms (no weights).")
-
-
-
-# --------------------
 # TIME FEATURES
 
 def ensure_conflict_time_table(conn: sqlite3.Connection, logger):
@@ -700,10 +562,7 @@ def main():
         fill_event_type_modes(conn, logger)
         fill_assoc_actor_1_mode(conn, logger)
 
-        ensure_conflict_notes_tfidf_table(conn, logger)
-        build_conflict_notes_tfidf(conn, logger, top_k=50)
-        push_tfidf_into_conflict_features(conn, logger)
-        convert_conflict_features_tfidf_json_to_csv(conn, logger)
+       
 
         ensure_conflict_time_table(conn, logger)
         rebuild_conflict_time(conn, logger)
@@ -716,6 +575,7 @@ def main():
     finally:
         conn.close()
         logger.info("Closed database connection.")
+
 
 
 if __name__ == "__main__":
