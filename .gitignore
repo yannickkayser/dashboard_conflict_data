@@ -8,3 +8,7 @@ data/*.db
 .venv311/
 .venv/
 __pycache__/
+data/*.tar.gz
+data/*.db-wal
+data/*.db-shm
+

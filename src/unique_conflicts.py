@@ -1,18 +1,22 @@
-# unique_conflicts
+# unique_conflicts.py
 import logging
 import time
 from pathlib import Path
 import re
 from collections import Counter, defaultdict
+import math
+import json
+import sqlite3
 
 from utils import get_db_connection, init_logger
 
-# compute DB path relative to this file
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = PROJECT_ROOT / "data" / "conflict_data.db"
 
-# ------------
-# FINE TUNE KEYWORDS
+
+# --------------------
+# TOKENIZATION / STOPWORDS
 TOKEN_RE = re.compile(r"[A-Za-z]{3,}")  # words >= 3 letters
 
 STOPWORDS = {
@@ -22,20 +26,43 @@ STOPWORDS = {
     "after","before","during","over","under","into","out","up","down",
     "near","around","about","between","within","across",
     "said","report","reports","according","allegedly",
-    # common conflict/news filler (tune later)
     "killed","injured","attack","attacked","clash","clashes","protest","protests",
     "police","army","soldiers","people","civilians","forces","security",
-    # added later after first review
-    "against", "there", "demonstration", "protest", "demand", "members", "gathered", "demonstrators",
+    "against", "there", "demonstration", "demand", "members", "gathered", "demonstrators",
     "protestors"
 }
 
-# ------------
+
+# --------------------
+# TABLE NAMES (time feature part)
+EVENTS_TABLE = "events"
+MAP_TABLE = "event_conflict"
+FEATURES_TABLE = "conflict_features"
+EVENT_DATE_COL = "event_date"  # change if needed
+
+
+# --------------------
+# SCHEMA HELPERS
+
+def table_columns(conn: sqlite3.Connection, table: str) -> set[str]:
+    cur = conn.cursor()
+    rows = cur.execute(f"PRAGMA table_info({table});").fetchall()
+    return {r[1] for r in rows}
+
+
+def ensure_columns(conn: sqlite3.Connection, table: str, cols: list[tuple[str, str]]) -> None:
+    existing = table_columns(conn, table)
+    cur = conn.cursor()
+    for name, coltype in cols:
+        if name not in existing:
+            cur.execute(f"ALTER TABLE {table} ADD COLUMN {name} {coltype};")
+    conn.commit()
+
+
+# --------------------
+# UNIQUE CONFLICT BASE TABLE
 
 def create_unique_conflict_table(conn):
-    """
-    Create a table that contains information about all unique conflicts.
-    """
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS unique_conflict (
         conflict_id INTEGER PRIMARY KEY,
@@ -43,17 +70,12 @@ def create_unique_conflict_table(conn):
         total_fatalities INTEGER
     );
     """
-
     cur = conn.cursor()
     cur.execute(create_table_sql)
     conn.commit()
 
 
 def ensure_indexes(conn, logger):
-    """
-    Ensure indexes exist on the columns we join/group on.
-    This makes the aggregation much faster and more predictable.
-    """
     logger.info("Ensuring indexes exist on events and event_conflict...")
     cur = conn.cursor()
 
@@ -76,26 +98,13 @@ def ensure_indexes(conn, logger):
     logger.info("Indexes ensured.")
 
 
-def populate_unique_conflict_table(conn, logger, batch_size = 100):
-    """
-    Populate the unique_conflict table with one row per conflict_id:
-
-        conflict_id | n_events | total_fatalities
-
-    n_events: number of distinct events mapped to that conflict_id
-    total_fatalities: sum of fatalities across those events.
-
-    Assumes:
-      - mapping table: event_conflict(event_id_cnty, conflict_scheme, conflict_id)
-      - events table:  events(event_id_cnty, fatalities)
-    """
+def populate_unique_conflict_table(conn, logger, batch_size=100):
     cur = conn.cursor()
 
     logger.info("Clearing existing data from unique_conflict table...")
     cur.execute("DELETE FROM unique_conflict;")
     conn.commit()
 
-    # 1) Get all conflict_ids
     logger.info("Fetching list of conflict_ids...")
     conflict_ids = [row[0] for row in cur.execute(
         "SELECT DISTINCT conflict_id FROM event_conflict ORDER BY conflict_id;"
@@ -104,8 +113,7 @@ def populate_unique_conflict_table(conn, logger, batch_size = 100):
     total = len(conflict_ids)
     logger.info("Found %d unique conflict_ids.", total)
 
-    # 2) Process in batches so we can log progress during the expensive  work
-    insert_sql = """ 
+    insert_sql = """
     INSERT INTO unique_conflict (conflict_id, n_events, total_fatalities)
     VALUES (?, ?, ?);
     """
@@ -113,8 +121,6 @@ def populate_unique_conflict_table(conn, logger, batch_size = 100):
     processed = 0
     for i in range(0, total, batch_size):
         batch = conflict_ids[i:i + batch_size]
-
-        # Build placeholder for  the IN clause
         placeholders = ",".join(["?"] * len(batch))
 
         agg_sql = f"""
@@ -130,10 +136,7 @@ def populate_unique_conflict_table(conn, logger, batch_size = 100):
         ORDER BY m.conflict_id;
         """
 
-        # This is the expensive part (but now only for a batch)
         rows = cur.execute(agg_sql, batch).fetchall()
-
-        # Insert results for this batch
         cur.executemany(insert_sql, rows)
         conn.commit()
 
@@ -148,54 +151,87 @@ def populate_unique_conflict_table(conn, logger, batch_size = 100):
     logger.info("END: Table filled sucessfully (%d conflicts)", total)
 
 
+# --------------------
+# CONFLICT FEATURES TABLE
 
 def ensure_conflict_features_schema(conn, logger):
-    """
-    Derived/enriched per-conflict features table.
-    Rebuilt by unique_conflicts.py (safe to delete + recreate rows).
-    """
     cur = conn.cursor()
 
     cur.execute("""
         CREATE TABLE IF NOT EXISTS conflict_features(
-                conflict_id INTEGER PRIMARY KEY,
-                conflict_key TEXT,
-                n_events INTEGER,
-                total_fatalities INTEGER,
+            conflict_id INTEGER PRIMARY KEY,
+            conflict_key TEXT,
+            n_events INTEGER,
+            total_fatalities INTEGER,
 
-                country TEXT,
-                actor1 TEXT,
-                primary_assoc_actor_1 TEXT,
+            country TEXT,
+            actor1 TEXT,
+            primary_assoc_actor_1 TEXT,
 
-                -- to be filled later
-                assoc_actor_1 TEXT,
-                top_keyword_1 TEXT,
-                top_keyword_2 TEXT,
-                top_keyword_3 TEXT
-                );
+
+            disorder_type_mode TEXT,
+            event_type_mode TEXT
+        );
     """)
     conn.commit()
 
-    # Helpful Indexes
-    # Helpful indexes
+    # Add missing columns if this table already existed with an older schema
+    ensure_columns(conn, FEATURES_TABLE, [
+        ("assoc_actor_1", "TEXT"),
+        ("disorder_type_mode", "TEXT"),
+        ("event_type_mode", "TEXT"),
+        ("tfidf_terms_conflict", "TEXT"),
+        ("start_date", "TEXT"),
+        ("end_date", "TEXT"),
+        ("mid_date", "TEXT"),
+        ("duration_days", "INTEGER"),
+    ])
+
     cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_features_conflict_id ON conflict_features(conflict_id);")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_features_country ON conflict_features(country);")
     cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_features_actor1 ON conflict_features(actor1);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_features_start_date ON conflict_features(start_date);")
     conn.commit()
 
     logger.info("conflict_features schema ensured.")
 
 
+
+def ensure_conflict_type_count_tables(conn, logger):
+    cur = conn.cursor()
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS conflict_disordertype_counts(
+            conflict_id INTEGER,
+            disorder_type TEXT,
+            n_events INTEGER,
+            fatalities INTEGER,
+            PRIMARY KEY (conflict_id, disorder_type)
+        );
+    """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS conflict_eventtype_counts(
+            conflict_id INTEGER,
+            event_type TEXT,
+            n_events INTEGER,
+            fatalities INTEGER,
+            PRIMARY KEY (conflict_id, event_type)
+        );
+    """)
+
+    conn.commit()
+    logger.info("Type count tables ensured.")
+
+
 def rebuild_conflict_features_base(conn, logger):
-    """
-    Rebuild base rows:
-    - 1 row per conflict_id (same set as unique_conflict)
-    - bring in conflict_key from conflict_lookup
-    - parse conflict_key into country/actor1/primary_assoc_actor_1
-    """
     cur = conn.cursor()
 
     logger.info("Rebuilding conflict features base (clearing table)...")
+    cur.execute("DELETE FROM conflict_features;")
+    conn.commit()
+    logger.info("Table cleared. Now, rebuilding...")
+
     cur.execute("""
         INSERT INTO conflict_features (conflict_id, conflict_key, n_events, total_fatalities)
         SELECT
@@ -235,12 +271,6 @@ def rebuild_conflict_features_base(conn, logger):
 
 
 def fill_assoc_actor_1_mode(conn, logger, scheme_name=None):
-    """
-    Fill conflict_features.assoc_actor_1 as the most common (mode) assoc_actor_1
-    across all events belonging to each conflict_id.
-
-    If scheme_name is provided, restrict to that conflict_scheme.
-    """
     cur = conn.cursor()
     logger.info("Filling assoc_actor_1 (mode across events)%s ...",
                 f" for scheme={scheme_name}" if scheme_name else "")
@@ -306,64 +336,211 @@ def fill_assoc_actor_1_mode(conn, logger, scheme_name=None):
     logger.info("assoc_actor_1 filled.")
 
 
-def fill_top_keywords_from_notes(conn, logger, scheme_name=None, top_n=3):
-    """
-    Compute top N keywords per conflict_id from all notes tokens.
-    Writes into conflict_features.top_keyword_1..3 (N capped at 3 by schema).
-    """
-    top_n = max(1, min(int(top_n), 3))
+def fill_event_type_modes(conn, logger, scheme_name=None):
     cur = conn.cursor()
-    logger.info("Computing top %d keywords from notes%s ...",
-                top_n, f" for scheme={scheme_name}" if scheme_name else "")
+    logger.info("Filling disorder type modes and event type modes")
+
+    scheme_filter = "AND ec.conflict_scheme = ?" if scheme_name else ""
+
+    sql_disorder_type = f"""
+        WITH RANKED AS (
+            SELECT
+                ec.conflict_id,
+                TRIM(e.disorder_type) AS disorder_type,
+                COUNT(*) AS n,
+                ROW_NUMBER() OVER (
+                    PARTITION BY ec.conflict_id
+                    ORDER BY COUNT(*) DESC, TRIM(e.disorder_type)
+                    ) AS rn
+                FROM event_conflict ec
+                JOIN events e ON e.event_id_cnty = ec.event_id_cnty
+                WHERE e.disorder_type IS NOT NULL
+                    AND TRIM(e.disorder_type) <> ''
+                    {scheme_filter}
+                GROUP BY ec.conflict_id, TRIM(e.disorder_type)
+        )
+        UPDATE conflict_features
+        SET disorder_type_mode = (
+            SELECT r.disorder_type
+            FROM ranked r
+            WHERE r.conflict_id = conflict_features.conflict_id
+                AND r.rn = 1
+        )
+        WHERE conflict_id IN (SELECT conflict_id FROM ranked WHERE rn = 1);
+    """
+
+    sql_event_type = f"""
+        WITH RANKED AS (
+            SELECT
+                ec.conflict_id,
+                TRIM(e.event_type) AS event_type,
+                COUNT(*) AS n,
+                ROW_NUMBER() OVER (
+                    PARTITION BY ec.conflict_id
+                    ORDER BY COUNT(*) DESC, TRIM(e.event_type)
+                ) AS rn
+            FROM event_conflict ec
+            JOIN events e ON e.event_id_cnty = ec.event_id_cnty
+            WHERE e.event_type IS NOT NULL
+                AND TRIM(e.event_type) <> ''
+                {scheme_filter}
+            GROUP BY ec.conflict_id, TRIM(e.event_type)
+        )
+        UPDATE conflict_features
+        SET event_type_mode = (
+            SELECT r.event_type
+            FROM ranked r
+            WHERE r.conflict_id = conflict_features.conflict_id
+                AND r.rn = 1
+        )
+        WHERE conflict_id IN (SELECT conflict_id FROM ranked WHERE rn = 1);
+    """
 
     if scheme_name:
-        sql = """
-            SELECT ec.conflict_id, e.notes
-            FROM event_conflict ec
-            JOIN events e ON e.event_id_cnty = ec.event_id_cnty
-            WHERE ec.conflict_scheme = ?
-              AND e.notes IS NOT NULL
-              AND TRIM(e.notes) <> '';
-        """
-        rows = cur.execute(sql, (scheme_name,))
+        cur.execute(sql_disorder_type, (scheme_name))
+        cur.execute(sql_event_type, (scheme_name))
     else:
-        sql = """
-            SELECT ec.conflict_id, e.notes
-            FROM event_conflict ec
-            JOIN events e ON e.event_id_cnty = ec.event_id_cnty
-            WHERE e.notes IS NOT NULL
-              AND TRIM(e.notes) <> '';
-        """
-        rows = cur.execute(sql)
+        cur.execute(sql_disorder_type)
+        cur.execute(sql_event_type)
 
-    counts = defaultdict(Counter)
-
-    for conflict_id, notes in rows:
-        text = str(notes).lower()
-        for tok in TOKEN_RE.findall(text):
-            if tok in STOPWORDS:
-                continue
-            counts[conflict_id][tok] += 1
-
-    updates = []
-    for conflict_id, counter in counts.items():
-        top = [w for w, _ in counter.most_common(top_n)]
-        while len(top) < 3:
-            top.append(None)
-        updates.append((top[0], top[1], top[2], conflict_id))
-
-    logger.info("Writing top keywords for %d conflicts.", len(updates))
-    cur.executemany("""
-        UPDATE conflict_features
-        SET top_keyword_1 = ?,
-            top_keyword_2 = ?,
-            top_keyword_3 = ?
-        WHERE conflict_id = ?;
-    """, updates)
     conn.commit()
-    logger.info("Top keywords filled from notes.")
+    logger.info("disorder_type + event_type filled")
 
 
+def rebuild_conflict_type_counts(conn, logger, scheme_name=None):
+    cur = conn.cursor()
+    logger.info("Rebuilding type counts%s ...", f" for scheme={scheme_name}" if scheme_name else "")
+
+    cur.execute("DELETE FROM conflict_disordertype_counts;")
+    cur.execute("DELETE FROM conflict_eventtype_counts;")
+    conn.commit()
+
+    scheme_filter = "WHERE ec.conflict_scheme = ?" if scheme_name else ""
+
+    sql_dis = f"""
+        INSERT INTO conflict_disordertype_counts (conflict_id, disorder_type, n_events, fatalities)
+        SELECT
+            ec.conflict_id,
+            TRIM(e.disorder_type) AS disorder_type,
+            COUNT(DISTINCT ec.event_id_cnty) AS n_events,
+            COALESCE(SUM(e.fatalities), 0) AS fatalities
+        FROM event_conflict ec
+        JOIN events e ON e.event_id_cnty = ec.event_id_cnty
+        {scheme_filter}
+        AND e.disorder_type IS NOT NULL AND TRIM(e.disorder_type) <> ''
+        GROUP BY ec.conflict_id, TRIM(e.disorder_type);
+    """
+
+    sql_ev = f"""
+        INSERT INTO conflict_eventtype_counts (conflict_id, event_type, n_events, fatalities)
+        SELECT
+            ec.conflict_id,
+            TRIM(e.event_type) AS event_type,
+            COUNT(DISTINCT ec.event_id_cnty) AS n_events,
+            COALESCE(SUM(e.fatalities), 0) AS fatalities
+        FROM event_conflict ec
+        JOIN events e ON e.event_id_cnty = ec.event_id_cnty
+        {scheme_filter}
+        AND e.event_type IS NOT NULL AND TRIM(e.event_type) <> ''
+        GROUP BY ec.conflict_id, TRIM(e.event_type);
+    """
+
+    if scheme_name:
+        cur.execute(sql_ev, (scheme_name,))
+        cur.execute(sql_dis, (scheme_name,))
+    else:
+        cur.execute(sql_ev.replace("WHERE ec.conflict_scheme = ?", "WHERE 1=1"))
+        cur.execute(sql_dis.replace("WHERE ec.conflict_scheme = ?", "WHERE 1=1"))
+
+    conn.commit()
+    logger.info("Type counts rebuilt.")
+
+
+# --------------------
+# TIME FEATURES
+
+def ensure_conflict_time_table(conn: sqlite3.Connection, logger):
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS conflict_time (
+            conflict_id INTEGER PRIMARY KEY,
+            start_date TEXT,
+            end_date TEXT,
+            mid_date TEXT,
+            duration_days INTEGER
+        );
+    """)
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_time_start ON conflict_time(start_date);")
+    cur.execute("CREATE INDEX IF NOT EXISTS idx_conflict_time_end ON conflict_time(end_date);")
+    conn.commit()
+    logger.info("conflict_time schema ensured.")
+
+
+def rebuild_conflict_time(conn: sqlite3.Connection, logger):
+    cur = conn.cursor()
+
+    cur.execute("DELETE FROM conflict_time;")
+    conn.commit()
+
+    cur.execute(f"""
+        INSERT INTO conflict_time(conflict_id, start_date, end_date)
+        SELECT
+            ec.conflict_id,
+            MIN(substr(e.{EVENT_DATE_COL}, 1, 10)) AS start_date,
+            MAX(substr(e.{EVENT_DATE_COL}, 1, 10)) AS end_date
+        FROM {MAP_TABLE} ec
+        JOIN {EVENTS_TABLE} e
+          ON e.event_id_cnty = ec.event_id_cnty
+        WHERE e.{EVENT_DATE_COL} IS NOT NULL AND TRIM(e.{EVENT_DATE_COL}) <> ''
+        GROUP BY ec.conflict_id;
+    """)
+    conn.commit()
+
+    cur.execute("""
+        UPDATE conflict_time
+        SET
+          duration_days = CAST((julianday(end_date) - julianday(start_date)) AS INTEGER),
+          mid_date = date(julianday(start_date) + (julianday(end_date) - julianday(start_date)) / 2.0);
+    """)
+    conn.commit()
+
+    logger.info("conflict_time rebuilt.")
+
+
+def push_time_into_conflict_features(conn: sqlite3.Connection, logger):
+    ensure_columns(conn, FEATURES_TABLE, [
+        ("start_date", "TEXT"),
+        ("end_date", "TEXT"),
+        ("mid_date", "TEXT"),
+        ("duration_days", "INTEGER"),
+    ])
+
+    cur = conn.cursor()
+    cur.execute(f"""
+        UPDATE {FEATURES_TABLE}
+        SET
+          start_date = (SELECT ct.start_date FROM conflict_time ct WHERE ct.conflict_id = {FEATURES_TABLE}.conflict_id),
+          end_date   = (SELECT ct.end_date   FROM conflict_time ct WHERE ct.conflict_id = {FEATURES_TABLE}.conflict_id),
+          mid_date   = (SELECT ct.mid_date   FROM conflict_time ct WHERE ct.conflict_id = {FEATURES_TABLE}.conflict_id),
+          duration_days = (SELECT ct.duration_days FROM conflict_time ct WHERE ct.conflict_id = {FEATURES_TABLE}.conflict_id)
+        WHERE conflict_id IN (SELECT conflict_id FROM conflict_time);
+    """)
+    conn.commit()
+
+    logger.info("Time columns pushed into conflict_features.")
+
+
+def ensure_dashboard_indexes(conn: sqlite3.Connection, logger):
+    cur = conn.cursor()
+    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{FEATURES_TABLE}_country ON {FEATURES_TABLE}(country);")
+    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{FEATURES_TABLE}_actor1 ON {FEATURES_TABLE}(actor1);")
+    cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{FEATURES_TABLE}_start_date ON {FEATURES_TABLE}(start_date);")
+    conn.commit()
+    logger.info("Dashboard indexes ensured.")
+
+
+# --------------------
+# MAIN
 
 def main():
     logger = init_logger("unique_conflicts")
@@ -373,29 +550,32 @@ def main():
     conn = get_db_connection(str(DB_PATH))
 
     try:
-        logger.info("Creating unique_conflict table if it does not exist...")
         create_unique_conflict_table(conn)
-
         ensure_indexes(conn, logger)
-
-        logger.info("Populating unique_conflict table...")
         populate_unique_conflict_table(conn, logger)
 
-        logger.info("Finished updating unique_conflict table.")
-
+        ensure_conflict_type_count_tables(conn, logger)
         ensure_conflict_features_schema(conn, logger)
-        rebuild_conflict_features_base(conn, logger)
-        fill_assoc_actor_1_mode(conn, logger)
-        fill_top_keywords_from_notes(conn, logger, top_n=3)
 
+        rebuild_conflict_features_base(conn, logger)
+        rebuild_conflict_type_counts(conn, logger)
+        fill_event_type_modes(conn, logger)
+        fill_assoc_actor_1_mode(conn, logger)
+
+       
+
+        ensure_conflict_time_table(conn, logger)
+        rebuild_conflict_time(conn, logger)
+        push_time_into_conflict_features(conn, logger)
+        ensure_dashboard_indexes(conn, logger)
 
     except Exception:
         logger.exception("unique_conflicts script failed.")
         raise
-
     finally:
         conn.close()
         logger.info("Closed database connection.")
+
 
 
 if __name__ == "__main__":
