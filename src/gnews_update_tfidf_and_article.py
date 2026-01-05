@@ -43,7 +43,7 @@ CONFLICT_COUNTRY_COL = "country"
 
 # ----------------
 # Runtime knobs
-TEST_LIMIT_UPDATE: Optional[int] = 1000
+TEST_LIMIT_UPDATE: Optional[int] = None
 BATCH_SIZE = 200
 TRANSLATE_BATCH_SIZE = 128
 
