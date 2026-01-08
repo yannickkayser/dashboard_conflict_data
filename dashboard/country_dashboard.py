@@ -268,42 +268,6 @@ with tab3:
         unsafe_allow_html=True,
     )
 
-    # Sidebar filters – nur in diesem Tab
-    with st.sidebar:
-        st.markdown("### 🔍 Filters")
-        filt_country = st.text_input("Country contains", value="")
-        min_fatal = st.number_input("Min fatalities", min_value=0, value=0, step=50)
-        min_events = st.number_input("Min events", min_value=0, value=0, step=50)
-        max_rows = st.number_input("Max countries", min_value=10, value=200, step=10)
-
-        st.markdown("---")
-        st.markdown("### 📰 Article filters")
-        max_articles = st.number_input(
-            "Max articles (detail)", min_value=10, value=300, step=10
-        )
-        art_text = st.text_input("Title/description contains", value="")
-
-        st.markdown("---")
-        st.markdown("### ⏱️ Recency thresholds")
-        recency_days = st.number_input(
-            "No-coverage threshold (days)", min_value=1, value=30, step=1
-        )
-
-    # Filter country table
-    if filt_country.strip():
-        conf = contains_filter(conf, C_COUNTRY, filt_country.strip())
-
-    conf = conf[
-        (conf[C_FATAL] >= float(min_fatal))
-        & (conf[C_EVENTS] >= float(min_events))
-    ].copy()
-
-    conf = (
-        conf.sort_values(["n_articles", C_EVENTS, C_FATAL], ascending=False)
-        .head(int(max_rows))
-        .reset_index(drop=True)
-    )
-
     # KPIs (graue Karten)
     k1, k2, k3, k4 = st.columns(4)
     with k1:
@@ -385,40 +349,63 @@ with tab3:
         ["Country overview (matched articles)", "Coverage vs conflict scatter"]
     )
 
-    with tab_scatter:
-        if conf.empty:
-            st.info("No countries match the current filters.")
-        else:
-            scatter = (
-                alt.Chart(conf)
-                .mark_circle(size=90, opacity=0.85)
-                .encode(
-                    x=alt.X(f"{C_EVENTS}:Q", title="Conflict intensity: events"),
-                    y=alt.Y(
-                        "n_articles:Q", title="Media coverage: matched articles"
-                    ),
-                    tooltip=[
-                        alt.Tooltip("country:N"),
-                        alt.Tooltip("n_events:Q"),
-                        alt.Tooltip("total_fatalities:Q"),
-                        alt.Tooltip("n_articles:Q"),
-                    ],
-                    color=alt.Color(
-                        "articles_per_event:Q", title="Articles per event"
-                    ),
-                )
-            )
-            st.altair_chart(scatter, use_container_width=True)
-            st.caption(
-                "Countries with many events but few articles tend to be undercovered."
-            )
-
     with tab_overview:
         st.caption(
             "Country-level overview of conflict events, fatalities, and matched news "
             "articles used for the detailed article view below."
         )
-        show_master = conf[
+
+        # ---- Country-level Filterleiste ----
+        c1, c2, c3, c4 = st.columns([2, 1.2, 1.2, 1.2])
+        with c1:
+            filt_country = st.text_input("Country", value="")
+        with c2:
+            min_fatal_str = st.text_input("Min total fatalities", value="")
+        with c3:
+            min_events_str = st.text_input("Min events", value="")
+        with c4:
+            max_articles_str = st.text_input("Amount articles (detail)", value="300")
+
+        def to_float(x, default=0.0):
+            try:
+                return float(x)
+            except Exception:
+                return default
+
+        def to_int(x, default=300):
+            try:
+                return int(float(x))
+            except Exception:
+                return default
+
+        min_fatal = to_float(min_fatal_str, 0.0)
+        min_events = to_float(min_events_str, 0.0)
+        max_articles = to_int(max_articles_str, 300)
+
+        st.markdown(
+            "<p style='font-size:0.85rem; color:#666; margin-top:0.2rem;'>"
+            "Filter options for country, minimum total fatalities, minimum events, "
+            "and number of articles used for the detailed article view below."
+            "</p>",
+            unsafe_allow_html=True,
+        )
+
+        # gefiltertes conf für Anzeige und Auswahl
+        conf_filtered = conf.copy()
+        if filt_country.strip():
+            conf_filtered = contains_filter(conf_filtered, C_COUNTRY, filt_country.strip())
+
+        conf_filtered = conf_filtered[
+            (conf_filtered[C_FATAL] >= min_fatal)
+            & (conf_filtered[C_EVENTS] >= min_events)
+        ].copy()
+
+        conf_filtered = (
+            conf_filtered.sort_values(["n_articles", C_EVENTS, C_FATAL], ascending=False)
+            .reset_index(drop=True)
+        )
+
+        show_master = conf_filtered[
             [
                 C_COUNTRY,
                 C_EVENTS,
@@ -444,12 +431,245 @@ with tab3:
             selection_mode="single-row",
         )
 
+    with tab_scatter:
+        conf_scatter = conf.copy()
+        if "filt_country" in locals() and filt_country.strip():
+            conf_scatter = contains_filter(conf_scatter, C_COUNTRY, filt_country.strip())
+        if "min_fatal" in locals() and "min_events" in locals():
+            conf_scatter = conf_scatter[
+                (conf_scatter[C_FATAL] >= min_fatal)
+                & (conf_scatter[C_EVENTS] >= min_events)
+            ].copy()
+
+        if conf_scatter.empty:
+            st.info("No countries match the current filters.")
+        else:
+            scatter = (
+                alt.Chart(conf_scatter)
+                .mark_circle(size=90, opacity=0.85)
+                .encode(
+                    x=alt.X(f"{C_EVENTS}:Q", title="Conflict intensity: events"),
+                    y=alt.Y(
+                        "n_articles:Q", title="Media coverage: matched articles"
+                    ),
+                    tooltip=[
+                        alt.Tooltip("country:N"),
+                        alt.Tooltip("n_events:Q"),
+                        alt.Tooltip("total_fatalities:Q"),
+                        alt.Tooltip("n_articles:Q"),
+                    ],
+                    color=alt.Color(
+                        "articles_per_event:Q", title="Articles per event"
+                    ),
+                )
+            )
+            st.altair_chart(scatter, use_container_width=True)
+            st.caption(
+                "Countries with many events but few articles tend to be undercovered."
+            )
+
+    # Country-Auswahl aus Overview-Tabelle
     selected_country = ""
-    if evt and evt.selection.rows:
+    if "evt" in locals() and evt and evt.selection.rows:
         i = evt.selection.rows[0]
         selected_country = str(show_master.iloc[i]["country"])
 
     selected_country = st.text_input("Selected country", value=selected_country)
+
+    st.divider()
+
+    # -------------------------
+    # Country conflict profile (VOR der Artikelliste)
+    # -------------------------
+    st.markdown(
+        """
+        <h4 style="margin-bottom:0.1rem;">Which types of conflict events and actors most strongly shape the current conflict situation in this country?</h4>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.15rem;">
+            Explore dominant event types, disorder categories, and key actors from ACLED to see which kinds of conflict activity underpin the news coverage for the selected country.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown(f"**Selected country:** {selected_country}")
+
+    if not selected_country.strip():
+        st.info("Select a country from the overview table above to see details.")
+        st.stop()
+
+    if "conf_filtered" in locals():
+        conf_for_detail = conf_filtered
+    else:
+        conf_for_detail = conf
+
+    row = conf_for_detail[conf_for_detail[C_COUNTRY].astype(str) == selected_country.strip()]
+    if row.empty:
+        st.warning(
+            "Selected country not found in current filtered table. Try adjusting filters."
+        )
+        st.stop()
+
+    r = row.iloc[0]
+
+    # Konfliktprofil-Daten
+    cf = qdf_conf_features(selected_country.strip())
+    if cf.empty:
+        st.info("No conflict feature data available for this country.")
+    else:
+        # Event-type-Verteilung für Pie-Chart
+        top_events = (
+            cf.groupby("event_type_mode", dropna=True)["n_events"]
+            .sum()
+            .reset_index()
+            .sort_values("n_events", ascending=False)
+        )
+        if top_events.shape[0] > 5:
+            top5 = top_events.head(5).copy()
+            others = pd.DataFrame(
+                {
+                    "event_type_mode": ["Other"],
+                    "n_events": [top_events["n_events"].iloc[5:].sum()],
+                }
+            )
+            event_pie_df = pd.concat([top5, others], ignore_index=True)
+        else:
+            event_pie_df = top_events.copy()
+
+        # Disorder-Type-Bar-Chart
+        top_disorders = (
+            cf.groupby("disorder_type_mode", dropna=True)["n_events"]
+            .sum()
+            .reset_index()
+            .sort_values("n_events", ascending=False)
+            .head(5)
+        )
+
+        # Key actors
+        top_actors = (
+            cf.groupby("primary_assoc_actor_1", dropna=True)["n_events"]
+            .sum()
+            .reset_index()
+            .sort_values("n_events", ascending=False)
+            .head(4)
+        )
+
+        # 3 gleich breite Spalten über gesamte Dashboard-Breite
+        col_event, col_disorder, col_actors = st.columns(3)
+
+        # ---- Box 1: Event types share ----
+        with col_event:
+            st.markdown(
+                """
+                <div style="
+                    background-color:#f5f5f5;
+                    padding:1.0rem 1.1rem 1.2rem 1.1rem;
+                    border-radius:12px;
+                    margin-right:0.6rem;
+                ">
+                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                    Event types share
+                  </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            pie = (
+                alt.Chart(event_pie_df)
+                .mark_arc(outerRadius=115, innerRadius=40)
+                .encode(
+                    theta=alt.Theta("n_events:Q", stack=True),
+                    color=alt.Color(
+                        "event_type_mode:N",
+                        title="Event type",
+                        legend=alt.Legend(orient="right"),
+                        scale=alt.Scale(scheme="tableau20"),
+                    ),
+                    tooltip=["event_type_mode", "n_events"],
+                )
+                .properties(width=260, height=260)
+            )
+            st.altair_chart(pie, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        # ---- Box 2: Main disorder categories ----
+        with col_disorder:
+            st.markdown(
+                """
+                <div style="
+                    background-color:#f5f5f5;
+                    padding:1.0rem 1.1rem 1.2rem 1.1rem;
+                    border-radius:12px;
+                    margin:0 0.3rem;
+                ">
+                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                    Main disorder categories
+                  </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            disorder_bar = (
+                alt.Chart(top_disorders)
+                .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3)
+                .encode(
+                    y=alt.Y(
+                        "disorder_type_mode:N",
+                        sort="-x",
+                        title=None,
+                    ),
+                    x=alt.X(
+                        "n_events:Q",
+                        title="Events",
+                        axis=alt.Axis(tickMinStep=10),
+                    ),
+                    color=alt.Color(
+                        "disorder_type_mode:N",
+                        legend=None,
+                        scale=alt.Scale(scheme="set2"),
+                    ),
+                    tooltip=["disorder_type_mode", "n_events"],
+                )
+                .properties(width=320, height=220)
+            )
+            st.altair_chart(disorder_bar, use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+
+        # ---- Box 3: Key primary actors + Zeitraum ----
+        with col_actors:
+            st.markdown(
+                """
+                <div style="
+                    background-color:#f5f5f5;
+                    padding:1.0rem 1.1rem 1.2rem 1.1rem;
+                    border-radius:12px;
+                    margin-left:0.6rem;
+                ">
+                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                    Key primary actors
+                  </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            for _, ac in top_actors.iterrows():
+                st.markdown(
+                    f"- {ac['primary_assoc_actor_1']} ({int(ac['n_events'])} events)"
+                )
+
+            cf["start_date"] = pd.to_datetime(cf["start_date"], errors="coerce")
+            cf["end_date"] = pd.to_datetime(cf["end_date"], errors="coerce")
+            if cf["start_date"].notna().any() and cf["end_date"].notna().any():
+                start_min = cf["start_date"].min().date()
+                end_max = cf["end_date"].max().date()
+                st.markdown(
+                    f"<p style='font-size:0.85rem; color:#555; margin-top:0.9rem;'>"
+                    f"ACLED conflict events covered from <strong>{start_min}</strong> "
+                    f"to <strong>{end_max}</strong>.</p>",
+                    unsafe_allow_html=True,
+                )
+
+            st.markdown("</div>", unsafe_allow_html=True)
+    
+    
 
     st.divider()
 
@@ -470,21 +690,8 @@ with tab3:
     )
 
     # Country detail section
-    st.subheader("🌍 Country detail")
+    
     st.markdown(f"**Selected country:** {selected_country}")
-
-    if not selected_country.strip():
-        st.info("Select a country from the overview table above to see details.")
-        st.stop()
-
-    row = conf[conf[C_COUNTRY].astype(str) == selected_country.strip()]
-    if row.empty:
-        st.warning(
-            "Selected country not found in current filtered table. Try adjusting filters."
-        )
-        st.stop()
-
-    r = row.iloc[0]
 
     # Pull article data for selected country
     show_cols = [A_ID, A_PUB, A_SOURCE, A_TITLE, A_DESC, M_COUNTRY]
@@ -504,20 +711,6 @@ with tab3:
     if not art.empty:
         art[A_PUB] = pd.to_datetime(art[A_PUB], errors="coerce")
 
-    # Apply text filter (global)
-    if art_text.strip() and not art.empty:
-        mask = (
-            art[A_TITLE]
-            .astype(str)
-            .str.lower()
-            .str.contains(art_text.strip().lower(), na=False)
-            | art[A_DESC]
-            .astype(str)
-            .str.lower()
-            .str.contains(art_text.strip().lower(), na=False)
-        )
-        art = art[mask].reset_index(drop=True)
-
     # Recency metrics
     now = datetime.utcnow()
     if not art.empty and art[A_PUB].notna().any():
@@ -528,18 +721,72 @@ with tab3:
         days_since_last = None
         last_7 = 0
 
-    # Zeile 1: 3 Kennzahlen + Top-3-Outlets-Plot
+    # -------- Country KPIs: einzelne graue Karten + Top-3-Outlets --------
+
+    # Zeile 1: 3 Kennzahlen + Top-3-Outlets (alles im jeweiligen grauen Block)
     row1_col1, row1_col2, row1_col3, row1_col4 = st.columns([1, 1, 1, 1.6])
 
     with row1_col1:
-        st.metric("Matched articles", f"{int(art.shape[0]):,}")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-bottom:0.8rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Matched articles</div>
+              <div style="font-size:1.6rem; font-weight:600;">{int(art.shape[0]):,}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     with row1_col2:
-        st.metric("Events", f"{int(r[C_EVENTS]):,}")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-bottom:0.8rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Events</div>
+              <div style="font-size:1.6rem; font-weight:600;">{int(r[C_EVENTS]):,}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     with row1_col3:
-        st.metric("Fatalities", f"{int(r[C_FATAL]):,}")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-bottom:0.8rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Fatalities</div>
+              <div style="font-size:1.6rem; font-weight:600;">{int(r[C_FATAL]):,}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     with row1_col4:
-        st.markdown("**Top 3 outlets (snapshot)**")
+        st.markdown(
+            """
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-bottom:0.8rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Top 3 outlets (snapshot)</div>
+            """,
+            unsafe_allow_html=True,
+        )
         if art.empty or A_SOURCE not in art.columns:
             st.info("No outlet data available for this selection.")
         else:
@@ -565,32 +812,69 @@ with tab3:
                         axis=alt.Axis(tickMinStep=10),
                     ),
                     tooltip=[A_SOURCE, "n_articles"],
-                    color=alt.Color(
-                        "n_articles:Q",
-                        title=None,
-                        scale=alt.Scale(scheme="blues"),
-                    ),
+                    color=alt.Color("n_articles:Q", legend=None),
                 )
                 .properties(height=120, width=260)
             )
             st.altair_chart(snap_bar, use_container_width=False)
+        st.markdown("</div>", unsafe_allow_html=True)
 
-    # Zeile 2: restliche 3 Kennzahlen
+    # Zeile 2: weitere Kennzahlen, je eigener grauer Block
     row2_col1, row2_col2, row2_col3 = st.columns(3)
+
     with row2_col1:
-        st.metric(
-            "Articles per event",
+        val = (
             f"{r['articles_per_event']:.3f}"
             if r["articles_per_event"] is not None
-            else "NA",
+            else "NA"
         )
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-top:0.2rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Articles per event</div>
+              <div style="font-size:1.6rem; font-weight:600;">{val}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     with row2_col2:
-        st.metric(
-            "Days since last article",
-            f"{days_since_last}" if days_since_last is not None else "NA",
+        ds = f"{days_since_last}" if days_since_last is not None else "NA"
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-top:0.2rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Days since last article</div>
+              <div style="font-size:1.6rem; font-weight:600;">{ds}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
+
     with row2_col3:
-        st.metric("Articles last 7 days", f"{last_7}")
+        st.markdown(
+            f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:0.9rem 1.1rem;
+                border-radius:12px;
+                margin-top:0.2rem;
+            ">
+              <div style="font-size:0.85rem; color:#555;">Articles last 7 days</div>
+              <div style="font-size:1.6rem; font-weight:600;">{last_7}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
     # -------------------------
     # Detail tabs
@@ -599,17 +883,9 @@ with tab3:
         ["📰 Articles", "🏢 Outlets detail", "📈 Coverage over time"]
     )
 
-    # ---------- Articles tab: left articles, right conflict profile ----------
-    # -------------------------
-    # Detail tabs
-    # -------------------------
-    t_articles, t_outlets, t_time = st.tabs(
-        ["📰 Articles", "🏢 Outlets detail", "📈 Coverage over time"]
-    )
-
-    # ---------- Articles tab: search + table, conflict profile BELOW ----------
+    # ---------- Articles tab ----------
     with t_articles:
-        header_left, header_right = st.columns([3, 1])
+        header_left, _ = st.columns([3, 1])
         with header_left:
             st.markdown(
                 """
@@ -619,8 +895,6 @@ with tab3:
                 """,
                 unsafe_allow_html=True,
             )
-        with header_right:
-            st.metric("Articles shown", f"{len(art):,}")
 
         # Filter-Leiste
         search_col, date_from_col, date_to_col = st.columns([2, 1, 1])
@@ -638,7 +912,6 @@ with tab3:
         with date_to_col:
             date_to = st.date_input("To date", value=None)
 
-        # Artikel filtern
         art_filtered = art.copy()
 
         if date_from and date_to:
@@ -663,7 +936,6 @@ with tab3:
             "to a custom publication date range."
         )
 
-        # Artikeltabelle
         if art_filtered.empty:
             st.info("No matched articles found for this selection and filters.")
         else:
@@ -695,127 +967,6 @@ with tab3:
                 )
             else:
                 st.dataframe(out, use_container_width=True, hide_index=True)
-
-        st.markdown("---")
-
-        # -------- Country conflict profile (below table) --------
-        st.markdown(
-            """
-            <h4 style="margin-bottom:0.1rem;">Country conflict profile</h4>
-            <p style="font-size:0.9rem; color:#555; margin-top:0.15rem;">
-                Conflict characteristics from ACLED help to contextualize the news articles
-                shown above.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        cf = qdf_conf_features(selected_country.strip())
-
-        if cf.empty:
-            st.info("No conflict feature data available for this country.")
-        else:
-            # Event-type-Verteilung für Pie-Chart vorbereiten
-            top_events = (
-                cf.groupby("event_type_mode", dropna=True)["n_events"]
-                .sum()
-                .reset_index()
-                .sort_values("n_events", ascending=False)
-            )
-            # nur Top 5 explizit, Rest bündeln
-            if top_events.shape[0] > 5:
-                top5 = top_events.head(5).copy()
-                others = pd.DataFrame(
-                    {
-                        "event_type_mode": ["Other"],
-                        "n_events": [top_events["n_events"].iloc[5:].sum()],
-                    }
-                )
-                event_pie_df = pd.concat([top5, others], ignore_index=True)
-            else:
-                event_pie_df = top_events.copy()
-
-            # Disorder-Type-Bar-Chart
-            top_disorders = (
-                cf.groupby("disorder_type_mode", dropna=True)["n_events"]
-                .sum()
-                .reset_index()
-                .sort_values("n_events", ascending=False)
-                .head(5)
-            )
-
-            # Layout: links Pie, rechts Bar + Text
-            pie_col, bar_col = st.columns([1.1, 1.3])
-
-            with pie_col:
-                st.markdown("**Event types share**")
-                pie = (
-                    alt.Chart(event_pie_df)
-                    .mark_arc(outerRadius=90, innerRadius=35)  # Donut
-                    .encode(
-                        theta=alt.Theta("n_events:Q", stack=True),
-                        color=alt.Color(
-                            "event_type_mode:N",
-                            title="Event type",
-                            scale=alt.Scale(scheme="tableau20"),
-                        ),
-                        tooltip=["event_type_mode", "n_events"],
-                    )
-                    .properties(width=220, height=200)
-                )
-                st.altair_chart(pie, use_container_width=False)
-
-            with bar_col:
-                st.markdown("**Main disorder categories**")
-                disorder_bar = (
-                    alt.Chart(top_disorders)
-                    .mark_bar(cornerRadiusTopLeft=3, cornerRadiusTopRight=3)
-                    .encode(
-                        y=alt.Y(
-                            "disorder_type_mode:N",
-                            sort="-x",
-                            title=None,
-                        ),
-                        x=alt.X(
-                            "n_events:Q",
-                            title="Events",
-                            axis=alt.Axis(tickMinStep=10),
-                        ),
-                        color=alt.Color(
-                            "disorder_type_mode:N",
-                            legend=None,
-                            scale=alt.Scale(scheme="set2"),
-                        ),
-                        tooltip=["disorder_type_mode", "n_events"],
-                    )
-                    .properties(width=260, height=180)
-                )
-                st.altair_chart(disorder_bar, use_container_width=False)
-
-                # Key actors + Zeitraum
-                top_actors = (
-                    cf.groupby("primary_assoc_actor_1", dropna=True)["n_events"]
-                    .sum()
-                    .reset_index()
-                    .sort_values("n_events", ascending=False)
-                    .head(4)
-                )
-                st.markdown("**Key primary actors:**")
-                for _, ac in top_actors.iterrows():
-                    st.markdown(f"- {ac['primary_assoc_actor_1']} ({int(ac['n_events'])} events)")
-
-                cf["start_date"] = pd.to_datetime(cf["start_date"], errors="coerce")
-                cf["end_date"] = pd.to_datetime(cf["end_date"], errors="coerce")
-                if cf["start_date"].notna().any() and cf["end_date"].notna().any():
-                    start_min = cf["start_date"].min().date()
-                    end_max = cf["end_date"].max().date()
-                    st.markdown(
-                        f"<p style='font-size:0.85rem; color:#555; margin-top:0.4rem;'>"
-                        f"ACLED conflict events covered from <strong>{start_min}</strong> "
-                        f"to <strong>{end_max}</strong>.</p>",
-                        unsafe_allow_html=True,
-                    )
-
 
     # ---------- Outlets detail ----------
     with t_outlets:
@@ -862,6 +1013,20 @@ with tab3:
             st.info("No parsable publication dates available.")
         else:
             tmp = art.dropna(subset=[A_PUB]).copy()
+
+            # Filter für Zeitraum des Line-Plots
+            date_from_line, date_to_line = st.columns(2)
+            with date_from_line:
+                cov_from = st.date_input("From date (coverage)", value=None)
+            with date_to_line:
+                cov_to = st.date_input("To date (coverage)", value=None)
+
+            if cov_from and cov_to:
+                tmp = tmp[
+                    (tmp[A_PUB].dt.date >= cov_from)
+                    & (tmp[A_PUB].dt.date <= cov_to)
+                ]
+
             tmp["month"] = to_month(tmp[A_PUB])
             by_month = (
                 tmp.groupby("month")
