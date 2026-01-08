@@ -22,7 +22,7 @@ COUNTRY_TABLE = "conflict_country"
 MATCH_TABLE = "match_country_slim"
 CONFLICT_FEATURES_TABLE = "conflict_features"
 
-st.set_page_config(page_title="Conflict Dashboard", layout="wide")
+st.set_page_config(page_title="Conflict Media Mirror", layout="wide")
 
 # -------------------------
 # Styling
@@ -58,7 +58,7 @@ st.markdown(
 st.markdown(
     """
 <div class="main-header">
-  <h1>🌍 Conflict Dashboard</h1>
+  <h1>🌍 Conflict Media Mirror</h1>
 </div>
 """,
     unsafe_allow_html=True,
@@ -200,7 +200,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs(
     [
         "📊 Conflict Underrepresentation",
         "💭 Sentiment Analysis",
-        "🔗 Conflict × Media Explorer",
+        "🔗 Conflict Media Explorer",
         "📅 Timeline",
         "ℹ️ Impressum",
     ]
@@ -251,7 +251,7 @@ with tab2:
 # Tab 3: Conflict × Media Explorer
 # -------------------------
 with tab3:
-    st.markdown("## 🔗 Conflict Media Explorer")
+    st.markdown("## Conflict Media Explorer")
 
     # Leitfrage + Beschreibung für Länder-Übersicht
     st.markdown(
