@@ -366,10 +366,14 @@ def build_geojson_underrep(world: gpd.GeoDataFrame, df_plot: pd.DataFrame, clip:
 # --------------------------
 # Helpers Sentiment
 # --------------------------
+DATA_PATH = PROJECT_ROOT / "data" / "processed_conflict_articles.csv"
 @st.cache_data
 def load_data():
+    if not DATA_PATH.exists():
+        st.error(f"Cannot find the file：{DATA_PATH}")
+        return None
     try:
-        df = pd.read_csv("../data/processed_conflict_articles.csv")
+        df = pd.read_csv(DATA_PATH)
         df['published_date'] = pd.to_datetime(df['published_date'])
         return df
     except Exception as e:
