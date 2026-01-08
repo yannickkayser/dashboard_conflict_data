@@ -138,7 +138,7 @@ def gap_to_color(g: float, clip: float = 0.01, gamma: float = 1.0) -> list[int]:
     g = float(np.clip(g, -clip, clip)) / clip  # -> [-1, 1]
     g = np.sign(g) * (abs(g) ** gamma)
 
-    grey = np.array([200, 200, 200], dtype=float)
+    grey = np.array([180, 180, 180], dtype=float)
     pink = np.array([255, 105, 180], dtype=float)  # undercovered
     blue = np.array([80, 130, 255], dtype=float)   # overcovered
 
