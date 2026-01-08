@@ -19,6 +19,11 @@ import numpy as np
 import pydeck as pdk
 import geopandas as gpd
 
+# Sentiment imports
+import plotly.express as px
+import plotly.graph_objects as go
+from transformers import pipeline
+
 # -------------------------
 # Paths
 # -------------------------
