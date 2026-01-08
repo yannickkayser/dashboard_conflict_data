@@ -1389,6 +1389,10 @@ with tab4:
 # -------------------------
 with tab5:
     st.markdown("### ℹ️ Impressum")
+    st.info(
+        "🚧 This section is under development. It will display sentiment trends "
+        "in conflict-related media coverage."
+    )
     st.markdown(
         """
     #### About this Dashboard
