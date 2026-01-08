@@ -1,6 +1,7 @@
 name: conflictmediamirror
 channels:
   - conda-forge
+  - defaults
 dependencies:
   - python=3.12
   - numpy
@@ -8,6 +9,13 @@ dependencies:
   - geopandas  
   - pip
   - streamlit
+  - plotly  
+  - scikit-learn  
+  - transformers  
+  - pytorch  
+  - spacy  
+  - geonamescache  
+  - sqlalchemy  
   - pip:
       - country_converter
       - pycountry
@@ -17,3 +25,4 @@ dependencies:
       - streamlit_tags
       - folium
       - streamlit_folium
+      - bertopic
