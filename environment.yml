@@ -8,4 +8,15 @@ dependencies:
   - geopandas  
   - pip
   - streamlit
+  - pip:
+      - country_converter
+      - pycountry
+      - sqlalchemy
+      - pandas
+      - numpy
+      - altair
+      - streamlit_ace
+      - streamlit_tags
+      - folium
+      - streamlit_folium
 prefix: /opt/conda

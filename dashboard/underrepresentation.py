@@ -41,20 +41,40 @@ def load_world() -> gpd.GeoDataFrame:
     cols = {c.lower(): c for c in world.columns}
     name_col = cols.get("name") or cols.get("admin")
     iso_col = cols.get("iso_a3")
+    adm0_col = cols.get("adm0_a3")
+    sov_col  = cols.get("sov_a3")
 
     if not name_col:
         raise KeyError("Natural Earth file does not contain a 'name' or 'admin' column for country names.")
 
     keep = [name_col, "geometry"]
-    if iso_col:
-        keep.insert(1, iso_col)
-
+    if iso_col: keep.insert(1, iso_col)
+    if adm0_col: keep.insert(2, adm0_col)
+    if sov_col:  keep.insert(3, sov_col)
+        
+    
     world = world[keep].copy()
     world = world.rename(columns={name_col: "name"})
     if iso_col:
         world = world.rename(columns={iso_col: "iso_a3"})
     else:
         world["iso_a3"] = None
+    if adm0_col: world = world.rename(columns={adm0_col: "adm0_a3"})
+    if sov_col:  world = world.rename(columns={sov_col: "sov_a3"})
+
+    world["iso_a3"] = world["iso_a3"].astype(str)
+
+    # Fix Natural Earth -99 placeholders
+    if "adm0_a3" in world.columns:
+        m = world["iso_a3"].eq("-99")
+        world.loc[m, "iso_a3"] = world.loc[m, "adm0_a3"].astype(str)
+
+    if "sov_a3" in world.columns:
+        m = world["iso_a3"].eq("-99")
+        world.loc[m, "iso_a3"] = world.loc[m, "sov_a3"].astype(str)
+
+    # Optional normalization for Kosovo (depends what your DB uses)
+    world["iso_a3"] = world["iso_a3"].replace({"KOS": "XKX"})
 
     world = world.set_crs(epsg=4326, allow_override=True).to_crs(epsg=4326)
     return world
@@ -77,8 +97,8 @@ def coverage_to_rgba(cov: float) -> list[int]:
 
 
 def build_geojson(world: gpd.GeoDataFrame, df_idx: pd.DataFrame, color_gamma: float = 0.6) -> tuple[dict, gpd.GeoDataFrame]:
-    # Merge by country name (can be replaced with ISO3 mapping later)
-    merged = world.merge(df_idx, left_on="name", right_on="country", how="left")
+    # Merge by ISO3 code
+    merged = world.merge(df_idx, on="iso_a3", how="left")
 
     # Only fill what we actually use for rendering
     merged["conflict_index_scaled"] = merged["conflict_index_scaled"].fillna(0.0)
@@ -194,14 +214,21 @@ deck = pdk.Deck(
 
 st.pydeck_chart(deck, width="stretch")
 
-st.subheader("Join diagnostics")
-unmatched = (
-    merged[merged["country"].isna()][["name", "iso_a3"]]
-    .drop_duplicates()
-    .sort_values("name")
-)
-st.write(f"Unmatched world polygons (likely naming differences): {len(unmatched)}")
-st.dataframe(unmatched.head(50), use_container_width=True)
+
+#st.subheader("Join diagnostics")
+#unmatched = (
+#    merged[merged["country"].isna()][["name", "iso_a3"]]
+#    .drop_duplicates()
+#    .sort_values("name")
+#)
+#st.write(f"Unmatched world polygons (likely naming differences): {len(unmatched)}")
+#st.dataframe(unmatched.head(50), use_container_width=True)
+
+#st.write("DB iso_a3 for Kosovo:",
+#         df_idx[df_idx["country"].str.contains("Kosovo", na=False)][["country","iso_a3"]].drop_duplicates())
+
+#st.write("Natural Earth iso for Kosovo:",
+#         world[world["name"].str.contains("Kosovo", na=False)][["name","iso_a3"]].drop_duplicates())
 
 st.subheader("Top countries by conflict_index_scaled")
 st.dataframe(

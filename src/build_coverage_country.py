@@ -15,16 +15,16 @@ def main():
     # Rebuild table
     cur.execute("DROP TABLE IF EXISTS coverage_country;")
 
-    # Assumption: match_country_wide has a column art_article_country
+    # Assumption: match_country_wide has a column country
     cur.execute("""
         CREATE TABLE coverage_country AS
         SELECT
-            TRIM(art_article_country) AS country,
+            TRIM(conf_country) AS country,
             COUNT(*) AS n_articles
         FROM match_country_wide
-        WHERE art_article_country IS NOT NULL
-          AND TRIM(art_article_country) != ''
-        GROUP BY TRIM(art_article_country);
+        WHERE conf_country IS NOT NULL
+          AND TRIM(conf_country) != ''
+        GROUP BY TRIM(conf_country);
     """)
 
     cur.execute("CREATE INDEX IF NOT EXISTS idx_coverage_country_country ON coverage_country(country);")
