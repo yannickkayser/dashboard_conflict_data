@@ -94,10 +94,16 @@ def main():
     con_match.close()
 
     df = conflict.merge(coverage, on="country", how="outer")
+
     df["n_events"] = df["n_events"].fillna(0)
     df["total_fatalities"] = df["total_fatalities"].fillna(0)
     df["n_articles"] = df["n_articles"].fillna(0)
     df["iso_a3"] = df["country"].map(country_name_to_iso3)
+
+    # Shares
+    df["share_events"] = df["n_events"] / df["n_events"].sum()
+    df["share_fatalities"] = df["total_fatalities"] / df["total_fatalities"].sum()
+    df["share_articles"] = df["n_articles"] / df["n_articles"].sum()
 
     # Indices
     df["conflict_index_raw"] = harmonic_mean(df["n_events"], df["total_fatalities"])
@@ -113,6 +119,9 @@ def main():
     df_out = df[[
         "country",
         "iso_a3",
+        "share_events",
+        "share_fatalities",
+        "share_articles",
         "n_events",
         "total_fatalities",
         "n_articles",
