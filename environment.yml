@@ -13,7 +13,7 @@ dependencies:
   - transformers  
   - pytorch  
   - spacy  
-  - sqlalchemy  
+  - sqlalchemy 
   - pip:
       - country_converter
       - pycountry

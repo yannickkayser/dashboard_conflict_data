@@ -73,7 +73,7 @@ st.markdown(
 st.markdown(
     """
 <div class="main-header">
-  <h1>🌍 Conflict Media Mirror</h1>
+  <h1> Conflict Media Mirror</h1>
 </div>
 """,
     unsafe_allow_html=True,
@@ -799,7 +799,7 @@ with tab2:
         st.markdown('<div class="section-header">Narrative Discovery</div>', unsafe_allow_html=True)
 
         st.markdown("""
-        <div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.9em;'>
+        <div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.9em; color:#555;'>
             💡 <b>What is this?</b> This section uses algorithms to identify recurring storylines, answering: beyond macro categories like "Protests," what are the specific narrative focuses of the media?
         </div>
         """, unsafe_allow_html=True)
@@ -868,7 +868,7 @@ with tab3:
                 border-radius:12px;
             ">
               <div style="font-size:0.85rem; color:#555;">Countries shown</div>
-              <div style="font-size:1.6rem; font-weight:600;">
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">
                 {value}
               </div>
             </div>
@@ -885,7 +885,7 @@ with tab3:
                 border-radius:12px;
             ">
               <div style="font-size:0.85rem; color:#555;">Total events</div>
-              <div style="font-size:1.6rem; font-weight:600;">
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">
                 {value}
               </div>
             </div>
@@ -904,7 +904,7 @@ with tab3:
                 border-radius:12px;
             ">
               <div style="font-size:0.85rem; color:#555;">Total fatalities</div>
-              <div style="font-size:1.6rem; font-weight:600;">
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">
                 {value}
               </div>
             </div>
@@ -923,7 +923,7 @@ with tab3:
                 border-radius:12px;
             ">
               <div style="font-size:0.85rem; color:#555;">Total matched articles</div>
-              <div style="font-size:1.6rem; font-weight:600;">
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">
                 {value}
               </div>
             </div>
@@ -1154,7 +1154,7 @@ with tab3:
                     border-radius:12px;
                     margin-right:0.6rem;
                 ">
-                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                  <div style="font-size:0.95rem; color:#555; font-weight:600; margin-bottom:0.6rem;">
                     Event types share
                   </div>
                 """,
@@ -1189,7 +1189,7 @@ with tab3:
                     border-radius:12px;
                     margin:0 0.3rem;
                 ">
-                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                  <div style="font-size:0.95rem; color:#555; font-weight:600; margin-bottom:0.6rem;">
                     Main disorder categories
                   </div>
                 """,
@@ -1232,7 +1232,7 @@ with tab3:
                     border-radius:12px;
                     margin-left:0.6rem;
                 ">
-                  <div style="font-size:0.95rem; font-weight:600; margin-bottom:0.6rem;">
+                  <div style="font-size:0.95rem; color:#555; font-weight:600; margin-bottom:0.6rem;">
                     Key primary actors
                   </div>
                 """,
@@ -1325,7 +1325,7 @@ with tab3:
                 margin-bottom:0.8rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Matched articles</div>
-              <div style="font-size:1.6rem; font-weight:600;">{int(art.shape[0]):,}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{int(art.shape[0]):,}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1341,7 +1341,7 @@ with tab3:
                 margin-bottom:0.8rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Events</div>
-              <div style="font-size:1.6rem; font-weight:600;">{int(r[C_EVENTS]):,}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{int(r[C_EVENTS]):,}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1357,7 +1357,7 @@ with tab3:
                 margin-bottom:0.8rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Fatalities</div>
-              <div style="font-size:1.6rem; font-weight:600;">{int(r[C_FATAL]):,}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{int(r[C_FATAL]):,}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1426,7 +1426,7 @@ with tab3:
                 margin-top:0.2rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Articles per event</div>
-              <div style="font-size:1.6rem; font-weight:600;">{val}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{val}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1443,7 +1443,7 @@ with tab3:
                 margin-top:0.2rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Days since last article</div>
-              <div style="font-size:1.6rem; font-weight:600;">{ds}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{ds}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -1459,7 +1459,7 @@ with tab3:
                 margin-top:0.2rem;
             ">
               <div style="font-size:0.85rem; color:#555;">Articles last 7 days</div>
-              <div style="font-size:1.6rem; font-weight:600;">{last_7}</div>
+              <div style="font-size:1.6rem; color:#555;font-weight:600;">{last_7}</div>
             </div>
             """,
             unsafe_allow_html=True,
