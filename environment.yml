@@ -8,8 +8,7 @@ dependencies:
   - pandas
   - geopandas  
   - pip
-  - streamlit
-  - plotly  
+  - streamlit 
   - scikit-learn  
   - transformers  
   - pytorch  
@@ -26,3 +25,4 @@ dependencies:
       - streamlit_folium
       - bertopic
       - geonamescache  
+      - plotly
