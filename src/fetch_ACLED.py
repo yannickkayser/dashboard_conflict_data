@@ -9,6 +9,7 @@ import requests
 import json
 import time
 import os
+import random
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import sqlite3
@@ -102,62 +103,27 @@ def fetch_acled_data (country, time_period):
         time.sleep(random.uniform(0.5, 1.5))  # polite delay
 
     
-    """# Save all combined data
+    # Save all combined data
     if all_data:
-        folder_path = "../raw"
+        folder_path = "raw/"
         os.makedirs(folder_path, exist_ok=True)
 
-        output_filename = os.path.join(folder_path, f"ACLEDoutput_{country}_{year}.json")
+        safe_period = time_period.replace("|", "_to_")
+        output_filename = os.path.join(
+            folder_path, 
+            f"ACLEDoutput_{country}_{safe_period}.json"
+        )
 
         with open(output_filename, "w", encoding="utf-8") as f:
             json.dump({"data": all_data}, f, ensure_ascii=False, indent=4)
 
         print(f"✅ Saved {len(all_data)} total rows to {output_filename}")
+        return output_filename
     else:
         print("⚠️ No data retrieved.")
-
-    print(f"\n[{datetime.now()}] Fetching ACLED data for {country} from {time_period}")
-
-    response = requests.get("https://acleddata.com/api/acled/read?_format=json",
-        params=params,
-        headers={"Authorization": f"Bearer {my_token}", "Content-Type": "application/json"}
-    )
-
-    ### Retrieve data and save in json file
-    if response.json()["status"] == 200:
-        print(
-            "Request successful"
-        )
-
-        number_entries = response.json()["total_count"]
-        print(f"Total number of entries: {number_entries} for {country}")
-
-        # Call limit 5000 entries, if there are more than 5000 entries need a different approach
-        if number_entries >= 5000: # error -> needs to be bigger 
-            print(f"------- Attention --------\n{country} has more entries than, need to perfom pagination")
-
-        else:
-            # save results as json file
-            data = response.json()
-
-            # filename
-            folder_path = "../raw"
-            os.makedirs(folder_path, exist_ok=True)  # create folder if it doesn't exist
-
-            output_filename = os.path.join(folder_path, f"ACLEDouput_{country}_{time_period}.json")
-
-            # Save JSON to the specified file
-            with open(output_filename, "w", encoding="utf-8") as f:
-                json.dump(data, f, ensure_ascii=False, indent=4)
+        return None
 
 
-            print(f"Saving data to {output_filename}")
-            return(output_filename)
-
-
-    else:
-        print("Request unsucessfull, try again")
-    """
 
 
 ################################## 
@@ -187,6 +153,10 @@ def get_newest_date(country, db_path):
 # 4. Load into the dates in the database
 def load_json_to_db(json_path, db_path):
     # Load JSON
+    if not json_path or not os.path.exists(json_path):
+        log.warning(f"JSON file not found: {json_path}")
+        return
+        
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
