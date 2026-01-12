@@ -60,7 +60,7 @@ class PipelineConfig:
         self.final_table = "articles_eng"
         
         # API Configuration
-        self.api_key = config_dict.get("gnews", {}).get("api_key", "XXXXXXXXXXXXXXXXXXXXXXXX")
+        self.api_key = config_dict.get("gnews", {}).get("api_key","cbc7d3f5fe399cb90da7301863ecf370")
         self.base_url = "https://gnews.io/api/v4/search"
         self.lang = "de"
         self.country = "de"
@@ -74,8 +74,8 @@ class PipelineConfig:
         self.process_batch_size = 200
         
         # Date range
-        self.start_date = datetime(2025, 10, 16)
-        self.end_date = datetime(2025, 12, 21)
+        self.start_date = datetime(2025, 12, 21)
+        self.end_date = datetime(2025, 12, 31)
 
 
 # =============================
