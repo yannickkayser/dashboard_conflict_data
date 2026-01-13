@@ -713,58 +713,139 @@ with tab1:
 
     
 
-    # load all article dates from MATCH_TABLE
+    # --- load article dates & countries from MATCH_TABLE ---
     cov_sql = f"""
-    SELECT {A_PUB} AS published
+    SELECT {A_PUB} AS published, {M_COUNTRY} AS country
     FROM {MATCH_TABLE}
     WHERE {A_PUB} IS NOT NULL
     """
     cov_df = qdf_match(cov_sql)
 
-    if cov_df.empty:
-        st.info("No parsable publication dates available.")
+    # --- load conflict events (event_date, country) from events table ---
+    ev_sql = """
+    SELECT event_date AS event_date, country
+    FROM events
+    WHERE event_date IS NOT NULL
+    """
+    ev_df = qdf_conf(ev_sql)
+
+    if cov_df.empty or ev_df.empty:
+        st.info("No parsable publication dates or event dates available for this view.")
     else:
         cov_df["published"] = pd.to_datetime(cov_df["published"], errors="coerce")
         cov_df = cov_df.dropna(subset=["published"])
 
-        # Filter for time window
-        date_from_line, date_to_line = st.columns(2)
-        with date_from_line:
+        ev_df["event_date"] = pd.to_datetime(ev_df["event_date"], errors="coerce")
+        ev_df = ev_df.dropna(subset=["event_date"])
+
+        # --- Filters: country + time window ---
+        f_col1, f_col2, f_col3 = st.columns([1.5, 1, 1])
+
+        with f_col1:
+            countries_cov = ["All countries"] + sorted(
+                c for c in cov_df["country"].dropna().astype(str).unique()
+            )
+            cov_country = st.selectbox(
+                "Country (coverage & events)",
+                options=countries_cov,
+                index=0,
+                help="Select a specific country or keep 'All countries' for global trends.",
+            )
+
+        with f_col2:
             cov_from = st.date_input("From date (coverage)", value=None)
-        with date_to_line:
+
+        with f_col3:
             cov_to = st.date_input("To date (coverage)", value=None)
 
-        tmp = cov_df.copy()
+        # apply country filter
+        art_tmp = cov_df.copy()
+        ev_tmp = ev_df.copy()
+
+        if cov_country != "All countries":
+            art_tmp = art_tmp[art_tmp["country"].astype(str) == cov_country]
+            ev_tmp = ev_tmp[ev_tmp["country"].astype(str) == cov_country]
+
+        # apply date filter (same window for both series)
         if cov_from and cov_to:
-            tmp = tmp[
-                (tmp["published"].dt.date >= cov_from)
-                & (tmp["published"].dt.date <= cov_to)
+            art_tmp = art_tmp[
+                (art_tmp["published"].dt.date >= cov_from)
+                & (art_tmp["published"].dt.date <= cov_to)
+            ]
+            ev_tmp = ev_tmp[
+                (ev_tmp["event_date"].dt.date >= cov_from)
+                & (ev_tmp["event_date"].dt.date <= cov_to)
             ]
 
-        if tmp.empty:
-            st.info("No articles in the selected coverage period.")
+        if art_tmp.empty and ev_tmp.empty:
+            st.info("No articles or events in the selected period and country filter.")
         else:
-            tmp["month"] = to_month(tmp["published"])
-            by_month = (
-                tmp.groupby("month")
-                .size()
-                .reset_index(name="n_articles")
-                .sort_values("month")
+            # aggregate per month
+            if not art_tmp.empty:
+                art_tmp["month"] = to_month(art_tmp["published"])
+                by_month_art = (
+                    art_tmp.groupby("month")
+                    .size()
+                    .reset_index(name="n_articles")
+                )
+            else:
+                by_month_art = pd.DataFrame(columns=["month", "n_articles"])
+
+            if not ev_tmp.empty:
+                ev_tmp["month"] = to_month(ev_tmp["event_date"])
+                by_month_ev = (
+                    ev_tmp.groupby("month")
+                    .size()
+                    .reset_index(name="n_events")
+                )
+            else:
+                by_month_ev = pd.DataFrame(columns=["month", "n_events"])
+
+            # merge to ensure same x-axis
+            month_all = pd.DataFrame(
+                {"month": sorted(set(by_month_art["month"]) | set(by_month_ev["month"]))}
+            )
+            month_all = month_all.merge(by_month_art, on="month", how="left")
+            month_all = month_all.merge(by_month_ev, on="month", how="left")
+            month_all["n_articles"] = month_all["n_articles"].fillna(0)
+            month_all["n_events"] = month_all["n_events"].fillna(0)
+
+            title_suffix = (
+                f" – {cov_country}" if cov_country != "All countries" else " – all countries"
             )
 
-            line = (
-                alt.Chart(by_month)
-                .mark_line(point=True)
+                        # reshape to long format for two colored lines + legend
+            month_long = month_all.melt(
+                id_vars="month",
+                value_vars=["n_articles", "n_events"],
+                var_name="series",
+                value_name="count",
+            )
+
+            color_scale = alt.Scale(
+                domain=["n_articles", "n_events"],
+                range=["#FF69B4", "#1f77b4"],  # pink & blue
+            )
+
+            line_chart = (
+                alt.Chart(month_long)
+                .mark_line(point=False)  # only lines, no dots
                 .encode(
                     x=alt.X("month:N", title="Month"),
-                    y=alt.Y("n_articles:Q", title="Articles"),
-                    tooltip=["month", "n_articles"],
+                    y=alt.Y("count:Q", title="Count"),
+                    color=alt.Color(
+                        "series:N",
+                        title="",
+                        scale=color_scale,
+                        legend=alt.Legend(orient="bottom"),
+                    ),
+                    tooltip=["month", "series", "count"],
                 )
+                .properties(title=f"Coverage vs. conflict events over time{title_suffix}")
             )
-            st.altair_chart(line, use_container_width=True)
-            st.caption(
-                "This is global coverage volume over time (articles/month) across all countries."
-            )
+
+            st.altair_chart(line_chart, use_container_width=True)
+
 
 
     
@@ -1641,6 +1722,15 @@ with tab3:
         )
         by_outlet = by_outlet.sort_values("n_articles", ascending=False)
 
+        
+
+        
+            # Farbskala: Abstufungen des Pink (#FF69B4)
+        pink_scale = alt.Scale(
+            domain=[by_outlet["n_articles"].min(), by_outlet["n_articles"].max()],
+            range=["#FFE4F3", "#FF69B4"],  # helles Pink -> kräftiges Pink
+        )
+
         bar = (
             alt.Chart(by_outlet)
             .mark_bar()
@@ -1648,10 +1738,15 @@ with tab3:
                 y=alt.Y(f"{A_SOURCE}:N", sort="-x", title="Outlet"),
                 x=alt.X("n_articles:Q", title="Articles"),
                 tooltip=[A_SOURCE, "n_articles"],
-                color=alt.Color("n_articles:Q", title="Articles"),
+                color=alt.Color(
+                    "n_articles:Q",
+                    title="Articles",
+                    scale=pink_scale,
+                ),
             )
             .properties(height=500)
         )
+
         st.altair_chart(bar, use_container_width=True)
 
 
