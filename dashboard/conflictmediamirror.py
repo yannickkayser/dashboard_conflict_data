@@ -433,7 +433,7 @@ tab1, tab2, tab3, tab5 = st.tabs(
 with tab1:
     st.markdown("## Conflict Underrepresentation Analysis")
 
-    # Leitfrage + Beschreibung für Länder-Übersicht
+    
     st.markdown(
         """
         <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
@@ -493,25 +493,28 @@ with tab1:
             unsafe_allow_html=True,
         )
 
-        # Controls
-        clip = st.slider(
-            "2D color clip",
-            min_value=0.001,
-            max_value=0.1,
-            value=0.01,
-            step=0.01,
-            help="Values beyond ±clip are saturated to the max color.",
-        )
+        # Controls in one line
+        col_clip, col_gamma = st.columns(2)
 
-        gamma = st.slider(
-            "2D color gamma",
-            min_value=0.2,
-            max_value=2.0,
-            value=1.0,
-            step=0.05,
-            help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
-        )
+        with col_clip:
+            clip = st.slider(
+                "2D color clip",
+                min_value=0.001,
+                max_value=0.1,
+                value=0.01,
+                step=0.01,
+                help="Values beyond ±clip are saturated to the max color.",
+            )
 
+        with col_gamma:
+            gamma = st.slider(
+                "2D color gamma",
+                min_value=0.2,
+                max_value=2.0,
+                value=1.0,
+                step=0.05,
+                help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
+            )
         geojson2d, merged2d = build_geojson_underrep(world, df_plot, clip=clip, gamma=gamma)
 
         layer2d = pdk.Layer(
@@ -552,8 +555,7 @@ with tab1:
         # Question + explanation for 3D map (playground)
         st.markdown(
             """
-            <p style="font-size:1.0rem; font-weight:600; margin-top:0.4rem; margin-bottom:0.2rem;">
-                How can interactive exploration help reveal patterns of media (under)representation?
+            
             </p>
             <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
                 The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
@@ -651,23 +653,27 @@ with tab1:
     # -------------------------
     # Top 10 countries table
     # -------------------------
-    st.subheader("Top 10 countries by severity_share")
+    
 
     # Question + explanation for table
+
+    
     st.markdown(
         """
-        <p style="font-size:0.95rem; font-weight:600; margin-top:0.2rem; margin-bottom:0.15rem;">
+        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
             Which countries contribute most to the global burden of conflict severity?
         </p>
-        <p style="font-size:0.85rem; color:#555; margin:0 0 0.6rem 0;">
-            The table ranks countries by their severity_share, combining shares of global events and fatalities
+        <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
+            The table ranks countries by their severity share, combining shares of global events and fatalities
             into a single indicator of how strongly they shape worldwide conflict intensity. It allows quick
             identification of central conflict theatres and shows whether these high-severity cases also receive
-            commensurate levels of media coverage and article volume.
+            equvalent levels of media coverage and article volume.
         </p>
         """,
         unsafe_allow_html=True,
     )
+
+    
 
     cols = [
         "country",
@@ -687,15 +693,15 @@ with tab1:
     # -------------------------
     # Coverage over time (global)
     # -------------------------
-    st.markdown("### Coverage over time")
+    
 
     # Question + explanation for coverage over time
     st.markdown(
         """
-        <p style="font-size:0.95rem; font-weight:600; margin-top:0.2rem; margin-bottom:0.15rem;">
+        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
             How does global media attention to conflict evolve over time?
         </p>
-        <p style="font-size:0.85rem; color:#555; margin:0 0 0.6rem 0;">
+        <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
             The coverage-over-time graph aggregates all conflict-related articles by month to show how overall
             reporting intensity fluctuates, including bursts and quiet periods. Using the date filters, users can
             examine whether major conflict episodes coincide with sustained increases in coverage or only trigger
@@ -704,6 +710,8 @@ with tab1:
         """,
         unsafe_allow_html=True,
     )
+
+    
 
     # load all article dates from MATCH_TABLE
     cov_sql = f"""
