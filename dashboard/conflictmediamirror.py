@@ -610,6 +610,67 @@ with tab1:
         use_container_width=True,
     )
 
+        # -------------------------
+    # Coverage over time (global)
+    # -------------------------
+    st.markdown("### Coverage over time")
+
+    # load all article dates from MATCH_TABLE
+    cov_sql = f"""
+    SELECT {A_PUB} AS published
+    FROM {MATCH_TABLE}
+    WHERE {A_PUB} IS NOT NULL
+    """
+    cov_df = qdf_match(cov_sql)
+
+    if cov_df.empty:
+        st.info("No parsable publication dates available.")
+    else:
+        cov_df["published"] = pd.to_datetime(cov_df["published"], errors="coerce")
+        cov_df = cov_df.dropna(subset=["published"])
+
+        # Filter for time window
+        date_from_line, date_to_line = st.columns(2)
+        with date_from_line:
+            cov_from = st.date_input("From date (coverage)", value=None)
+        with date_to_line:
+            cov_to = st.date_input("To date (coverage)", value=None)
+
+        tmp = cov_df.copy()
+        if cov_from and cov_to:
+            tmp = tmp[
+                (tmp["published"].dt.date >= cov_from)
+                & (tmp["published"].dt.date <= cov_to)
+            ]
+
+        if tmp.empty:
+            st.info("No articles in the selected coverage period.")
+        else:
+            tmp["month"] = to_month(tmp["published"])
+            by_month = (
+                tmp.groupby("month")
+                .size()
+                .reset_index(name="n_articles")
+                .sort_values("month")
+            )
+
+            line = (
+                alt.Chart(by_month)
+                .mark_line(point=True)
+                .encode(
+                    x=alt.X("month:N", title="Month"),
+                    y=alt.Y("n_articles:Q", title="Articles"),
+                    tooltip=["month", "n_articles"],
+                )
+            )
+            st.altair_chart(line, use_container_width=True)
+            st.caption(
+                "This is global coverage volume over time (articles/month) across all countries."
+            )
+
+
+    
+
 # -------------------------
 # Tab 2: Sentiment Analysis
 # -------------------------
@@ -1391,8 +1452,8 @@ with tab3:
     # -------------------------
     # Detail tabs
     # -------------------------
-    t_articles, t_outlets, t_time = st.tabs(
-        ["📰 Articles", "🏢 Outlets detail", "📈 Coverage over time"]
+    t_articles, t_outlets = st.tabs(
+        ["📰 Articles", "🏢 Outlets detail"]
     )
 
     # ---------- Articles tab ----------
@@ -1506,47 +1567,7 @@ with tab3:
 
     
 
-    # ---------- Coverage over time ----------
-    with t_time:
-        if art.empty or art[A_PUB].isna().all():
-            st.info("No parsable publication dates available.")
-        else:
-            tmp = art.dropna(subset=[A_PUB]).copy()
-
-            # Filter für Zeitraum des Line-Plots
-            date_from_line, date_to_line = st.columns(2)
-            with date_from_line:
-                cov_from = st.date_input("From date (coverage)", value=None)
-            with date_to_line:
-                cov_to = st.date_input("To date (coverage)", value=None)
-
-            if cov_from and cov_to:
-                tmp = tmp[
-                    (tmp[A_PUB].dt.date >= cov_from)
-                    & (tmp[A_PUB].dt.date <= cov_to)
-                ]
-
-            tmp["month"] = to_month(tmp[A_PUB])
-            by_month = (
-                tmp.groupby("month")
-                .size()
-                .reset_index(name="n_articles")
-                .sort_values("month")
-            )
-
-            line = (
-                alt.Chart(by_month)
-                .mark_line(point=True)
-                .encode(
-                    x=alt.X("month:N", title="Month"),
-                    y=alt.Y("n_articles:Q", title="Articles"),
-                    tooltip=["month", "n_articles"],
-                )
-            )
-            st.altair_chart(line, use_container_width=True)
-            st.caption(
-                "This is coverage volume over time (articles/month) for the selected country."
-            )
+   
 
 
 # -------------------------
