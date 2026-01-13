@@ -995,92 +995,93 @@ with tab3:
             unsafe_allow_html=True,
         )
 
-    # Tabs: Country overview / scatter
-    tab_overview, tab_scatter = st.tabs(
-        ["Country overview (matched articles)", "Coverage vs conflict scatter"]
+        # -------------------------
+    # Country overview (ohne Tabs)
+    # -------------------------
+    st.caption(
+        "Country-level overview of conflict events, fatalities, and matched news "
+        "articles used for the detailed article view below."
     )
 
-    with tab_overview:
-        st.caption(
-            "Country-level overview of conflict events, fatalities, and matched news "
-            "articles used for the detailed article view below."
-        )
+    # ---- Country-level Filterleiste ----
+    c1, c2, c3, c4 = st.columns([2, 1.2, 1.2, 1.2])
+    with c1:
+        filt_country = st.text_input("Country", value="")
+    with c2:
+        min_fatal_str = st.text_input("Min total fatalities", value="")
+    with c3:
+        min_events_str = st.text_input("Min events", value="")
+    with c4:
+        max_articles_str = st.text_input("Amount articles (detail)", value="300")
 
-        # ---- Country-level Filterleiste ----
-        c1, c2, c3, c4 = st.columns([2, 1.2, 1.2, 1.2])
-        with c1:
-            filt_country = st.text_input("Country", value="")
-        with c2:
-            min_fatal_str = st.text_input("Min total fatalities", value="")
-        with c3:
-            min_events_str = st.text_input("Min events", value="")
-        with c4:
-            max_articles_str = st.text_input("Amount articles (detail)", value="300")
 
-        def to_float(x, default=0.0):
-            try:
-                return float(x)
-            except Exception:
-                return default
+    def to_float(x, default=0.0):
+        try:
+            return float(x)
+        except Exception:
+            return default
 
-        def to_int(x, default=300):
-            try:
-                return int(float(x))
-            except Exception:
-                return default
 
-        min_fatal = to_float(min_fatal_str, 0.0)
-        min_events = to_float(min_events_str, 0.0)
-        max_articles = to_int(max_articles_str, 300)
+    def to_int(x, default=300):
+        try:
+            return int(float(x))
+        except Exception:
+            return default
 
-        st.markdown(
-            "<p style='font-size:0.85rem; color:#666; margin-top:0.2rem;'>"
-            "Filter options for country, minimum total fatalities, minimum events, "
-            "and number of articles used for the detailed article view below."
-            "</p>",
-            unsafe_allow_html=True,
-        )
 
-        # gefiltertes conf für Anzeige und Auswahl
-        conf_filtered = conf.copy()
-        if filt_country.strip():
-            conf_filtered = contains_filter(conf_filtered, C_COUNTRY, filt_country.strip())
+    min_fatal = to_float(min_fatal_str, 0.0)
+    min_events = to_float(min_events_str, 0.0)
+    max_articles = to_int(max_articles_str, 300)
 
-        conf_filtered = conf_filtered[
-            (conf_filtered[C_FATAL] >= min_fatal)
-            & (conf_filtered[C_EVENTS] >= min_events)
-        ].copy()
+    st.markdown(
+        "<p style='font-size:0.85rem; color:#666; margin-top:0.2rem;'>"
+        "Filter options for country, minimum total fatalities, minimum events, "
+        "and number of articles used for the detailed article view below."
+        "</p>",
+        unsafe_allow_html=True,
+    )
 
-        conf_filtered = (
-            conf_filtered.sort_values(["n_articles", C_EVENTS, C_FATAL], ascending=False)
-            .reset_index(drop=True)
-        )
+    # gefiltertes conf für Anzeige und Auswahl
+    conf_filtered = conf.copy()
+    if filt_country.strip():
+        conf_filtered = contains_filter(conf_filtered, C_COUNTRY, filt_country.strip())
 
-        show_master = conf_filtered[
-            [
-                C_COUNTRY,
-                C_EVENTS,
-                C_FATAL,
-                "n_articles",
-                "articles_per_event",
-                "articles_per_100_fatal",
-            ]
-        ].copy()
-        show_master = show_master.rename(
-            columns={
-                C_COUNTRY: "country",
-                C_EVENTS: "n_events",
-                C_FATAL: "total_fatalities",
-            }
-        )
+    conf_filtered = conf_filtered[
+        (conf_filtered[C_FATAL] >= min_fatal)
+        & (conf_filtered[C_EVENTS] >= min_events)
+    ].copy()
 
-        evt = st.dataframe(
-            show_master,
-            use_container_width=True,
-            hide_index=True,
-            on_select="rerun",
-            selection_mode="single-row",
-        )
+    conf_filtered = (
+        conf_filtered.sort_values(["n_articles", C_EVENTS, C_FATAL], ascending=False)
+        .reset_index(drop=True)
+    )
+
+    show_master = conf_filtered[
+        [
+            C_COUNTRY,
+            C_EVENTS,
+            C_FATAL,
+            "n_articles",
+            "articles_per_event",
+            "articles_per_100_fatal",
+        ]
+    ].copy()
+    show_master = show_master.rename(
+        columns={
+            C_COUNTRY: "country",
+            C_EVENTS: "n_events",
+            C_FATAL: "total_fatalities",
+        }
+    )
+
+    evt = st.dataframe(
+        show_master,
+        use_container_width=True,
+        hide_index=True,
+        on_select="rerun",
+        selection_mode="single-row",
+    )
+
 
     
 
