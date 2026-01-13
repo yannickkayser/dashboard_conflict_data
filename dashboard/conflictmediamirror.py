@@ -431,7 +431,24 @@ tab1, tab2, tab3, tab5 = st.tabs(
 # Tab 1: Conflict Underrepresentation
 # -------------------------
 with tab1:
-    st.markdown("### 📊 Conflict Underrepresentation Analysis")
+    st.markdown("## Conflict Underrepresentation Analysis")
+
+    # Leitfrage + Beschreibung für Länder-Übersicht
+    st.markdown(
+        """
+        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
+            In which countries does media attention diverge most from conflict severity?
+        </p>
+        <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
+            This page compares how severe each country’s conflict situation is (events and fatalities)
+            with how often it appears in conflict-related news. Countries where coverage lags behind
+            severity can be interpreted as systematically underrepresented in media reporting.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    
 
     #df_idx = load_indices()
     df_plot = load_indices()
@@ -449,27 +466,51 @@ with tab1:
     df_plot["severity_share"] = (1 - w) * df_plot["share_events"] + w * df_plot["share_fatalities"]
     df_plot["underrep_share"] = df_plot["share_articles"] - df_plot["severity_share"]
 
-
     # STRUCTURE OF PAGE IN TABS
     tab2d, tab3d = st.tabs(["2D Map", "3D Map"])
 
+    # -------------------------
+    # 2D map
+    # -------------------------
     with tab2d:
-        st.subheader("2D map: Under/Overrepresentation")
-        st.caption("Color = share_articles − severity_share (negative = undercovered)")
-        # Controls
-        clip = st.slider("2D color clip", 
-                        min_value=0.001, 
-                        max_value=0.1, 
-                        value=0.01, 
-                        step=0.01,
-                        help="Values beyond ±clip are saturated to the max color.")
+
         
-        gamma = st.slider("2D color gamma", 
-                        min_value=0.2, 
-                        max_value=2.0, 
-                        value=1.0, 
-                        step=0.05,
-                        help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.")
+        #st.subheader("Which countries are visibly under- or overrepresented in media coverage?")
+        st.caption("Color = share_articles − severity_share (negative = undercovered)")
+
+        # Question + explanation for 2D map
+        st.markdown(
+            """
+            
+            </p>
+            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                The 2D map contrasts each country’s share of global conflict severity (events and fatalities)
+                with its share of conflict-related articles. Countries shaded towards the undercovered end
+                have fewer articles than their severity would suggest, while overcovered countries receive
+                disproportionate attention relative to their conflict burden.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        # Controls
+        clip = st.slider(
+            "2D color clip",
+            min_value=0.001,
+            max_value=0.1,
+            value=0.01,
+            step=0.01,
+            help="Values beyond ±clip are saturated to the max color.",
+        )
+
+        gamma = st.slider(
+            "2D color gamma",
+            min_value=0.2,
+            max_value=2.0,
+            value=1.0,
+            step=0.05,
+            help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
+        )
 
         geojson2d, merged2d = build_geojson_underrep(world, df_plot, clip=clip, gamma=gamma)
 
@@ -503,8 +544,26 @@ with tab1:
             width="stretch",
         )
 
-
+    # -------------------------
+    # 3D map
+    # -------------------------
     with tab3d:
+
+        # Question + explanation for 3D map (playground)
+        st.markdown(
+            """
+            <p style="font-size:1.0rem; font-weight:600; margin-top:0.4rem; margin-bottom:0.2rem;">
+                How can interactive exploration help reveal patterns of media (under)representation?
+            </p>
+            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
+                settings to explore how conflict severity (height) and media coverage (color) vary across
+                countries. Tall but relatively pale countries indicate intense conflict with limited coverage,
+                while brightly colored pillars highlight locations that receive comparatively strong media attention.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
 
         # Controls
         col1, col2 = st.columns([1, 2])
@@ -519,32 +578,30 @@ with tab1:
                 help="DeckGL elevation is in 'meters' visually; this is a multiplier.",
             )
             height_gamma = st.slider(
-                "Height exponent (gamma)", 
-                min_value=0.2, 
-                max_value=2.0, 
-                value=0.5, 
+                "Height exponent (gamma)",
+                min_value=0.2,
+                max_value=2.0,
+                value=0.5,
                 step=0.05,
-                help="Lower (<1) boosts contrast among low severity values; higher (>1) compresses."
+                help="Lower (<1) boosts contrast among low severity values; higher (>1) compresses.",
             )
             color_gamma = st.slider(
                 "Color exponent (gamma)",
-                min_value=0.2, 
-                max_value=2.0, 
-                value=1.0, 
+                min_value=0.2,
+                max_value=2.0,
+                value=1.0,
                 step=0.05,
-                help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses."
+                help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
             )
 
         with col2:
             pitch = st.slider("3D pitch", 0, 70, 45, 1)
             opacity = st.slider("Opacity", 0.1, 1.0, 0.9, 0.05)
 
-
         geojson, merged = build_geojson(world, df_plot, color_gamma=color_gamma)
 
         # compute elevation in Python (more robust than JS expressions)
         merged["elevation"] = (merged["severity_share"] ** height_gamma) * height_scale
-
 
         layer = pdk.Layer(
             "GeoJsonLayer",
@@ -555,12 +612,10 @@ with tab1:
             extruded=True,
             wireframe=True,
             get_fill_color="properties.fill_color",
-
             # stronger borders for 3D
             get_line_color=[20, 20, 20, 220],
             line_width_min_pixels=1,
             line_width_max_pixels=3,
-
             get_elevation="properties.elevation",
             pickable=True,
         )
@@ -582,7 +637,7 @@ with tab1:
             underrep_share: {underrep_share}
             """,
             "style": {"backgroundColor": "white", "color": "black"},
-            }
+        }
 
         deck = pdk.Deck(
             layers=[layer],
@@ -593,16 +648,35 @@ with tab1:
 
         st.pydeck_chart(deck, width="stretch")
 
-
+    # -------------------------
+    # Top 10 countries table
+    # -------------------------
     st.subheader("Top 10 countries by severity_share")
+
+    # Question + explanation for table
+    st.markdown(
+        """
+        <p style="font-size:0.95rem; font-weight:600; margin-top:0.2rem; margin-bottom:0.15rem;">
+            Which countries contribute most to the global burden of conflict severity?
+        </p>
+        <p style="font-size:0.85rem; color:#555; margin:0 0 0.6rem 0;">
+            The table ranks countries by their severity_share, combining shares of global events and fatalities
+            into a single indicator of how strongly they shape worldwide conflict intensity. It allows quick
+            identification of central conflict theatres and shows whether these high-severity cases also receive
+            commensurate levels of media coverage and article volume.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
     cols = [
-    "country",
-    "share_events",
-    "share_fatalities",
-    "share_articles",
-    "n_events",
-    "total_fatalities",
-    "n_articles",  # (typo fix: not n_artciles)
+        "country",
+        "share_events",
+        "share_fatalities",
+        "share_articles",
+        "n_events",
+        "total_fatalities",
+        "n_articles",  # (typo fix: not n_artciles)
     ]
 
     st.dataframe(
@@ -610,10 +684,26 @@ with tab1:
         use_container_width=True,
     )
 
-        # -------------------------
+    # -------------------------
     # Coverage over time (global)
     # -------------------------
     st.markdown("### Coverage over time")
+
+    # Question + explanation for coverage over time
+    st.markdown(
+        """
+        <p style="font-size:0.95rem; font-weight:600; margin-top:0.2rem; margin-bottom:0.15rem;">
+            How does global media attention to conflict evolve over time?
+        </p>
+        <p style="font-size:0.85rem; color:#555; margin:0 0 0.6rem 0;">
+            The coverage-over-time graph aggregates all conflict-related articles by month to show how overall
+            reporting intensity fluctuates, including bursts and quiet periods. Using the date filters, users can
+            examine whether major conflict episodes coincide with sustained increases in coverage or only trigger
+            short-lived spikes, informing interpretations of attention cycles and potential media fatigue.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # load all article dates from MATCH_TABLE
     cov_sql = f"""
