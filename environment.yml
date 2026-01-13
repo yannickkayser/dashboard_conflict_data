@@ -13,7 +13,10 @@ dependencies:
   - transformers  
   - pytorch  
   - spacy  
-  - sqlalchemy 
+  - sqlalchemy
+  - faiss-cpu=1.13.2
+  - sentencepiece
+  - ollama
   - pip:
       - country_converter
       - pycountry
@@ -26,3 +29,4 @@ dependencies:
       - bertopic
       - geonamescache  
       - plotly
+      - sentence-transformers

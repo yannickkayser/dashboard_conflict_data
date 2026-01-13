@@ -53,6 +53,7 @@ class PipelineConfig:
         self.raw_db = os.path.join(data_dir, "gnews_articles_from2023.db")
         self.dedup_db = os.path.join(data_dir, "deleted_dupgnews2023.db")
         self.conflict_db = os.path.join(data_dir, "conflict_data.db")
+        self.matched_db = os.path.join(data_dir, "matched_country.db")
         
         # Table names
         self.raw_table = "articles"
@@ -277,6 +278,30 @@ class DataValidator:
 # =============================
 # STEP 1: FETCH GNEWS DATA
 # =============================
+def get_newest_date(logger, db_path):
+
+    # connect to the database
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    # query the newest date (most up to date)
+    c.execute("""
+            SELECT publishedAt
+            FROM articles
+            ORDER BY publishedAT DESC
+            LIMIT 1
+            """)
+    result = c.fetchone()
+    
+    logger.info("=" * 60)
+    logger.info("STEP 0: Getting latest date")
+    logger.info("=" * 60)
+    logger.info(f"Date range: {result}")
+
+    c.close()
+    conn.close()  # also good practice to close the connection
+    return result[0] if result else "2000-01-01"
+
 def fetch_new_data(config: PipelineConfig, logger, metrics: PerformanceMetrics) -> Tuple[int, bool]:
     """Step 1: Fetch new GNews data using fetch_GNEWS.py functions"""
     metrics.start_step("1. Fetch GNews Data")
@@ -284,10 +309,9 @@ def fetch_new_data(config: PipelineConfig, logger, metrics: PerformanceMetrics) 
     logger.info("=" * 60)
     logger.info("STEP 1: FETCHING NEW GNEWS DATA")
     logger.info("=" * 60)
-    logger.info(f"Date range: {config.start_date.date()} to {config.end_date.date()}")
     
     # Use the existing fetch_articles_monthly logic but adapted
-    from datetime import timedelta
+    from datetime import datetime, timedelta
     import requests
     
     total_articles = 0
@@ -296,6 +320,7 @@ def fetch_new_data(config: PipelineConfig, logger, metrics: PerformanceMetrics) 
     # Create database and table if needed
     conn = sqlite3.connect(config.raw_db)
     cur = conn.cursor()
+
     cur.execute(f"""
         CREATE TABLE IF NOT EXISTS {config.raw_table} (
             id TEXT PRIMARY KEY,
@@ -691,6 +716,8 @@ def main():
         logger.info(f"  Dedup DB: {config.dedup_db}")
         logger.info(f"  Conflict DB: {config.conflict_db}")
         logger.info(f"  Date range: {config.start_date.date()} to {config.end_date.date()}")
+
+        # Check latest matched articles and scrape one week after that!!!
         
         # Step 1: Fetch new data
         original_count, data_updated = fetch_new_data(config, logger, metrics)

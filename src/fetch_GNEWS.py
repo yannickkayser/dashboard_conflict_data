@@ -154,11 +154,8 @@ if __name__ == "__main__":
 
     print(f"🚀 Fetching articles from {start_date.date()} to {end_date.date()} ...")
     fetch_articles_monthly(start_date, end_date)
-    print("✅ All articles saved in gnews_articles.db.")
+    print("✅ All articles saved in gnews_articles_from2023.db.")
 
-S
 print("Working directory:", os.getcwd())
 print("DB path:", DB_PATH)
 print("Size (bytes):", os.path.getsize(DB_PATH))
-
-#

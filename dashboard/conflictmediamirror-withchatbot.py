@@ -1819,51 +1819,51 @@ with tab5:
 
 
 # -------------------------
-# Tab 5: Impressum
+# Tab 6: ChatBOT
 # -------------------------
-with tab5:
-st.markdown("## 💬 Conflict Chatbot (Local Model)")
-
-articles_df = load_articles(match_df)
-article_index, _ = build_article_index(articles_df)
-
-country_filter = st.selectbox(
-    "Filter by country",
-    ["All"] + sorted(articles_df["art_article_country"].unique()),
-)
-
-col1, col2 = st.columns(2)
-with col1:
-    start_date = st.date_input("From", value=None)
-with col2:
-    end_date = st.date_input("To", value=None)
-
-if "chat" not in st.session_state:
-    st.session_state.chat = []
-
-for m in st.session_state.chat:
-    with st.chat_message(m["role"]):
-        st.markdown(m["content"])
-
-q = st.chat_input("Ask about conflicts or summarize recent articles")
-
-if q:
-    st.session_state.chat.append({"role": "user", "content": q})
-
-    with st.spinner("Analyzing..."):
-        arts = retrieve_articles(
-            q,
-            articles_df,
-            article_index,
-            start_date=start_date,
-            end_date=end_date,
-            country=None if country_filter == "All" else country_filter,
-        )
-
-        ctx = get_conflict_context(conf, None if country_filter == "All" else country_filter)
-        prompt = build_prompt(q, ctx, arts)
-        ans = ask_llm(prompt)
-
-    st.session_state.chat.append({"role": "assistant", "content": ans})
-    st.rerun()
-
+with tab6:
+    st.markdown("## 💬 Conflict Chatbot (Local Model)")
+    
+    articles_df = load_articles(match_df)
+    article_index, _ = build_article_index(articles_df)
+    
+    country_filter = st.selectbox(
+        "Filter by country",
+        ["All"] + sorted(articles_df["art_article_country"].unique()),
+    )
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        start_date = st.date_input("From", value=None)
+    with col2:
+        end_date = st.date_input("To", value=None)
+    
+    if "chat" not in st.session_state:
+        st.session_state.chat = []
+    
+    for m in st.session_state.chat:
+        with st.chat_message(m["role"]):
+            st.markdown(m["content"])
+    
+    q = st.chat_input("Ask about conflicts or summarize recent articles")
+    
+    if q:
+        st.session_state.chat.append({"role": "user", "content": q})
+    
+        with st.spinner("Analyzing..."):
+            arts = retrieve_articles(
+                q,
+                articles_df,
+                article_index,
+                start_date=start_date,
+                end_date=end_date,
+                country=None if country_filter == "All" else country_filter,
+            )
+    
+            ctx = get_conflict_context(conf, None if country_filter == "All" else country_filter)
+            prompt = build_prompt(q, ctx, arts)
+            ans = ask_llm(prompt)
+    
+        st.session_state.chat.append({"role": "assistant", "content": ans})
+        st.rerun()
+    
