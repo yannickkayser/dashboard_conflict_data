@@ -1091,7 +1091,7 @@ with tab3:
         i = evt.selection.rows[0]
         selected_country = str(show_master.iloc[i]["country"])
 
-    selected_country = st.text_input("Selected country", value=selected_country)
+    #selected_country = st.text_input("Selected country", value=selected_country)
 
     st.divider()
 
@@ -1451,119 +1451,110 @@ with tab3:
         )
 
     # -------------------------
-    # Detail tabs
+    # Articles + Outlet detail (ohne Tabs)
     # -------------------------
-    t_articles, t_outlets = st.tabs(
-        ["📰 Articles", "🏢 Outlets detail"]
-    )
-
-    # ---------- Articles tab ----------
-    with t_articles:
-        header_left, _ = st.columns([3, 1])
-        with header_left:
-            st.markdown(
-                """
-                <p style="font-size:1.0rem; font-weight:600; margin-bottom:0.4rem;">
-                    Search, news, topics and more.
-                </p>
-                """,
-                unsafe_allow_html=True,
-            )
-
-        # Filter-Leiste
-        search_col, date_from_col, date_to_col = st.columns([2, 1, 1])
-
-        with search_col:
-            search_query = st.text_input(
-                "Search title and description",
-                value="",
-                placeholder="e.g. ceasefire, protest, election ...",
-            )
-
-        with date_from_col:
-            date_from = st.date_input("From date", value=None)
-
-        with date_to_col:
-            date_to = st.date_input("To date", value=None)
-
-        art_filtered = art.copy()
-
-        if date_from and date_to:
-            art_filtered = art_filtered[
-                (art_filtered[A_PUB].dt.date >= date_from)
-                & (art_filtered[A_PUB].dt.date <= date_to)
-            ]
-
-        if search_query.strip():
-            q = search_query.strip().lower()
-            mask = (
-                art_filtered[A_TITLE].astype(str).str.lower().str.contains(q, na=False)
-                | art_filtered[A_DESC]
-                .astype(str)
-                .str.lower()
-                .str.contains(q, na=False)
-            )
-            art_filtered = art_filtered[mask]
-
-        st.caption(
-            "Filter articles by keywords in titles/descriptions and restrict results "
-            "to a custom publication date range."
+    header_left, _ = st.columns([3, 1])
+    with header_left:
+        st.markdown(
+            """
+            <p style="font-size:1.0rem; font-weight:600; margin-bottom:0.4rem;">
+                Search, news, topics and more...
+            </p>
+            """,
+            unsafe_allow_html=True,
         )
 
-        if art_filtered.empty:
-            st.info("No matched articles found for this selection and filters.")
+    # Filter-Leiste
+    search_col, date_from_col, date_to_col = st.columns([2, 1, 1])
+
+    with search_col:
+        search_query = st.text_input(
+            "Search title and description",
+            value="",
+            placeholder="e.g. ceasefire, protest, election ...",
+        )
+
+    with date_from_col:
+        date_from = st.date_input("From date", value=None)
+
+    with date_to_col:
+        date_to = st.date_input("To date", value=None)
+
+    art_filtered = art.copy()
+
+    if date_from and date_to:
+        art_filtered = art_filtered[
+            (art_filtered[A_PUB].dt.date >= date_from)
+            & (art_filtered[A_PUB].dt.date <= date_to)
+        ]
+
+    if search_query.strip():
+        q = search_query.strip().lower()
+        mask = (
+            art_filtered[A_TITLE].astype(str).str.lower().str.contains(q, na=False)
+            | art_filtered[A_DESC].astype(str).str.lower().str.contains(q, na=False)
+        )
+        art_filtered = art_filtered[mask]
+
+    st.caption(
+        "Filter articles by keywords in titles/descriptions and restrict results "
+        "to a custom publication date range."
+    )
+
+    if art_filtered.empty:
+        st.info("No matched articles found for this selection and filters.")
+    else:
+        final_cols = [A_PUB, A_TITLE, A_DESC, A_SOURCE]
+        if A_URL and A_URL in art_filtered.columns:
+            final_cols.append(A_URL)
+
+        out = art_filtered[final_cols].rename(
+            columns={
+                A_PUB: "published",
+                A_TITLE: "title",
+                A_DESC: "description",
+                A_SOURCE: "source",
+                A_URL: "url",
+            }
+        )
+
+        if "url" in out.columns:
+            st.dataframe(
+                out,
+                use_container_width=True,
+                hide_index=True,
+                column_config={
+                    "url": st.column_config.LinkColumn(
+                        "url",
+                        display_text="Link to article",
+                    )
+                },
+            )
         else:
-            final_cols = [A_PUB, A_TITLE, A_DESC, A_SOURCE]
-            if A_URL and A_URL in art_filtered.columns:
-                final_cols.append(A_URL)
+            st.dataframe(out, use_container_width=True, hide_index=True)
 
-            out = art_filtered[final_cols].rename(
-                columns={
-                    A_PUB: "published",
-                    A_TITLE: "title",
-                    A_DESC: "description",
-                    A_SOURCE: "source",
-                    A_URL: "url",
-                }
-            )
+    # --- Outlet distribution below article table ---
+    if not art_filtered.empty and A_SOURCE in art_filtered.columns:
+        st.markdown("#### Outlet detail")
+        by_outlet = (
+            art_filtered.groupby(A_SOURCE, dropna=False)
+            .size()
+            .reset_index(name="n_articles")
+        )
+        by_outlet = by_outlet.sort_values("n_articles", ascending=False)
 
-            if "url" in out.columns:
-                st.dataframe(
-                    out,
-                    use_container_width=True,
-                    hide_index=True,
-                    column_config={
-                        "url": st.column_config.LinkColumn(
-                            "url",
-                            display_text="Link to article",
-                        )
-                    },
-                )
-            else:
-                st.dataframe(out, use_container_width=True, hide_index=True)
-                
-                    # --- Outlet distribution below article table ---
-        if not art_filtered.empty and A_SOURCE in art_filtered.columns:
-            st.markdown("#### Outlet detail")
-            by_outlet = (
-                art_filtered.groupby(A_SOURCE, dropna=False)
-                .size()
-                .reset_index(name="n_articles")
+        bar = (
+            alt.Chart(by_outlet)
+            .mark_bar()
+            .encode(
+                y=alt.Y(f"{A_SOURCE}:N", sort="-x", title="Outlet"),
+                x=alt.X("n_articles:Q", title="Articles"),
+                tooltip=[A_SOURCE, "n_articles"],
+                color=alt.Color("n_articles:Q", title="Articles"),
             )
-            by_outlet = by_outlet.sort_values("n_articles", ascending=False)
-
-            bar = (
-                alt.Chart(by_outlet)
-                .mark_bar()
-                .encode(
-                    y=alt.Y(f"{A_SOURCE}:N", sort="-x", title="Outlet"),
-                    x=alt.X("n_articles:Q", title="Articles"),
-                    tooltip=[A_SOURCE, "n_articles"],
-                    color=alt.Color("n_articles:Q", title="Articles"),
-                )
-                .properties(height=500)
-            )
-            st.altair_chart(bar, use_container_width=True)
+            .properties(height=500)
+        )
+        st.altair_chart(bar, use_container_width=True)
 
 
     
