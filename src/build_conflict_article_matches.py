@@ -179,13 +179,11 @@ def main():
         """)
 
         # 1) Hard-filter candidates (country + publishedAt window)
-        cand_sql = f"""
+        candidates = con.execute(f"""
         SELECT
             c.rowid AS conflict_rowid,
             a.rowid AS article_rowid,
-
             c.*,
-
             a.publishedAt, a.url, a.source_name, a.source_url,
             a.title_en, a.description_en, a.content, a.content_en,
             a.article_country, a.article_country_score,
@@ -196,8 +194,7 @@ def main():
          AND date(a.publishedAt) BETWEEN date(c.start_date)
                                    AND date(c.end_date, '+{EXTRA_DAYS} days')
         ORDER BY c.rowid, a.publishedAt, a.rowid
-        """
-        candidates = con.execute(cand_sql).fetchall()
+        """).fetchall()
 
         # 2) Score candidates; keep ALL matches above threshold; also track best
         best_by_conflict: Dict[int, Tuple] = {}
