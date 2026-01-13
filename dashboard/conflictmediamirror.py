@@ -417,15 +417,15 @@ df = load_data()
 # -------------------------
 # Main Tabs
 # -------------------------
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
+tab1, tab2, tab3, tab5 = st.tabs(
     [
-        "📊 Conflict Underrepresentation",
-        "💭 Sentiment Analysis",
-        "🔗 Conflict Media Explorer",
-        "📅 Timeline",
-        "ℹ️ Impressum",
+        "Conflict Underrepresentation",
+        "Sentiment Analysis",
+        "Conflict Media Explorer",
+        "Impressum",
     ]
 )
+
 
 # -------------------------
 # Tab 1: Conflict Underrepresentation
@@ -1021,42 +1021,7 @@ with tab3:
             selection_mode="single-row",
         )
 
-    with tab_scatter:
-        conf_scatter = conf.copy()
-        if "filt_country" in locals() and filt_country.strip():
-            conf_scatter = contains_filter(conf_scatter, C_COUNTRY, filt_country.strip())
-        if "min_fatal" in locals() and "min_events" in locals():
-            conf_scatter = conf_scatter[
-                (conf_scatter[C_FATAL] >= min_fatal)
-                & (conf_scatter[C_EVENTS] >= min_events)
-            ].copy()
-
-        if conf_scatter.empty:
-            st.info("No countries match the current filters.")
-        else:
-            scatter = (
-                alt.Chart(conf_scatter)
-                .mark_circle(size=90, opacity=0.85)
-                .encode(
-                    x=alt.X(f"{C_EVENTS}:Q", title="Conflict intensity: events"),
-                    y=alt.Y(
-                        "n_articles:Q", title="Media coverage: matched articles"
-                    ),
-                    tooltip=[
-                        alt.Tooltip("country:N"),
-                        alt.Tooltip("n_events:Q"),
-                        alt.Tooltip("total_fatalities:Q"),
-                        alt.Tooltip("n_articles:Q"),
-                    ],
-                    color=alt.Color(
-                        "articles_per_event:Q", title="Articles per event"
-                    ),
-                )
-            )
-            st.altair_chart(scatter, use_container_width=True)
-            st.caption(
-                "Countries with many events but few articles tend to be undercovered."
-            )
+    
 
     # Country-Auswahl aus Overview-Tabelle
     selected_country = ""
@@ -1314,7 +1279,7 @@ with tab3:
     # -------- Country KPIs: einzelne graue Karten + Top-3-Outlets --------
 
     # Zeile 1: 3 Kennzahlen + Top-3-Outlets (alles im jeweiligen grauen Block)
-    row1_col1, row1_col2, row1_col3, row1_col4 = st.columns([1, 1, 1, 1.6])
+    row1_col1, row1_col2, row1_col3 = st.columns([1, 1, 1])
 
     with row1_col1:
         st.markdown(
@@ -1364,52 +1329,9 @@ with tab3:
             unsafe_allow_html=True,
         )
 
-    with row1_col4:
-        st.markdown(
-            """
-            <div style="
-                background-color:#f5f5f5;
-                padding:0.9rem 1.1rem;
-                border-radius:12px;
-                margin-bottom:0.8rem;
-            ">
-              <div style="font-size:0.85rem; color:#555;">Top 3 outlets (snapshot)</div>
-            """,
-            unsafe_allow_html=True,
-        )
-        if art.empty or A_SOURCE not in art.columns:
-            st.info("No outlet data available for this selection.")
-        else:
-            by_outlet_all = (
-                art.groupby(A_SOURCE, dropna=False)
-                .size()
-                .reset_index(name="n_articles")
-            )
-            by_outlet_top3 = by_outlet_all.sort_values(
-                "n_articles", ascending=False
-            ).head(3)
-            max_val = by_outlet_top3["n_articles"].max()
+    
 
-            snap_bar = (
-                alt.Chart(by_outlet_top3)
-                .mark_bar()
-                .encode(
-                    y=alt.Y(f"{A_SOURCE}:N", sort="-x", title=None),
-                    x=alt.X(
-                        "n_articles:Q",
-                        title="Articles",
-                        scale=alt.Scale(domain=[0, max_val * 1.1]),
-                        axis=alt.Axis(tickMinStep=10),
-                    ),
-                    tooltip=[A_SOURCE, "n_articles"],
-                    color=alt.Color("n_articles:Q", legend=None),
-                )
-                .properties(height=120, width=260)
-            )
-            st.altair_chart(snap_bar, use_container_width=False)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    # Zeile 2: weitere Kennzahlen, je eigener grauer Block
+    # row 2
     row2_col1, row2_col2, row2_col3 = st.columns(3)
 
     with row2_col1:
@@ -1557,14 +1479,12 @@ with tab3:
                 )
             else:
                 st.dataframe(out, use_container_width=True, hide_index=True)
-
-    # ---------- Outlets detail ----------
-    with t_outlets:
-        if art.empty or A_SOURCE not in art.columns:
-            st.info("No outlet data available for this selection.")
-        else:
+                
+                    # --- Outlet distribution below article table ---
+        if not art_filtered.empty and A_SOURCE in art_filtered.columns:
+            st.markdown("#### Outlet detail")
             by_outlet = (
-                art.groupby(A_SOURCE, dropna=False)
+                art_filtered.groupby(A_SOURCE, dropna=False)
                 .size()
                 .reset_index(name="n_articles")
             )
@@ -1583,19 +1503,8 @@ with tab3:
             )
             st.altair_chart(bar, use_container_width=True)
 
-            total = int(art.shape[0])
-            top1 = int(by_outlet["n_articles"].iloc[0]) if not by_outlet.empty else 0
-            top3 = (
-                int(by_outlet["n_articles"].iloc[:3].sum())
-                if by_outlet.shape[0] >= 3
-                else int(by_outlet["n_articles"].sum())
-            )
-            c1, c2, c3 = st.columns(3)
-            c1.metric("Unique outlets", f"{art[A_SOURCE].nunique(dropna=True):,}")
-            c2.metric("Top-1 outlet share", f"{(top1/total):.0%}" if total > 0 else "NA")
-            c3.metric(
-                "Top-3 outlets share", f"{(top3/total):.0%}" if total > 0 else "NA"
-            )
+
+    
 
     # ---------- Coverage over time ----------
     with t_time:
@@ -1639,15 +1548,6 @@ with tab3:
                 "This is coverage volume over time (articles/month) for the selected country."
             )
 
-# -------------------------
-# Tab 4: Timeline
-# -------------------------
-with tab4:
-    st.markdown("### 📅 Timeline View")
-    st.info(
-        "🚧 This section is under development. It will show a temporal visualization "
-        "of conflicts and media coverage."
-    )
 
 # -------------------------
 # Tab 5: Impressum
