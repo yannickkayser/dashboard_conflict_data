@@ -1175,14 +1175,14 @@ with tab3:
         )
 
         # -------------------------
-    # Country overview (ohne Tabs)
+    # Country overview 
     # -------------------------
     st.caption(
         "Country-level overview of conflict events, fatalities, and matched news "
         "articles used for the detailed article view below."
     )
 
-    # ---- Country-level Filterleiste ----
+    # ---- Country-level Filter ----
     c1, c2, c3, c4 = st.columns([2, 1.2, 1.2, 1.2])
     with c1:
         filt_country = st.text_input("Country", value="")
@@ -1376,13 +1376,24 @@ with tab3:
                     color=alt.Color(
                         "event_type_mode:N",
                         title="Event type",
-                        legend=alt.Legend(orient="right"),
-                        scale=alt.Scale(scheme="tableau20"),
+                        legend=alt.Legend(orient="bottom"),
+                        scale=alt.Scale(
+                            range=[
+                                "#FF69B4",  # main pink
+                                "#1f77b4",  # blue
+                                "#FFE4F3",  # light pink
+                                "#A6D4FF",  # light blue
+                                "#FFC1E6",  # soft pink
+                            ]
+                        ),
                     ),
                     tooltip=["event_type_mode", "n_events"],
                 )
-                .properties(width=260, height=260)
+                .properties(width=330, height=330)
             )
+
+
+
             st.altair_chart(pie, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -1411,6 +1422,7 @@ with tab3:
                         "disorder_type_mode:N",
                         sort="-x",
                         title=None,
+                        axis=alt.Axis(labelLimit=200)  # allow longer labels
                     ),
                     x=alt.X(
                         "n_events:Q",
@@ -1420,13 +1432,25 @@ with tab3:
                     color=alt.Color(
                         "disorder_type_mode:N",
                         legend=None,
-                        scale=alt.Scale(scheme="set2"),
+                        scale=alt.Scale(
+                            range=["#FF69B4", "#1f77b4", "#FFE4F3", "#A6D4FF", "#FFC1E6"],
+                        ),
                     ),
                     tooltip=["disorder_type_mode", "n_events"],
                 )
-                .properties(width=320, height=220)
+                .properties(
+                    width=380,          # more space for labels
+                    height=220,
+                )
+                .configure_view(
+                    continuousWidth=380,
+                    strokeWidth=0
+                )
             )
+
             st.altair_chart(disorder_bar, use_container_width=True)
+
+
             st.markdown("</div>", unsafe_allow_html=True)
 
         # ---- Box 3: Key primary actors + Zeitraum ----
@@ -1458,8 +1482,7 @@ with tab3:
                 end_max = cf["end_date"].max().date()
                 st.markdown(
                     f"<p style='font-size:0.85rem; color:#555; margin-top:0.9rem;'>"
-                    f"ACLED conflict events covered from <strong>{start_min}</strong> "
-                    f"to <strong>{end_max}</strong>.</p>",
+                    f"NA = no key primary actor>",
                     unsafe_allow_html=True,
                 )
 
