@@ -715,9 +715,11 @@ def main():
         logger.info(f"  Raw DB: {config.raw_db}")
         logger.info(f"  Dedup DB: {config.dedup_db}")
         logger.info(f"  Conflict DB: {config.conflict_db}")
-        logger.info(f"  Date range: {config.start_date.date()} to {config.end_date.date()}")
+        logger.info(f"  Matched DB: {config.matched_db}")
 
-        # Check latest matched articles and scrape one week after that!!!
+        # Step 0: Check latest matched articles and scrape one week after that!!!
+
+        logger.info(f"  Date range: {config.start_date.date()} to {config.end_date.date()}")
         
         # Step 1: Fetch new data
         original_count, data_updated = fetch_new_data(config, logger, metrics)

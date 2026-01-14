@@ -250,6 +250,38 @@ def check_acled_database():
     else:
         print("❌ Database not found")
 
+def check_matched_database():
+    """Check MATCHED conflict database"""
+    print_separator()
+    print("MATCHING DATABASE")
+    print_separator()
+    
+    data_dir = get_data_dir()
+    db = data_dir / "matching_country.db"
+    
+    print(f"\nMatching Data Database")
+    print(f"Path: {db}")
+    
+    if check_database_exists(db):
+        size = db.stat().st_size
+        print(f"Size: {format_size(size)}")
+        
+        tables = get_table_list(db)
+        print(f"Tables ({len(tables)}): {', '.join(tables[:10])}")
+
+        
+        for table in tables:
+            info = get_table_info(db, table)
+            print(f"\nTable: {table}")
+            print(f"- Rows: {info['count']:,}")
+            print(f"- Columns ({len(info['columns'])}): {', '.join(info['columns'][:8])}")
+            if len(info['columns']) > 8:
+                print(f"           {', '.join(info['columns'][8:16])}")
+            if info['date_range']:
+                print(f"- Date range: {info['date_range'][0]} to {info['date_range'][1]}")
+    else:
+        print("❌ Database not found")
+
 
 def check_pipeline_status():
     """Check overall pipeline status"""
@@ -262,7 +294,8 @@ def check_pipeline_status():
     status = {
         "GNews Raw": check_database_exists(data_dir / "gnews_articles_from2023.db"),
         "GNews Processed": check_database_exists(data_dir / "deleted_dupgnews2023.db"),
-        "ACLED Conflict": check_database_exists(data_dir / "conflict_data.db")
+        "ACLED Conflict": check_database_exists(data_dir / "conflict_data.db"),
+        "Matched Data": check_database_exists(data_dir / "matched_country.db")
     }
     
     print("\nDatabase Status:")
@@ -330,6 +363,8 @@ def main():
     check_gnews_databases()
     print()
     check_acled_database()
+    print()
+    check_matched_database()
     print()
     check_pipeline_status()
     
