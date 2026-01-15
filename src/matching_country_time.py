@@ -12,7 +12,7 @@ ART_DB = DATA_DIR / "deleted_dupgnews2023.db"
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
 
 # Output
-OUT_DB = DATA_DIR / "matching_conflict.db"
+OUT_DB = DATA_DIR / "matching_conflict_2days.db"
 
 ART_TABLE = "articles_eng"
 CONFLICT_TABLE = "unique_conflict"
@@ -24,7 +24,7 @@ OUT_TABLE_WIDE = "match_conflict_wide"
 OUT_TABLE_SLIM = "match_conflict_slim"
 
 # Time window for matching (days)
-TIME_WINDOW_DAYS = 30
+TIME_WINDOW_DAYS = 2
 
 
 def table_cols(cur: sqlite3.Cursor, db_alias: str, table: str) -> list[str]:
@@ -48,7 +48,7 @@ def main():
         cur.execute("PRAGMA journal_mode=WAL;")
         cur.execute("PRAGMA synchronous=NORMAL;")
         cur.execute("PRAGMA temp_store=MEMORY;")
-        cur.execute("PRAGMA cache_size=-2000000;")  # 2GB cache
+        #cur.execute("PRAGMA cache_size=-2000000;")  # 2GB cache
 
         # Attach sources
         cur.execute("ATTACH DATABASE ? AS art;", (str(ART_DB),))
@@ -89,153 +89,173 @@ def main():
         if "mid_date" not in conf_time_cols:
             raise RuntimeError("Missing column: conf.conflict_time.mid_date")
 
-        # Get row counts for diagnostic purposes
-        logger.info("=" * 60)
-        logger.info("DIAGNOSTICS - Source table sizes:")
-        n_articles = cur.execute("SELECT COUNT(*) FROM art.articles_eng;").fetchone()[0]
-        n_conflicts = cur.execute("SELECT COUNT(*) FROM conf.unique_conflict;").fetchone()[0]
-        n_features = cur.execute("SELECT COUNT(*) FROM conf.conflict_features;").fetchone()[0]
-        n_time = cur.execute("SELECT COUNT(*) FROM conf.conflict_time;").fetchone()[0]
-        logger.info("  Articles: %d", n_articles)
-        logger.info("  Unique conflicts: %d", n_conflicts)
-        logger.info("  Conflict features: %d", n_features)
-        logger.info("  Conflict time records: %d", n_time)
-        
-        # Check country overlap
-        countries_art = cur.execute("SELECT COUNT(DISTINCT article_country) FROM art.articles_eng;").fetchone()[0]
-        countries_conf = cur.execute("SELECT COUNT(DISTINCT country) FROM conf.conflict_features;").fetchone()[0]
-        logger.info("  Distinct countries in articles: %d", countries_art)
-        logger.info("  Distinct countries in conflicts: %d", countries_conf)
-        logger.info("=" * 60)
-        
-        # Note: We can't create indexes on attached databases from here
-        # If source tables don't have indexes, performance may be slower
-        # Consider creating indexes directly on source databases beforehand
-        
-        # Analyze tables to update query planner statistics
-        logger.info("Running ANALYZE on source tables...")
-        try:
-            cur.execute("ANALYZE art.articles_eng;")
-            cur.execute("ANALYZE conf.conflict_features;")
-            cur.execute("ANALYZE conf.conflict_time;")
-            cur.execute("ANALYZE conf.unique_conflict;")
-            conn.commit()
-            logger.info("ANALYZE completed successfully")
-        except sqlite3.OperationalError as e:
-            logger.warning("Could not run ANALYZE on attached databases: %s", e)
-            logger.warning("Query performance may be suboptimal")
-
         # Exclude unwanted columns from articles
         EXCLUDE_ART_COLS = {"event_type", "tfidf_terms_de", "tfidf_terms_en"}
         art_cols_filtered = [c for c in art_cols if c not in EXCLUDE_ART_COLS]
 
         # Prefix columns
-        art_select = ",\n            ".join([f'a."{c}" AS art_{c}' for c in art_cols_filtered])
-        conf_select_all = ",\n            ".join([f'uc."{c}" AS conf_{c}' for c in conf_cols])
-        feat_select_all = ",\n            ".join([f'cf."{c}" AS feat_{c}' for c in conf_features_cols])
-        time_select = ",\n            ".join([f't."{c}" AS time_{c}' for c in conf_time_cols if c != "conflict_id"])
+        art_select = ", ".join([f'a."{c}"' for c in art_cols_filtered])
+        conf_select_all = ", ".join([f'uc."{c}"' for c in conf_cols])
+        feat_select_all = ", ".join([f'cf."{c}"' for c in conf_features_cols])
+        time_select = ", ".join([f't."{c}"' for c in conf_time_cols if c != "conflict_id"])
 
-        # Slim version: only essential columns
-        conf_select_slim = """uc.conflict_id,
-            uc.n_events,
-            uc.total_fatalities"""
-        feat_select_slim = """TRIM(cf.country) AS country,
-            cf.conflict_key"""
-        time_select_slim = """t.start_date,
-            t.end_date,
-            t.mid_date"""
+        # Slim version columns
+        conf_select_slim = "uc.conflict_id, uc.n_events, uc.total_fatalities"
+        feat_select_slim = "TRIM(cf.country) AS country, cf.conflict_key"
+        time_select_slim = "t.start_date, t.end_date, t.mid_date"
+
+        import time
+        
+        # Get list of countries that have both articles and conflicts
+        logger.info("Finding countries with both articles and conflicts...")
+        countries = cur.execute("""
+            SELECT DISTINCT TRIM(cf.country) as country
+            FROM conf.conflict_features cf
+            WHERE EXISTS (
+                SELECT 1 FROM art.articles_eng a 
+                WHERE TRIM(a.article_country) = TRIM(cf.country)
+            )
+            ORDER BY country
+        """).fetchall()
+        
+        n_countries = len(countries)
+        logger.info("Found %d countries to process", n_countries)
+        
+        if n_countries == 0:
+            logger.warning("No matching countries found! Check your country names.")
+            return
 
         # -------------------------
-        # Output 1: WIDE (all columns)
-        logger.info("Rebuilding %s (matched rows with time window)...", OUT_TABLE_WIDE)
-        logger.info("This may take several minutes. Progress updates every 30 seconds...")
+        # Output 1: WIDE table - process by country
+        logger.info("=" * 60)
+        logger.info("Building WIDE table (all columns)...")
         cur.execute(f"DROP TABLE IF EXISTS {OUT_TABLE_WIDE};")
         
-        import time
+        # Create table structure first
+        cur.execute(f"""
+            CREATE TABLE {OUT_TABLE_WIDE} (
+                {', '.join([f'art_{c} TEXT' for c in art_cols_filtered])},
+                {', '.join([f'conf_{c} TEXT' for c in conf_cols])},
+                {', '.join([f'feat_{c} TEXT' for c in conf_features_cols])},
+                {', '.join([f'time_{c} TEXT' for c in conf_time_cols if c != 'conflict_id'])}
+            )
+        """)
+        
+        total_inserted = 0
         start_time = time.time()
         
-        # First, let's estimate how many matches we'll get
-        logger.info("Estimating match count (this is fast)...")
-        est_count = cur.execute(f"""
-            SELECT COUNT(*)
-            FROM art.{ART_TABLE} a
-            INNER JOIN conf.{CONFLICT_FEATURES_TABLE} cf
-              ON TRIM(a.article_country) = TRIM(cf.country)
-            INNER JOIN conf.{CONFLICT_TIME_TABLE} t
-              ON cf.conflict_id = t.conflict_id
-            WHERE 
-              DATE(a.publishedAt) BETWEEN 
-                DATE(t.mid_date, '-{TIME_WINDOW_DAYS} days') 
-                AND DATE(t.mid_date, '+{TIME_WINDOW_DAYS} days')
-        """).fetchone()[0]
-        logger.info("Estimated matches: %d rows", est_count)
+        for idx, (country,) in enumerate(countries, 1):
+            if idx % 10 == 0 or idx == 1:
+                elapsed = time.time() - start_time
+                rate = idx / elapsed if elapsed > 0 else 0
+                eta = (n_countries - idx) / rate if rate > 0 else 0
+                logger.info("Progress: %d/%d countries (%.1f%%) - %.1f countries/sec - ETA: %.1f min", 
+                           idx, n_countries, 100*idx/n_countries, rate, eta/60)
+            
+            cur.execute(f"""
+                INSERT INTO {OUT_TABLE_WIDE}
+                SELECT
+                    {art_select},
+                    {conf_select_all},
+                    {feat_select_all},
+                    {time_select}
+                FROM art.{ART_TABLE} a
+                INNER JOIN conf.{CONFLICT_FEATURES_TABLE} cf
+                  ON TRIM(cf.country) = ?
+                INNER JOIN conf.{CONFLICT_TABLE} uc
+                  ON cf.conflict_id = uc.conflict_id
+                INNER JOIN conf.{CONFLICT_TIME_TABLE} t
+                  ON uc.conflict_id = t.conflict_id
+                WHERE 
+                  TRIM(a.article_country) = ?
+                  AND DATE(a.publishedAt) BETWEEN 
+                    DATE(t.mid_date, '-{TIME_WINDOW_DAYS} days') 
+                    AND DATE(t.mid_date, '+{TIME_WINDOW_DAYS} days')
+            """, (country, country))
+            
+            inserted = cur.rowcount
+            total_inserted += inserted
+            
+            # Commit every 10 countries to avoid huge transaction
+            if idx % 10 == 0:
+                conn.commit()
         
-        if est_count > 1000000:
-            logger.warning("WARNING: Large result set (>1M rows). This will take a while!")
-        
-        logger.info("Creating wide table...")
-        cur.execute(f"""
-            CREATE TABLE {OUT_TABLE_WIDE} AS
-            SELECT
-            {art_select},
-            {conf_select_all},
-            {feat_select_all},
-            {time_select}
-            FROM art.{ART_TABLE} a
-            INNER JOIN conf.{CONFLICT_FEATURES_TABLE} cf
-              ON TRIM(a.article_country) = TRIM(cf.country)
-            INNER JOIN conf.{CONFLICT_TABLE} uc
-              ON cf.conflict_id = uc.conflict_id
-            INNER JOIN conf.{CONFLICT_TIME_TABLE} t
-              ON uc.conflict_id = t.conflict_id
-            WHERE 
-              DATE(a.publishedAt) BETWEEN 
-                DATE(t.mid_date, '-{TIME_WINDOW_DAYS} days') 
-                AND DATE(t.mid_date, '+{TIME_WINDOW_DAYS} days')
-        """)
         conn.commit()
-        
         elapsed_wide = time.time() - start_time
-        logger.info("Wide table created in %.2f seconds (%.2f minutes)", elapsed_wide, elapsed_wide/60)
+        logger.info("Wide table completed in %.2f seconds (%.2f min)", elapsed_wide, elapsed_wide/60)
+        logger.info("Total rows inserted: %d", total_inserted)
 
         # -------------------------
-        # Output 2: SLIM (essential columns only)
-        logger.info("Rebuilding %s (essential columns only)...", OUT_TABLE_SLIM)
+        # Output 2: SLIM table - process by country
+        logger.info("=" * 60)
+        logger.info("Building SLIM table (essential columns only)...")
         cur.execute(f"DROP TABLE IF EXISTS {OUT_TABLE_SLIM};")
         
+        # Create table structure
+        cur.execute(f"""
+            CREATE TABLE {OUT_TABLE_SLIM} (
+                {', '.join([f'art_{c} TEXT' for c in art_cols_filtered])},
+                conflict_id TEXT,
+                n_events TEXT,
+                total_fatalities TEXT,
+                country TEXT,
+                conflict_key TEXT,
+                start_date TEXT,
+                end_date TEXT,
+                mid_date TEXT
+            )
+        """)
+        
+        total_inserted = 0
         start_time = time.time()
         
-        cur.execute(f"""
-            CREATE TABLE {OUT_TABLE_SLIM} AS
-            SELECT
-            {art_select},
-            {conf_select_slim},
-            {feat_select_slim},
-            {time_select_slim}
-            FROM art.{ART_TABLE} a
-            INNER JOIN conf.{CONFLICT_FEATURES_TABLE} cf
-              ON TRIM(a.article_country) = TRIM(cf.country)
-            INNER JOIN conf.{CONFLICT_TABLE} uc
-              ON cf.conflict_id = uc.conflict_id
-            INNER JOIN conf.{CONFLICT_TIME_TABLE} t
-              ON uc.conflict_id = t.conflict_id
-            WHERE 
-              DATE(a.publishedAt) BETWEEN 
-                DATE(t.mid_date, '-{TIME_WINDOW_DAYS} days') 
-                AND DATE(t.mid_date, '+{TIME_WINDOW_DAYS} days')
-        """)
-        conn.commit()
+        for idx, (country,) in enumerate(countries, 1):
+            if idx % 10 == 0 or idx == 1:
+                elapsed = time.time() - start_time
+                rate = idx / elapsed if elapsed > 0 else 0
+                eta = (n_countries - idx) / rate if rate > 0 else 0
+                logger.info("Progress: %d/%d countries (%.1f%%) - %.1f countries/sec - ETA: %.1f min", 
+                           idx, n_countries, 100*idx/n_countries, rate, eta/60)
+            
+            cur.execute(f"""
+                INSERT INTO {OUT_TABLE_SLIM}
+                SELECT
+                    {art_select},
+                    {conf_select_slim},
+                    {feat_select_slim},
+                    {time_select_slim}
+                FROM art.{ART_TABLE} a
+                INNER JOIN conf.{CONFLICT_FEATURES_TABLE} cf
+                  ON TRIM(cf.country) = ?
+                INNER JOIN conf.{CONFLICT_TABLE} uc
+                  ON cf.conflict_id = uc.conflict_id
+                INNER JOIN conf.{CONFLICT_TIME_TABLE} t
+                  ON uc.conflict_id = t.conflict_id
+                WHERE 
+                  TRIM(a.article_country) = ?
+                  AND DATE(a.publishedAt) BETWEEN 
+                    DATE(t.mid_date, '-{TIME_WINDOW_DAYS} days') 
+                    AND DATE(t.mid_date, '+{TIME_WINDOW_DAYS} days')
+            """, (country, country))
+            
+            inserted = cur.rowcount
+            total_inserted += inserted
+            
+            if idx % 10 == 0:
+                conn.commit()
         
+        conn.commit()
         elapsed_slim = time.time() - start_time
-        logger.info("Slim table created in %.2f seconds", elapsed_slim)
+        logger.info("Slim table completed in %.2f seconds (%.2f min)", elapsed_slim, elapsed_slim/60)
+        logger.info("Total rows inserted: %d", total_inserted)
 
+        # Create indexes on output tables
+        logger.info("=" * 60)
         logger.info("Creating indexes...")
-        # Wide table indexes
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_WIDE}_conflict_id ON {OUT_TABLE_WIDE}(conf_conflict_id);")
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_WIDE}_country ON {OUT_TABLE_WIDE}(feat_country);")
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_WIDE}_published ON {OUT_TABLE_WIDE}(art_publishedAt);")
         
-        # Slim table indexes
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_SLIM}_conflict_id ON {OUT_TABLE_SLIM}(conflict_id);")
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_SLIM}_country ON {OUT_TABLE_SLIM}(country);")
         cur.execute(f"CREATE INDEX IF NOT EXISTS idx_{OUT_TABLE_SLIM}_published ON {OUT_TABLE_SLIM}(art_publishedAt);")
@@ -251,10 +271,10 @@ def main():
         logger.info("PERFORMANCE SUMMARY:")
         logger.info("  Wide table: %.2f seconds (%d rows)", elapsed_wide, n_wide)
         logger.info("  Slim table: %.2f seconds (%d rows)", elapsed_slim, n_slim)
-        logger.info("  Total matching time: %.2f seconds", total_time)
+        logger.info("  Total matching time: %.2f seconds (%.2f minutes)", total_time, total_time/60)
         logger.info("=" * 60)
 
-        # Optional: Log some statistics
+        # Statistics
         stats = cur.execute(f"""
             SELECT 
                 COUNT(DISTINCT conflict_id) as unique_conflicts,

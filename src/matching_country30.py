@@ -24,7 +24,7 @@ OUT_TABLE_WIDE = "match_conflict_wide"
 OUT_TABLE_SLIM = "match_conflict_slim"
 
 # Time window for matching (days)
-TIME_WINDOW_DAYS = 30
+TIME_WINDOW_DAYS = 5
 
 
 def table_cols(cur: sqlite3.Cursor, db_alias: str, table: str) -> list[str]:
