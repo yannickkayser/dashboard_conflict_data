@@ -9,7 +9,7 @@
 import os
 import time
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Tuple
 from pathlib import Path
 
@@ -274,6 +274,59 @@ class DataValidator:
         
         return "\n".join(lines)
 
+        
+# =============================
+# STEP 0: GET OLDEST MATCHED DATE
+# =============================
+def get_oldest_date(logger, gnews_db: str):
+    """Get the oldest article date from the matched database"""
+    
+    logger.info("=" * 60)
+    logger.info("STEP 0: GETTING OLDEST MATCHED DATE")
+    logger.info("=" * 60)
+    
+    if not os.path.exists(gnews_db):
+        logger.warning(f"Gnews database not found: {gnews_db}")
+        logger.info("Returning default date: 2024-01-01")
+        return "2024-01-01"
+    
+    try:
+        conn = sqlite3.connect(gnews_db)
+        cur = conn.cursor()
+        
+        # Check if the table exists
+        tables = cur.execute("""
+            SELECT name FROM sqlite_master 
+            WHERE type='table' AND name='articles';
+        """).fetchall()
+        
+        if not tables:
+            logger.warning("Table 'articles' not found in matched database")
+            logger.info("Returning default date: 2024-01-01")
+            conn.close()
+            return "2024-01-01"
+        
+        # Get the oldest article date
+        result = cur.execute("""
+            SELECT MIN(publishedAt)
+            FROM articles
+        """).fetchone()
+        
+        conn.close()
+        
+        if result and result[0]:
+            oldest_date = result[0][:10]  # Extract YYYY-MM-DD
+            logger.info(f"Oldest matched article date: {oldest_date}")
+            return oldest_date
+        else:
+            logger.warning("No articles found in gnews database")
+            logger.info("Returning default date: 2024-01-01")
+            return "2024-01-01"
+            
+    except Exception as e:
+        logger.error(f"Error reading gnews database: {e}")
+        logger.info("Returning default date: 2024-01-01")
+        return "2024-01-01"
 
 # =============================
 # STEP 1: FETCH GNEWS DATA
@@ -693,6 +746,7 @@ def log_final_statistics(config: PipelineConfig, logger):
 # =============================
 # MAIN PIPELINE
 # =============================
+# Update the main() function section where configuration is set:
 def main():
     """Main pipeline execution"""
     logger = init_logger("gnews_pipeline")
@@ -715,14 +769,38 @@ def main():
         logger.info(f"  Raw DB: {config.raw_db}")
         logger.info(f"  Dedup DB: {config.dedup_db}")
         logger.info(f"  Conflict DB: {config.conflict_db}")
-        logger.info(f"  Matched DB: {config.matched_db}")
 
-        # Step 0: Check latest matched articles and scrape one week after that!!!
-
-        logger.info(f"  Date range: {config.start_date.date()} to {config.end_date.date()}")
+        # Step 0: Get oldest matched date and set date range
+        
+        oldest_matched = get_oldest_date(logger, config.raw_db)
+        
+        # Parse the oldest date and go back 2 weeks
+        oldest_dt = datetime.strptime(oldest_matched, "%Y-%m-%d")
+        config.start_date = oldest_dt - timedelta(weeks=4)
+        config.end_date = oldest_dt  # Fetch up to the oldest matched date
+        
+        logger.info(f"\nDynamic date range calculated:")
+        logger.info(f"  Oldest matched article: {oldest_matched}")
+        logger.info(f"  Fetch from: {config.start_date.date()} (2 weeks before)")
+        logger.info(f"  Fetch to: {config.end_date.date()}")
+        
+        # Check if start date is reasonable
+        if config.start_date.year < 2020:
+            logger.warning(f"Start date {config.start_date.date()} seems too early.")
+            logger.info("Using default start date: 2023-01-01")
+            config.start_date = datetime(2023, 1, 1)
+        
+        if config.start_date >= config.end_date:
+            logger.warning("Start date is after or equal to end date. No data to fetch.")
+            logger.info("Pipeline will exit.")
+            return
         
         # Step 1: Fetch new data
         original_count, data_updated = fetch_new_data(config, logger, metrics)
+        
+        if original_count == 0:
+            logger.info("No new articles fetched. Pipeline will exit.")
+            return
         
         # Validate raw articles
         checks = validator.validate_raw_articles(config.raw_db, config.raw_table)
@@ -758,10 +836,9 @@ def main():
         logger.info("=" * 60)
         
     except Exception as e:
-        logger.exception("\n❌ PIPELINE FAILED")
+        logger.exception("\n✗ PIPELINE FAILED")
         logger.error(f"Error: {str(e)}")
         raise
-
 
 if __name__ == "__main__":
     main()
