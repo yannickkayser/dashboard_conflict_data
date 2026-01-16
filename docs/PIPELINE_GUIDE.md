@@ -24,7 +24,7 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
        ├── Standardized event classification
        └── Geolocated conflict data
 
-2. ARTICLE PROCESSING
+2. ARTICLE PROCESSING (pipelineGNEWS.py)
    ├── Deduplication (SimHash algorithm)
    ├── Translation (German → English)
    └── Country Classification (TF-IDF matching)
@@ -43,21 +43,13 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
    ├── Temporal indexing
    └── Country-level aggregation
 
-5. ENTITY MATCHING
-   ├── Country Matching (pipelinematchingCountry.py)
-   │   ├── Match articles to countries
-   │   ├── Build coverage indices
-   │   └── Country-level aggregation
-   │
-   └── Conflict Matching (pipelineMatching.py)
-       ├── Match articles to specific conflicts
-       ├── Temporal window matching (±N days)
-       ├── Build wide and slim tables
-       └── Create coverage indices
+5. COUNTRY MATCHING (pipelinematchingCountry.py)
+   ├── Match articles to countries
+   ├── Build coverage indices
+   └── Country-level aggregation
 
-6. OUTPUT DATABASES
-   ├── matched_country.db (Article-Country mappings)
-   └── matched_conflict.db (Article-Conflict mappings)
+6. OUTPUT DATABASE
+   └── matched_country.db (Article-Country mappings)
 ```
 
 ---
@@ -161,15 +153,6 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
 **Table: `match_country_slim`**
 - Minimal fields: article ID, publishedAt, URL, article_country
 - Fast query access
-
-**Table: `match_conflict_wide`**
-- Complete article-conflict matches
-- Includes article, conflict, and feature data
-- Temporal proximity indicators
-
-**Table: `match_conflict_slim`**
-- Minimal conflict matches
-- Key fields: conflict ID, event count, fatalities, country, date range
 
 ---
 
@@ -293,28 +276,6 @@ python pipelinematchingCountry.py
 - `matched_conflict.db::match_country_slim` (minimal fields)
 - `matched_conflict.db::coverage_country` (coverage indices)
 
----
-
-### Step 7: Conflict-Level Matching
-```bash
-python pipelineMatching.py
-```
-
-**Process:**
-1. Matches articles to specific conflicts using:
-   - Country comparison
-   - Temporal proximity (±configurable days)
-   - Content similarity
-2. Builds wide and slim output tables
-3. Creates indices for rapid queries
-
-**Configuration:**
-- Time window: Articles within ±N days of conflict events
-- Matching strategy: Country + temporal + content features
-
-**Output Tables:**
-- `matched_conflict.db::match_conflict_wide` (complete)
-- `matched_conflict.db::match_conflict_slim` (minimal)
 
 ---
 
@@ -373,8 +334,6 @@ python pipelineSentimentAnalysis.py
 # Stage 4: Country-level matching
 python pipelinematchingCountry.py
 
-# Stage 5: Conflict-level matching
-python pipelineMatching.py
 ```
 
 ### 4. Monitoring
@@ -429,11 +388,8 @@ GNews API Article
 │
 └─→ COUNTRY MATCHING
     └─→ match_country_wide
-        ├─→ match_country_slim
-        │
-        └─→ CONFLICT MATCHING (Temporal + content)
-            ├─→ match_conflict_wide
-            └─→ match_conflict_slim
+        └─→ match_country_slim
+
 ```
 
 ---
@@ -546,13 +502,10 @@ deleted_dupgnews2023.db::articles_eng
     ↓ (enrich with NLP)
 deleted_dupgnews2023.db::enriched_articles
     ↓
-    ├─→ (country matching) → matched_conflict.db::match_country_wide
-    │                     ↓
-    │                     matched_conflict.db::match_country_slim
-    │
-    └─→ (conflict matching) → matched_conflict.db::match_conflict_wide
-                            ↓
-                            matched_conflict.db::match_conflict_slim
+    └─→ (country matching) → matched_conflict.db::match_country_wide
+                          ↓
+                          matched_conflict.db::match_country_slim
+
 
 conflict_data.db::events
     ↓ (aggregate)
