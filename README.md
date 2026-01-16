@@ -65,10 +65,10 @@ Tables that link articles to countries and specific conflicts, with temporal lag
 
 For a practical entry point:
 
-1. Read **`PIPELINE_GUIDE.md`** for the conceptual model of the system.
-2. Use **`QUICK_START.md`** to run the full pipeline once and generate all databases.
-3. Refer to **`DATABASE_SCHEMA.md`** when constructing your first analytical queries (e.g., coverage vs. fatalities by country).
-4. Keep **`TROUBLESHOOTING.md`** nearby when scaling up, moving to GPU, or encountering API/database issues.
+1. Read [**`PIPELINE_GUIDE.md`**](docs/PIPELINE_GUIDE.md) for the conceptual model of the system.
+2. Use [**`QUICK_START.md`**](docs/QUICK_START.md) to run the full pipeline once and generate all databases.
+3. Refer to [**`DATABASE_SCHEMA.md`**](docs/DATABASE_SCHEMA.md) when constructing your first analytical queries (e.g., coverage vs. fatalities by country).
+4. Keep [**`TROUBLESHOOTING.md`**](docs/TROUBLESHOOTING.md) nearby when scaling up, moving to GPU, or encountering API/database issues.
 
 
 # 🧭 Project Architecture: Conflict-News Dashboard
