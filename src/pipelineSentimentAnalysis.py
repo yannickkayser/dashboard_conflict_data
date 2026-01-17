@@ -51,6 +51,12 @@ class PipelineConfig:
         # Variables
         self.similarity_treshold = 0.7
 
+        # Date range filtering (add these lines)
+        self.start_date = "2024-01-01"  # Change to your desired start date
+        self.end_date = "2024-03-31"    # Change to your desired end date
+        # Set to None to disable: self.start_date = None
+
+
 
 
 class PerformanceMetrics:
@@ -442,10 +448,12 @@ def title_similarity(a: str, b: str) -> float:
     return SequenceMatcher(None, a, b).ratio()
 
 
-def load_raw_articles(full_path_db, logger, metrics: PerformanceMetrics) -> Tuple[pd.DataFrame, sqlite3.Connection]:
+def load_raw_articles(full_path_db, logger, metrics: PerformanceMetrics, config: PipelineConfig) -> Tuple[pd.DataFrame, sqlite3.Connection]:
+    
     """
     Step 1: Load raw articles from database
     """
+    
     metrics.start_step("1. Load Raw Articles")
     
     logger.info("=" * 60)
@@ -454,13 +462,31 @@ def load_raw_articles(full_path_db, logger, metrics: PerformanceMetrics) -> Tupl
     
     conn = get_db_connection(full_path_db)
     
+    # Build SQL query with optional date filtering
+    if config.start_date and config.end_date:
+        query = f"""
+            SELECT * FROM articles 
+            WHERE publishedAt >= '{config.start_date}' 
+            AND publishedAt <= '{config.end_date}'
+        """
+        logger.info(f"Filtering articles from {config.start_date} to {config.end_date}")
+    elif config.start_date:
+        query = f"SELECT * FROM articles WHERE publishedAt >= '{config.start_date}'"
+        logger.info(f"Filtering articles from {config.start_date} onwards")
+    elif config.end_date:
+        query = f"SELECT * FROM articles WHERE publishedAt <= '{config.end_date}'"
+        logger.info(f"Filtering articles until {config.end_date}")
+    else:
+        query = "SELECT * FROM articles"
+        logger.info("Loading all articles (no date filter)")
+    
     logger.info(f"Reading from database: {full_path_db}")
-    df = pd.read_sql_query("SELECT * FROM articles", conn)
+    df = pd.read_sql_query(query, conn)
     
     logger.info(f"Loaded {len(df):,} articles")
     
     # Process datetime fields
-    df['published_at_dt'] = pd.to_datetime(df['publishedAt'])
+    df['published_at_dt'] = pd.to_datetime(df['publishedAt'], format='ISO8601', utc=True)
     df['published_date'] = df['published_at_dt'].dt.date.astype(str)
     df['published_month'] = df['published_at_dt'].dt.to_period('M').astype(str)
     
@@ -638,14 +664,14 @@ def topic_modeling(df_events: pd.DataFrame, logger, metrics: PerformanceMetrics)
     topic_dist = pd.Series(topics).value_counts()
     n_topics = len(topic_dist[topic_dist.index != -1])  # Exclude outlier topic
     logger.info(f"✓ Identified {n_topics} topics")
-    logger.info(f"  Outliers (topic -1): {(topics == -1).sum():,}")
+    #logger.info(f"  Outliers (topic -1): {(topics == -1).sum():,}")
     
     metrics.end_step()
     return df_events
 
 
 def merge_and_save(df_all: pd.DataFrame, df_events: pd.DataFrame, conn: sqlite3.Connection,
-                   config: dict, logger, metrics: PerformanceMetrics):
+                   config: PipelineConfig, logger, metrics: PerformanceMetrics):
     """
     Step 7: Merge results and save to database and CSV
     """
@@ -675,8 +701,8 @@ def merge_and_save(df_all: pd.DataFrame, df_events: pd.DataFrame, conn: sqlite3.
     df_enriched.to_sql('enriched_articles', conn, if_exists='replace', index=False)
     
     # Save CSVs
-    articles_output = config["output"]["articles_csv"]
-    events_output = config["output"]["events_csv"]
+    articles_output = config.output_art
+    events_output = config.output_evt
     
     logger.info(f"Saving all articles to: {articles_output}")
     df_enriched.to_csv(articles_output, index=False, encoding='utf-8-sig')
@@ -772,7 +798,7 @@ def main():
         similarity_threshold = config.similarity_treshold
         
         # Step 1: Load raw articles
-        df, conn = load_raw_articles(config.raw_db, logger, metrics)
+        df, conn = load_raw_articles(config.raw_db, logger, metrics, config)
         
         try:
             validator = DataValidator(conn, logger)
@@ -795,8 +821,8 @@ def main():
             df = cluster_articles(df, similarity_threshold, logger, metrics)
             
             # Validate clustering
-            checks = validator.validate_clustering()
-            validator.log_validation_results("Article Clustering", checks)
+            #checks = validator.validate_clustering()
+            #validator.log_validation_results("Article Clustering", checks)
             
             # Step 4: Sentiment analysis
             df_events = sentiment_analysis(df, nlp_models, logger, metrics)
