@@ -1,0 +1,437 @@
+[2026-01-17 14:39:40,097] INFO - ============================================================
+[2026-01-17 14:39:40,098] INFO - GNEWS DATA PIPELINE - STARTING
+[2026-01-17 14:39:40,098] INFO - Started at: 2026-01-17 14:39:40
+[2026-01-17 14:39:40,098] INFO - ============================================================
+[2026-01-17 14:39:40,099] INFO - 
+Configuration:
+[2026-01-17 14:39:40,099] INFO -   Raw DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+[2026-01-17 14:39:40,099] INFO -   Dedup DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/deleted_dupgnews2023.db
+[2026-01-17 14:39:40,099] INFO -   Conflict DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/conflict_data.db
+[2026-01-17 14:39:40,099] INFO - ============================================================
+[2026-01-17 14:39:40,099] INFO - STEP 0: GETTING OLDEST MATCHED DATE
+[2026-01-17 14:39:40,099] INFO - ============================================================
+[2026-01-17 14:39:40,329] INFO - Oldest matched article date: 2022-11-20
+[2026-01-17 14:39:40,329] INFO - 
+Dynamic date range calculated:
+[2026-01-17 14:39:40,330] INFO -   Oldest matched article: 2022-11-20
+[2026-01-17 14:39:40,330] INFO -   Fetch from: 2022-10-23 (2 weeks before)
+[2026-01-17 14:39:40,330] INFO -   Fetch to: 2022-11-20
+[2026-01-17 14:39:40,330] INFO - ============================================================
+[2026-01-17 14:39:40,330] INFO - STEP 1: FETCHING NEW GNEWS DATA
+[2026-01-17 14:39:40,330] INFO - ============================================================
+[2026-01-17 14:39:40,330] INFO - 
+Processing 2022-10-23...
+[2026-01-17 14:39:41,283] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:39:42,961] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:39:44,624] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:39:46,292] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:39:47,774] INFO -   Fetched 15 articles from page 5
+[2026-01-17 14:39:47,782] INFO - Total 115 articles for 2022-10-23
+[2026-01-17 14:39:47,783] INFO - 
+Processing 2022-10-24...
+[2026-01-17 14:39:48,489] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:39:50,131] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:39:51,783] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:39:53,448] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:39:55,087] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:39:56,652] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:39:58,251] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:39:59,656] INFO -   Fetched 4 articles from page 8
+[2026-01-17 14:39:59,668] INFO - Total 179 articles for 2022-10-24
+[2026-01-17 14:39:59,668] INFO - 
+Processing 2022-10-25...
+[2026-01-17 14:40:00,344] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:01,988] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:03,638] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:05,290] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:06,951] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:40:08,572] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:40:10,120] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:40:11,493] INFO - Total 175 articles for 2022-10-25
+[2026-01-17 14:40:11,493] INFO - 
+Processing 2022-10-26...
+[2026-01-17 14:40:12,151] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:13,875] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:15,523] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:17,170] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:18,819] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:40:20,388] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:40:21,927] INFO -   Fetched 10 articles from page 7
+[2026-01-17 14:40:21,939] INFO - Total 160 articles for 2022-10-26
+[2026-01-17 14:40:21,939] INFO - 
+Processing 2022-10-27...
+[2026-01-17 14:40:22,610] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:24,262] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:25,902] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:27,453] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:29,083] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:40:30,731] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:40:32,384] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:40:33,930] INFO -   Fetched 10 articles from page 8
+[2026-01-17 14:40:33,943] INFO - Total 185 articles for 2022-10-27
+[2026-01-17 14:40:33,943] INFO - 
+Processing 2022-10-28...
+[2026-01-17 14:40:34,594] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:36,238] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:37,934] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:39,495] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:41,165] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:40:42,621] INFO -   Fetched 16 articles from page 6
+[2026-01-17 14:40:42,633] INFO - Total 141 articles for 2022-10-28
+[2026-01-17 14:40:42,634] INFO - 
+Processing 2022-10-29...
+[2026-01-17 14:40:43,336] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:45,050] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:46,850] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:48,520] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:50,066] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:40:51,608] INFO -   Fetched 19 articles from page 6
+[2026-01-17 14:40:51,620] INFO - Total 144 articles for 2022-10-29
+[2026-01-17 14:40:51,620] INFO - 
+Processing 2022-10-30...
+[2026-01-17 14:40:52,254] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:40:53,886] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:40:55,631] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:40:57,259] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:40:58,881] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:00,409] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:41:01,847] INFO -   Fetched 5 articles from page 7
+[2026-01-17 14:41:01,858] INFO - Total 155 articles for 2022-10-30
+[2026-01-17 14:41:01,858] INFO - 
+Processing 2022-10-31...
+[2026-01-17 14:41:02,486] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:04,133] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:05,679] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:07,339] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:08,996] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:10,531] INFO -   Fetched 20 articles from page 6
+[2026-01-17 14:41:10,545] INFO - Total 145 articles for 2022-10-31
+[2026-01-17 14:41:10,546] INFO - 
+Processing 2022-11-01...
+[2026-01-17 14:41:11,209] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:12,865] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:14,501] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:16,146] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:17,774] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:19,374] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:41:20,813] INFO -   Fetched 6 articles from page 7
+[2026-01-17 14:41:20,825] INFO - Total 156 articles for 2022-11-01
+[2026-01-17 14:41:20,825] INFO - 
+Processing 2022-11-02...
+[2026-01-17 14:41:21,494] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:23,254] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:24,924] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:26,500] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:28,047] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:29,637] INFO -   Fetched 19 articles from page 6
+[2026-01-17 14:41:29,648] INFO - Total 144 articles for 2022-11-02
+[2026-01-17 14:41:29,648] INFO - 
+Processing 2022-11-03...
+[2026-01-17 14:41:30,257] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:31,948] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:33,642] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:35,295] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:36,831] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:38,380] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:41:39,769] INFO - Total 150 articles for 2022-11-03
+[2026-01-17 14:41:39,769] INFO - 
+Processing 2022-11-04...
+[2026-01-17 14:41:40,418] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:42,049] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:43,689] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:45,331] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:46,955] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:48,492] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:41:50,026] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:41:51,555] INFO -   Fetched 18 articles from page 8
+[2026-01-17 14:41:51,569] INFO - Total 193 articles for 2022-11-04
+[2026-01-17 14:41:51,569] INFO - 
+Processing 2022-11-05...
+[2026-01-17 14:41:52,195] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:41:53,825] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:41:55,451] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:41:57,067] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:41:58,595] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:41:59,944] INFO -   Fetched 3 articles from page 6
+[2026-01-17 14:41:59,957] INFO - Total 128 articles for 2022-11-05
+[2026-01-17 14:41:59,957] INFO - 
+Processing 2022-11-06...
+[2026-01-17 14:42:00,723] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:02,352] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:03,969] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:05,507] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:06,937] INFO -   Fetched 9 articles from page 5
+[2026-01-17 14:42:06,945] INFO - Total 109 articles for 2022-11-06
+[2026-01-17 14:42:06,946] INFO - 
+Processing 2022-11-07...
+[2026-01-17 14:42:07,668] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:09,381] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:11,032] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:12,661] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:14,300] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:42:15,913] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:42:17,467] INFO -   Fetched 23 articles from page 7
+[2026-01-17 14:42:17,481] INFO - Total 173 articles for 2022-11-07
+[2026-01-17 14:42:17,482] INFO - 
+Processing 2022-11-08...
+[2026-01-17 14:42:18,121] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:19,756] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:21,473] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:23,097] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:24,717] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:42:26,244] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:42:27,605] INFO - Total 150 articles for 2022-11-08
+[2026-01-17 14:42:27,605] INFO - 
+Processing 2022-11-09...
+[2026-01-17 14:42:28,267] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:30,005] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:31,639] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:33,311] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:34,846] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:42:36,196] INFO -   Fetched 4 articles from page 6
+[2026-01-17 14:42:36,208] INFO - Total 129 articles for 2022-11-09
+[2026-01-17 14:42:36,208] INFO - 
+Processing 2022-11-10...
+[2026-01-17 14:42:36,830] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:38,467] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:40,094] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:41,722] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:43,347] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:42:44,925] INFO -   Fetched 18 articles from page 6
+[2026-01-17 14:42:44,936] INFO - Total 143 articles for 2022-11-10
+[2026-01-17 14:42:44,936] INFO - 
+Processing 2022-11-11...
+[2026-01-17 14:42:45,597] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:47,218] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:48,916] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:42:50,544] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:42:52,107] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:42:53,639] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:42:54,985] INFO -   Fetched 3 articles from page 7
+[2026-01-17 14:42:54,997] INFO - Total 153 articles for 2022-11-11
+[2026-01-17 14:42:54,997] INFO - 
+Processing 2022-11-12...
+[2026-01-17 14:42:55,652] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:42:57,365] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:42:59,033] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:00,572] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:02,014] INFO -   Fetched 5 articles from page 5
+[2026-01-17 14:43:02,025] INFO - Total 105 articles for 2022-11-12
+[2026-01-17 14:43:02,025] INFO - 
+Processing 2022-11-13...
+[2026-01-17 14:43:02,641] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:04,273] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:05,952] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:07,590] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:09,124] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:43:10,642] INFO -   Fetched 15 articles from page 6
+[2026-01-17 14:43:10,655] INFO - Total 140 articles for 2022-11-13
+[2026-01-17 14:43:10,655] INFO - 
+Processing 2022-11-14...
+[2026-01-17 14:43:11,303] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:13,049] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:14,711] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:16,370] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:18,014] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:43:19,635] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:43:21,273] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:43:22,824] INFO -   Fetched 25 articles from page 8
+[2026-01-17 14:43:24,345] INFO -   Fetched 12 articles from page 9
+[2026-01-17 14:43:24,359] INFO - Total 212 articles for 2022-11-14
+[2026-01-17 14:43:24,359] INFO - 
+Processing 2022-11-15...
+[2026-01-17 14:43:24,983] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:26,748] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:28,387] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:30,013] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:31,673] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:43:33,293] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:43:34,946] INFO -   Fetched 25 articles from page 7
+[2026-01-17 14:43:36,527] INFO -   Fetched 21 articles from page 8
+[2026-01-17 14:43:36,545] INFO - Total 196 articles for 2022-11-15
+[2026-01-17 14:43:36,545] INFO - 
+Processing 2022-11-16...
+[2026-01-17 14:43:37,207] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:38,840] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:40,500] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:42,125] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:43,694] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:43:45,227] INFO -   Fetched 25 articles from page 6
+[2026-01-17 14:43:46,661] INFO -   Fetched 11 articles from page 7
+[2026-01-17 14:43:46,675] INFO - Total 161 articles for 2022-11-16
+[2026-01-17 14:43:46,675] INFO - 
+Processing 2022-11-17...
+[2026-01-17 14:43:47,320] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:49,055] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:50,703] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:43:52,387] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:43:53,943] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:43:55,382] INFO -   Fetched 7 articles from page 6
+[2026-01-17 14:43:55,394] INFO - Total 132 articles for 2022-11-17
+[2026-01-17 14:43:55,394] INFO - 
+Processing 2022-11-18...
+[2026-01-17 14:43:56,088] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:43:57,732] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:43:59,426] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:44:01,053] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:44:02,612] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:44:04,254] INFO -   Fetched 24 articles from page 6
+[2026-01-17 14:44:04,267] INFO - Total 149 articles for 2022-11-18
+[2026-01-17 14:44:04,267] INFO - 
+Processing 2022-11-19...
+[2026-01-17 14:44:04,888] INFO -   Fetched 25 articles from page 1
+[2026-01-17 14:44:06,604] INFO -   Fetched 25 articles from page 2
+[2026-01-17 14:44:08,274] INFO -   Fetched 25 articles from page 3
+[2026-01-17 14:44:09,927] INFO -   Fetched 25 articles from page 4
+[2026-01-17 14:44:11,592] INFO -   Fetched 25 articles from page 5
+[2026-01-17 14:44:13,030] INFO -   Fetched 7 articles from page 6
+[2026-01-17 14:44:13,040] INFO - Total 132 articles for 2022-11-19
+[2026-01-17 14:44:13,041] INFO - 
+✓ Fetch complete. Total articles: 4,254
+[2026-01-17 14:44:14,513] INFO - 
+--- Validation: Raw Articles ---
+[2026-01-17 14:44:14,513] INFO -   ✓ total_articles: 247,664
+[2026-01-17 14:44:14,513] INFO -   ✓ missing_url: 0
+[2026-01-17 14:44:14,513] INFO -   ✓ missing_title: 0
+[2026-01-17 14:44:14,513] INFO -   ✓ duplicate_urls: 0
+[2026-01-17 14:44:14,513] INFO - ============================================================
+[2026-01-17 14:44:14,513] INFO - STEP 2: DEDUPLICATING ARTICLES
+[2026-01-17 14:44:14,513] INFO - ============================================================
+[2026-01-17 14:44:14,513] INFO - Loading articles from raw database...
+[2026-01-17 14:44:17,852] INFO - Loaded 247,664 articles
+[2026-01-17 14:44:17,852] INFO - 
+Pass 1: URL deduplication...
+[2026-01-17 14:44:19,312] INFO - After URL dedup: 247,628 articles
+[2026-01-17 14:44:19,312] INFO - 
+Pass 2: Near-duplicate detection (SimHash)...
+[2026-01-17 14:44:21,773] INFO -   Processed 10,000/247,628 articles...
+[2026-01-17 14:44:24,236] INFO -   Processed 20,000/247,628 articles...
+[2026-01-17 14:44:26,820] INFO -   Processed 30,000/247,628 articles...
+[2026-01-17 14:44:29,632] INFO -   Processed 40,000/247,628 articles...
+[2026-01-17 14:44:32,625] INFO -   Processed 50,000/247,628 articles...
+[2026-01-17 14:44:35,995] INFO -   Processed 60,000/247,628 articles...
+[2026-01-17 14:44:39,395] INFO -   Processed 70,000/247,628 articles...
+[2026-01-17 14:44:43,389] INFO -   Processed 80,000/247,628 articles...
+[2026-01-17 14:44:47,517] INFO -   Processed 90,000/247,628 articles...
+[2026-01-17 14:44:51,331] INFO -   Processed 100,000/247,628 articles...
+[2026-01-17 14:44:55,603] INFO -   Processed 110,000/247,628 articles...
+[2026-01-17 14:45:01,298] INFO -   Processed 120,000/247,628 articles...
+[2026-01-17 14:45:06,284] INFO -   Processed 130,000/247,628 articles...
+[2026-01-17 14:45:11,723] INFO -   Processed 140,000/247,628 articles...
+[2026-01-17 14:45:17,356] INFO -   Processed 150,000/247,628 articles...
+[2026-01-17 14:45:23,147] INFO -   Processed 160,000/247,628 articles...
+[2026-01-17 14:45:30,111] INFO -   Processed 170,000/247,628 articles...
+[2026-01-17 14:45:36,423] INFO -   Processed 180,000/247,628 articles...
+[2026-01-17 14:45:45,743] INFO -   Processed 190,000/247,628 articles...
+[2026-01-17 14:45:55,800] INFO -   Processed 200,000/247,628 articles...
+[2026-01-17 14:46:04,403] INFO -   Processed 210,000/247,628 articles...
+[2026-01-17 14:46:11,279] INFO -   Processed 220,000/247,628 articles...
+[2026-01-17 14:46:15,130] INFO -   Processed 230,000/247,628 articles...
+[2026-01-17 14:46:19,171] INFO -   Processed 240,000/247,628 articles...
+[2026-01-17 14:46:22,616] INFO - Near-duplicates merged: 52,506
+[2026-01-17 14:46:22,617] INFO - Final unique articles: 195,122
+[2026-01-17 14:46:22,617] INFO - 
+Writing to deduplication database...
+[2026-01-17 14:46:31,066] INFO - ✓ Deduplication complete: 247,664 → 195,122 articles
+[2026-01-17 14:46:32,904] INFO - 
+--- Validation: Deduplication ---
+[2026-01-17 14:46:32,904] INFO -   ✓ total_articles: 195,122
+[2026-01-17 14:46:32,904] INFO -   ✓ duplicates_removed: -190,868
+[2026-01-17 14:46:32,905] INFO -   ✓ removal_percentage: -4,486.79
+[2026-01-17 14:46:32,905] INFO -   ✓ duplicate_urls: 0
+[2026-01-17 14:46:32,905] INFO - ============================================================
+[2026-01-17 14:46:32,905] INFO - STEP 3: TRANSLATION & COUNTRY CLASSIFICATION
+[2026-01-17 14:46:32,905] INFO - ============================================================
+[2026-01-17 14:46:32,905] INFO - Loading country aliases from conflict database...
+[2026-01-17 14:46:33,800] INFO - Loaded 229 countries
+[2026-01-17 14:46:33,801] INFO - Creating target table...
+[2026-01-17 14:46:33,801] INFO - Finding articles needing translation...
+[2026-01-17 14:46:34,517] INFO - Found 3,652 articles to process
+[2026-01-17 14:46:34,517] INFO - Loading translation model...
+/home/conda/Moderate Profile 20GB MIG GPU/envs/conflictmediamirror/lib/python3.12/site-packages/transformers/models/marian/tokenization_marian.py:175: UserWarning: Recommended: pip install sacremoses.
+  warnings.warn("Recommended: pip install sacremoses.")
+Device set to use cuda:0
+[2026-01-17 14:46:36,117] INFO - Using device: GPU
+[2026-01-17 14:46:36,117] INFO - 
+Processing articles...
+[2026-01-17 14:46:44,214] INFO -   Processed batch 200/3,652 articles
+[2026-01-17 14:46:51,709] INFO -   Processed batch 400/3,652 articles
+[2026-01-17 14:47:08,983] INFO -   Processed batch 600/3,652 articles
+[2026-01-17 14:47:17,143] INFO -   Processed batch 800/3,652 articles
+[2026-01-17 14:47:25,191] INFO -   Processed batch 1,000/3,652 articles
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+[2026-01-17 14:47:32,718] INFO -   Processed batch 1,200/3,652 articles
+[2026-01-17 14:47:40,119] INFO -   Processed batch 1,400/3,652 articles
+[2026-01-17 14:47:47,767] INFO -   Processed batch 1,600/3,652 articles
+[2026-01-17 14:47:56,287] INFO -   Processed batch 1,800/3,652 articles
+[2026-01-17 14:48:03,599] INFO -   Processed batch 2,000/3,652 articles
+[2026-01-17 14:48:11,293] INFO -   Processed batch 2,200/3,652 articles
+[2026-01-17 14:48:18,994] INFO -   Processed batch 2,400/3,652 articles
+[2026-01-17 14:49:03,984] INFO -   Processed batch 2,600/3,652 articles
+[2026-01-17 14:49:11,796] INFO -   Processed batch 2,800/3,652 articles
+[2026-01-17 14:49:19,508] INFO -   Processed batch 3,000/3,652 articles
+[2026-01-17 14:49:27,071] INFO -   Processed batch 3,200/3,652 articles
+[2026-01-17 14:49:35,767] INFO -   Processed batch 3,400/3,652 articles
+[2026-01-17 14:49:43,921] INFO -   Processed batch 3,600/3,652 articles
+[2026-01-17 14:49:46,002] INFO -   Processed batch 3,652/3,652 articles
+[2026-01-17 14:49:46,011] INFO - ✓ Translation and classification complete
+[2026-01-17 14:49:46,175] INFO - 
+--- Validation: Translation & Classification ---
+[2026-01-17 14:49:46,176] INFO -   ✓ total_articles: 195,167
+[2026-01-17 14:49:46,176] INFO -   ✓ missing_translation: 0
+[2026-01-17 14:49:46,176] INFO -   ✓ country_na: 101,506
+[2026-01-17 14:49:46,176] INFO -   ✓ articles_with_high_confidence: 93,661
+[2026-01-17 14:49:46,176] INFO - ============================================================
+[2026-01-17 14:49:46,176] INFO - FINAL DATABASE STATISTICS
+[2026-01-17 14:49:46,176] INFO - ============================================================
+[2026-01-17 14:49:46,193] INFO - Raw articles: 247,664
+[2026-01-17 14:49:46,390] INFO - Deduplicated articles: 195,122
+[2026-01-17 14:49:46,392] INFO - Translated articles: 195,167
+[2026-01-17 14:49:46,403] INFO - Date range: 2022-10-23 to 2026-01-04
+[2026-01-17 14:49:46,403] INFO - 
+Top 10 countries by article count:
+[2026-01-17 14:49:46,412] INFO -   1. Germany: 43,030 articles
+[2026-01-17 14:49:46,412] INFO -   2. Ukraine: 24,630 articles
+[2026-01-17 14:49:46,412] INFO -   3. Israel: 9,257 articles
+[2026-01-17 14:49:46,412] INFO -   4. United States: 4,173 articles
+[2026-01-17 14:49:46,412] INFO -   5. Russia: 2,188 articles
+[2026-01-17 14:49:46,412] INFO -   6. France: 1,094 articles
+[2026-01-17 14:49:46,412] INFO -   7. Iran: 763 articles
+[2026-01-17 14:49:46,412] INFO -   8. Sudan: 428 articles
+[2026-01-17 14:49:46,412] INFO -   9. Australia: 416 articles
+[2026-01-17 14:49:46,412] INFO -   10. United Kingdom: 389 articles
+[2026-01-17 14:49:46,414] INFO - 
+Articles without country classification: 101,506
+[2026-01-17 14:49:46,415] INFO - ============================================================
+[2026-01-17 14:49:46,415] INFO - 
+============================================================
+VALIDATION SUMMARY
+============================================================
+Raw Articles............................ ✓ PASS
+Deduplication........................... ✓ PASS
+Translation & Classification............ ✓ PASS
+------------------------------------------------------------
+Total Warnings: 0
+Total Errors: 0
+============================================================
+[2026-01-17 14:49:46,415] INFO - 
+============================================================
+PERFORMANCE METRICS
+============================================================
+1. Fetch GNews Data..........................   272.71s ( 45.3%)
+2. Deduplication.............................   136.81s ( 22.7%)
+3. Translation & Classification..............   193.11s ( 32.0%)
+------------------------------------------------------------
+TOTAL TIME...................................   602.63s
+============================================================
+[2026-01-17 14:49:46,415] INFO - 
+============================================================
+[2026-01-17 14:49:46,415] INFO - ✓ PIPELINE COMPLETED SUCCESSFULLY
+[2026-01-17 14:49:46,415] INFO - Finished at: 2026-01-17 14:49:46
+[2026-01-17 14:49:46,415] INFO - Total duration: 606.32s (10.11 minutes)
+[2026-01-17 14:49:46,415] INFO - ============================================================
+Working directory: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data
+Using DB: sqlite:////home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+Working directory: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data
+DB path: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+Size (bytes): 2334212096

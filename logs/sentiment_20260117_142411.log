@@ -1,0 +1,174 @@
+[2026-01-17 14:50:43,122] INFO - ============================================================
+[2026-01-17 14:50:43,122] INFO - SENTIMENT ANALYSIS PIPELINE - STARTING
+[2026-01-17 14:50:43,122] INFO - Started at: 2026-01-17 14:50:43
+[2026-01-17 14:50:43,122] INFO - ============================================================
+[2026-01-17 14:50:43,123] INFO - 
+Configuration:
+[2026-01-17 14:50:43,123] INFO -   Raw DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+[2026-01-17 14:50:43,123] INFO -   Dedup DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/deleted_dupgnews2023.db
+[2026-01-17 14:50:43,123] INFO -   Articles CSV: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/processed_conflict_articles_test.csv
+[2026-01-17 14:50:43,123] INFO -   Events CSV: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/processed_conflict_events_test.csv
+[2026-01-17 14:50:43,123] INFO - ============================================================
+[2026-01-17 14:50:43,123] INFO - STEP 1: LOADING RAW ARTICLES
+[2026-01-17 14:50:43,123] INFO - ============================================================
+[2026-01-17 14:50:43,124] INFO - Filtering articles from 2024-01-01 to 2024-03-31
+[2026-01-17 14:50:43,124] INFO - Reading from database: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+[2026-01-17 14:50:43,629] INFO - Loaded 20,351 articles
+[2026-01-17 14:50:43,652] INFO - ✓ Articles loaded and preprocessed
+[2026-01-17 14:50:43,652] INFO - 
+============================================================
+[2026-01-17 14:50:43,652] INFO - INITIAL DATA VALIDATION
+[2026-01-17 14:50:43,652] INFO - ============================================================
+[2026-01-17 14:50:44,911] INFO - 
+--- Validation: Raw Articles ---
+[2026-01-17 14:50:44,911] INFO -   ✓ total_articles: 247,664
+[2026-01-17 14:50:44,911] INFO -   ✓ articles_with_null_title: 0
+[2026-01-17 14:50:44,911] INFO -   ✓ articles_with_null_date: 0
+[2026-01-17 14:50:44,911] INFO -   ✓ date_range_start: 2022-10-23T02:20:14Z
+[2026-01-17 14:50:44,911] INFO -   ✓ date_range_end: 2026-01-04 23:05:00.000000
+[2026-01-17 14:50:44,911] WARNING - 
+Warnings:
+[2026-01-17 14:50:44,911] WARNING -   ⚠️  duplicate_articles: 20662
+[2026-01-17 14:50:44,911] INFO - Initializing NLP Models... (This may take a few minutes)
+[2026-01-17 14:50:45,627] INFO - Loading German emotion model...
+Device set to use cuda:0
+[2026-01-17 14:50:47,385] INFO - Loading multilingual zero-shot model...
+Device set to use cuda:0
+[2026-01-17 14:50:48,513] INFO - ✓ All NLP models loaded successfully
+[2026-01-17 14:50:48,513] INFO - Initializing German location dictionary...
+[2026-01-17 14:50:48,660] INFO - Loaded 1116 German locations
+[2026-01-17 14:50:48,673] INFO - ============================================================
+[2026-01-17 14:50:48,673] INFO - STEP 2: GEOGRAPHIC DETECTION
+[2026-01-17 14:50:48,673] INFO - ============================================================
+[2026-01-17 14:50:48,674] INFO - Processing 20,351 articles for geographic detection...
+[2026-01-17 14:53:33,609] INFO - ✓ Detected 11,611 domestic articles (57.1%)
+[2026-01-17 14:53:33,610] INFO - ============================================================
+[2026-01-17 14:53:33,610] INFO - STEP 3: CLUSTERING ARTICLES
+[2026-01-17 14:53:33,610] INFO - ============================================================
+[2026-01-17 14:53:33,610] INFO - Clustering with similarity threshold: 0.7
+[2026-01-17 14:53:38,460] INFO - ✓ Found 4,809 duplicate articles
+[2026-01-17 14:53:38,460] INFO - ✓ Created 15,542 unique article clusters
+[2026-01-17 14:53:38,463] INFO - ============================================================
+[2026-01-17 14:53:38,463] INFO - STEP 4: SENTIMENT & EMOTION ANALYSIS
+[2026-01-17 14:53:38,463] INFO - ============================================================
+[2026-01-17 14:53:38,539] INFO - Analyzing sentiment for 15,542 unique events...
+You seem to be using the pipelines sequentially on GPU. In order to maximize efficiency please use a dataset
+[2026-01-17 14:55:37,729] INFO - 
+Emotion distribution:
+[2026-01-17 14:55:37,729] INFO -   neutral: 12,173 (78.3%)
+[2026-01-17 14:55:37,729] INFO -   curiosity: 602 (3.9%)
+[2026-01-17 14:55:37,729] INFO -   sadness: 425 (2.7%)
+[2026-01-17 14:55:37,729] INFO -   disapproval: 417 (2.7%)
+[2026-01-17 14:55:37,729] INFO -   confusion: 241 (1.6%)
+[2026-01-17 14:55:37,729] INFO -   anger: 240 (1.5%)
+[2026-01-17 14:55:37,729] INFO -   disappointment: 237 (1.5%)
+[2026-01-17 14:55:37,729] INFO -   fear: 223 (1.4%)
+[2026-01-17 14:55:37,729] INFO -   approval: 179 (1.2%)
+[2026-01-17 14:55:37,729] INFO -   realization: 167 (1.1%)
+[2026-01-17 14:55:37,729] INFO -   annoyance: 143 (0.9%)
+[2026-01-17 14:55:37,729] INFO -   surprise: 102 (0.7%)
+[2026-01-17 14:55:37,729] INFO -   optimism: 94 (0.6%)
+[2026-01-17 14:55:37,729] INFO -   admiration: 67 (0.4%)
+[2026-01-17 14:55:37,729] INFO -   excitement: 48 (0.3%)
+[2026-01-17 14:55:37,729] INFO -   gratitude: 38 (0.2%)
+[2026-01-17 14:55:37,729] INFO -   desire: 31 (0.2%)
+[2026-01-17 14:55:37,729] INFO -   disgust: 21 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   grief: 21 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   embarrassment: 17 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   remorse: 13 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   joy: 12 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   caring: 12 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   nervousness: 10 (0.1%)
+[2026-01-17 14:55:37,729] INFO -   amusement: 5 (0.0%)
+[2026-01-17 14:55:37,729] INFO -   love: 2 (0.0%)
+[2026-01-17 14:55:37,729] INFO -   relief: 1 (0.0%)
+[2026-01-17 14:55:37,729] INFO -   pride: 1 (0.0%)
+[2026-01-17 14:55:37,729] INFO - ✓ Sentiment analysis completed
+[2026-01-17 14:55:37,730] INFO - ============================================================
+[2026-01-17 14:55:37,730] INFO - STEP 5: EVENT TYPE CLASSIFICATION
+[2026-01-17 14:55:37,730] INFO - ============================================================
+[2026-01-17 14:55:37,730] INFO - Classifying 15,542 events into ACLED categories...
+[2026-01-17 15:14:41,008] INFO - 
+Event type distribution:
+[2026-01-17 15:14:41,009] INFO -   Protests: 5,909 (38.0%)
+[2026-01-17 15:14:41,009] INFO -   Battles: 4,993 (32.1%)
+[2026-01-17 15:14:41,009] INFO -   Violence against civilians: 1,543 (9.9%)
+[2026-01-17 15:14:41,009] INFO -   Riots: 1,446 (9.3%)
+[2026-01-17 15:14:41,009] INFO -   Strategic developments: 1,006 (6.5%)
+[2026-01-17 15:14:41,009] INFO -   Explosions: 645 (4.2%)
+[2026-01-17 15:14:41,009] INFO - ✓ Event classification completed
+[2026-01-17 15:14:41,009] INFO - ============================================================
+[2026-01-17 15:14:41,009] INFO - STEP 6: TOPIC MODELING
+[2026-01-17 15:14:41,009] INFO - ============================================================
+[2026-01-17 15:14:41,009] INFO - Running BERTopic on 15,542 events...
+[2026-01-17 15:14:41,031] INFO - Use pytorch device_name: cuda:0
+[2026-01-17 15:14:41,032] INFO - Load pretrained SentenceTransformer: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+[2026-01-17 15:15:35,523] INFO - ✓ Identified 257 topics
+[2026-01-17 15:15:35,533] INFO - ============================================================
+[2026-01-17 15:15:35,533] INFO - STEP 7: SAVING RESULTS
+[2026-01-17 15:15:35,533] INFO - ============================================================
+[2026-01-17 15:15:35,584] INFO - Writing to database table: enriched_articles
+[2026-01-17 15:15:36,451] INFO - Saving all articles to: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/processed_conflict_articles_test.csv
+[2026-01-17 15:15:37,755] INFO - Saving unique events to: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/processed_conflict_events_test.csv
+[2026-01-17 15:15:38,732] INFO - ✓ Saved 20,351 enriched articles
+[2026-01-17 15:15:38,732] INFO - ✓ Saved 15,542 unique events
+[2026-01-17 15:15:38,920] INFO - 
+--- Validation: Enriched Articles ---
+[2026-01-17 15:15:38,920] INFO -   ✓ total_enriched: 20,351
+[2026-01-17 15:15:38,920] INFO -   ✓ domestic_articles: 11,611
+[2026-01-17 15:15:38,920] INFO -   ✓ international_articles: 8,740
+[2026-01-17 15:15:38,920] INFO -   ✓ missing_sentiment: 0
+[2026-01-17 15:15:38,920] INFO -   ✓ missing_event_type: 0
+[2026-01-17 15:15:38,920] INFO -   ✓ missing_topic: 0
+[2026-01-17 15:15:38,920] INFO -   ✓ articles_with_locations: 17,453
+[2026-01-17 15:15:38,920] INFO -   ✓ domestic_percentage: 57.05
+[2026-01-17 15:15:38,920] INFO - ============================================================
+[2026-01-17 15:15:38,920] INFO - FINAL DATABASE STATISTICS
+[2026-01-17 15:15:38,920] INFO - ============================================================
+[2026-01-17 15:15:38,942] INFO - Total enriched articles: 20,351
+[2026-01-17 15:15:38,967] INFO -   International: 8,740 (42.9%)
+[2026-01-17 15:15:38,967] INFO -   Domestic: 11,611 (57.1%)
+[2026-01-17 15:15:39,009] INFO - Date range: 2024-01-01 to 2024-03-30
+[2026-01-17 15:15:39,009] INFO - 
+Top 3 emotions:
+[2026-01-17 15:15:39,052] INFO -   1. neutral: 15,836
+[2026-01-17 15:15:39,052] INFO -   2. curiosity: 779
+[2026-01-17 15:15:39,052] INFO -   3. disapproval: 552
+[2026-01-17 15:15:39,052] INFO - 
+Top 3 event types:
+[2026-01-17 15:15:39,095] INFO -   1. Protests: 7,653
+[2026-01-17 15:15:39,095] INFO -   2. Battles: 6,592
+[2026-01-17 15:15:39,095] INFO -   3. Violence against civilians: 2,017
+[2026-01-17 15:15:39,095] INFO - ============================================================
+[2026-01-17 15:15:39,095] INFO - 
+============================================================
+VALIDATION SUMMARY
+============================================================
+Raw Articles............................ ✓ PASS
+  └─ Warnings: 1
+Enriched Articles....................... ✓ PASS
+------------------------------------------------------------
+Total Warnings: 1
+Total Errors: 0
+============================================================
+[2026-01-17 15:15:39,095] INFO - 
+============================================================
+PERFORMANCE METRICS
+============================================================
+1. Load Raw Articles.........................     0.53s (  0.0%)
+2. Geographic Detection......................   164.94s ( 11.1%)
+3. Article Clustering........................     4.85s (  0.3%)
+4. Sentiment Analysis........................   119.27s (  8.0%)
+5. Event Classification......................  1143.28s ( 76.7%)
+6. Topic Modeling............................    54.51s (  3.7%)
+7. Save Results..............................     3.20s (  0.2%)
+------------------------------------------------------------
+TOTAL TIME...................................  1490.57s
+============================================================
+[2026-01-17 15:15:39,095] INFO - 
+============================================================
+[2026-01-17 15:15:39,095] INFO - ✓ PIPELINE COMPLETED SUCCESSFULLY
+[2026-01-17 15:15:39,096] INFO - Finished at: 2026-01-17 15:15:39
+[2026-01-17 15:15:39,096] INFO - Total duration: 1495.97s (24.93 minutes)
+[2026-01-17 15:15:39,096] INFO - ============================================================
+[2026-01-17 15:15:39,117] INFO - Database connection closed

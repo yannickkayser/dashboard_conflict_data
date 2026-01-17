@@ -1,0 +1,16 @@
+===== Pipeline Run Started: Sat Jan 17 14:22:54 CET 2026 =====
+Mode: all
+Running ACLED pipeline...
+✗ ACLED failed at Sat Jan 17 14:22:54 CET 2026
+===== Pipeline Run Completed: Sat Jan 17 14:22:54 CET 2026 =====
+===== Pipeline Run Started: Sat Jan 17 14:24:11 CET 2026 =====
+Mode: all
+Running ACLED pipeline...
+✓ ACLED completed at Sat Jan 17 14:39:35 CET 2026
+Running GNews pipeline...
+✓ GNews completed at Sat Jan 17 14:49:48 CET 2026
+Running matching pipeline...
+✓ Matching completed at Sat Jan 17 14:50:31 CET 2026
+Running sentiment analysis...
+✓ Sentiment completed at Sat Jan 17 15:15:42 CET 2026
+===== Pipeline Run Completed: Sat Jan 17 15:15:42 CET 2026 =====

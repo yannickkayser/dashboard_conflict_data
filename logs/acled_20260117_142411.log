@@ -1,0 +1,2663 @@
+[2026-01-17 14:24:12,339] INFO - ============================================================
+[2026-01-17 14:24:12,339] INFO - ACLED DATA PIPELINE - STARTING
+[2026-01-17 14:24:12,339] INFO - Started at: 2026-01-17 14:24:12
+[2026-01-17 14:24:12,339] INFO - ============================================================
+[2026-01-17 14:24:12,340] INFO - ============================================================
+[2026-01-17 14:24:12,340] INFO - STEP 1: FETCHING NEW ACLED DATA
+[2026-01-17 14:24:12,340] INFO - ============================================================
+[2026-01-17 14:24:12,340] INFO - Processing Afghanistan...
+[2026-01-17 14:24:12,765] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:24:13,742] INFO -   File saved to: raw/ACLEDoutput_Afghanistan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:24:13,742] INFO -   File exists: True
+[2026-01-17 14:24:13,742] INFO -   File size: 31.03 KB
+[2026-01-17 14:24:13,746] INFO -   ✓ Updated database for Afghanistan
+[2026-01-17 14:24:13,746] INFO - Processing Albania...
+[2026-01-17 14:24:14,189] INFO -   Latest date in DB: 2025-01-06
+[2026-01-17 14:24:15,139] INFO -   File saved to: raw/ACLEDoutput_Albania_2025-01-06_to_2025-01-17.json
+[2026-01-17 14:24:15,139] INFO -   File exists: True
+[2026-01-17 14:24:15,139] INFO -   File size: 1.61 KB
+[2026-01-17 14:24:15,140] INFO -   ✓ Updated database for Albania
+[2026-01-17 14:24:15,140] INFO - Processing Algeria...
+[2026-01-17 14:24:15,563] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:24:16,486] INFO -   File saved to: raw/ACLEDoutput_Algeria_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:24:16,486] INFO -   File exists: True
+[2026-01-17 14:24:16,486] INFO -   File size: 6.25 KB
+[2026-01-17 14:24:16,489] INFO -   ✓ Updated database for Algeria
+[2026-01-17 14:24:16,489] INFO - Processing American Samoa...
+[2026-01-17 14:24:16,918] INFO -   Latest date in DB: 2022-12-19
+[2026-01-17 14:24:23,950] INFO -   File saved to: raw/ACLEDoutput_American Samoa_2022-12-19_to_2025-01-17.json
+[2026-01-17 14:24:23,950] INFO -   File exists: True
+[2026-01-17 14:24:23,950] INFO -   File size: 1.34 KB
+[2026-01-17 14:24:23,951] INFO -   ✓ Updated database for American Samoa
+[2026-01-17 14:24:23,951] INFO - Processing Andorra...
+[2026-01-17 14:24:24,387] INFO -   Latest date in DB: 2024-10-31
+[2026-01-17 14:24:30,690] INFO -   File saved to: raw/ACLEDoutput_Andorra_2024-10-31_to_2025-01-17.json
+[2026-01-17 14:24:30,691] INFO -   File exists: True
+[2026-01-17 14:24:30,691] INFO -   File size: 1.51 KB
+[2026-01-17 14:24:30,692] INFO -   ✓ Updated database for Andorra
+[2026-01-17 14:24:30,692] INFO - Processing Angola...
+[2026-01-17 14:24:31,153] INFO -   Latest date in DB: 2025-01-10
+[2026-01-17 14:24:32,178] INFO -   File saved to: raw/ACLEDoutput_Angola_2025-01-10_to_2025-01-17.json
+[2026-01-17 14:24:32,178] INFO -   File exists: True
+[2026-01-17 14:24:32,178] INFO -   File size: 1.46 KB
+[2026-01-17 14:24:32,179] INFO -   ✓ Updated database for Angola
+[2026-01-17 14:24:32,179] INFO - Processing Anguilla...
+[2026-01-17 14:24:32,633] INFO -   Latest date in DB: 2024-05-08
+[2026-01-17 14:24:39,378] INFO -   File saved to: raw/ACLEDoutput_Anguilla_2024-05-08_to_2025-01-17.json
+[2026-01-17 14:24:39,379] INFO -   File exists: True
+[2026-01-17 14:24:39,379] INFO -   File size: 1.48 KB
+[2026-01-17 14:24:39,379] INFO -   ✓ Updated database for Anguilla
+[2026-01-17 14:24:39,380] INFO - Processing Antarctica...
+[2026-01-17 14:24:39,802] INFO -   Latest date in DB: 2024-04-30
+[2026-01-17 14:24:46,068] INFO -   File saved to: raw/ACLEDoutput_Antarctica_2024-04-30_to_2025-01-17.json
+[2026-01-17 14:24:46,068] INFO -   File exists: True
+[2026-01-17 14:24:46,068] INFO -   File size: 1.43 KB
+[2026-01-17 14:24:46,069] INFO -   ✓ Updated database for Antarctica
+[2026-01-17 14:24:46,069] INFO - Processing Antigua and Barbuda...
+[2026-01-17 14:24:46,520] INFO -   Latest date in DB: 2025-01-07
+[2026-01-17 14:24:47,519] INFO -   File saved to: raw/ACLEDoutput_Antigua and Barbuda_2025-01-07_to_2025-01-17.json
+[2026-01-17 14:24:47,519] INFO -   File exists: True
+[2026-01-17 14:24:47,519] INFO -   File size: 1.38 KB
+[2026-01-17 14:24:47,520] INFO -   ✓ Updated database for Antigua and Barbuda
+[2026-01-17 14:24:47,520] INFO - Processing Argentina...
+[2026-01-17 14:24:47,980] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:24:48,880] INFO -   File saved to: raw/ACLEDoutput_Argentina_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:24:48,881] INFO -   File exists: True
+[2026-01-17 14:24:48,881] INFO -   File size: 21.95 KB
+[2026-01-17 14:24:48,885] INFO -   ✓ Updated database for Argentina
+[2026-01-17 14:24:48,885] INFO - Processing Armenia...
+[2026-01-17 14:24:49,355] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:24:50,208] INFO -   File saved to: raw/ACLEDoutput_Armenia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:24:50,209] INFO -   File exists: True
+[2026-01-17 14:24:50,209] INFO -   File size: 8.54 KB
+[2026-01-17 14:24:50,212] INFO -   ✓ Updated database for Armenia
+[2026-01-17 14:24:50,212] INFO - Processing Aruba...
+[2026-01-17 14:24:50,667] INFO -   Latest date in DB: 2024-08-17
+[2026-01-17 14:24:57,178] INFO -   File saved to: raw/ACLEDoutput_Aruba_2024-08-17_to_2025-01-17.json
+[2026-01-17 14:24:57,178] INFO -   File exists: True
+[2026-01-17 14:24:57,178] INFO -   File size: 1.55 KB
+[2026-01-17 14:24:57,179] INFO -   ✓ Updated database for Aruba
+[2026-01-17 14:24:57,179] INFO - Processing Australia...
+[2026-01-17 14:24:57,630] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:24:58,555] INFO -   File saved to: raw/ACLEDoutput_Australia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:24:58,556] INFO -   File exists: True
+[2026-01-17 14:24:58,556] INFO -   File size: 4.20 KB
+[2026-01-17 14:24:58,560] INFO -   ✓ Updated database for Australia
+[2026-01-17 14:24:58,560] INFO - Processing Austria...
+[2026-01-17 14:24:59,019] INFO -   Latest date in DB: 2025-01-11
+[2026-01-17 14:25:00,055] INFO -   File saved to: raw/ACLEDoutput_Austria_2025-01-11_to_2025-01-17.json
+[2026-01-17 14:25:00,056] INFO -   File exists: True
+[2026-01-17 14:25:00,056] INFO -   File size: 9.46 KB
+[2026-01-17 14:25:00,059] INFO -   ✓ Updated database for Austria
+[2026-01-17 14:25:00,059] INFO - Processing Azerbaijan...
+[2026-01-17 14:25:00,524] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:01,521] INFO -   File saved to: raw/ACLEDoutput_Azerbaijan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:01,521] INFO -   File exists: True
+[2026-01-17 14:25:01,521] INFO -   File size: 1.45 KB
+[2026-01-17 14:25:01,522] INFO -   ✓ Updated database for Azerbaijan
+[2026-01-17 14:25:01,522] INFO - Processing Bahamas...
+[2026-01-17 14:25:01,964] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:25:03,185] INFO -   File saved to: raw/ACLEDoutput_Bahamas_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:25:03,185] INFO -   File exists: True
+[2026-01-17 14:25:03,185] INFO -   File size: 2.01 KB
+[2026-01-17 14:25:03,186] INFO -   ✓ Updated database for Bahamas
+[2026-01-17 14:25:03,186] INFO - Processing Bahrain...
+[2026-01-17 14:25:03,633] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:25:04,665] INFO -   File saved to: raw/ACLEDoutput_Bahrain_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:25:04,666] INFO -   File exists: True
+[2026-01-17 14:25:04,666] INFO -   File size: 12.10 KB
+[2026-01-17 14:25:04,670] INFO -   ✓ Updated database for Bahrain
+[2026-01-17 14:25:04,670] INFO - Processing Bailiwick of Guernsey...
+[2026-01-17 14:25:05,122] INFO -   Latest date in DB: 2024-03-19
+[2026-01-17 14:25:11,478] INFO -   File saved to: raw/ACLEDoutput_Bailiwick of Guernsey_2024-03-19_to_2025-01-17.json
+[2026-01-17 14:25:11,478] INFO -   File exists: True
+[2026-01-17 14:25:11,478] INFO -   File size: 1.38 KB
+[2026-01-17 14:25:11,479] INFO -   ✓ Updated database for Bailiwick of Guernsey
+[2026-01-17 14:25:11,479] INFO - Processing Bailiwick of Jersey...
+[2026-01-17 14:25:11,971] INFO -   Latest date in DB: 2021-12-10
+[2026-01-17 14:25:19,269] INFO -   File saved to: raw/ACLEDoutput_Bailiwick of Jersey_2021-12-10_to_2025-01-17.json
+[2026-01-17 14:25:19,270] INFO -   File exists: True
+[2026-01-17 14:25:19,270] INFO -   File size: 1.77 KB
+[2026-01-17 14:25:19,271] INFO -   ✓ Updated database for Bailiwick of Jersey
+[2026-01-17 14:25:19,271] INFO - Processing Bangladesh...
+[2026-01-17 14:25:19,716] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:20,636] INFO -   File saved to: raw/ACLEDoutput_Bangladesh_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:20,636] INFO -   File exists: True
+[2026-01-17 14:25:20,636] INFO -   File size: 59.31 KB
+[2026-01-17 14:25:20,640] INFO -   ✓ Updated database for Bangladesh
+[2026-01-17 14:25:20,640] INFO - Processing Barbados...
+[2026-01-17 14:25:21,091] INFO -   Latest date in DB: 2024-01-30
+[2026-01-17 14:25:27,858] INFO -   File saved to: raw/ACLEDoutput_Barbados_2024-01-30_to_2025-01-17.json
+[2026-01-17 14:25:27,858] INFO -   File exists: True
+[2026-01-17 14:25:27,858] INFO -   File size: 1.42 KB
+[2026-01-17 14:25:27,859] INFO -   ✓ Updated database for Barbados
+[2026-01-17 14:25:27,859] INFO - Processing Belarus...
+[2026-01-17 14:25:28,316] INFO -   Latest date in DB: 2025-01-08
+[2026-01-17 14:25:29,230] INFO -   File saved to: raw/ACLEDoutput_Belarus_2025-01-08_to_2025-01-17.json
+[2026-01-17 14:25:29,230] INFO -   File exists: True
+[2026-01-17 14:25:29,230] INFO -   File size: 3.02 KB
+[2026-01-17 14:25:29,231] INFO -   ✓ Updated database for Belarus
+[2026-01-17 14:25:29,231] INFO - Processing Belgium...
+[2026-01-17 14:25:29,660] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:30,556] INFO -   File saved to: raw/ACLEDoutput_Belgium_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:30,556] INFO -   File exists: True
+[2026-01-17 14:25:30,556] INFO -   File size: 15.06 KB
+[2026-01-17 14:25:30,559] INFO -   ✓ Updated database for Belgium
+[2026-01-17 14:25:30,559] INFO - Processing Belize...
+[2026-01-17 14:25:30,986] INFO -   Latest date in DB: 2025-01-07
+[2026-01-17 14:25:31,954] INFO -   File saved to: raw/ACLEDoutput_Belize_2025-01-07_to_2025-01-17.json
+[2026-01-17 14:25:31,954] INFO -   File exists: True
+[2026-01-17 14:25:31,954] INFO -   File size: 1.51 KB
+[2026-01-17 14:25:31,955] INFO -   ✓ Updated database for Belize
+[2026-01-17 14:25:31,955] INFO - Processing Benin...
+[2026-01-17 14:25:32,404] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:33,256] INFO -   File saved to: raw/ACLEDoutput_Benin_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:33,256] INFO -   File exists: True
+[2026-01-17 14:25:33,256] INFO -   File size: 9.33 KB
+[2026-01-17 14:25:33,260] INFO -   ✓ Updated database for Benin
+[2026-01-17 14:25:33,260] INFO - Processing Bermuda...
+[2026-01-17 14:25:33,722] INFO -   Latest date in DB: 2024-06-10
+[2026-01-17 14:25:40,339] INFO -   File saved to: raw/ACLEDoutput_Bermuda_2024-06-10_to_2025-01-17.json
+[2026-01-17 14:25:40,339] INFO -   File exists: True
+[2026-01-17 14:25:40,339] INFO -   File size: 1.42 KB
+[2026-01-17 14:25:40,340] INFO -   ✓ Updated database for Bermuda
+[2026-01-17 14:25:40,340] INFO - Processing Bhutan...
+[2026-01-17 14:25:40,795] INFO -   Latest date in DB: 2024-08-11
+[2026-01-17 14:25:47,155] INFO -   File saved to: raw/ACLEDoutput_Bhutan_2024-08-11_to_2025-01-17.json
+[2026-01-17 14:25:47,155] INFO -   File exists: True
+[2026-01-17 14:25:47,155] INFO -   File size: 1.32 KB
+[2026-01-17 14:25:47,156] INFO -   ✓ Updated database for Bhutan
+[2026-01-17 14:25:47,156] INFO - Processing Bolivia...
+[2026-01-17 14:25:47,622] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:48,482] INFO -   File saved to: raw/ACLEDoutput_Bolivia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:48,482] INFO -   File exists: True
+[2026-01-17 14:25:48,482] INFO -   File size: 22.63 KB
+[2026-01-17 14:25:48,486] INFO -   ✓ Updated database for Bolivia
+[2026-01-17 14:25:48,486] INFO - Processing Bosnia and Herzegovina...
+[2026-01-17 14:25:48,952] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:25:49,793] INFO -   File saved to: raw/ACLEDoutput_Bosnia and Herzegovina_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:25:49,794] INFO -   File exists: True
+[2026-01-17 14:25:49,794] INFO -   File size: 7.42 KB
+[2026-01-17 14:25:49,798] INFO -   ✓ Updated database for Bosnia and Herzegovina
+[2026-01-17 14:25:49,798] INFO - Processing Botswana...
+[2026-01-17 14:25:50,284] INFO -   Latest date in DB: 2024-12-20
+[2026-01-17 14:25:51,353] INFO -   File saved to: raw/ACLEDoutput_Botswana_2024-12-20_to_2025-01-17.json
+[2026-01-17 14:25:51,354] INFO -   File exists: True
+[2026-01-17 14:25:51,354] INFO -   File size: 1.49 KB
+[2026-01-17 14:25:51,355] INFO -   ✓ Updated database for Botswana
+[2026-01-17 14:25:51,355] INFO - Processing Brazil...
+[2026-01-17 14:25:51,783] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:25:52,651] INFO -   File saved to: raw/ACLEDoutput_Brazil_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:25:52,651] INFO -   File exists: True
+[2026-01-17 14:25:52,651] INFO -   File size: 205.91 KB
+[2026-01-17 14:25:52,656] INFO -   ✓ Updated database for Brazil
+[2026-01-17 14:25:52,656] INFO - Processing British Indian Ocean Territory...
+[2026-01-17 14:25:53,110] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:26:00,300] INFO -   - No new data for British Indian Ocean Territory
+[2026-01-17 14:26:00,301] INFO - Processing British Virgin Islands...
+[2026-01-17 14:26:00,750] INFO -   Latest date in DB: 2024-02-14
+[2026-01-17 14:26:07,651] INFO -   File saved to: raw/ACLEDoutput_British Virgin Islands_2024-02-14_to_2025-01-17.json
+[2026-01-17 14:26:07,651] INFO -   File exists: True
+[2026-01-17 14:26:07,651] INFO -   File size: 1.41 KB
+[2026-01-17 14:26:07,652] INFO -   ✓ Updated database for British Virgin Islands
+[2026-01-17 14:26:07,652] INFO - Processing Brunei...
+[2026-01-17 14:26:08,095] INFO -   Latest date in DB: 2023-11-04
+[2026-01-17 14:26:14,523] INFO -   File saved to: raw/ACLEDoutput_Brunei_2023-11-04_to_2025-01-17.json
+[2026-01-17 14:26:14,524] INFO -   File exists: True
+[2026-01-17 14:26:14,524] INFO -   File size: 1.37 KB
+[2026-01-17 14:26:14,525] INFO -   ✓ Updated database for Brunei
+[2026-01-17 14:26:14,525] INFO - Processing Bulgaria...
+[2026-01-17 14:26:15,006] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:26:15,869] INFO -   File saved to: raw/ACLEDoutput_Bulgaria_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:26:15,869] INFO -   File exists: True
+[2026-01-17 14:26:15,869] INFO -   File size: 12.78 KB
+[2026-01-17 14:26:15,874] INFO -   ✓ Updated database for Bulgaria
+[2026-01-17 14:26:15,874] INFO - Processing Burkina Faso...
+[2026-01-17 14:26:16,319] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:26:17,154] INFO -   File saved to: raw/ACLEDoutput_Burkina Faso_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:26:17,154] INFO -   File exists: True
+[2026-01-17 14:26:17,154] INFO -   File size: 34.80 KB
+[2026-01-17 14:26:17,158] INFO -   ✓ Updated database for Burkina Faso
+[2026-01-17 14:26:17,158] INFO - Processing Burundi...
+[2026-01-17 14:26:17,613] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:26:18,487] INFO -   File saved to: raw/ACLEDoutput_Burundi_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:26:18,487] INFO -   File exists: True
+[2026-01-17 14:26:18,487] INFO -   File size: 15.85 KB
+[2026-01-17 14:26:18,491] INFO -   ✓ Updated database for Burundi
+[2026-01-17 14:26:18,491] INFO - Processing Cambodia...
+[2026-01-17 14:26:18,939] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:26:19,892] INFO -   File saved to: raw/ACLEDoutput_Cambodia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:26:19,892] INFO -   File exists: True
+[2026-01-17 14:26:19,893] INFO -   File size: 1.57 KB
+[2026-01-17 14:26:19,893] INFO -   ✓ Updated database for Cambodia
+[2026-01-17 14:26:19,894] INFO - Processing Cameroon...
+[2026-01-17 14:26:20,325] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:26:21,236] INFO -   File saved to: raw/ACLEDoutput_Cameroon_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:26:21,237] INFO -   File exists: True
+[2026-01-17 14:26:21,237] INFO -   File size: 102.41 KB
+[2026-01-17 14:26:21,241] INFO -   ✓ Updated database for Cameroon
+[2026-01-17 14:26:21,241] INFO - Processing Canada...
+[2026-01-17 14:26:21,706] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:26:22,638] INFO -   File saved to: raw/ACLEDoutput_Canada_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:26:22,639] INFO -   File exists: True
+[2026-01-17 14:26:22,639] INFO -   File size: 22.35 KB
+[2026-01-17 14:26:22,642] INFO -   ✓ Updated database for Canada
+[2026-01-17 14:26:22,642] INFO - Processing Cape Verde...
+[2026-01-17 14:26:23,097] INFO -   Latest date in DB: 2024-12-30
+[2026-01-17 14:26:24,093] INFO -   File saved to: raw/ACLEDoutput_Cape Verde_2024-12-30_to_2025-01-17.json
+[2026-01-17 14:26:24,094] INFO -   File exists: True
+[2026-01-17 14:26:24,094] INFO -   File size: 5.13 KB
+[2026-01-17 14:26:24,094] INFO -   ✓ Updated database for Cape Verde
+[2026-01-17 14:26:24,095] INFO - Processing Caribbean Netherlands...
+[2026-01-17 14:26:24,532] INFO -   Latest date in DB: 2024-08-17
+[2026-01-17 14:26:31,055] INFO -   File saved to: raw/ACLEDoutput_Caribbean Netherlands_2024-08-17_to_2025-01-17.json
+[2026-01-17 14:26:31,056] INFO -   File exists: True
+[2026-01-17 14:26:31,056] INFO -   File size: 1.57 KB
+[2026-01-17 14:26:31,057] INFO -   ✓ Updated database for Caribbean Netherlands
+[2026-01-17 14:26:31,057] INFO - Processing Cayman Islands...
+[2026-01-17 14:26:31,520] INFO -   Latest date in DB: 2024-10-13
+[2026-01-17 14:26:38,308] INFO -   File saved to: raw/ACLEDoutput_Cayman Islands_2024-10-13_to_2025-01-17.json
+[2026-01-17 14:26:38,308] INFO -   File exists: True
+[2026-01-17 14:26:38,308] INFO -   File size: 1.59 KB
+[2026-01-17 14:26:38,309] INFO -   ✓ Updated database for Cayman Islands
+[2026-01-17 14:26:38,309] INFO - Processing Central African Republic...
+[2026-01-17 14:26:38,749] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:26:39,774] INFO -   File saved to: raw/ACLEDoutput_Central African Republic_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:26:39,774] INFO -   File exists: True
+[2026-01-17 14:26:39,774] INFO -   File size: 17.98 KB
+[2026-01-17 14:26:39,780] INFO -   ✓ Updated database for Central African Republic
+[2026-01-17 14:26:39,781] INFO - Processing Chad...
+[2026-01-17 14:26:40,226] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:26:41,112] INFO -   File saved to: raw/ACLEDoutput_Chad_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:26:41,112] INFO -   File exists: True
+[2026-01-17 14:26:41,112] INFO -   File size: 9.02 KB
+[2026-01-17 14:26:41,116] INFO -   ✓ Updated database for Chad
+[2026-01-17 14:26:41,116] INFO - Processing Chile...
+[2026-01-17 14:26:41,543] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:26:42,431] INFO -   File saved to: raw/ACLEDoutput_Chile_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:26:42,432] INFO -   File exists: True
+[2026-01-17 14:26:42,432] INFO -   File size: 16.79 KB
+[2026-01-17 14:26:42,437] INFO -   ✓ Updated database for Chile
+[2026-01-17 14:26:42,437] INFO - Processing China...
+[2026-01-17 14:26:42,895] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:26:43,783] INFO -   File saved to: raw/ACLEDoutput_China_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:26:43,783] INFO -   File exists: True
+[2026-01-17 14:26:43,783] INFO -   File size: 46.96 KB
+[2026-01-17 14:26:43,787] INFO -   ✓ Updated database for China
+[2026-01-17 14:26:43,787] INFO - Processing Christmas Island...
+[2026-01-17 14:26:44,222] INFO -   Latest date in DB: 2022-02-09
+[2026-01-17 14:26:51,148] INFO -   File saved to: raw/ACLEDoutput_Christmas Island_2022-02-09_to_2025-01-17.json
+[2026-01-17 14:26:51,148] INFO -   File exists: True
+[2026-01-17 14:26:51,148] INFO -   File size: 1.97 KB
+[2026-01-17 14:26:51,149] INFO -   ✓ Updated database for Christmas Island
+[2026-01-17 14:26:51,149] INFO - Processing Cocos (Keeling) Islands...
+[2026-01-17 14:26:51,600] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:26:59,174] INFO -   - No new data for Cocos (Keeling) Islands
+[2026-01-17 14:26:59,174] INFO - Processing Colombia...
+[2026-01-17 14:26:59,630] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:00,504] INFO -   File saved to: raw/ACLEDoutput_Colombia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:00,504] INFO -   File exists: True
+[2026-01-17 14:27:00,504] INFO -   File size: 106.17 KB
+[2026-01-17 14:27:00,508] INFO -   ✓ Updated database for Colombia
+[2026-01-17 14:27:00,508] INFO - Processing Comoros...
+[2026-01-17 14:27:00,937] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:27:01,957] INFO -   File saved to: raw/ACLEDoutput_Comoros_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:27:01,957] INFO -   File exists: True
+[2026-01-17 14:27:01,957] INFO -   File size: 1.63 KB
+[2026-01-17 14:27:01,958] INFO -   ✓ Updated database for Comoros
+[2026-01-17 14:27:01,958] INFO - Processing Cook Islands...
+[2026-01-17 14:27:02,417] INFO -   Latest date in DB: 2024-09-20
+[2026-01-17 14:27:08,638] INFO -   File saved to: raw/ACLEDoutput_Cook Islands_2024-09-20_to_2025-01-17.json
+[2026-01-17 14:27:08,638] INFO -   File exists: True
+[2026-01-17 14:27:08,638] INFO -   File size: 1.35 KB
+[2026-01-17 14:27:08,639] INFO -   ✓ Updated database for Cook Islands
+[2026-01-17 14:27:08,639] INFO - Processing Costa Rica...
+[2026-01-17 14:27:09,094] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:10,007] INFO -   File saved to: raw/ACLEDoutput_Costa Rica_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:10,007] INFO -   File exists: True
+[2026-01-17 14:27:10,007] INFO -   File size: 6.10 KB
+[2026-01-17 14:27:10,011] INFO -   ✓ Updated database for Costa Rica
+[2026-01-17 14:27:10,011] INFO - Processing Croatia...
+[2026-01-17 14:27:10,473] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:27:11,458] INFO -   File saved to: raw/ACLEDoutput_Croatia_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:27:11,459] INFO -   File exists: True
+[2026-01-17 14:27:11,459] INFO -   File size: 1.44 KB
+[2026-01-17 14:27:11,459] INFO -   ✓ Updated database for Croatia
+[2026-01-17 14:27:11,460] INFO - Processing Cuba...
+[2026-01-17 14:27:11,912] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:27:12,772] INFO -   File saved to: raw/ACLEDoutput_Cuba_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:27:12,772] INFO -   File exists: True
+[2026-01-17 14:27:12,772] INFO -   File size: 1.34 KB
+[2026-01-17 14:27:12,773] INFO -   ✓ Updated database for Cuba
+[2026-01-17 14:27:12,773] INFO - Processing Curacao...
+[2026-01-17 14:27:13,218] INFO -   Latest date in DB: 2025-01-07
+[2026-01-17 14:27:14,275] INFO -   File saved to: raw/ACLEDoutput_Curacao_2025-01-07_to_2025-01-17.json
+[2026-01-17 14:27:14,275] INFO -   File exists: True
+[2026-01-17 14:27:14,275] INFO -   File size: 1.62 KB
+[2026-01-17 14:27:14,276] INFO -   ✓ Updated database for Curacao
+[2026-01-17 14:27:14,276] INFO - Processing Cyprus...
+[2026-01-17 14:27:14,736] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:27:15,630] INFO -   File saved to: raw/ACLEDoutput_Cyprus_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:27:15,631] INFO -   File exists: True
+[2026-01-17 14:27:15,631] INFO -   File size: 7.35 KB
+[2026-01-17 14:27:15,634] INFO -   ✓ Updated database for Cyprus
+[2026-01-17 14:27:15,634] INFO - Processing Czech Republic...
+[2026-01-17 14:27:16,098] INFO -   Latest date in DB: 2025-01-10
+[2026-01-17 14:27:17,057] INFO -   File saved to: raw/ACLEDoutput_Czech Republic_2025-01-10_to_2025-01-17.json
+[2026-01-17 14:27:17,058] INFO -   File exists: True
+[2026-01-17 14:27:17,058] INFO -   File size: 2.96 KB
+[2026-01-17 14:27:17,061] INFO -   ✓ Updated database for Czech Republic
+[2026-01-17 14:27:17,061] INFO - Processing Democratic Republic of Congo...
+[2026-01-17 14:27:17,581] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:18,468] INFO -   File saved to: raw/ACLEDoutput_Democratic Republic of Congo_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:18,468] INFO -   File exists: True
+[2026-01-17 14:27:18,468] INFO -   File size: 81.68 KB
+[2026-01-17 14:27:18,473] INFO -   ✓ Updated database for Democratic Republic of Congo
+[2026-01-17 14:27:18,473] INFO - Processing Denmark...
+[2026-01-17 14:27:18,929] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:19,844] INFO -   File saved to: raw/ACLEDoutput_Denmark_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:19,844] INFO -   File exists: True
+[2026-01-17 14:27:19,844] INFO -   File size: 5.81 KB
+[2026-01-17 14:27:19,848] INFO -   ✓ Updated database for Denmark
+[2026-01-17 14:27:19,848] INFO - Processing Djibouti...
+[2026-01-17 14:27:20,397] INFO -   Latest date in DB: 2024-12-16
+[2026-01-17 14:27:21,485] INFO -   File saved to: raw/ACLEDoutput_Djibouti_2024-12-16_to_2025-01-17.json
+[2026-01-17 14:27:21,485] INFO -   File exists: True
+[2026-01-17 14:27:21,485] INFO -   File size: 1.38 KB
+[2026-01-17 14:27:21,486] INFO -   ✓ Updated database for Djibouti
+[2026-01-17 14:27:21,486] INFO - Processing Dominica...
+[2026-01-17 14:27:21,965] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:27:22,855] INFO -   File saved to: raw/ACLEDoutput_Dominica_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:27:22,855] INFO -   File exists: True
+[2026-01-17 14:27:22,855] INFO -   File size: 1.58 KB
+[2026-01-17 14:27:22,856] INFO -   ✓ Updated database for Dominica
+[2026-01-17 14:27:22,856] INFO - Processing Dominican Republic...
+[2026-01-17 14:27:23,313] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:27:24,178] INFO -   File saved to: raw/ACLEDoutput_Dominican Republic_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:27:24,179] INFO -   File exists: True
+[2026-01-17 14:27:24,179] INFO -   File size: 2.99 KB
+[2026-01-17 14:27:24,182] INFO -   ✓ Updated database for Dominican Republic
+[2026-01-17 14:27:24,182] INFO - Processing East Timor...
+[2026-01-17 14:27:24,639] INFO -   Latest date in DB: 2025-01-01
+[2026-01-17 14:27:25,662] INFO -   File saved to: raw/ACLEDoutput_East Timor_2025-01-01_to_2025-01-17.json
+[2026-01-17 14:27:25,663] INFO -   File exists: True
+[2026-01-17 14:27:25,663] INFO -   File size: 1.56 KB
+[2026-01-17 14:27:25,663] INFO -   ✓ Updated database for East Timor
+[2026-01-17 14:27:25,664] INFO - Processing Ecuador...
+[2026-01-17 14:27:26,129] INFO -   Latest date in DB: 2025-01-14
+Page 1: received 20 rows
+Reached final page.
+✅ Saved 20 total rows to raw/ACLEDoutput_Afghanistan_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Albania_2025-01-06_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Algeria_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_American Samoa_2022-12-19_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Andorra_2024-10-31_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Angola_2025-01-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Anguilla_2024-05-08_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Antarctica_2024-04-30_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Antigua and Barbuda_2025-01-07_to_2025-01-17.json
+Page 1: received 15 rows
+Reached final page.
+✅ Saved 15 total rows to raw/ACLEDoutput_Argentina_2025-01-14_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Armenia_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Aruba_2024-08-17_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Australia_2025-01-14_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Austria_2025-01-11_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Azerbaijan_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Bahamas_2025-01-13_to_2025-01-17.json
+Page 1: received 9 rows
+Reached final page.
+✅ Saved 9 total rows to raw/ACLEDoutput_Bahrain_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Bailiwick of Guernsey_2024-03-19_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Bailiwick of Jersey_2021-12-10_to_2025-01-17.json
+Page 1: received 41 rows
+Reached final page.
+✅ Saved 41 total rows to raw/ACLEDoutput_Bangladesh_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Barbados_2024-01-30_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Belarus_2025-01-08_to_2025-01-17.json
+Page 1: received 9 rows
+Reached final page.
+✅ Saved 9 total rows to raw/ACLEDoutput_Belgium_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Belize_2025-01-07_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Benin_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Bermuda_2024-06-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Bhutan_2024-08-11_to_2025-01-17.json
+Page 1: received 14 rows
+Reached final page.
+✅ Saved 14 total rows to raw/ACLEDoutput_Bolivia_2025-01-14_to_2025-01-17.json
+Page 1: received 5 rows
+Reached final page.
+✅ Saved 5 total rows to raw/ACLEDoutput_Bosnia and Herzegovina_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Botswana_2024-12-20_to_2025-01-17.json
+Page 1: received 136 rows
+Reached final page.
+✅ Saved 136 total rows to raw/ACLEDoutput_Brazil_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_British Virgin Islands_2024-02-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Brunei_2023-11-04_to_2025-01-17.json
+Page 1: received 9 rows
+Reached final page.
+✅ Saved 9 total rows to raw/ACLEDoutput_Bulgaria_2025-01-13_to_2025-01-17.json
+Page 1: received 24 rows
+Reached final page.
+✅ Saved 24 total rows to raw/ACLEDoutput_Burkina Faso_2025-01-14_to_2025-01-17.json
+Page 1: received 11 rows
+Reached final page.
+✅ Saved 11 total rows to raw/ACLEDoutput_Burundi_2025-01-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Cambodia_2025-01-13_to_2025-01-17.json
+Page 1: received 71 rows
+Reached final page.
+✅ Saved 71 total rows to raw/ACLEDoutput_Cameroon_2025-01-14_to_2025-01-17.json
+Page 1: received 15 rows
+Reached final page.
+✅ Saved 15 total rows to raw/ACLEDoutput_Canada_2025-01-14_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Cape Verde_2024-12-30_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Caribbean Netherlands_2024-08-17_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Cayman Islands_2024-10-13_to_2025-01-17.json
+Page 1: received 12 rows
+Reached final page.
+✅ Saved 12 total rows to raw/ACLEDoutput_Central African Republic_2025-01-13_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Chad_2025-01-14_to_2025-01-17.json
+Page 1: received 10 rows
+Reached final page.
+✅ Saved 10 total rows to raw/ACLEDoutput_Chile_2025-01-13_to_2025-01-17.json
+Page 1: received 36 rows
+Reached final page.
+✅ Saved 36 total rows to raw/ACLEDoutput_China_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Christmas Island_2022-02-09_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 66 rows
+Reached final page.
+✅ Saved 66 total rows to raw/ACLEDoutput_Colombia_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Comoros_2025-01-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Cook Islands_2024-09-20_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Costa Rica_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Croatia_2025-01-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Cuba_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Curacao_2025-01-07_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Cyprus_2025-01-12_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Czech Republic_2025-01-10_to_2025-01-17.json
+Page 1: received 56 rows
+Reached final page.
+✅ Saved 56 total rows to raw/ACLEDoutput_Democratic Republic of Congo_2025-01-14_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Denmark_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Djibouti_2024-12-16_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Dominica_2025-01-13_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Dominican Republic_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_East Timor_2025-01-01_to_2025-01-17.json
+Page 1: received 55 rows
+Reached final page.
+✅ Saved 55 total rows to raw/ACLEDoutput_Ecuador_2025-01-14_to_2025-01-17.json[2026-01-17 14:27:27,022] INFO -   File saved to: raw/ACLEDoutput_Ecuador_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:27,023] INFO -   File exists: True
+[2026-01-17 14:27:27,023] INFO -   File size: 81.84 KB
+[2026-01-17 14:27:27,029] INFO -   ✓ Updated database for Ecuador
+[2026-01-17 14:27:27,029] INFO - Processing Egypt...
+[2026-01-17 14:27:27,454] INFO -   Latest date in DB: 2025-01-11
+[2026-01-17 14:27:28,542] INFO -   File saved to: raw/ACLEDoutput_Egypt_2025-01-11_to_2025-01-17.json
+[2026-01-17 14:27:28,542] INFO -   File exists: True
+[2026-01-17 14:27:28,542] INFO -   File size: 5.48 KB
+[2026-01-17 14:27:28,546] INFO -   ✓ Updated database for Egypt
+[2026-01-17 14:27:28,546] INFO - Processing El Salvador...
+[2026-01-17 14:27:28,986] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:29,826] INFO -   File saved to: raw/ACLEDoutput_El Salvador_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:29,826] INFO -   File exists: True
+[2026-01-17 14:27:29,826] INFO -   File size: 4.69 KB
+[2026-01-17 14:27:29,829] INFO -   ✓ Updated database for El Salvador
+[2026-01-17 14:27:29,829] INFO - Processing Equatorial Guinea...
+[2026-01-17 14:27:30,271] INFO -   Latest date in DB: 2024-08-15
+[2026-01-17 14:27:36,669] INFO -   File saved to: raw/ACLEDoutput_Equatorial Guinea_2024-08-15_to_2025-01-17.json
+[2026-01-17 14:27:36,670] INFO -   File exists: True
+[2026-01-17 14:27:36,670] INFO -   File size: 2.96 KB
+[2026-01-17 14:27:36,671] INFO -   ✓ Updated database for Equatorial Guinea
+[2026-01-17 14:27:36,671] INFO - Processing Eritrea...
+[2026-01-17 14:27:37,089] INFO -   Latest date in DB: 2024-11-07
+[2026-01-17 14:27:43,512] INFO -   File saved to: raw/ACLEDoutput_Eritrea_2024-11-07_to_2025-01-17.json
+[2026-01-17 14:27:43,512] INFO -   File exists: True
+[2026-01-17 14:27:43,512] INFO -   File size: 1.82 KB
+[2026-01-17 14:27:43,513] INFO -   ✓ Updated database for Eritrea
+[2026-01-17 14:27:43,513] INFO - Processing Estonia...
+[2026-01-17 14:27:43,965] INFO -   Latest date in DB: 2024-12-27
+[2026-01-17 14:27:44,912] INFO -   File saved to: raw/ACLEDoutput_Estonia_2024-12-27_to_2025-01-17.json
+[2026-01-17 14:27:44,912] INFO -   File exists: True
+[2026-01-17 14:27:44,912] INFO -   File size: 2.88 KB
+[2026-01-17 14:27:44,917] INFO -   ✓ Updated database for Estonia
+[2026-01-17 14:27:44,917] INFO - Processing eSwatini...
+[2026-01-17 14:27:45,371] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:27:46,212] INFO -   File saved to: raw/ACLEDoutput_eSwatini_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:27:46,212] INFO -   File exists: True
+[2026-01-17 14:27:46,212] INFO -   File size: 1.53 KB
+[2026-01-17 14:27:46,213] INFO -   ✓ Updated database for eSwatini
+[2026-01-17 14:27:46,213] INFO - Processing Ethiopia...
+[2026-01-17 14:27:46,662] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:27:47,537] INFO -   File saved to: raw/ACLEDoutput_Ethiopia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:27:47,538] INFO -   File exists: True
+[2026-01-17 14:27:47,538] INFO -   File size: 42.76 KB
+[2026-01-17 14:27:47,542] INFO -   ✓ Updated database for Ethiopia
+[2026-01-17 14:27:47,542] INFO - Processing Falkland Islands...
+[2026-01-17 14:27:47,979] INFO -   Latest date in DB: 2021-11-04
+[2026-01-17 14:27:54,731] INFO -   File saved to: raw/ACLEDoutput_Falkland Islands_2021-11-04_to_2025-01-17.json
+[2026-01-17 14:27:54,732] INFO -   File exists: True
+[2026-01-17 14:27:54,732] INFO -   File size: 1.26 KB
+[2026-01-17 14:27:54,732] INFO -   ✓ Updated database for Falkland Islands
+[2026-01-17 14:27:54,732] INFO - Processing Faroe Islands...
+[2026-01-17 14:27:55,168] INFO -   Latest date in DB: 2024-03-19
+[2026-01-17 14:28:01,615] INFO -   File saved to: raw/ACLEDoutput_Faroe Islands_2024-03-19_to_2025-01-17.json
+[2026-01-17 14:28:01,615] INFO -   File exists: True
+[2026-01-17 14:28:01,615] INFO -   File size: 1.29 KB
+[2026-01-17 14:28:01,616] INFO -   ✓ Updated database for Faroe Islands
+[2026-01-17 14:28:01,616] INFO - Processing Fiji...
+[2026-01-17 14:28:02,058] INFO -   Latest date in DB: 2024-12-10
+[2026-01-17 14:28:03,250] INFO -   File saved to: raw/ACLEDoutput_Fiji_2024-12-10_to_2025-01-17.json
+[2026-01-17 14:28:03,251] INFO -   File exists: True
+[2026-01-17 14:28:03,251] INFO -   File size: 1.68 KB
+[2026-01-17 14:28:03,252] INFO -   ✓ Updated database for Fiji
+[2026-01-17 14:28:03,252] INFO - Processing Finland...
+[2026-01-17 14:28:03,679] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:28:04,556] INFO -   File saved to: raw/ACLEDoutput_Finland_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:28:04,557] INFO -   File exists: True
+[2026-01-17 14:28:04,557] INFO -   File size: 2.81 KB
+[2026-01-17 14:28:04,560] INFO -   ✓ Updated database for Finland
+[2026-01-17 14:28:04,560] INFO - Processing France...
+[2026-01-17 14:28:04,982] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:05,959] INFO -   File saved to: raw/ACLEDoutput_France_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:05,959] INFO -   File exists: True
+[2026-01-17 14:28:05,959] INFO -   File size: 81.79 KB
+[2026-01-17 14:28:05,964] INFO -   ✓ Updated database for France
+[2026-01-17 14:28:05,964] INFO - Processing French Guiana...
+[2026-01-17 14:28:06,385] INFO -   Latest date in DB: 2025-01-06
+[2026-01-17 14:28:07,348] INFO -   File saved to: raw/ACLEDoutput_French Guiana_2025-01-06_to_2025-01-17.json
+[2026-01-17 14:28:07,349] INFO -   File exists: True
+[2026-01-17 14:28:07,349] INFO -   File size: 1.41 KB
+[2026-01-17 14:28:07,350] INFO -   ✓ Updated database for French Guiana
+[2026-01-17 14:28:07,350] INFO - Processing French Polynesia...
+[2026-01-17 14:28:07,817] INFO -   Latest date in DB: 2024-12-05
+[2026-01-17 14:28:08,863] INFO -   File saved to: raw/ACLEDoutput_French Polynesia_2024-12-05_to_2025-01-17.json
+[2026-01-17 14:28:08,864] INFO -   File exists: True
+[2026-01-17 14:28:08,864] INFO -   File size: 2.08 KB
+[2026-01-17 14:28:08,865] INFO -   ✓ Updated database for French Polynesia
+[2026-01-17 14:28:08,865] INFO - Processing Gabon...
+[2026-01-17 14:28:09,293] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:28:10,136] INFO -   File saved to: raw/ACLEDoutput_Gabon_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:28:10,136] INFO -   File exists: True
+[2026-01-17 14:28:10,136] INFO -   File size: 4.36 KB
+[2026-01-17 14:28:10,140] INFO -   ✓ Updated database for Gabon
+[2026-01-17 14:28:10,140] INFO - Processing Gambia...
+[2026-01-17 14:28:10,579] INFO -   Latest date in DB: 2024-12-14
+[2026-01-17 14:28:11,558] INFO -   File saved to: raw/ACLEDoutput_Gambia_2024-12-14_to_2025-01-17.json
+[2026-01-17 14:28:11,558] INFO -   File exists: True
+[2026-01-17 14:28:11,558] INFO -   File size: 2.95 KB
+[2026-01-17 14:28:11,561] INFO -   ✓ Updated database for Gambia
+[2026-01-17 14:28:11,562] INFO - Processing Georgia...
+[2026-01-17 14:28:12,008] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:12,891] INFO -   File saved to: raw/ACLEDoutput_Georgia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:12,891] INFO -   File exists: True
+[2026-01-17 14:28:12,892] INFO -   File size: 19.25 KB
+[2026-01-17 14:28:12,896] INFO -   ✓ Updated database for Georgia
+[2026-01-17 14:28:12,896] INFO - Processing Germany...
+[2026-01-17 14:28:13,338] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:14,235] INFO -   File saved to: raw/ACLEDoutput_Germany_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:14,235] INFO -   File exists: True
+[2026-01-17 14:28:14,235] INFO -   File size: 28.85 KB
+[2026-01-17 14:28:14,239] INFO -   ✓ Updated database for Germany
+[2026-01-17 14:28:14,240] INFO - Processing Ghana...
+[2026-01-17 14:28:14,709] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:15,622] INFO -   File saved to: raw/ACLEDoutput_Ghana_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:15,622] INFO -   File exists: True
+[2026-01-17 14:28:15,622] INFO -   File size: 15.00 KB
+[2026-01-17 14:28:15,626] INFO -   ✓ Updated database for Ghana
+[2026-01-17 14:28:15,626] INFO - Processing Gibraltar...
+[2026-01-17 14:28:16,104] INFO -   Latest date in DB: 2023-04-30
+[2026-01-17 14:28:23,096] INFO -   File saved to: raw/ACLEDoutput_Gibraltar_2023-04-30_to_2025-01-17.json
+[2026-01-17 14:28:23,096] INFO -   File exists: True
+[2026-01-17 14:28:23,096] INFO -   File size: 1.36 KB
+[2026-01-17 14:28:23,097] INFO -   ✓ Updated database for Gibraltar
+[2026-01-17 14:28:23,097] INFO - Processing Greece...
+[2026-01-17 14:28:23,529] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:24,443] INFO -   File saved to: raw/ACLEDoutput_Greece_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:24,443] INFO -   File exists: True
+[2026-01-17 14:28:24,443] INFO -   File size: 14.48 KB
+[2026-01-17 14:28:24,447] INFO -   ✓ Updated database for Greece
+[2026-01-17 14:28:24,447] INFO - Processing Greenland...
+[2026-01-17 14:28:24,902] INFO -   Latest date in DB: 2024-12-10
+[2026-01-17 14:28:25,915] INFO -   File saved to: raw/ACLEDoutput_Greenland_2024-12-10_to_2025-01-17.json
+[2026-01-17 14:28:25,916] INFO -   File exists: True
+[2026-01-17 14:28:25,916] INFO -   File size: 11.14 KB
+[2026-01-17 14:28:25,917] INFO -   ✓ Updated database for Greenland
+[2026-01-17 14:28:25,917] INFO - Processing Grenada...
+[2026-01-17 14:28:26,353] INFO -   Latest date in DB: 2023-11-20
+[2026-01-17 14:28:32,882] INFO -   File saved to: raw/ACLEDoutput_Grenada_2023-11-20_to_2025-01-17.json
+[2026-01-17 14:28:32,882] INFO -   File exists: True
+[2026-01-17 14:28:32,882] INFO -   File size: 1.70 KB
+[2026-01-17 14:28:32,883] INFO -   ✓ Updated database for Grenada
+[2026-01-17 14:28:32,883] INFO - Processing Guadeloupe...
+[2026-01-17 14:28:33,354] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:28:34,318] INFO -   File saved to: raw/ACLEDoutput_Guadeloupe_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:28:34,318] INFO -   File exists: True
+[2026-01-17 14:28:34,318] INFO -   File size: 3.29 KB
+[2026-01-17 14:28:34,322] INFO -   ✓ Updated database for Guadeloupe
+[2026-01-17 14:28:34,322] INFO - Processing Guam...
+[2026-01-17 14:28:34,776] INFO -   Latest date in DB: 2024-12-19
+[2026-01-17 14:28:35,807] INFO -   File saved to: raw/ACLEDoutput_Guam_2024-12-19_to_2025-01-17.json
+[2026-01-17 14:28:35,807] INFO -   File exists: True
+[2026-01-17 14:28:35,807] INFO -   File size: 1.54 KB
+[2026-01-17 14:28:35,808] INFO -   ✓ Updated database for Guam
+[2026-01-17 14:28:35,808] INFO - Processing Guatemala...
+[2026-01-17 14:28:36,247] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:37,100] INFO -   File saved to: raw/ACLEDoutput_Guatemala_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:37,100] INFO -   File exists: True
+[2026-01-17 14:28:37,100] INFO -   File size: 6.05 KB
+[2026-01-17 14:28:37,104] INFO -   ✓ Updated database for Guatemala
+[2026-01-17 14:28:37,104] INFO - Processing Guinea...
+[2026-01-17 14:28:37,550] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:38,519] INFO -   File saved to: raw/ACLEDoutput_Guinea_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:38,520] INFO -   File exists: True
+[2026-01-17 14:28:38,520] INFO -   File size: 1.68 KB
+[2026-01-17 14:28:38,521] INFO -   ✓ Updated database for Guinea
+[2026-01-17 14:28:38,521] INFO - Processing Guinea-Bissau...
+[2026-01-17 14:28:38,958] INFO -   Latest date in DB: 2024-12-12
+[2026-01-17 14:28:40,137] INFO -   File saved to: raw/ACLEDoutput_Guinea-Bissau_2024-12-12_to_2025-01-17.json
+[2026-01-17 14:28:40,137] INFO -   File exists: True
+[2026-01-17 14:28:40,137] INFO -   File size: 1.41 KB
+[2026-01-17 14:28:40,138] INFO -   ✓ Updated database for Guinea-Bissau
+[2026-01-17 14:28:40,138] INFO - Processing Guyana...
+[2026-01-17 14:28:40,572] INFO -   Latest date in DB: 2024-12-19
+[2026-01-17 14:28:41,602] INFO -   File saved to: raw/ACLEDoutput_Guyana_2024-12-19_to_2025-01-17.json
+[2026-01-17 14:28:41,602] INFO -   File exists: True
+[2026-01-17 14:28:41,602] INFO -   File size: 1.39 KB
+[2026-01-17 14:28:41,603] INFO -   ✓ Updated database for Guyana
+[2026-01-17 14:28:41,603] INFO - Processing Haiti...
+[2026-01-17 14:28:42,040] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:43,043] INFO -   File saved to: raw/ACLEDoutput_Haiti_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:43,044] INFO -   File exists: True
+[2026-01-17 14:28:43,044] INFO -   File size: 20.89 KB
+[2026-01-17 14:28:43,049] INFO -   ✓ Updated database for Haiti
+[2026-01-17 14:28:43,049] INFO - Processing Heard Island and McDonald Islands...
+[2026-01-17 14:28:43,511] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:28:50,647] INFO -   - No new data for Heard Island and McDonald Islands
+[2026-01-17 14:28:50,647] INFO - Processing Honduras...
+[2026-01-17 14:28:51,116] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:52,021] INFO -   File saved to: raw/ACLEDoutput_Honduras_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:52,021] INFO -   File exists: True
+[2026-01-17 14:28:52,021] INFO -   File size: 25.85 KB
+[2026-01-17 14:28:52,026] INFO -   ✓ Updated database for Honduras
+[2026-01-17 14:28:52,026] INFO - Processing Hungary...
+[2026-01-17 14:28:52,451] INFO -   Latest date in DB: 2025-01-01
+[2026-01-17 14:28:53,420] INFO -   File saved to: raw/ACLEDoutput_Hungary_2025-01-01_to_2025-01-17.json
+[2026-01-17 14:28:53,421] INFO -   File exists: True
+[2026-01-17 14:28:53,421] INFO -   File size: 3.40 KB
+[2026-01-17 14:28:53,424] INFO -   ✓ Updated database for Hungary
+[2026-01-17 14:28:53,424] INFO - Processing Iceland...
+[2026-01-17 14:28:53,856] INFO -   Latest date in DB: 2025-01-11
+[2026-01-17 14:28:54,720] INFO -   File saved to: raw/ACLEDoutput_Iceland_2025-01-11_to_2025-01-17.json
+[2026-01-17 14:28:54,720] INFO -   File exists: True
+[2026-01-17 14:28:54,720] INFO -   File size: 2.84 KB
+[2026-01-17 14:28:54,721] INFO -   ✓ Updated database for Iceland
+[2026-01-17 14:28:54,721] INFO - Processing India...
+[2026-01-17 14:28:55,169] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:56,127] INFO -   File saved to: raw/ACLEDoutput_India_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:56,128] INFO -   File exists: True
+[2026-01-17 14:28:56,128] INFO -   File size: 366.63 KB
+[2026-01-17 14:28:56,134] INFO -   ✓ Updated database for India
+[2026-01-17 14:28:56,134] INFO - Processing Indonesia...
+[2026-01-17 14:28:56,571] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:57,741] INFO -   File saved to: raw/ACLEDoutput_Indonesia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:57,742] INFO -   File exists: True
+[2026-01-17 14:28:57,742] INFO -   File size: 100.71 KB
+[2026-01-17 14:28:57,746] INFO -   ✓ Updated database for Indonesia
+[2026-01-17 14:28:57,746] INFO - Processing Iran...
+[2026-01-17 14:28:58,193] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:28:59,064] INFO -   File saved to: raw/ACLEDoutput_Iran_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:28:59,064] INFO -   File exists: True
+[2026-01-17 14:28:59,064] INFO -   File size: 115.49 KB
+[2026-01-17 14:28:59,070] INFO -   ✓ Updated database for Iran
+[2026-01-17 14:28:59,070] INFO - Processing Iraq...
+[2026-01-17 14:28:59,529] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:00,402] INFO -   File saved to: raw/ACLEDoutput_Iraq_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:00,402] INFO -   File exists: True
+[2026-01-17 14:29:00,402] INFO -   File size: 117.20 KB
+[2026-01-17 14:29:00,407] INFO -   ✓ Updated database for Iraq
+[2026-01-17 14:29:00,407] INFO - Processing Ireland...
+[2026-01-17 14:29:00,843] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:29:01,754] INFO -   File saved to: raw/ACLEDoutput_Ireland_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:29:01,755] INFO -   File exists: True
+[2026-01-17 14:29:01,755] INFO -   File size: 1.43 KB
+[2026-01-17 14:29:01,755] INFO -   ✓ Updated database for Ireland
+[2026-01-17 14:29:01,755] INFO - Processing Isle of Man...
+[2026-01-17 14:29:02,196] INFO -   Latest date in DB: 2024-03-19
+[2026-01-17 14:29:08,728] INFO -   File saved to: raw/ACLEDoutput_Isle of Man_2024-03-19_to_2025-01-17.json
+[2026-01-17 14:29:08,728] INFO -   File exists: True
+[2026-01-17 14:29:08,728] INFO -   File size: 1.31 KB
+[2026-01-17 14:29:08,729] INFO -   ✓ Updated database for Isle of Man
+[2026-01-17 14:29:08,729] INFO - Processing Israel...
+[2026-01-17 14:29:09,166] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:10,055] INFO -   File saved to: raw/ACLEDoutput_Israel_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:10,055] INFO -   File exists: True
+[2026-01-17 14:29:10,055] INFO -   File size: 19.23 KB
+[2026-01-17 14:29:10,067] INFO -   ✓ Updated database for Israel
+[2026-01-17 14:29:10,067] INFO - Processing Italy...
+[2026-01-17 14:29:10,501] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:11,339] INFO -   File saved to: raw/ACLEDoutput_Italy_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:11,340] INFO -   File exists: True
+[2026-01-17 14:29:11,340] INFO -   File size: 47.13 KB
+[2026-01-17 14:29:11,343] INFO -   ✓ Updated database for Italy
+[2026-01-17 14:29:11,344] INFO - Processing Ivory Coast...
+[2026-01-17 14:29:11,782] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:12,674] INFO -   File saved to: raw/ACLEDoutput_Ivory Coast_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:12,674] INFO -   File exists: True
+[2026-01-17 14:29:12,674] INFO -   File size: 2.69 KB
+[2026-01-17 14:29:12,681] INFO -   ✓ Updated database for Ivory Coast
+[2026-01-17 14:29:12,681] INFO - Processing Jamaica...
+[2026-01-17 14:29:13,135] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:14,084] INFO -   File saved to: raw/ACLEDoutput_Jamaica_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:14,084] INFO -   File exists: True
+[2026-01-17 14:29:14,084] INFO -   File size: 15.59 KB
+[2026-01-17 14:29:14,088] INFO -   ✓ Updated database for Jamaica
+[2026-01-17 14:29:14,088] INFO - Processing Japan...
+[2026-01-17 14:29:14,547] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:15,444] INFO -   File saved to: raw/ACLEDoutput_Japan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:15,445] INFO -   File exists: True
+[2026-01-17 14:29:15,445] INFO -   File size: 14.96 KB
+[2026-01-17 14:29:15,449] INFO -   ✓ Updated database for Japan
+[2026-01-17 14:29:15,449] INFO - Processing Jordan...
+[2026-01-17 14:29:15,869] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:29:16,984] INFO -   File saved to: raw/ACLEDoutput_Jordan_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:29:16,984] INFO -   File exists: True
+[2026-01-17 14:29:16,984] INFO -   File size: 2.73 KB
+[2026-01-17 14:29:16,988] INFO -   ✓ Updated database for Jordan
+[2026-01-17 14:29:16,988] INFO - Processing Kazakhstan...
+[2026-01-17 14:29:17,418] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:18,287] INFO -   File saved to: raw/ACLEDoutput_Kazakhstan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:18,288] INFO -   File exists: True
+[2026-01-17 14:29:18,288] INFO -   File size: 10.04 KB
+[2026-01-17 14:29:18,291] INFO -   ✓ Updated database for Kazakhstan
+[2026-01-17 14:29:18,291] INFO - Processing Kenya...
+[2026-01-17 14:29:18,776] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:19,648] INFO -   File saved to: raw/ACLEDoutput_Kenya_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:19,648] INFO -   File exists: True
+[2026-01-17 14:29:19,648] INFO -   File size: 61.99 KB
+[2026-01-17 14:29:19,652] INFO -   ✓ Updated database for Kenya
+[2026-01-17 14:29:19,652] INFO - Processing Kiribati...
+[2026-01-17 14:29:20,112] INFO -   Latest date in DB: 2024-08-19
+[2026-01-17 14:29:26,809] INFO -   File saved to: raw/ACLEDoutput_Kiribati_2024-08-19_to_2025-01-17.json
+[2026-01-17 14:29:26,809] INFO -   File exists: True
+[2026-01-17 14:29:26,809] INFO -   File size: 1.53 KB
+[2026-01-17 14:29:26,810] INFO -   ✓ Updated database for Kiribati
+[2026-01-17 14:29:26,810] INFO - Processing Kosovo...
+[2026-01-17 14:29:27,258] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:28,145] INFO -   File saved to: raw/ACLEDoutput_Kosovo_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:28,145] INFO -   File exists: True
+[2026-01-17 14:29:28,145] INFO -   File size: 3.13 KB
+[2026-01-17 14:29:28,148] INFO -   ✓ Updated database for Kosovo
+[2026-01-17 14:29:28,148] INFO - Processing Kuwait...
+[2026-01-17 14:29:28,620] INFO -   Latest date in DB: 2024-07-01
+[2026-01-17 14:29:35,018] INFO -   File saved to: raw/ACLEDoutput_Kuwait_2024-07-01_to_2025-01-17.json
+[2026-01-17 14:29:35,018] INFO -   File exists: True
+[2026-01-17 14:29:35,018] INFO -   File size: 1.38 KB
+[2026-01-17 14:29:35,019] INFO -   ✓ Updated database for Kuwait
+[2026-01-17 14:29:35,019] INFO - Processing Kyrgyzstan...
+[2026-01-17 14:29:35,572] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:29:36,462] INFO -   File saved to: raw/ACLEDoutput_Kyrgyzstan_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:29:36,462] INFO -   File exists: True
+[2026-01-17 14:29:36,462] INFO -   File size: 10.32 KB
+[2026-01-17 14:29:36,466] INFO -   ✓ Updated database for Kyrgyzstan
+[2026-01-17 14:29:36,466] INFO - Processing Laos...
+[2026-01-17 14:29:36,919] INFO -   Latest date in DB: 2024-01-22
+[2026-01-17 14:29:43,723] INFO -   File saved to: raw/ACLEDoutput_Laos_2024-01-22_to_2025-01-17.json
+[2026-01-17 14:29:43,724] INFO -   File exists: True
+[2026-01-17 14:29:43,724] INFO -   File size: 1.47 KB
+[2026-01-17 14:29:43,725] INFO -   ✓ Updated database for Laos
+[2026-01-17 14:29:43,725] INFO - Processing Latvia...
+[2026-01-17 14:29:44,235] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:29:45,152] INFO -   File saved to: raw/ACLEDoutput_Latvia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:29:45,152] INFO -   File exists: True
+[2026-01-17 14:29:45,152] INFO -   File size: 1.34 KB
+[2026-01-17 14:29:45,153] INFO -   ✓ Updated database for Latvia
+[2026-01-17 14:29:45,153] INFO - Processing Lebanon...
+[2026-01-17 14:29:45,603] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:29:46,446] INFO -   File saved to: raw/ACLEDoutput_Lebanon_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:29:46,446] INFO -   File exists: True
+[2026-01-17 14:29:46,446] INFO -   File size: 71.56 KB
+[2026-01-17 14:29:46,452] INFO -   ✓ Updated database for Lebanon
+[2026-01-17 14:29:46,452] INFO - Processing Lesotho...
+[2026-01-17 14:29:46,904] INFO -   Latest date in DB: 2024-09-16
+[2026-01-17 14:29:53,364] INFO -   File saved to: raw/ACLEDoutput_Lesotho_2024-09-16_to_2025-01-17.json
+[2026-01-17 14:29:53,364] INFO -   File exists: True
+[2026-01-17 14:29:53,364] INFO -   File size: 1.34 KB
+[2026-01-17 14:29:53,365] INFO -   ✓ Updated database for Lesotho
+[2026-01-17 14:29:53,365] INFO - Processing Liberia...
+[2026-01-17 14:29:53,885] INFO -   Latest date in DB: 2025-01-08
+[2026-01-17 14:29:54,905] INFO -   File saved to: raw/ACLEDoutput_Liberia_2025-01-08_to_2025-01-17.json
+[2026-01-17 14:29:54,906] INFO -   File exists: True
+[2026-01-17 14:29:54,906] INFO -   File size: 1.50 KB
+[2026-01-17 14:29:54,907] INFO -   ✓ Updated database for Liberia
+[2026-01-17 14:29:54,907] INFO - Processing Liechtenstein...
+[2026-01-17 14:29:55,366] INFO -   Latest date in DB: 2024-03-08
+[2026-01-17 14:30:02,039] INFO -   File saved to: raw/ACLEDoutput_Liechtenstein_2024-03-08_to_2025-01-17.json
+[2026-01-17 14:30:02,040] INFO -   File exists: True
+[2026-01-17 14:30:02,040] INFO -   File size: 1.32 KB
+[2026-01-17 14:30:02,041] INFO -   ✓ Updated database for Liechtenstein
+[2026-01-17 14:30:02,041] INFO - Processing Lithuania...
+[2026-01-17 14:30:02,471] INFO -   Latest date in DB: 2024-12-20
+[2026-01-17 14:30:03,881] INFO -   File saved to: raw/ACLEDoutput_Lithuania_2024-12-20_to_2025-01-17.json
+[2026-01-17 14:30:03,882] INFO -   File exists: True
+[2026-01-17 14:30:03,882] INFO -   File size: 1.27 KB
+[2026-01-17 14:30:03,882] INFO -   ✓ Updated database for Lithuania
+[2026-01-17 14:30:03,882] INFO - Processing Luxembourg...
+[2026-01-17 14:30:04,341] INFO -   Latest date in DB: 2024-12-23
+[2026-01-17 14:30:05,591] INFO -   File saved to: raw/ACLEDoutput_Luxembourg_2024-12-23_to_2025-01-17.json
+[2026-01-17 14:30:05,591] INFO -   File exists: True
+[2026-01-17 14:30:05,591] INFO -   File size: 1.64 KB
+[2026-01-17 14:30:05,592] INFO -   ✓ Updated database for Luxembourg
+[2026-01-17 14:30:05,592] INFO - Processing Madagascar...
+[2026-01-17 14:30:06,054] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:06,969] INFO -   File saved to: raw/ACLEDoutput_Madagascar_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:06,970] INFO -   File exists: True
+[2026-01-17 14:30:06,970] INFO -   File size: 8.32 KB
+[2026-01-17 14:30:06,973] INFO -   ✓ Updated database for Madagascar
+[2026-01-17 14:30:06,973] INFO - Processing Malawi...
+[2026-01-17 14:30:07,432] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:30:08,385] INFO -   File saved to: raw/ACLEDoutput_Malawi_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:30:08,385] INFO -   File exists: True
+[2026-01-17 14:30:08,385] INFO -   File size: 3.53 KB
+[2026-01-17 14:30:08,389] INFO -   ✓ Updated database for Malawi
+[2026-01-17 14:30:08,389] INFO - Processing Malaysia...
+[2026-01-17 14:30:08,814] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:30:09,691] INFO -   File saved to: raw/ACLEDoutput_Malaysia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:30:09,691] INFO -   File exists: True
+[2026-01-17 14:30:09,691] INFO -   File size: 13.55 KB
+[2026-01-17 14:30:09,694] INFO -   ✓ Updated database for Malaysia
+[2026-01-17 14:30:09,694] INFO - Processing Maldives...
+[2026-01-17 14:30:10,169] INFO -   Latest date in DB: 2025-01-05
+[2026-01-17 14:30:11,170] INFO -   File saved to: raw/ACLEDoutput_Maldives_2025-01-05_to_2025-01-17.json
+[2026-01-17 14:30:11,171] INFO -   File exists: True
+[2026-01-17 14:30:11,171] INFO -   File size: 1.44 KB
+[2026-01-17 14:30:11,171] INFO -   ✓ Updated database for Maldives
+[2026-01-17 14:30:11,171] INFO - Processing Mali...
+[2026-01-17 14:30:11,613] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:12,453] INFO -   File saved to: raw/ACLEDoutput_Mali_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:12,454] INFO -   File exists: True
+[2026-01-17 14:30:12,454] INFO -   File size: 39.89 KB
+[2026-01-17 14:30:12,458] INFO -   ✓ Updated database for Mali
+[2026-01-17 14:30:12,458] INFO - Processing Malta...
+[2026-01-17 14:30:12,892] INFO -   Latest date in DB: 2024-12-17
+
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Egypt_2025-01-11_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_El Salvador_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Equatorial Guinea_2024-08-15_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Eritrea_2024-11-07_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Estonia_2024-12-27_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_eSwatini_2025-01-12_to_2025-01-17.json
+Page 1: received 28 rows
+Reached final page.
+✅ Saved 28 total rows to raw/ACLEDoutput_Ethiopia_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Falkland Islands_2021-11-04_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Faroe Islands_2024-03-19_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Fiji_2024-12-10_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Finland_2025-01-12_to_2025-01-17.json
+Page 1: received 51 rows
+Reached final page.
+✅ Saved 51 total rows to raw/ACLEDoutput_France_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_French Guiana_2025-01-06_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_French Polynesia_2024-12-05_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Gabon_2025-01-13_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Gambia_2024-12-14_to_2025-01-17.json
+Page 1: received 14 rows
+Reached final page.
+✅ Saved 14 total rows to raw/ACLEDoutput_Georgia_2025-01-14_to_2025-01-17.json
+Page 1: received 19 rows
+Reached final page.
+✅ Saved 19 total rows to raw/ACLEDoutput_Germany_2025-01-14_to_2025-01-17.json
+Page 1: received 11 rows
+Reached final page.
+✅ Saved 11 total rows to raw/ACLEDoutput_Ghana_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Gibraltar_2023-04-30_to_2025-01-17.json
+Page 1: received 9 rows
+Reached final page.
+✅ Saved 9 total rows to raw/ACLEDoutput_Greece_2025-01-14_to_2025-01-17.json
+Page 1: received 8 rows
+Reached final page.
+✅ Saved 8 total rows to raw/ACLEDoutput_Greenland_2024-12-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Grenada_2023-11-20_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Guadeloupe_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Guam_2024-12-19_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Guatemala_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Guinea_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Guinea-Bissau_2024-12-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Guyana_2024-12-19_to_2025-01-17.json
+Page 1: received 15 rows
+Reached final page.
+✅ Saved 15 total rows to raw/ACLEDoutput_Haiti_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 16 rows
+Reached final page.
+✅ Saved 16 total rows to raw/ACLEDoutput_Honduras_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Hungary_2025-01-01_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Iceland_2025-01-11_to_2025-01-17.json
+Page 1: received 240 rows
+Reached final page.
+✅ Saved 240 total rows to raw/ACLEDoutput_India_2025-01-14_to_2025-01-17.json
+Page 1: received 71 rows
+Reached final page.
+✅ Saved 71 total rows to raw/ACLEDoutput_Indonesia_2025-01-14_to_2025-01-17.json
+Page 1: received 81 rows
+Reached final page.
+✅ Saved 81 total rows to raw/ACLEDoutput_Iran_2025-01-14_to_2025-01-17.json
+Page 1: received 80 rows
+Reached final page.
+✅ Saved 80 total rows to raw/ACLEDoutput_Iraq_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Ireland_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Isle of Man_2024-03-19_to_2025-01-17.json
+Page 1: received 13 rows
+Reached final page.
+✅ Saved 13 total rows to raw/ACLEDoutput_Israel_2025-01-14_to_2025-01-17.json
+Page 1: received 32 rows
+Reached final page.
+✅ Saved 32 total rows to raw/ACLEDoutput_Italy_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Ivory Coast_2025-01-14_to_2025-01-17.json
+Page 1: received 10 rows
+Reached final page.
+✅ Saved 10 total rows to raw/ACLEDoutput_Jamaica_2025-01-14_to_2025-01-17.json
+Page 1: received 11 rows
+Reached final page.
+✅ Saved 11 total rows to raw/ACLEDoutput_Japan_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Jordan_2025-01-13_to_2025-01-17.json
+Page 1: received 7 rows
+Reached final page.
+✅ Saved 7 total rows to raw/ACLEDoutput_Kazakhstan_2025-01-14_to_2025-01-17.json
+Page 1: received 42 rows
+Reached final page.
+✅ Saved 42 total rows to raw/ACLEDoutput_Kenya_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Kiribati_2024-08-19_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Kosovo_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Kuwait_2024-07-01_to_2025-01-17.json
+Page 1: received 7 rows
+Reached final page.
+✅ Saved 7 total rows to raw/ACLEDoutput_Kyrgyzstan_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Laos_2024-01-22_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Latvia_2025-01-13_to_2025-01-17.json
+Page 1: received 49 rows
+Reached final page.
+✅ Saved 49 total rows to raw/ACLEDoutput_Lebanon_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Lesotho_2024-09-16_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Liberia_2025-01-08_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Liechtenstein_2024-03-08_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Lithuania_2024-12-20_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Luxembourg_2024-12-23_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Madagascar_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Malawi_2025-01-13_to_2025-01-17.json
+Page 1: received 9 rows
+Reached final page.
+✅ Saved 9 total rows to raw/ACLEDoutput_Malaysia_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Maldives_2025-01-05_to_2025-01-17.json
+Page 1: received 29 rows
+Reached final page.
+✅ Saved 29 total rows to raw/ACLEDoutput_Mali_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Malta_2024-12-17_to_2025-01-17.json[2026-01-17 14:30:14,012] INFO -   File saved to: raw/ACLEDoutput_Malta_2024-12-17_to_2025-01-17.json
+[2026-01-17 14:30:14,013] INFO -   File exists: True
+[2026-01-17 14:30:14,013] INFO -   File size: 3.00 KB
+[2026-01-17 14:30:14,016] INFO -   ✓ Updated database for Malta
+[2026-01-17 14:30:14,016] INFO - Processing Marshall Islands...
+[2026-01-17 14:30:14,454] INFO -   Latest date in DB: 2024-03-01
+[2026-01-17 14:30:20,940] INFO -   File saved to: raw/ACLEDoutput_Marshall Islands_2024-03-01_to_2025-01-17.json
+[2026-01-17 14:30:20,941] INFO -   File exists: True
+[2026-01-17 14:30:20,941] INFO -   File size: 1.35 KB
+[2026-01-17 14:30:20,941] INFO -   ✓ Updated database for Marshall Islands
+[2026-01-17 14:30:20,942] INFO - Processing Martinique...
+[2026-01-17 14:30:21,362] INFO -   Latest date in DB: 2024-12-05
+[2026-01-17 14:30:22,372] INFO -   File saved to: raw/ACLEDoutput_Martinique_2024-12-05_to_2025-01-17.json
+[2026-01-17 14:30:22,372] INFO -   File exists: True
+[2026-01-17 14:30:22,372] INFO -   File size: 3.21 KB
+[2026-01-17 14:30:22,375] INFO -   ✓ Updated database for Martinique
+[2026-01-17 14:30:22,375] INFO - Processing Mauritania...
+[2026-01-17 14:30:22,831] INFO -   Latest date in DB: 2025-01-10
+[2026-01-17 14:30:23,761] INFO -   File saved to: raw/ACLEDoutput_Mauritania_2025-01-10_to_2025-01-17.json
+[2026-01-17 14:30:23,761] INFO -   File exists: True
+[2026-01-17 14:30:23,761] INFO -   File size: 5.83 KB
+[2026-01-17 14:30:23,764] INFO -   ✓ Updated database for Mauritania
+[2026-01-17 14:30:23,764] INFO - Processing Mauritius...
+[2026-01-17 14:30:24,184] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:25,048] INFO -   File saved to: raw/ACLEDoutput_Mauritius_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:25,049] INFO -   File exists: True
+[2026-01-17 14:30:25,049] INFO -   File size: 3.17 KB
+[2026-01-17 14:30:25,052] INFO -   ✓ Updated database for Mauritius
+[2026-01-17 14:30:25,052] INFO - Processing Mayotte...
+[2026-01-17 14:30:25,470] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:26,316] INFO -   File saved to: raw/ACLEDoutput_Mayotte_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:26,317] INFO -   File exists: True
+[2026-01-17 14:30:26,317] INFO -   File size: 1.66 KB
+[2026-01-17 14:30:26,318] INFO -   ✓ Updated database for Mayotte
+[2026-01-17 14:30:26,318] INFO - Processing Mexico...
+[2026-01-17 14:30:26,776] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:27,687] INFO -   File saved to: raw/ACLEDoutput_Mexico_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:27,687] INFO -   File exists: True
+[2026-01-17 14:30:27,687] INFO -   File size: 266.28 KB
+[2026-01-17 14:30:27,693] INFO -   ✓ Updated database for Mexico
+[2026-01-17 14:30:27,693] INFO - Processing Micronesia...
+[2026-01-17 14:30:28,125] INFO -   Latest date in DB: 2023-03-07
+[2026-01-17 14:30:34,796] INFO -   File saved to: raw/ACLEDoutput_Micronesia_2023-03-07_to_2025-01-17.json
+[2026-01-17 14:30:34,797] INFO -   File exists: True
+[2026-01-17 14:30:34,797] INFO -   File size: 1.64 KB
+[2026-01-17 14:30:34,798] INFO -   ✓ Updated database for Micronesia
+[2026-01-17 14:30:34,798] INFO - Processing Monaco...
+[2026-01-17 14:30:35,245] INFO -   Latest date in DB: 2024-09-26
+[2026-01-17 14:30:42,119] INFO -   File saved to: raw/ACLEDoutput_Monaco_2024-09-26_to_2025-01-17.json
+[2026-01-17 14:30:42,119] INFO -   File exists: True
+[2026-01-17 14:30:42,119] INFO -   File size: 1.41 KB
+[2026-01-17 14:30:42,120] INFO -   ✓ Updated database for Monaco
+[2026-01-17 14:30:42,120] INFO - Processing Mongolia...
+[2026-01-17 14:30:42,565] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:43,433] INFO -   File saved to: raw/ACLEDoutput_Mongolia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:43,434] INFO -   File exists: True
+[2026-01-17 14:30:43,434] INFO -   File size: 7.07 KB
+[2026-01-17 14:30:43,437] INFO -   ✓ Updated database for Mongolia
+[2026-01-17 14:30:43,437] INFO - Processing Montenegro...
+[2026-01-17 14:30:43,905] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:30:44,746] INFO -   File saved to: raw/ACLEDoutput_Montenegro_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:30:44,746] INFO -   File exists: True
+[2026-01-17 14:30:44,746] INFO -   File size: 7.48 KB
+[2026-01-17 14:30:44,750] INFO -   ✓ Updated database for Montenegro
+[2026-01-17 14:30:44,750] INFO - Processing Montserrat...
+[2026-01-17 14:30:45,198] INFO -   Latest date in DB: 2022-04-07
+[2026-01-17 14:30:52,105] INFO -   File saved to: raw/ACLEDoutput_Montserrat_2022-04-07_to_2025-01-17.json
+[2026-01-17 14:30:52,105] INFO -   File exists: True
+[2026-01-17 14:30:52,105] INFO -   File size: 1.28 KB
+[2026-01-17 14:30:52,106] INFO -   ✓ Updated database for Montserrat
+[2026-01-17 14:30:52,106] INFO - Processing Morocco...
+[2026-01-17 14:30:52,648] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:30:53,603] INFO -   File saved to: raw/ACLEDoutput_Morocco_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:30:53,603] INFO -   File exists: True
+[2026-01-17 14:30:53,604] INFO -   File size: 115.90 KB
+[2026-01-17 14:30:53,609] INFO -   ✓ Updated database for Morocco
+[2026-01-17 14:30:53,609] INFO - Processing Mozambique...
+[2026-01-17 14:30:54,070] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:54,952] INFO -   File saved to: raw/ACLEDoutput_Mozambique_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:54,953] INFO -   File exists: True
+[2026-01-17 14:30:54,953] INFO -   File size: 36.43 KB
+[2026-01-17 14:30:54,957] INFO -   ✓ Updated database for Mozambique
+[2026-01-17 14:30:54,957] INFO - Processing Myanmar...
+[2026-01-17 14:30:55,413] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:30:56,416] INFO -   File saved to: raw/ACLEDoutput_Myanmar_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:30:56,416] INFO -   File exists: True
+[2026-01-17 14:30:56,416] INFO -   File size: 285.95 KB
+[2026-01-17 14:30:56,423] INFO -   ✓ Updated database for Myanmar
+[2026-01-17 14:30:56,423] INFO - Processing Namibia...
+[2026-01-17 14:30:56,879] INFO -   Latest date in DB: 2025-01-10
+[2026-01-17 14:30:57,820] INFO -   File saved to: raw/ACLEDoutput_Namibia_2025-01-10_to_2025-01-17.json
+[2026-01-17 14:30:57,820] INFO -   File exists: True
+[2026-01-17 14:30:57,820] INFO -   File size: 1.47 KB
+[2026-01-17 14:30:57,821] INFO -   ✓ Updated database for Namibia
+[2026-01-17 14:30:57,821] INFO - Processing Nauru...
+[2026-01-17 14:30:58,290] INFO -   Latest date in DB: 2023-10-30
+[2026-01-17 14:31:04,999] INFO -   File saved to: raw/ACLEDoutput_Nauru_2023-10-30_to_2025-01-17.json
+[2026-01-17 14:31:04,999] INFO -   File exists: True
+[2026-01-17 14:31:04,999] INFO -   File size: 1.46 KB
+[2026-01-17 14:31:05,000] INFO -   ✓ Updated database for Nauru
+[2026-01-17 14:31:05,000] INFO - Processing Nepal...
+[2026-01-17 14:31:05,429] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:31:06,356] INFO -   File saved to: raw/ACLEDoutput_Nepal_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:31:06,356] INFO -   File exists: True
+[2026-01-17 14:31:06,356] INFO -   File size: 21.37 KB
+[2026-01-17 14:31:06,379] INFO -   ✓ Updated database for Nepal
+[2026-01-17 14:31:06,380] INFO - Processing Netherlands...
+[2026-01-17 14:31:06,810] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:07,673] INFO -   File saved to: raw/ACLEDoutput_Netherlands_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:07,674] INFO -   File exists: True
+[2026-01-17 14:31:07,674] INFO -   File size: 8.12 KB
+[2026-01-17 14:31:07,680] INFO -   ✓ Updated database for Netherlands
+[2026-01-17 14:31:07,680] INFO - Processing New Caledonia...
+[2026-01-17 14:31:08,119] INFO -   Latest date in DB: 2024-10-16
+[2026-01-17 14:31:14,318] INFO -   File saved to: raw/ACLEDoutput_New Caledonia_2024-10-16_to_2025-01-17.json
+[2026-01-17 14:31:14,319] INFO -   File exists: True
+[2026-01-17 14:31:14,319] INFO -   File size: 1.80 KB
+[2026-01-17 14:31:14,320] INFO -   ✓ Updated database for New Caledonia
+[2026-01-17 14:31:14,320] INFO - Processing New Zealand...
+[2026-01-17 14:31:14,770] INFO -   Latest date in DB: 2024-12-30
+[2026-01-17 14:31:15,751] INFO -   File saved to: raw/ACLEDoutput_New Zealand_2024-12-30_to_2025-01-17.json
+[2026-01-17 14:31:15,752] INFO -   File exists: True
+[2026-01-17 14:31:15,752] INFO -   File size: 1.57 KB
+[2026-01-17 14:31:15,753] INFO -   ✓ Updated database for New Zealand
+[2026-01-17 14:31:15,753] INFO - Processing Nicaragua...
+[2026-01-17 14:31:16,228] INFO -   Latest date in DB: 2025-01-08
+[2026-01-17 14:31:17,127] INFO -   File saved to: raw/ACLEDoutput_Nicaragua_2025-01-08_to_2025-01-17.json
+[2026-01-17 14:31:17,127] INFO -   File exists: True
+[2026-01-17 14:31:17,127] INFO -   File size: 1.40 KB
+[2026-01-17 14:31:17,128] INFO -   ✓ Updated database for Nicaragua
+[2026-01-17 14:31:17,128] INFO - Processing Niger...
+[2026-01-17 14:31:17,578] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:18,467] INFO -   File saved to: raw/ACLEDoutput_Niger_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:18,467] INFO -   File exists: True
+[2026-01-17 14:31:18,467] INFO -   File size: 11.01 KB
+[2026-01-17 14:31:18,471] INFO -   ✓ Updated database for Niger
+[2026-01-17 14:31:18,471] INFO - Processing Nigeria...
+[2026-01-17 14:31:18,940] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:19,820] INFO -   File saved to: raw/ACLEDoutput_Nigeria_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:19,820] INFO -   File exists: True
+[2026-01-17 14:31:19,820] INFO -   File size: 91.97 KB
+[2026-01-17 14:31:19,824] INFO -   ✓ Updated database for Nigeria
+[2026-01-17 14:31:19,824] INFO - Processing Norfolk Island...
+[2026-01-17 14:31:20,252] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:31:27,559] INFO -   - No new data for Norfolk Island
+[2026-01-17 14:31:27,559] INFO - Processing North Korea...
+[2026-01-17 14:31:28,009] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:28,882] INFO -   File saved to: raw/ACLEDoutput_North Korea_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:28,882] INFO -   File exists: True
+[2026-01-17 14:31:28,882] INFO -   File size: 1.48 KB
+[2026-01-17 14:31:28,883] INFO -   ✓ Updated database for North Korea
+[2026-01-17 14:31:28,883] INFO - Processing North Macedonia...
+[2026-01-17 14:31:29,381] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:30,351] INFO -   File saved to: raw/ACLEDoutput_North Macedonia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:30,351] INFO -   File exists: True
+[2026-01-17 14:31:30,351] INFO -   File size: 7.79 KB
+[2026-01-17 14:31:30,354] INFO -   ✓ Updated database for North Macedonia
+[2026-01-17 14:31:30,354] INFO - Processing Northern Mariana Islands...
+[2026-01-17 14:31:30,795] INFO -   Latest date in DB: 2024-05-22
+[2026-01-17 14:31:37,278] INFO -   File saved to: raw/ACLEDoutput_Northern Mariana Islands_2024-05-22_to_2025-01-17.json
+[2026-01-17 14:31:37,278] INFO -   File exists: True
+[2026-01-17 14:31:37,278] INFO -   File size: 1.45 KB
+[2026-01-17 14:31:37,279] INFO -   ✓ Updated database for Northern Mariana Islands
+[2026-01-17 14:31:37,279] INFO - Processing Norway...
+[2026-01-17 14:31:37,737] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:38,684] INFO -   File saved to: raw/ACLEDoutput_Norway_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:38,684] INFO -   File exists: True
+[2026-01-17 14:31:38,684] INFO -   File size: 5.65 KB
+[2026-01-17 14:31:38,688] INFO -   ✓ Updated database for Norway
+[2026-01-17 14:31:38,688] INFO - Processing Oman...
+[2026-01-17 14:31:39,157] INFO -   Latest date in DB: 2024-11-21
+[2026-01-17 14:31:45,345] INFO -   File saved to: raw/ACLEDoutput_Oman_2024-11-21_to_2025-01-17.json
+[2026-01-17 14:31:45,345] INFO -   File exists: True
+[2026-01-17 14:31:45,345] INFO -   File size: 1.68 KB
+[2026-01-17 14:31:45,346] INFO -   ✓ Updated database for Oman
+[2026-01-17 14:31:45,346] INFO - Processing Pakistan...
+[2026-01-17 14:31:45,776] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:46,763] INFO -   File saved to: raw/ACLEDoutput_Pakistan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:46,764] INFO -   File exists: True
+[2026-01-17 14:31:46,764] INFO -   File size: 146.40 KB
+[2026-01-17 14:31:46,769] INFO -   ✓ Updated database for Pakistan
+[2026-01-17 14:31:46,769] INFO - Processing Palau...
+[2026-01-17 14:31:47,293] INFO -   Latest date in DB: 2024-11-05
+[2026-01-17 14:31:53,662] INFO -   File saved to: raw/ACLEDoutput_Palau_2024-11-05_to_2025-01-17.json
+[2026-01-17 14:31:53,662] INFO -   File exists: True
+[2026-01-17 14:31:53,662] INFO -   File size: 2.72 KB
+[2026-01-17 14:31:53,666] INFO -   ✓ Updated database for Palau
+[2026-01-17 14:31:53,666] INFO - Processing Palestine...
+[2026-01-17 14:31:54,201] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:55,106] INFO -   File saved to: raw/ACLEDoutput_Palestine_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:55,106] INFO -   File exists: True
+[2026-01-17 14:31:55,107] INFO -   File size: 311.43 KB
+[2026-01-17 14:31:55,114] INFO -   ✓ Updated database for Palestine
+[2026-01-17 14:31:55,114] INFO - Processing Panama...
+[2026-01-17 14:31:55,545] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:31:56,415] INFO -   File saved to: raw/ACLEDoutput_Panama_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:31:56,416] INFO -   File exists: True
+[2026-01-17 14:31:56,416] INFO -   File size: 3.29 KB
+[2026-01-17 14:31:56,419] INFO -   ✓ Updated database for Panama
+[2026-01-17 14:31:56,419] INFO - Processing Papua New Guinea...
+[2026-01-17 14:31:56,852] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:57,710] INFO -   File saved to: raw/ACLEDoutput_Papua New Guinea_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:57,711] INFO -   File exists: True
+[2026-01-17 14:31:57,711] INFO -   File size: 11.96 KB
+[2026-01-17 14:31:57,714] INFO -   ✓ Updated database for Papua New Guinea
+[2026-01-17 14:31:57,715] INFO - Processing Paraguay...
+[2026-01-17 14:31:58,150] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:31:59,091] INFO -   File saved to: raw/ACLEDoutput_Paraguay_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:31:59,091] INFO -   File exists: True
+[2026-01-17 14:31:59,091] INFO -   File size: 10.39 KB
+[2026-01-17 14:31:59,094] INFO -   ✓ Updated database for Paraguay
+[2026-01-17 14:31:59,094] INFO - Processing Peru...
+[2026-01-17 14:31:59,530] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:00,413] INFO -   File saved to: raw/ACLEDoutput_Peru_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:00,413] INFO -   File exists: True
+[2026-01-17 14:32:00,413] INFO -   File size: 16.46 KB
+[2026-01-17 14:32:00,416] INFO -   ✓ Updated database for Peru
+[2026-01-17 14:32:00,416] INFO - Processing Philippines...
+[2026-01-17 14:32:00,840] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:01,733] INFO -   File saved to: raw/ACLEDoutput_Philippines_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:01,733] INFO -   File exists: True
+[2026-01-17 14:32:01,733] INFO -   File size: 16.61 KB
+[2026-01-17 14:32:01,737] INFO -   ✓ Updated database for Philippines
+[2026-01-17 14:32:01,737] INFO - Processing Pitcairn...
+[2026-01-17 14:32:02,156] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:32:09,812] INFO -   - No new data for Pitcairn
+[2026-01-17 14:32:09,812] INFO - Processing Poland...
+[2026-01-17 14:32:10,238] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:11,230] INFO -   File saved to: raw/ACLEDoutput_Poland_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:11,230] INFO -   File exists: True
+[2026-01-17 14:32:11,230] INFO -   File size: 10.79 KB
+[2026-01-17 14:32:11,234] INFO -   ✓ Updated database for Poland
+[2026-01-17 14:32:11,234] INFO - Processing Puerto Rico...
+[2026-01-17 14:32:11,697] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:12,569] INFO -   File saved to: raw/ACLEDoutput_Puerto Rico_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:12,570] INFO -   File exists: True
+[2026-01-17 14:32:12,570] INFO -   File size: 4.57 KB
+[2026-01-17 14:32:12,573] INFO -   ✓ Updated database for Puerto Rico
+[2026-01-17 14:32:12,574] INFO - Processing Qatar...
+[2026-01-17 14:32:13,033] INFO -   Latest date in DB: 2024-01-03
+[2026-01-17 14:32:19,794] INFO -   File saved to: raw/ACLEDoutput_Qatar_2024-01-03_to_2025-01-17.json
+[2026-01-17 14:32:19,794] INFO -   File exists: True
+[2026-01-17 14:32:19,794] INFO -   File size: 1.39 KB
+[2026-01-17 14:32:19,795] INFO -   ✓ Updated database for Qatar
+[2026-01-17 14:32:19,795] INFO - Processing Republic of Congo...
+[2026-01-17 14:32:20,251] INFO -   Latest date in DB: 2024-12-21
+[2026-01-17 14:32:21,357] INFO -   File saved to: raw/ACLEDoutput_Republic of Congo_2024-12-21_to_2025-01-17.json
+[2026-01-17 14:32:21,357] INFO -   File exists: True
+[2026-01-17 14:32:21,357] INFO -   File size: 1.67 KB
+[2026-01-17 14:32:21,358] INFO -   ✓ Updated database for Republic of Congo
+[2026-01-17 14:32:21,358] INFO - Processing Reunion...
+[2026-01-17 14:32:21,818] INFO -   Latest date in DB: 2025-01-11
+[2026-01-17 14:32:22,713] INFO -   File saved to: raw/ACLEDoutput_Reunion_2025-01-11_to_2025-01-17.json
+[2026-01-17 14:32:22,713] INFO -   File exists: True
+[2026-01-17 14:32:22,713] INFO -   File size: 1.48 KB
+[2026-01-17 14:32:22,714] INFO -   ✓ Updated database for Reunion
+[2026-01-17 14:32:22,714] INFO - Processing Romania...
+[2026-01-17 14:32:23,161] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:24,058] INFO -   File saved to: raw/ACLEDoutput_Romania_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:24,059] INFO -   File exists: True
+[2026-01-17 14:32:24,059] INFO -   File size: 21.26 KB
+[2026-01-17 14:32:24,062] INFO -   ✓ Updated database for Romania
+[2026-01-17 14:32:24,063] INFO - Processing Russia...
+[2026-01-17 14:32:24,516] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:32:25,450] INFO -   File saved to: raw/ACLEDoutput_Russia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:32:25,450] INFO -   File exists: True
+[2026-01-17 14:32:25,450] INFO -   File size: 330.21 KB
+[2026-01-17 14:32:25,457] INFO -   ✓ Updated database for Russia
+[2026-01-17 14:32:25,457] INFO - Processing Rwanda...
+[2026-01-17 14:32:25,898] INFO -   Latest date in DB: 2024-11-21
+[2026-01-17 14:32:32,168] INFO -   File saved to: raw/ACLEDoutput_Rwanda_2024-11-21_to_2025-01-17.json
+[2026-01-17 14:32:32,168] INFO -   File exists: True
+[2026-01-17 14:32:32,168] INFO -   File size: 1.58 KB
+[2026-01-17 14:32:32,169] INFO -   ✓ Updated database for Rwanda
+[2026-01-17 14:32:32,169] INFO - Processing Saint Helena, Ascension and Tristan da Cunha...
+[2026-01-17 14:32:32,598] INFO -   Latest date in DB: 2020-12-12
+[2026-01-17 14:32:39,674] INFO -   File saved to: raw/ACLEDoutput_Saint Helena, Ascension and Tristan da Cunha_2020-12-12_to_2025-01-17.json
+[2026-01-17 14:32:39,674] INFO -   File exists: True
+[2026-01-17 14:32:39,674] INFO -   File size: 1.42 KB
+[2026-01-17 14:32:39,675] INFO -   ✓ Updated database for Saint Helena, Ascension and Tristan da Cunha
+[2026-01-17 14:32:39,675] INFO - Processing Saint Kitts and Nevis...
+[2026-01-17 14:32:40,131] INFO -   Latest date in DB: 2023-03-28
+[2026-01-17 14:32:46,757] INFO -   File saved to: raw/ACLEDoutput_Saint Kitts and Nevis_2023-03-28_to_2025-01-17.json
+[2026-01-17 14:32:46,757] INFO -   File exists: True
+[2026-01-17 14:32:46,757] INFO -   File size: 1.82 KB
+[2026-01-17 14:32:46,759] INFO -   ✓ Updated database for Saint Kitts and Nevis
+[2026-01-17 14:32:46,759] INFO - Processing Saint Lucia...
+[2026-01-17 14:32:47,192] INFO -   Latest date in DB: 2024-11-27
+[2026-01-17 14:32:48,285] INFO -   File saved to: raw/ACLEDoutput_Saint Lucia_2024-11-27_to_2025-01-17.json
+[2026-01-17 14:32:48,285] INFO -   File exists: True
+[2026-01-17 14:32:48,285] INFO -   File size: 1.33 KB
+[2026-01-17 14:32:48,286] INFO -   ✓ Updated database for Saint Lucia
+[2026-01-17 14:32:48,286] INFO - Processing Saint Pierre and Miquelon...
+[2026-01-17 14:32:48,742] INFO -   Latest date in DB: 2024-07-07
+[2026-01-17 14:32:55,181] INFO -   File saved to: raw/ACLEDoutput_Saint Pierre and Miquelon_2024-07-07_to_2025-01-17.json
+[2026-01-17 14:32:55,181] INFO -   File exists: True
+[2026-01-17 14:32:55,181] INFO -   File size: 2.24 KB
+[2026-01-17 14:32:55,182] INFO -   ✓ Updated database for Saint Pierre and Miquelon
+[2026-01-17 14:32:55,182] INFO - Processing Saint Vincent and the Grenadines...
+[2026-01-17 14:32:55,638] INFO -   Latest date in DB: 2024-01-27
+[2026-01-17 14:33:02,165] INFO -   File saved to: raw/ACLEDoutput_Saint Vincent and the Grenadines_2024-01-27_to_2025-01-17.json
+[2026-01-17 14:33:02,165] INFO -   File exists: True
+[2026-01-17 14:33:02,165] INFO -   File size: 1.61 KB
+[2026-01-17 14:33:02,166] INFO -   ✓ Updated database for Saint Vincent and the Grenadines
+[2026-01-17 14:33:02,166] INFO - Processing Saint-Barthelemy...
+[2026-01-17 14:33:02,588] INFO -   Latest date in DB: 2024-07-07
+[2026-01-17 14:33:09,193] INFO -   File saved to: raw/ACLEDoutput_Saint-Barthelemy_2024-07-07_to_2025-01-17.json
+[2026-01-17 14:33:09,193] INFO -   File exists: True
+[2026-01-17 14:33:09,193] INFO -   File size: 2.21 KB
+[2026-01-17 14:33:09,194] INFO -   ✓ Updated database for Saint-Barthelemy
+[2026-01-17 14:33:09,194] INFO - Processing Saint-Martin...
+[2026-01-17 14:33:09,622] INFO -   Latest date in DB: 2024-12-23
+[2026-01-17 14:33:10,700] INFO -   File saved to: raw/ACLEDoutput_Saint-Martin_2024-12-23_to_2025-01-17.json
+[2026-01-17 14:33:10,700] INFO -   File exists: True
+[2026-01-17 14:33:10,700] INFO -   File size: 1.58 KB
+[2026-01-17 14:33:10,701] INFO -   ✓ Updated database for Saint-Martin
+[2026-01-17 14:33:10,701] INFO - Processing Samoa...
+[2026-01-17 14:33:11,131] INFO -   Latest date in DB: 2024-01-06
+[2026-01-17 14:33:17,557] INFO -   File saved to: raw/ACLEDoutput_Samoa_2024-01-06_to_2025-01-17.json
+[2026-01-17 14:33:17,557] INFO -   File exists: True
+[2026-01-17 14:33:17,557] INFO -   File size: 1.50 KB
+[2026-01-17 14:33:17,558] INFO -   ✓ Updated database for Samoa
+[2026-01-17 14:33:17,558] INFO - Processing San Marino...
+[2026-01-17 14:33:17,987] INFO -   Latest date in DB: 2024-03-15
+[2026-01-17 14:33:24,499] INFO -   File saved to: raw/ACLEDoutput_San Marino_2024-03-15_to_2025-01-17.json
+[2026-01-17 14:33:24,499] INFO -   File exists: True
+[2026-01-17 14:33:24,499] INFO -   File size: 1.48 KB
+[2026-01-17 14:33:24,501] INFO -   ✓ Updated database for San Marino
+[2026-01-17 14:33:24,501] INFO - Processing Sao Tome and Principe...
+[2026-01-17 14:33:25,051] INFO -   Latest date in DB: 2024-11-29
+[2026-01-17 14:33:26,243] INFO -   File saved to: raw/ACLEDoutput_Sao Tome and Principe_2024-11-29_to_2025-01-17.json
+[2026-01-17 14:33:26,243] INFO -   File exists: True
+[2026-01-17 14:33:26,243] INFO -   File size: 1.62 KB
+[2026-01-17 14:33:26,244] INFO -   ✓ Updated database for Sao Tome and Principe
+[2026-01-17 14:33:26,244] INFO - Processing Saudi Arabia...
+[2026-01-17 14:33:26,685] INFO -   Latest date in DB: 2024-12-15
+[2026-01-17 14:33:27,859] INFO -   File saved to: raw/ACLEDoutput_Saudi Arabia_2024-12-15_to_2025-01-17.json
+[2026-01-17 14:33:27,860] INFO -   File exists: True
+[2026-01-17 14:33:27,860] INFO -   File size: 1.69 KB
+[2026-01-17 14:33:27,861] INFO -   ✓ Updated database for Saudi Arabia
+[2026-01-17 14:33:27,861] INFO - Processing Senegal...
+[2026-01-17 14:33:28,334] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:33:29,404] INFO -   File saved to: raw/ACLEDoutput_Senegal_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:33:29,404] INFO -   File exists: True
+[2026-01-17 14:33:29,404] INFO -   File size: 3.03 KB
+[2026-01-17 14:33:29,408] INFO -   ✓ Updated database for Senegal
+[2026-01-17 14:33:29,408] INFO - Processing Serbia...
+[2026-01-17 14:33:29,864] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:33:30,753] INFO -   File saved to: raw/ACLEDoutput_Serbia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:33:30,753] INFO -   File exists: True
+[2026-01-17 14:33:30,753] INFO -   File size: 74.47 KB
+[2026-01-17 14:33:30,758] INFO -   ✓ Updated database for Serbia
+[2026-01-17 14:33:30,758] INFO - Processing Seychelles...
+[2026-01-17 14:33:31,207] INFO -   Latest date in DB: 2024-12-05
+[2026-01-17 14:33:32,342] INFO -   File saved to: raw/ACLEDoutput_Seychelles_2024-12-05_to_2025-01-17.json
+[2026-01-17 14:33:32,342] INFO -   File exists: True
+[2026-01-17 14:33:32,342] INFO -   File size: 1.81 KB
+[2026-01-17 14:33:32,343] INFO -   ✓ Updated database for Seychelles
+[2026-01-17 14:33:32,343] INFO - Processing Sierra Leone...
+[2026-01-17 14:33:32,774] INFO -   Latest date in DB: 2025-01-08
+[2026-01-17 14:33:33,745] INFO -   File saved to: raw/ACLEDoutput_Sierra Leone_2025-01-08_to_2025-01-17.json
+[2026-01-17 14:33:33,745] INFO -   File exists: True
+[2026-01-17 14:33:33,745] INFO -   File size: 1.52 KB
+[2026-01-17 14:33:33,747] INFO -   ✓ Updated database for Sierra Leone
+[2026-01-17 14:33:33,747] INFO - Processing Singapore...
+[2026-01-17 14:33:34,290] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:33:35,156] INFO -   File saved to: raw/ACLEDoutput_Singapore_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:33:35,157] INFO -   File exists: True
+[2026-01-17 14:33:35,157] INFO -   File size: 1.62 KB
+[2026-01-17 14:33:35,158] INFO -   ✓ Updated database for Singapore
+[2026-01-17 14:33:35,158] INFO - Processing Sint Maarten...
+[2026-01-17 14:33:35,708] INFO -   Latest date in DB: 2024-08-19
+[2026-01-17 14:33:42,588] INFO -   File saved to: raw/ACLEDoutput_Sint Maarten_2024-08-19_to_2025-01-17.json
+[2026-01-17 14:33:42,589] INFO -   File exists: True
+[2026-01-17 14:33:42,589] INFO -   File size: 2.03 KB
+[2026-01-17 14:33:42,590] INFO -   ✓ Updated database for Sint Maarten
+[2026-01-17 14:33:42,590] INFO - Processing Slovakia...
+[2026-01-17 14:33:43,132] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:33:44,049] INFO -   File saved to: raw/ACLEDoutput_Slovakia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:33:44,050] INFO -   File exists: True
+[2026-01-17 14:33:44,050] INFO -   File size: 4.09 KB
+[2026-01-17 14:33:44,054] INFO -   ✓ Updated database for Slovakia
+[2026-01-17 14:33:44,054] INFO - Processing Slovenia...
+[2026-01-17 14:33:44,498] INFO -   Latest date in DB: 2025-01-06
+
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Marshall Islands_2024-03-01_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Martinique_2024-12-05_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Mauritania_2025-01-10_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Mauritius_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Mayotte_2025-01-14_to_2025-01-17.json
+Page 1: received 189 rows
+Reached final page.
+✅ Saved 189 total rows to raw/ACLEDoutput_Mexico_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Micronesia_2023-03-07_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Monaco_2024-09-26_to_2025-01-17.json
+Page 1: received 5 rows
+Reached final page.
+✅ Saved 5 total rows to raw/ACLEDoutput_Mongolia_2025-01-14_to_2025-01-17.json
+Page 1: received 5 rows
+Reached final page.
+✅ Saved 5 total rows to raw/ACLEDoutput_Montenegro_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Montserrat_2022-04-07_to_2025-01-17.json
+Page 1: received 76 rows
+Reached final page.
+✅ Saved 76 total rows to raw/ACLEDoutput_Morocco_2025-01-13_to_2025-01-17.json
+Page 1: received 22 rows
+Reached final page.
+✅ Saved 22 total rows to raw/ACLEDoutput_Mozambique_2025-01-14_to_2025-01-17.json
+Page 1: received 187 rows
+Reached final page.
+✅ Saved 187 total rows to raw/ACLEDoutput_Myanmar_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Namibia_2025-01-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Nauru_2023-10-30_to_2025-01-17.json
+Page 1: received 15 rows
+Reached final page.
+✅ Saved 15 total rows to raw/ACLEDoutput_Nepal_2025-01-13_to_2025-01-17.json
+Page 1: received 5 rows
+Reached final page.
+✅ Saved 5 total rows to raw/ACLEDoutput_Netherlands_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_New Caledonia_2024-10-16_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_New Zealand_2024-12-30_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Nicaragua_2025-01-08_to_2025-01-17.json
+Page 1: received 8 rows
+Reached final page.
+✅ Saved 8 total rows to raw/ACLEDoutput_Niger_2025-01-14_to_2025-01-17.json
+Page 1: received 64 rows
+Reached final page.
+✅ Saved 64 total rows to raw/ACLEDoutput_Nigeria_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_North Korea_2025-01-14_to_2025-01-17.json
+Page 1: received 5 rows
+Reached final page.
+✅ Saved 5 total rows to raw/ACLEDoutput_North Macedonia_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Northern Mariana Islands_2024-05-22_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Norway_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Oman_2024-11-21_to_2025-01-17.json
+Page 1: received 100 rows
+Reached final page.
+✅ Saved 100 total rows to raw/ACLEDoutput_Pakistan_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Palau_2024-11-05_to_2025-01-17.json
+Page 1: received 220 rows
+Reached final page.
+✅ Saved 220 total rows to raw/ACLEDoutput_Palestine_2025-01-14_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Panama_2025-01-13_to_2025-01-17.json
+Page 1: received 7 rows
+Reached final page.
+✅ Saved 7 total rows to raw/ACLEDoutput_Papua New Guinea_2025-01-14_to_2025-01-17.json
+Page 1: received 7 rows
+Reached final page.
+✅ Saved 7 total rows to raw/ACLEDoutput_Paraguay_2025-01-14_to_2025-01-17.json
+Page 1: received 11 rows
+Reached final page.
+✅ Saved 11 total rows to raw/ACLEDoutput_Peru_2025-01-14_to_2025-01-17.json
+Page 1: received 10 rows
+Reached final page.
+✅ Saved 10 total rows to raw/ACLEDoutput_Philippines_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 8 rows
+Reached final page.
+✅ Saved 8 total rows to raw/ACLEDoutput_Poland_2025-01-14_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Puerto Rico_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Qatar_2024-01-03_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Republic of Congo_2024-12-21_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Reunion_2025-01-11_to_2025-01-17.json
+Page 1: received 14 rows
+Reached final page.
+✅ Saved 14 total rows to raw/ACLEDoutput_Romania_2025-01-14_to_2025-01-17.json
+Page 1: received 206 rows
+Reached final page.
+✅ Saved 206 total rows to raw/ACLEDoutput_Russia_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Rwanda_2024-11-21_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint Helena, Ascension and Tristan da Cunha_2020-12-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint Kitts and Nevis_2023-03-28_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint Lucia_2024-11-27_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint Pierre and Miquelon_2024-07-07_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint Vincent and the Grenadines_2024-01-27_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint-Barthelemy_2024-07-07_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saint-Martin_2024-12-23_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Samoa_2024-01-06_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_San Marino_2024-03-15_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Sao Tome and Principe_2024-11-29_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Saudi Arabia_2024-12-15_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Senegal_2025-01-14_to_2025-01-17.json
+Page 1: received 47 rows
+Reached final page.
+✅ Saved 47 total rows to raw/ACLEDoutput_Serbia_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Seychelles_2024-12-05_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Sierra Leone_2025-01-08_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Singapore_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Sint Maarten_2024-08-19_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Slovakia_2025-01-13_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_Slovenia_2025-01-06_to_2025-01-17.json[2026-01-17 14:33:45,401] INFO -   File saved to: raw/ACLEDoutput_Slovenia_2025-01-06_to_2025-01-17.json
+[2026-01-17 14:33:45,401] INFO -   File exists: True
+[2026-01-17 14:33:45,401] INFO -   File size: 2.60 KB
+[2026-01-17 14:33:45,405] INFO -   ✓ Updated database for Slovenia
+[2026-01-17 14:33:45,405] INFO - Processing Solomon Islands...
+[2026-01-17 14:33:45,839] INFO -   Latest date in DB: 2024-04-17
+[2026-01-17 14:33:52,147] INFO -   File saved to: raw/ACLEDoutput_Solomon Islands_2024-04-17_to_2025-01-17.json
+[2026-01-17 14:33:52,148] INFO -   File exists: True
+[2026-01-17 14:33:52,148] INFO -   File size: 2.10 KB
+[2026-01-17 14:33:52,149] INFO -   ✓ Updated database for Solomon Islands
+[2026-01-17 14:33:52,149] INFO - Processing Somalia...
+[2026-01-17 14:33:52,575] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:33:53,745] INFO -   File saved to: raw/ACLEDoutput_Somalia_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:33:53,746] INFO -   File exists: True
+[2026-01-17 14:33:53,746] INFO -   File size: 59.97 KB
+[2026-01-17 14:33:53,750] INFO -   ✓ Updated database for Somalia
+[2026-01-17 14:33:53,750] INFO - Processing South Africa...
+[2026-01-17 14:33:54,178] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:33:55,041] INFO -   File saved to: raw/ACLEDoutput_South Africa_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:33:55,041] INFO -   File exists: True
+[2026-01-17 14:33:55,041] INFO -   File size: 42.59 KB
+[2026-01-17 14:33:55,045] INFO -   ✓ Updated database for South Africa
+[2026-01-17 14:33:55,045] INFO - Processing South Georgia and the South Sandwich Islands...
+[2026-01-17 14:33:55,504] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:34:02,947] INFO -   - No new data for South Georgia and the South Sandwich Islands
+[2026-01-17 14:34:02,948] INFO - Processing South Korea...
+[2026-01-17 14:34:03,405] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:04,335] INFO -   File saved to: raw/ACLEDoutput_South Korea_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:04,335] INFO -   File exists: True
+[2026-01-17 14:34:04,335] INFO -   File size: 157.29 KB
+[2026-01-17 14:34:04,340] INFO -   ✓ Updated database for South Korea
+[2026-01-17 14:34:04,340] INFO - Processing South Sudan...
+[2026-01-17 14:34:04,797] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:05,664] INFO -   File saved to: raw/ACLEDoutput_South Sudan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:05,664] INFO -   File exists: True
+[2026-01-17 14:34:05,664] INFO -   File size: 95.14 KB
+[2026-01-17 14:34:05,668] INFO -   ✓ Updated database for South Sudan
+[2026-01-17 14:34:05,668] INFO - Processing Spain...
+[2026-01-17 14:34:06,131] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:07,051] INFO -   File saved to: raw/ACLEDoutput_Spain_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:07,052] INFO -   File exists: True
+[2026-01-17 14:34:07,052] INFO -   File size: 87.34 KB
+[2026-01-17 14:34:07,056] INFO -   ✓ Updated database for Spain
+[2026-01-17 14:34:07,056] INFO - Processing Sri Lanka...
+[2026-01-17 14:34:07,521] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:34:08,407] INFO -   File saved to: raw/ACLEDoutput_Sri Lanka_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:34:08,407] INFO -   File exists: True
+[2026-01-17 14:34:08,407] INFO -   File size: 8.82 KB
+[2026-01-17 14:34:08,410] INFO -   ✓ Updated database for Sri Lanka
+[2026-01-17 14:34:08,411] INFO - Processing Sudan...
+[2026-01-17 14:34:08,872] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:10,052] INFO -   File saved to: raw/ACLEDoutput_Sudan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:10,053] INFO -   File exists: True
+[2026-01-17 14:34:10,053] INFO -   File size: 127.08 KB
+[2026-01-17 14:34:10,057] INFO -   ✓ Updated database for Sudan
+[2026-01-17 14:34:10,057] INFO - Processing Suriname...
+[2026-01-17 14:34:10,524] INFO -   Latest date in DB: 2024-11-22
+[2026-01-17 14:34:16,855] INFO -   File saved to: raw/ACLEDoutput_Suriname_2024-11-22_to_2025-01-17.json
+[2026-01-17 14:34:16,855] INFO -   File exists: True
+[2026-01-17 14:34:16,856] INFO -   File size: 1.46 KB
+[2026-01-17 14:34:16,856] INFO -   ✓ Updated database for Suriname
+[2026-01-17 14:34:16,856] INFO - Processing Sweden...
+[2026-01-17 14:34:17,289] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:34:18,250] INFO -   File saved to: raw/ACLEDoutput_Sweden_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:34:18,250] INFO -   File exists: True
+[2026-01-17 14:34:18,250] INFO -   File size: 18.44 KB
+[2026-01-17 14:34:18,254] INFO -   ✓ Updated database for Sweden
+[2026-01-17 14:34:18,254] INFO - Processing Switzerland...
+[2026-01-17 14:34:18,682] INFO -   Latest date in DB: 2025-01-09
+[2026-01-17 14:34:19,576] INFO -   File saved to: raw/ACLEDoutput_Switzerland_2025-01-09_to_2025-01-17.json
+[2026-01-17 14:34:19,577] INFO -   File exists: True
+[2026-01-17 14:34:19,577] INFO -   File size: 1.67 KB
+[2026-01-17 14:34:19,578] INFO -   ✓ Updated database for Switzerland
+[2026-01-17 14:34:19,578] INFO - Processing Syria...
+[2026-01-17 14:34:20,022] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:20,856] INFO -   File saved to: raw/ACLEDoutput_Syria_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:20,857] INFO -   File exists: True
+[2026-01-17 14:34:20,857] INFO -   File size: 195.74 KB
+[2026-01-17 14:34:20,862] INFO -   ✓ Updated database for Syria
+[2026-01-17 14:34:20,862] INFO - Processing Taiwan...
+[2026-01-17 14:34:21,310] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:34:22,148] INFO -   File saved to: raw/ACLEDoutput_Taiwan_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:34:22,148] INFO -   File exists: True
+[2026-01-17 14:34:22,148] INFO -   File size: 24.16 KB
+[2026-01-17 14:34:22,152] INFO -   ✓ Updated database for Taiwan
+[2026-01-17 14:34:22,152] INFO - Processing Tajikistan...
+[2026-01-17 14:34:22,573] INFO -   Latest date in DB: 2024-06-28
+[2026-01-17 14:34:29,133] INFO -   File saved to: raw/ACLEDoutput_Tajikistan_2024-06-28_to_2025-01-17.json
+[2026-01-17 14:34:29,133] INFO -   File exists: True
+[2026-01-17 14:34:29,133] INFO -   File size: 1.46 KB
+[2026-01-17 14:34:29,134] INFO -   ✓ Updated database for Tajikistan
+[2026-01-17 14:34:29,134] INFO - Processing Tanzania...
+[2026-01-17 14:34:29,571] INFO -   Latest date in DB: 2025-01-10
+[2026-01-17 14:34:30,485] INFO -   File saved to: raw/ACLEDoutput_Tanzania_2025-01-10_to_2025-01-17.json
+[2026-01-17 14:34:30,485] INFO -   File exists: True
+[2026-01-17 14:34:30,485] INFO -   File size: 6.25 KB
+[2026-01-17 14:34:30,488] INFO -   ✓ Updated database for Tanzania
+[2026-01-17 14:34:30,488] INFO - Processing Thailand...
+[2026-01-17 14:34:30,930] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:31,837] INFO -   File saved to: raw/ACLEDoutput_Thailand_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:31,837] INFO -   File exists: True
+[2026-01-17 14:34:31,837] INFO -   File size: 1.80 KB
+[2026-01-17 14:34:31,838] INFO -   ✓ Updated database for Thailand
+[2026-01-17 14:34:31,838] INFO - Processing Togo...
+[2026-01-17 14:34:32,259] INFO -   Latest date in DB: 2025-01-12
+[2026-01-17 14:34:33,250] INFO -   File saved to: raw/ACLEDoutput_Togo_2025-01-12_to_2025-01-17.json
+[2026-01-17 14:34:33,251] INFO -   File exists: True
+[2026-01-17 14:34:33,251] INFO -   File size: 1.78 KB
+[2026-01-17 14:34:33,252] INFO -   ✓ Updated database for Togo
+[2026-01-17 14:34:33,252] INFO - Processing Tokelau...
+[2026-01-17 14:34:33,710] INFO -   Latest date in DB: 2023-01-26
+[2026-01-17 14:34:40,369] INFO -   File saved to: raw/ACLEDoutput_Tokelau_2023-01-26_to_2025-01-17.json
+[2026-01-17 14:34:40,369] INFO -   File exists: True
+[2026-01-17 14:34:40,369] INFO -   File size: 1.44 KB
+[2026-01-17 14:34:40,370] INFO -   ✓ Updated database for Tokelau
+[2026-01-17 14:34:40,370] INFO - Processing Tonga...
+[2026-01-17 14:34:40,824] INFO -   Latest date in DB: 2024-12-09
+[2026-01-17 14:34:41,853] INFO -   File saved to: raw/ACLEDoutput_Tonga_2024-12-09_to_2025-01-17.json
+[2026-01-17 14:34:41,853] INFO -   File exists: True
+[2026-01-17 14:34:41,853] INFO -   File size: 1.48 KB
+[2026-01-17 14:34:41,854] INFO -   ✓ Updated database for Tonga
+[2026-01-17 14:34:41,854] INFO - Processing Trinidad and Tobago...
+[2026-01-17 14:34:42,275] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:34:43,145] INFO -   File saved to: raw/ACLEDoutput_Trinidad and Tobago_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:34:43,145] INFO -   File exists: True
+[2026-01-17 14:34:43,145] INFO -   File size: 6.64 KB
+[2026-01-17 14:34:43,148] INFO -   ✓ Updated database for Trinidad and Tobago
+[2026-01-17 14:34:43,148] INFO - Processing Tunisia...
+[2026-01-17 14:34:43,606] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:34:44,775] INFO -   File saved to: raw/ACLEDoutput_Tunisia_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:34:44,775] INFO -   File exists: True
+[2026-01-17 14:34:44,775] INFO -   File size: 9.96 KB
+[2026-01-17 14:34:44,778] INFO -   ✓ Updated database for Tunisia
+[2026-01-17 14:34:44,778] INFO - Processing Turkey...
+[2026-01-17 14:34:45,237] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:34:46,234] INFO -   File saved to: raw/ACLEDoutput_Turkey_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:34:46,235] INFO -   File exists: True
+[2026-01-17 14:34:46,235] INFO -   File size: 67.54 KB
+[2026-01-17 14:34:46,238] INFO -   ✓ Updated database for Turkey
+[2026-01-17 14:34:46,238] INFO - Processing Turks and Caicos Islands...
+[2026-01-17 14:34:46,689] INFO -   Latest date in DB: 2023-11-06
+[2026-01-17 14:34:53,194] INFO -   File saved to: raw/ACLEDoutput_Turks and Caicos Islands_2023-11-06_to_2025-01-17.json
+[2026-01-17 14:34:53,195] INFO -   File exists: True
+[2026-01-17 14:34:53,195] INFO -   File size: 1.54 KB
+[2026-01-17 14:34:53,195] INFO -   ✓ Updated database for Turks and Caicos Islands
+[2026-01-17 14:34:53,196] INFO - Processing Tuvalu...
+[2026-01-17 14:34:53,654] INFO -   Latest date in DB: 2024-01-26
+[2026-01-17 14:35:00,379] INFO -   File saved to: raw/ACLEDoutput_Tuvalu_2024-01-26_to_2025-01-17.json
+[2026-01-17 14:35:00,379] INFO -   File exists: True
+[2026-01-17 14:35:00,379] INFO -   File size: 1.38 KB
+[2026-01-17 14:35:00,380] INFO -   ✓ Updated database for Tuvalu
+[2026-01-17 14:35:00,380] INFO - Processing Uganda...
+[2026-01-17 14:35:00,849] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:01,824] INFO -   File saved to: raw/ACLEDoutput_Uganda_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:01,825] INFO -   File exists: True
+[2026-01-17 14:35:01,825] INFO -   File size: 8.17 KB
+[2026-01-17 14:35:01,828] INFO -   ✓ Updated database for Uganda
+[2026-01-17 14:35:01,828] INFO - Processing Ukraine...
+[2026-01-17 14:35:02,290] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:03,486] INFO -   File saved to: raw/ACLEDoutput_Ukraine_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:03,486] INFO -   File exists: True
+[2026-01-17 14:35:03,486] INFO -   File size: 1019.94 KB
+[2026-01-17 14:35:03,499] INFO -   ✓ Updated database for Ukraine
+[2026-01-17 14:35:03,499] INFO - Processing United Arab Emirates...
+[2026-01-17 14:35:03,953] INFO -   Latest date in DB: 2025-01-13
+[2026-01-17 14:35:05,051] INFO -   File saved to: raw/ACLEDoutput_United Arab Emirates_2025-01-13_to_2025-01-17.json
+[2026-01-17 14:35:05,051] INFO -   File exists: True
+[2026-01-17 14:35:05,051] INFO -   File size: 1.47 KB
+[2026-01-17 14:35:05,052] INFO -   ✓ Updated database for United Arab Emirates
+[2026-01-17 14:35:05,052] INFO - Processing United Kingdom...
+[2026-01-17 14:35:05,511] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:06,455] INFO -   File saved to: raw/ACLEDoutput_United Kingdom_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:06,455] INFO -   File exists: True
+[2026-01-17 14:35:06,455] INFO -   File size: 3.42 KB
+[2026-01-17 14:35:06,456] INFO -   ✓ Updated database for United Kingdom
+[2026-01-17 14:35:06,456] INFO - Processing United States...
+[2026-01-17 14:35:06,924] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:07,842] INFO -   File saved to: raw/ACLEDoutput_United States_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:07,842] INFO -   File exists: True
+[2026-01-17 14:35:07,842] INFO -   File size: 168.60 KB
+[2026-01-17 14:35:07,847] INFO -   ✓ Updated database for United States
+[2026-01-17 14:35:07,847] INFO - Processing United States Minor Outlying Islands...
+[2026-01-17 14:35:08,274] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:35:16,614] INFO -   - No new data for United States Minor Outlying Islands
+[2026-01-17 14:35:16,615] INFO - Processing Uruguay...
+[2026-01-17 14:35:17,048] INFO -   Latest date in DB: 2025-01-09
+[2026-01-17 14:35:17,963] INFO -   File saved to: raw/ACLEDoutput_Uruguay_2025-01-09_to_2025-01-17.json
+[2026-01-17 14:35:17,964] INFO -   File exists: True
+[2026-01-17 14:35:17,964] INFO -   File size: 4.87 KB
+[2026-01-17 14:35:17,968] INFO -   ✓ Updated database for Uruguay
+[2026-01-17 14:35:17,968] INFO - Processing Uzbekistan...
+[2026-01-17 14:35:18,411] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:19,269] INFO -   File saved to: raw/ACLEDoutput_Uzbekistan_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:19,270] INFO -   File exists: True
+[2026-01-17 14:35:19,270] INFO -   File size: 4.72 KB
+[2026-01-17 14:35:19,273] INFO -   ✓ Updated database for Uzbekistan
+[2026-01-17 14:35:19,273] INFO - Processing Vanuatu...
+[2026-01-17 14:35:19,706] INFO -   Latest date in DB: 2024-06-07
+[2026-01-17 14:35:26,104] INFO -   File saved to: raw/ACLEDoutput_Vanuatu_2024-06-07_to_2025-01-17.json
+[2026-01-17 14:35:26,104] INFO -   File exists: True
+[2026-01-17 14:35:26,104] INFO -   File size: 4.76 KB
+[2026-01-17 14:35:26,107] INFO -   ✓ Updated database for Vanuatu
+[2026-01-17 14:35:26,107] INFO - Processing Vatican City...
+[2026-01-17 14:35:26,582] INFO -   Latest date in DB: 2024-02-18
+[2026-01-17 14:35:33,414] INFO -   File saved to: raw/ACLEDoutput_Vatican City_2024-02-18_to_2025-01-17.json
+[2026-01-17 14:35:33,414] INFO -   File exists: True
+[2026-01-17 14:35:33,414] INFO -   File size: 1.65 KB
+[2026-01-17 14:35:33,415] INFO -   ✓ Updated database for Vatican City
+[2026-01-17 14:35:33,415] INFO - Processing Venezuela...
+[2026-01-17 14:35:33,868] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:34,781] INFO -   File saved to: raw/ACLEDoutput_Venezuela_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:34,781] INFO -   File exists: True
+[2026-01-17 14:35:34,781] INFO -   File size: 26.34 KB
+[2026-01-17 14:35:34,785] INFO -   ✓ Updated database for Venezuela
+[2026-01-17 14:35:34,785] INFO - Processing Vietnam...
+[2026-01-17 14:35:35,230] INFO -   Latest date in DB: 2024-07-20
+[2026-01-17 14:35:42,085] INFO -   File saved to: raw/ACLEDoutput_Vietnam_2024-07-20_to_2025-01-17.json
+[2026-01-17 14:35:42,086] INFO -   File exists: True
+[2026-01-17 14:35:42,086] INFO -   File size: 1.33 KB
+[2026-01-17 14:35:42,087] INFO -   ✓ Updated database for Vietnam
+[2026-01-17 14:35:42,087] INFO - Processing Virgin Islands, US...
+[2026-01-17 14:35:42,517] INFO -   Latest date in DB: 2000-01-01
+[2026-01-17 14:35:49,638] INFO -   - No new data for Virgin Islands, US
+[2026-01-17 14:35:49,638] INFO - Processing Wallis and Futuna...
+[2026-01-17 14:35:50,098] INFO -   Latest date in DB: 2024-09-10
+[2026-01-17 14:35:56,518] INFO -   File saved to: raw/ACLEDoutput_Wallis and Futuna_2024-09-10_to_2025-01-17.json
+[2026-01-17 14:35:56,518] INFO -   File exists: True
+[2026-01-17 14:35:56,518] INFO -   File size: 1.67 KB
+[2026-01-17 14:35:56,520] INFO -   ✓ Updated database for Wallis and Futuna
+[2026-01-17 14:35:56,520] INFO - Processing Zambia...
+[2026-01-17 14:35:57,110] INFO -   Latest date in DB: 2024-12-29
+[2026-01-17 14:35:58,141] INFO -   File saved to: raw/ACLEDoutput_Zambia_2024-12-29_to_2025-01-17.json
+[2026-01-17 14:35:58,141] INFO -   File exists: True
+[2026-01-17 14:35:58,141] INFO -   File size: 1.35 KB
+[2026-01-17 14:35:58,142] INFO -   ✓ Updated database for Zambia
+[2026-01-17 14:35:58,142] INFO - Processing Zimbabwe...
+[2026-01-17 14:35:58,609] INFO -   Latest date in DB: 2025-01-14
+[2026-01-17 14:35:59,548] INFO -   File saved to: raw/ACLEDoutput_Zimbabwe_2025-01-14_to_2025-01-17.json
+[2026-01-17 14:35:59,548] INFO -   File exists: True
+[2026-01-17 14:35:59,549] INFO -   File size: 1.57 KB
+[2026-01-17 14:35:59,550] INFO -   ✓ Updated database for Zimbabwe
+[2026-01-17 14:35:59,550] INFO - 
+Data fetch complete. Updated 229 countries.
+[2026-01-17 14:35:59,550] INFO - 
+============================================================
+[2026-01-17 14:35:59,550] INFO - INITIAL DATA VALIDATION
+[2026-01-17 14:35:59,550] INFO - ============================================================
+[2026-01-17 14:36:01,793] INFO - 
+--- Validation: Events Table ---
+[2026-01-17 14:36:01,793] INFO -   ✓ total_events: 1,585,854
+[2026-01-17 14:36:01,793] INFO -   ✓ events_with_nulls: 0
+[2026-01-17 14:36:01,793] INFO -   ✓ duplicate_ids: 0
+[2026-01-17 14:36:01,793] INFO -   ✓ invalid_dates: 0
+[2026-01-17 14:36:01,793] INFO -   ✓ negative_fatalities: 0
+[2026-01-17 14:36:01,793] INFO -   ✓ missing_countries: 0
+[2026-01-17 14:36:01,793] INFO - ============================================================
+[2026-01-17 14:36:01,793] INFO - STEP 2: BUILDING CONFLICT MAPPING
+[2026-01-17 14:36:01,793] INFO - ============================================================
+[2026-01-17 14:36:01,793] INFO - Ensuring event_conflict table exists...
+[2026-01-17 14:36:01,793] INFO - Ensuring conflict_lookup table exists...
+[2026-01-17 14:36:01,793] INFO - Building conflict mapping...
+[2026-01-17 14:36:02,880] INFO - Loaded 3200 NEW events to map for scheme 'country_actor1_primaryassoc_v1'.
+[2026-01-17 14:36:02,991] INFO - Wrote 3200 new rows to event_conflict.
+[2026-01-17 14:36:02,992] INFO - ✓ Conflict mapping completed
+[2026-01-17 14:36:03,544] INFO - 
+--- Validation: Conflict Mapping ---
+[2026-01-17 14:36:03,544] INFO -   ✓ total_mappings: 1,585,854
+[2026-01-17 14:36:03,544] INFO -   ✓ unmapped_events: 0
+[2026-01-17 14:36:03,544] INFO -   ✓ conflicts_created: 40,703
+[2026-01-17 14:36:03,544] INFO -   ✓ orphaned_conflicts: 0
+[2026-01-17 14:36:03,544] INFO -   ✓ events_mapped_percentage: 100.00
+[2026-01-17 14:36:03,544] INFO - ============================================================
+[2026-01-17 14:36:03,544] INFO - STEP 3: PROCESSING UNIQUE CONFLICTS
+[2026-01-17 14:36:03,544] INFO - ============================================================
+[2026-01-17 14:36:03,544] INFO - Ensuring indexes exist on events and event_conflict...
+[2026-01-17 14:36:03,544] INFO - Indexes ensured.
+[2026-01-17 14:36:03,544] INFO - Clearing existing data from unique_conflict table...
+[2026-01-17 14:36:03,549] INFO - Fetching list of conflict_ids...
+[2026-01-17 14:36:03,614] INFO - Found 40703 unique conflict_ids.
+[2026-01-17 14:36:03,627] INFO - Progress: 100 / 40703 conflicts aggregated + inserted (last conflict_id = 100)
+[2026-01-17 14:36:03,633] INFO - Progress: 200 / 40703 conflicts aggregated + inserted (last conflict_id = 200)
+[2026-01-17 14:36:03,643] INFO - Progress: 300 / 40703 conflicts aggregated + inserted (last conflict_id = 300)
+[2026-01-17 14:36:03,649] INFO - Progress: 400 / 40703 conflicts aggregated + inserted (last conflict_id = 400)
+[2026-01-17 14:36:03,694] INFO - Progress: 500 / 40703 conflicts aggregated + inserted (last conflict_id = 500)
+[2026-01-17 14:36:03,715] INFO - Progress: 600 / 40703 conflicts aggregated + inserted (last conflict_id = 600)
+[2026-01-17 14:36:03,740] INFO - Progress: 700 / 40703 conflicts aggregated + inserted (last conflict_id = 700)
+[2026-01-17 14:36:03,812] INFO - Progress: 800 / 40703 conflicts aggregated + inserted (last conflict_id = 800)
+[2026-01-17 14:36:03,833] INFO - Progress: 900 / 40703 conflicts aggregated + inserted (last conflict_id = 900)
+[2026-01-17 14:36:03,934] INFO - Progress: 1000 / 40703 conflicts aggregated + inserted (last conflict_id = 1000)
+[2026-01-17 14:36:03,973] INFO - Progress: 1100 / 40703 conflicts aggregated + inserted (last conflict_id = 1100)
+[2026-01-17 14:36:03,982] INFO - Progress: 1200 / 40703 conflicts aggregated + inserted (last conflict_id = 1200)
+[2026-01-17 14:36:03,987] INFO - Progress: 1300 / 40703 conflicts aggregated + inserted (last conflict_id = 1300)
+[2026-01-17 14:36:03,992] INFO - Progress: 1400 / 40703 conflicts aggregated + inserted (last conflict_id = 1400)
+[2026-01-17 14:36:03,998] INFO - Progress: 1500 / 40703 conflicts aggregated + inserted (last conflict_id = 1500)
+[2026-01-17 14:36:04,002] INFO - Progress: 1600 / 40703 conflicts aggregated + inserted (last conflict_id = 1600)
+[2026-01-17 14:36:04,005] INFO - Progress: 1700 / 40703 conflicts aggregated + inserted (last conflict_id = 1700)
+[2026-01-17 14:36:04,008] INFO - Progress: 1800 / 40703 conflicts aggregated + inserted (last conflict_id = 1800)
+[2026-01-17 14:36:04,011] INFO - Progress: 1900 / 40703 conflicts aggregated + inserted (last conflict_id = 1900)
+[2026-01-17 14:36:04,021] INFO - Progress: 2000 / 40703 conflicts aggregated + inserted (last conflict_id = 2000)
+[2026-01-17 14:36:04,024] INFO - Progress: 2100 / 40703 conflicts aggregated + inserted (last conflict_id = 2100)
+[2026-01-17 14:36:04,027] INFO - Progress: 2200 / 40703 conflicts aggregated + inserted (last conflict_id = 2200)
+[2026-01-17 14:36:04,029] INFO - Progress: 2300 / 40703 conflicts aggregated + inserted (last conflict_id = 2300)
+[2026-01-17 14:36:04,033] INFO - Progress: 2400 / 40703 conflicts aggregated + inserted (last conflict_id = 2400)
+[2026-01-17 14:36:04,035] INFO - Progress: 2500 / 40703 conflicts aggregated + inserted (last conflict_id = 2500)
+[2026-01-17 14:36:04,038] INFO - Progress: 2600 / 40703 conflicts aggregated + inserted (last conflict_id = 2600)
+[2026-01-17 14:36:04,080] INFO - Progress: 2700 / 40703 conflicts aggregated + inserted (last conflict_id = 2700)
+[2026-01-17 14:36:04,089] INFO - Progress: 2800 / 40703 conflicts aggregated + inserted (last conflict_id = 2800)
+[2026-01-17 14:36:04,098] INFO - Progress: 2900 / 40703 conflicts aggregated + inserted (last conflict_id = 2900)
+[2026-01-17 14:36:04,112] INFO - Progress: 3000 / 40703 conflicts aggregated + inserted (last conflict_id = 3000)
+[2026-01-17 14:36:04,159] INFO - Progress: 3100 / 40703 conflicts aggregated + inserted (last conflict_id = 3100)
+[2026-01-17 14:36:04,179] INFO - Progress: 3200 / 40703 conflicts aggregated + inserted (last conflict_id = 3200)
+[2026-01-17 14:36:04,192] INFO - Progress: 3300 / 40703 conflicts aggregated + inserted (last conflict_id = 3300)
+[2026-01-17 14:36:04,238] INFO - Progress: 3400 / 40703 conflicts aggregated + inserted (last conflict_id = 3400)
+[2026-01-17 14:36:04,250] INFO - Progress: 3500 / 40703 conflicts aggregated + inserted (last conflict_id = 3500)
+[2026-01-17 14:36:04,269] INFO - Progress: 3600 / 40703 conflicts aggregated + inserted (last conflict_id = 3600)
+[2026-01-17 14:36:04,366] INFO - Progress: 3700 / 40703 conflicts aggregated + inserted (last conflict_id = 3700)
+[2026-01-17 14:36:04,373] INFO - Progress: 3800 / 40703 conflicts aggregated + inserted (last conflict_id = 3800)
+[2026-01-17 14:36:04,377] INFO - Progress: 3900 / 40703 conflicts aggregated + inserted (last conflict_id = 3900)
+[2026-01-17 14:36:04,382] INFO - Progress: 4000 / 40703 conflicts aggregated + inserted (last conflict_id = 4000)
+[2026-01-17 14:36:04,402] INFO - Progress: 4100 / 40703 conflicts aggregated + inserted (last conflict_id = 4100)
+[2026-01-17 14:36:04,429] INFO - Progress: 4200 / 40703 conflicts aggregated + inserted (last conflict_id = 4200)
+[2026-01-17 14:36:04,436] INFO - Progress: 4300 / 40703 conflicts aggregated + inserted (last conflict_id = 4300)
+[2026-01-17 14:36:04,441] INFO - Progress: 4400 / 40703 conflicts aggregated + inserted (last conflict_id = 4400)
+[2026-01-17 14:36:04,467] INFO - Progress: 4500 / 40703 conflicts aggregated + inserted (last conflict_id = 4500)
+[2026-01-17 14:36:04,475] INFO - Progress: 4600 / 40703 conflicts aggregated + inserted (last conflict_id = 4600)
+[2026-01-17 14:36:04,491] INFO - Progress: 4700 / 40703 conflicts aggregated + inserted (last conflict_id = 4700)
+[2026-01-17 14:36:04,496] INFO - Progress: 4800 / 40703 conflicts aggregated + inserted (last conflict_id = 4800)
+[2026-01-17 14:36:04,500] INFO - Progress: 4900 / 40703 conflicts aggregated + inserted (last conflict_id = 4900)
+[2026-01-17 14:36:04,793] INFO - Progress: 5000 / 40703 conflicts aggregated + inserted (last conflict_id = 5000)
+[2026-01-17 14:36:04,800] INFO - Progress: 5100 / 40703 conflicts aggregated + inserted (last conflict_id = 5100)
+[2026-01-17 14:36:04,802] INFO - Progress: 5200 / 40703 conflicts aggregated + inserted (last conflict_id = 5200)
+[2026-01-17 14:36:04,818] INFO - Progress: 5300 / 40703 conflicts aggregated + inserted (last conflict_id = 5300)
+[2026-01-17 14:36:04,830] INFO - Progress: 5400 / 40703 conflicts aggregated + inserted (last conflict_id = 5400)
+[2026-01-17 14:36:04,897] INFO - Progress: 5500 / 40703 conflicts aggregated + inserted (last conflict_id = 5500)
+[2026-01-17 14:36:04,907] INFO - Progress: 5600 / 40703 conflicts aggregated + inserted (last conflict_id = 5600)
+[2026-01-17 14:36:05,154] INFO - Progress: 5700 / 40703 conflicts aggregated + inserted (last conflict_id = 5700)
+[2026-01-17 14:36:05,216] INFO - Progress: 5800 / 40703 conflicts aggregated + inserted (last conflict_id = 5800)
+[2026-01-17 14:36:05,237] INFO - Progress: 5900 / 40703 conflicts aggregated + inserted (last conflict_id = 5900)
+[2026-01-17 14:36:05,253] INFO - Progress: 6000 / 40703 conflicts aggregated + inserted (last conflict_id = 6000)
+[2026-01-17 14:36:05,260] INFO - Progress: 6100 / 40703 conflicts aggregated + inserted (last conflict_id = 6100)
+[2026-01-17 14:36:05,266] INFO - Progress: 6200 / 40703 conflicts aggregated + inserted (last conflict_id = 6200)
+[2026-01-17 14:36:05,274] INFO - Progress: 6300 / 40703 conflicts aggregated + inserted (last conflict_id = 6300)
+[2026-01-17 14:36:05,280] INFO - Progress: 6400 / 40703 conflicts aggregated + inserted (last conflict_id = 6400)
+[2026-01-17 14:36:05,286] INFO - Progress: 6500 / 40703 conflicts aggregated + inserted (last conflict_id = 6500)
+[2026-01-17 14:36:05,293] INFO - Progress: 6600 / 40703 conflicts aggregated + inserted (last conflict_id = 6600)
+[2026-01-17 14:36:05,312] INFO - Progress: 6700 / 40703 conflicts aggregated + inserted (last conflict_id = 6700)
+[2026-01-17 14:36:05,334] INFO - Progress: 6800 / 40703 conflicts aggregated + inserted (last conflict_id = 6800)
+[2026-01-17 14:36:05,344] INFO - Progress: 6900 / 40703 conflicts aggregated + inserted (last conflict_id = 6900)
+[2026-01-17 14:36:05,383] INFO - Progress: 7000 / 40703 conflicts aggregated + inserted (last conflict_id = 7000)
+[2026-01-17 14:36:05,391] INFO - Progress: 7100 / 40703 conflicts aggregated + inserted (last conflict_id = 7100)
+[2026-01-17 14:36:05,397] INFO - Progress: 7200 / 40703 conflicts aggregated + inserted (last conflict_id = 7200)
+[2026-01-17 14:36:05,430] INFO - Progress: 7300 / 40703 conflicts aggregated + inserted (last conflict_id = 7300)
+[2026-01-17 14:36:05,444] INFO - Progress: 7400 / 40703 conflicts aggregated + inserted (last conflict_id = 7400)
+[2026-01-17 14:36:05,465] INFO - Progress: 7500 / 40703 conflicts aggregated + inserted (last conflict_id = 7500)
+[2026-01-17 14:36:05,483] INFO - Progress: 7600 / 40703 conflicts aggregated + inserted (last conflict_id = 7600)
+[2026-01-17 14:36:05,519] INFO - Progress: 7700 / 40703 conflicts aggregated + inserted (last conflict_id = 7700)
+[2026-01-17 14:36:05,528] INFO - Progress: 7800 / 40703 conflicts aggregated + inserted (last conflict_id = 7800)
+[2026-01-17 14:36:05,551] INFO - Progress: 7900 / 40703 conflicts aggregated + inserted (last conflict_id = 7900)
+[2026-01-17 14:36:05,555] INFO - Progress: 8000 / 40703 conflicts aggregated + inserted (last conflict_id = 8000)
+[2026-01-17 14:36:05,569] INFO - Progress: 8100 / 40703 conflicts aggregated + inserted (last conflict_id = 8100)
+[2026-01-17 14:36:05,595] INFO - Progress: 8200 / 40703 conflicts aggregated + inserted (last conflict_id = 8200)
+[2026-01-17 14:36:05,599] INFO - Progress: 8300 / 40703 conflicts aggregated + inserted (last conflict_id = 8300)
+[2026-01-17 14:36:05,781] INFO - Progress: 8400 / 40703 conflicts aggregated + inserted (last conflict_id = 8400)
+[2026-01-17 14:36:05,797] INFO - Progress: 8500 / 40703 conflicts aggregated + inserted (last conflict_id = 8500)
+[2026-01-17 14:36:05,804] INFO - Progress: 8600 / 40703 conflicts aggregated + inserted (last conflict_id = 8600)
+[2026-01-17 14:36:05,898] INFO - Progress: 8700 / 40703 conflicts aggregated + inserted (last conflict_id = 8700)
+[2026-01-17 14:36:05,994] INFO - Progress: 8800 / 40703 conflicts aggregated + inserted (last conflict_id = 8800)
+[2026-01-17 14:36:06,010] INFO - Progress: 8900 / 40703 conflicts aggregated + inserted (last conflict_id = 8900)
+[2026-01-17 14:36:06,023] INFO - Progress: 9000 / 40703 conflicts aggregated + inserted (last conflict_id = 9000)
+[2026-01-17 14:36:06,102] INFO - Progress: 9100 / 40703 conflicts aggregated + inserted (last conflict_id = 9100)
+[2026-01-17 14:36:06,114] INFO - Progress: 9200 / 40703 conflicts aggregated + inserted (last conflict_id = 9200)
+[2026-01-17 14:36:06,119] INFO - Progress: 9300 / 40703 conflicts aggregated + inserted (last conflict_id = 9300)
+[2026-01-17 14:36:06,124] INFO - Progress: 9400 / 40703 conflicts aggregated + inserted (last conflict_id = 9400)
+[2026-01-17 14:36:06,178] INFO - Progress: 9500 / 40703 conflicts aggregated + inserted (last conflict_id = 9500)
+[2026-01-17 14:36:06,187] INFO - Progress: 9600 / 40703 conflicts aggregated + inserted (last conflict_id = 9600)
+[2026-01-17 14:36:06,192] INFO - Progress: 9700 / 40703 conflicts aggregated + inserted (last conflict_id = 9700)
+[2026-01-17 14:36:06,197] INFO - Progress: 9800 / 40703 conflicts aggregated + inserted (last conflict_id = 9800)
+[2026-01-17 14:36:06,262] INFO - Progress: 9900 / 40703 conflicts aggregated + inserted (last conflict_id = 9900)
+[2026-01-17 14:36:06,271] INFO - Progress: 10000 / 40703 conflicts aggregated + inserted (last conflict_id = 10000)
+[2026-01-17 14:36:06,364] INFO - Progress: 10100 / 40703 conflicts aggregated + inserted (last conflict_id = 10100)
+[2026-01-17 14:36:06,379] INFO - Progress: 10200 / 40703 conflicts aggregated + inserted (last conflict_id = 10200)
+[2026-01-17 14:36:06,394] INFO - Progress: 10300 / 40703 conflicts aggregated + inserted (last conflict_id = 10300)
+[2026-01-17 14:36:06,424] INFO - Progress: 10400 / 40703 conflicts aggregated + inserted (last conflict_id = 10400)
+[2026-01-17 14:36:06,430] INFO - Progress: 10500 / 40703 conflicts aggregated + inserted (last conflict_id = 10500)
+[2026-01-17 14:36:06,440] INFO - Progress: 10600 / 40703 conflicts aggregated + inserted (last conflict_id = 10600)
+[2026-01-17 14:36:06,446] INFO - Progress: 10700 / 40703 conflicts aggregated + inserted (last conflict_id = 10700)
+[2026-01-17 14:36:06,467] INFO - Progress: 10800 / 40703 conflicts aggregated + inserted (last conflict_id = 10800)
+[2026-01-17 14:36:06,498] INFO - Progress: 10900 / 40703 conflicts aggregated + inserted (last conflict_id = 10900)
+[2026-01-17 14:36:06,508] INFO - Progress: 11000 / 40703 conflicts aggregated + inserted (last conflict_id = 11000)
+[2026-01-17 14:36:06,526] INFO - Progress: 11100 / 40703 conflicts aggregated + inserted (last conflict_id = 11100)
+[2026-01-17 14:36:06,559] INFO - Progress: 11200 / 40703 conflicts aggregated + inserted (last conflict_id = 11200)
+[2026-01-17 14:36:06,568] INFO - Progress: 11300 / 40703 conflicts aggregated + inserted (last conflict_id = 11300)
+[2026-01-17 14:36:06,579] INFO - Progress: 11400 / 40703 conflicts aggregated + inserted (last conflict_id = 11400)
+[2026-01-17 14:36:06,594] INFO - Progress: 11500 / 40703 conflicts aggregated + inserted (last conflict_id = 11500)
+[2026-01-17 14:36:06,611] INFO - Progress: 11600 / 40703 conflicts aggregated + inserted (last conflict_id = 11600)
+[2026-01-17 14:36:06,618] INFO - Progress: 11700 / 40703 conflicts aggregated + inserted (last conflict_id = 11700)
+[2026-01-17 14:36:06,688] INFO - Progress: 11800 / 40703 conflicts aggregated + inserted (last conflict_id = 11800)
+[2026-01-17 14:36:06,702] INFO - Progress: 11900 / 40703 conflicts aggregated + inserted (last conflict_id = 11900)
+[2026-01-17 14:36:06,708] INFO - Progress: 12000 / 40703 conflicts aggregated + inserted (last conflict_id = 12000)
+[2026-01-17 14:36:06,716] INFO - Progress: 12100 / 40703 conflicts aggregated + inserted (last conflict_id = 12100)
+[2026-01-17 14:36:06,749] INFO - Progress: 12200 / 40703 conflicts aggregated + inserted (last conflict_id = 12200)
+[2026-01-17 14:36:06,877] INFO - Progress: 12300 / 40703 conflicts aggregated + inserted (last conflict_id = 12300)
+[2026-01-17 14:36:06,889] INFO - Progress: 12400 / 40703 conflicts aggregated + inserted (last conflict_id = 12400)
+[2026-01-17 14:36:06,918] INFO - Progress: 12500 / 40703 conflicts aggregated + inserted (last conflict_id = 12500)
+[2026-01-17 14:36:06,929] INFO - Progress: 12600 / 40703 conflicts aggregated + inserted (last conflict_id = 12600)
+[2026-01-17 14:36:06,961] INFO - Progress: 12700 / 40703 conflicts aggregated + inserted (last conflict_id = 12700)
+[2026-01-17 14:36:06,997] INFO - Progress: 12800 / 40703 conflicts aggregated + inserted (last conflict_id = 12800)
+[2026-01-17 14:36:07,010] INFO - Progress: 12900 / 40703 conflicts aggregated + inserted (last conflict_id = 12900)
+[2026-01-17 14:36:07,018] INFO - Progress: 13000 / 40703 conflicts aggregated + inserted (last conflict_id = 13000)
+[2026-01-17 14:36:07,027] INFO - Progress: 13100 / 40703 conflicts aggregated + inserted (last conflict_id = 13100)
+[2026-01-17 14:36:07,050] INFO - Progress: 13200 / 40703 conflicts aggregated + inserted (last conflict_id = 13200)
+[2026-01-17 14:36:07,057] INFO - Progress: 13300 / 40703 conflicts aggregated + inserted (last conflict_id = 13300)
+[2026-01-17 14:36:07,075] INFO - Progress: 13400 / 40703 conflicts aggregated + inserted (last conflict_id = 13400)
+[2026-01-17 14:36:07,082] INFO - Progress: 13500 / 40703 conflicts aggregated + inserted (last conflict_id = 13500)
+[2026-01-17 14:36:07,091] INFO - Progress: 13600 / 40703 conflicts aggregated + inserted (last conflict_id = 13600)
+[2026-01-17 14:36:07,102] INFO - Progress: 13700 / 40703 conflicts aggregated + inserted (last conflict_id = 13700)
+[2026-01-17 14:36:07,106] INFO - Progress: 13800 / 40703 conflicts aggregated + inserted (last conflict_id = 13800)
+[2026-01-17 14:36:07,109] INFO - Progress: 13900 / 40703 conflicts aggregated + inserted (last conflict_id = 13900)
+[2026-01-17 14:36:07,118] INFO - Progress: 14000 / 40703 conflicts aggregated + inserted (last conflict_id = 14000)
+[2026-01-17 14:36:07,121] INFO - Progress: 14100 / 40703 conflicts aggregated + inserted (last conflict_id = 14100)
+[2026-01-17 14:36:07,125] INFO - Progress: 14200 / 40703 conflicts aggregated + inserted (last conflict_id = 14200)
+[2026-01-17 14:36:07,128] INFO - Progress: 14300 / 40703 conflicts aggregated + inserted (last conflict_id = 14300)
+[2026-01-17 14:36:07,132] INFO - Progress: 14400 / 40703 conflicts aggregated + inserted (last conflict_id = 14400)
+[2026-01-17 14:36:07,140] INFO - Progress: 14500 / 40703 conflicts aggregated + inserted (last conflict_id = 14500)
+[2026-01-17 14:36:07,143] INFO - Progress: 14600 / 40703 conflicts aggregated + inserted (last conflict_id = 14600)
+[2026-01-17 14:36:07,146] INFO - Progress: 14700 / 40703 conflicts aggregated + inserted (last conflict_id = 14700)
+[2026-01-17 14:36:07,148] INFO - Progress: 14800 / 40703 conflicts aggregated + inserted (last conflict_id = 14800)
+[2026-01-17 14:36:07,157] INFO - Progress: 14900 / 40703 conflicts aggregated + inserted (last conflict_id = 14900)
+[2026-01-17 14:36:07,161] INFO - Progress: 15000 / 40703 conflicts aggregated + inserted (last conflict_id = 15000)
+[2026-01-17 14:36:07,165] INFO - Progress: 15100 / 40703 conflicts aggregated + inserted (last conflict_id = 15100)
+[2026-01-17 14:36:07,168] INFO - Progress: 15200 / 40703 conflicts aggregated + inserted (last conflict_id = 15200)
+[2026-01-17 14:36:07,172] INFO - Progress: 15300 / 40703 conflicts aggregated + inserted (last conflict_id = 15300)
+[2026-01-17 14:36:07,175] INFO - Progress: 15400 / 40703 conflicts aggregated + inserted (last conflict_id = 15400)
+[2026-01-17 14:36:07,180] INFO - Progress: 15500 / 40703 conflicts aggregated + inserted (last conflict_id = 15500)
+[2026-01-17 14:36:07,184] INFO - Progress: 15600 / 40703 conflicts aggregated + inserted (last conflict_id = 15600)
+[2026-01-17 14:36:07,187] INFO - Progress: 15700 / 40703 conflicts aggregated + inserted (last conflict_id = 15700)
+[2026-01-17 14:36:07,190] INFO - Progress: 15800 / 40703 conflicts aggregated + inserted (last conflict_id = 15800)
+[2026-01-17 14:36:07,195] INFO - Progress: 15900 / 40703 conflicts aggregated + inserted (last conflict_id = 15900)
+[2026-01-17 14:36:07,200] INFO - Progress: 16000 / 40703 conflicts aggregated + inserted (last conflict_id = 16000)
+[2026-01-17 14:36:07,203] INFO - Progress: 16100 / 40703 conflicts aggregated + inserted (last conflict_id = 16100)
+[2026-01-17 14:36:07,207] INFO - Progress: 16200 / 40703 conflicts aggregated + inserted (last conflict_id = 16200)
+[2026-01-17 14:36:07,212] INFO - Progress: 16300 / 40703 conflicts aggregated + inserted (last conflict_id = 16300)
+[2026-01-17 14:36:07,217] INFO - Progress: 16400 / 40703 conflicts aggregated + inserted (last conflict_id = 16400)
+[2026-01-17 14:36:07,221] INFO - Progress: 16500 / 40703 conflicts aggregated + inserted (last conflict_id = 16500)
+[2026-01-17 14:36:07,226] INFO - Progress: 16600 / 40703 conflicts aggregated + inserted (last conflict_id = 16600)
+[2026-01-17 14:36:07,231] INFO - Progress: 16700 / 40703 conflicts aggregated + inserted (last conflict_id = 16700)
+[2026-01-17 14:36:07,234] INFO - Progress: 16800 / 40703 conflicts aggregated + inserted (last conflict_id = 16800)
+[2026-01-17 14:36:07,238] INFO - Progress: 16900 / 40703 conflicts aggregated + inserted (last conflict_id = 16900)
+[2026-01-17 14:36:07,254] INFO - Progress: 17000 / 40703 conflicts aggregated + inserted (last conflict_id = 17000)
+[2026-01-17 14:36:07,260] INFO - Progress: 17100 / 40703 conflicts aggregated + inserted (last conflict_id = 17100)
+[2026-01-17 14:36:07,264] INFO - Progress: 17200 / 40703 conflicts aggregated + inserted (last conflict_id = 17200)
+[2026-01-17 14:36:07,270] INFO - Progress: 17300 / 40703 conflicts aggregated + inserted (last conflict_id = 17300)
+[2026-01-17 14:36:07,275] INFO - Progress: 17400 / 40703 conflicts aggregated + inserted (last conflict_id = 17400)
+[2026-01-17 14:36:07,280] INFO - Progress: 17500 / 40703 conflicts aggregated + inserted (last conflict_id = 17500)
+[2026-01-17 14:36:07,288] INFO - Progress: 17600 / 40703 conflicts aggregated + inserted (last conflict_id = 17600)
+[2026-01-17 14:36:07,293] INFO - Progress: 17700 / 40703 conflicts aggregated + inserted (last conflict_id = 17700)
+[2026-01-17 14:36:07,298] INFO - Progress: 17800 / 40703 conflicts aggregated + inserted (last conflict_id = 17800)
+[2026-01-17 14:36:07,301] INFO - Progress: 17900 / 40703 conflicts aggregated + inserted (last conflict_id = 17900)
+[2026-01-17 14:36:07,310] INFO - Progress: 18000 / 40703 conflicts aggregated + inserted (last conflict_id = 18000)
+[2026-01-17 14:36:07,314] INFO - Progress: 18100 / 40703 conflicts aggregated + inserted (last conflict_id = 18100)
+[2026-01-17 14:36:07,317] INFO - Progress: 18200 / 40703 conflicts aggregated + inserted (last conflict_id = 18200)
+[2026-01-17 14:36:07,320] INFO - Progress: 18300 / 40703 conflicts aggregated + inserted (last conflict_id = 18300)
+[2026-01-17 14:36:07,327] INFO - Progress: 18400 / 40703 conflicts aggregated + inserted (last conflict_id = 18400)
+[2026-01-17 14:36:07,332] INFO - Progress: 18500 / 40703 conflicts aggregated + inserted (last conflict_id = 18500)
+[2026-01-17 14:36:07,337] INFO - Progress: 18600 / 40703 conflicts aggregated + inserted (last conflict_id = 18600)
+[2026-01-17 14:36:07,341] INFO - Progress: 18700 / 40703 conflicts aggregated + inserted (last conflict_id = 18700)
+[2026-01-17 14:36:07,344] INFO - Progress: 18800 / 40703 conflicts aggregated + inserted (last conflict_id = 18800)
+[2026-01-17 14:36:07,347] INFO - Progress: 18900 / 40703 conflicts aggregated + inserted (last conflict_id = 18900)
+[2026-01-17 14:36:07,350] INFO - Progress: 19000 / 40703 conflicts aggregated + inserted (last conflict_id = 19000)
+[2026-01-17 14:36:07,354] INFO - Progress: 19100 / 40703 conflicts aggregated + inserted (last conflict_id = 19100)
+[2026-01-17 14:36:07,357] INFO - Progress: 19200 / 40703 conflicts aggregated + inserted (last conflict_id = 19200)
+[2026-01-17 14:36:07,361] INFO - Progress: 19300 / 40703 conflicts aggregated + inserted (last conflict_id = 19300)
+[2026-01-17 14:36:07,364] INFO - Progress: 19400 / 40703 conflicts aggregated + inserted (last conflict_id = 19400)
+[2026-01-17 14:36:07,368] INFO - Progress: 19500 / 40703 conflicts aggregated + inserted (last conflict_id = 19500)
+[2026-01-17 14:36:07,372] INFO - Progress: 19600 / 40703 conflicts aggregated + inserted (last conflict_id = 19600)
+[2026-01-17 14:36:07,375] INFO - Progress: 19700 / 40703 conflicts aggregated + inserted (last conflict_id = 19700)
+[2026-01-17 14:36:07,378] INFO - Progress: 19800 / 40703 conflicts aggregated + inserted (last conflict_id = 19800)
+[2026-01-17 14:36:07,380] INFO - Progress: 19900 / 40703 conflicts aggregated + inserted (last conflict_id = 19900)
+[2026-01-17 14:36:07,384] INFO - Progress: 20000 / 40703 conflicts aggregated + inserted (last conflict_id = 20000)
+[2026-01-17 14:36:07,389] INFO - Progress: 20100 / 40703 conflicts aggregated + inserted (last conflict_id = 20100)
+[2026-01-17 14:36:07,393] INFO - Progress: 20200 / 40703 conflicts aggregated + inserted (last conflict_id = 20200)
+[2026-01-17 14:36:07,397] INFO - Progress: 20300 / 40703 conflicts aggregated + inserted (last conflict_id = 20300)
+[2026-01-17 14:36:07,400] INFO - Progress: 20400 / 40703 conflicts aggregated + inserted (last conflict_id = 20400)
+[2026-01-17 14:36:07,403] INFO - Progress: 20500 / 40703 conflicts aggregated + inserted (last conflict_id = 20500)
+[2026-01-17 14:36:07,406] INFO - Progress: 20600 / 40703 conflicts aggregated + inserted (last conflict_id = 20600)
+[2026-01-17 14:36:07,409] INFO - Progress: 20700 / 40703 conflicts aggregated + inserted (last conflict_id = 20700)
+[2026-01-17 14:36:07,411] INFO - Progress: 20800 / 40703 conflicts aggregated + inserted (last conflict_id = 20800)
+[2026-01-17 14:36:07,414] INFO - Progress: 20900 / 40703 conflicts aggregated + inserted (last conflict_id = 20900)
+[2026-01-17 14:36:07,416] INFO - Progress: 21000 / 40703 conflicts aggregated + inserted (last conflict_id = 21000)
+[2026-01-17 14:36:07,419] INFO - Progress: 21100 / 40703 conflicts aggregated + inserted (last conflict_id = 21100)
+[2026-01-17 14:36:07,421] INFO - Progress: 21200 / 40703 conflicts aggregated + inserted (last conflict_id = 21200)
+[2026-01-17 14:36:07,424] INFO - Progress: 21300 / 40703 conflicts aggregated + inserted (last conflict_id = 21300)
+[2026-01-17 14:36:07,427] INFO - Progress: 21400 / 40703 conflicts aggregated + inserted (last conflict_id = 21400)
+[2026-01-17 14:36:07,429] INFO - Progress: 21500 / 40703 conflicts aggregated + inserted (last conflict_id = 21500)
+[2026-01-17 14:36:07,431] INFO - Progress: 21600 / 40703 conflicts aggregated + inserted (last conflict_id = 21600)
+[2026-01-17 14:36:07,434] INFO - Progress: 21700 / 40703 conflicts aggregated + inserted (last conflict_id = 21700)
+[2026-01-17 14:36:07,436] INFO - Progress: 21800 / 40703 conflicts aggregated + inserted (last conflict_id = 21800)
+[2026-01-17 14:36:07,438] INFO - Progress: 21900 / 40703 conflicts aggregated + inserted (last conflict_id = 21900)
+[2026-01-17 14:36:07,440] INFO - Progress: 22000 / 40703 conflicts aggregated + inserted (last conflict_id = 22000)
+[2026-01-17 14:36:07,442] INFO - Progress: 22100 / 40703 conflicts aggregated + inserted (last conflict_id = 22100)
+[2026-01-17 14:36:07,445] INFO - Progress: 22200 / 40703 conflicts aggregated + inserted (last conflict_id = 22200)
+[2026-01-17 14:36:07,448] INFO - Progress: 22300 / 40703 conflicts aggregated + inserted (last conflict_id = 22300)
+[2026-01-17 14:36:07,455] INFO - Progress: 22400 / 40703 conflicts aggregated + inserted (last conflict_id = 22400)
+[2026-01-17 14:36:07,458] INFO - Progress: 22500 / 40703 conflicts aggregated + inserted (last conflict_id = 22500)
+[2026-01-17 14:36:07,461] INFO - Progress: 22600 / 40703 conflicts aggregated + inserted (last conflict_id = 22600)
+[2026-01-17 14:36:07,466] INFO - Progress: 22700 / 40703 conflicts aggregated + inserted (last conflict_id = 22700)
+[2026-01-17 14:36:07,469] INFO - Progress: 22800 / 40703 conflicts aggregated + inserted (last conflict_id = 22800)
+[2026-01-17 14:36:07,472] INFO - Progress: 22900 / 40703 conflicts aggregated + inserted (last conflict_id = 22900)
+[2026-01-17 14:36:07,481] INFO - Progress: 23000 / 40703 conflicts aggregated + inserted (last conflict_id = 23000)
+[2026-01-17 14:36:07,485] INFO - Progress: 23100 / 40703 conflicts aggregated + inserted (last conflict_id = 23100)
+[2026-01-17 14:36:07,492] INFO - Progress: 23200 / 40703 conflicts aggregated + inserted (last conflict_id = 23200)
+[2026-01-17 14:36:07,497] INFO - Progress: 23300 / 40703 conflicts aggregated + inserted (last conflict_id = 23300)
+[2026-01-17 14:36:07,500] INFO - Progress: 23400 / 40703 conflicts aggregated + inserted (last conflict_id = 23400)
+[2026-01-17 14:36:07,503] INFO - Progress: 23500 / 40703 conflicts aggregated + inserted (last conflict_id = 23500)
+[2026-01-17 14:36:07,508] INFO - Progress: 23600 / 40703 conflicts aggregated + inserted (last conflict_id = 23600)
+[2026-01-17 14:36:07,513] INFO - Progress: 23700 / 40703 conflicts aggregated + inserted (last conflict_id = 23700)
+[2026-01-17 14:36:07,516] INFO - Progress: 23800 / 40703 conflicts aggregated + inserted (last conflict_id = 23800)
+[2026-01-17 14:36:07,519] INFO - Progress: 23900 / 40703 conflicts aggregated + inserted (last conflict_id = 23900)
+[2026-01-17 14:36:07,525] INFO - Progress: 24000 / 40703 conflicts aggregated + inserted (last conflict_id = 24000)
+[2026-01-17 14:36:07,529] INFO - Progress: 24100 / 40703 conflicts aggregated + inserted (last conflict_id = 24100)
+[2026-01-17 14:36:07,532] INFO - Progress: 24200 / 40703 conflicts aggregated + inserted (last conflict_id = 24200)
+[2026-01-17 14:36:07,535] INFO - Progress: 24300 / 40703 conflicts aggregated + inserted (last conflict_id = 24300)
+[2026-01-17 14:36:07,537] INFO - Progress: 24400 / 40703 conflicts aggregated + inserted (last conflict_id = 24400)
+[2026-01-17 14:36:07,540] INFO - Progress: 24500 / 40703 conflicts aggregated + inserted (last conflict_id = 24500)
+[2026-01-17 14:36:07,542] INFO - Progress: 24600 / 40703 conflicts aggregated + inserted (last conflict_id = 24600)
+[2026-01-17 14:36:07,544] INFO - Progress: 24700 / 40703 conflicts aggregated + inserted (last conflict_id = 24700)
+[2026-01-17 14:36:07,546] INFO - Progress: 24800 / 40703 conflicts aggregated + inserted (last conflict_id = 24800)
+[2026-01-17 14:36:07,551] INFO - Progress: 24900 / 40703 conflicts aggregated + inserted (last conflict_id = 24900)
+[2026-01-17 14:36:07,554] INFO - Progress: 25000 / 40703 conflicts aggregated + inserted (last conflict_id = 25000)
+[2026-01-17 14:36:07,560] INFO - Progress: 25100 / 40703 conflicts aggregated + inserted (last conflict_id = 25100)
+[2026-01-17 14:36:07,563] INFO - Progress: 25200 / 40703 conflicts aggregated + inserted (last conflict_id = 25200)
+[2026-01-17 14:36:07,566] INFO - Progress: 25300 / 40703 conflicts aggregated + inserted (last conflict_id = 25300)
+[2026-01-17 14:36:07,568] INFO - Progress: 25400 / 40703 conflicts aggregated + inserted (last conflict_id = 25400)
+[2026-01-17 14:36:07,571] INFO - Progress: 25500 / 40703 conflicts aggregated + inserted (last conflict_id = 25500)
+[2026-01-17 14:36:07,573] INFO - Progress: 25600 / 40703 conflicts aggregated + inserted (last conflict_id = 25600)
+[2026-01-17 14:36:07,576] INFO - Progress: 25700 / 40703 conflicts aggregated + inserted (last conflict_id = 25700)
+[2026-01-17 14:36:07,579] INFO - Progress: 25800 / 40703 conflicts aggregated + inserted (last conflict_id = 25800)
+[2026-01-17 14:36:07,582] INFO - Progress: 25900 / 40703 conflicts aggregated + inserted (last conflict_id = 25900)
+[2026-01-17 14:36:07,585] INFO - Progress: 26000 / 40703 conflicts aggregated + inserted (last conflict_id = 26000)
+[2026-01-17 14:36:07,587] INFO - Progress: 26100 / 40703 conflicts aggregated + inserted (last conflict_id = 26100)
+[2026-01-17 14:36:07,590] INFO - Progress: 26200 / 40703 conflicts aggregated + inserted (last conflict_id = 26200)
+[2026-01-17 14:36:07,592] INFO - Progress: 26300 / 40703 conflicts aggregated + inserted (last conflict_id = 26300)
+[2026-01-17 14:36:07,595] INFO - Progress: 26400 / 40703 conflicts aggregated + inserted (last conflict_id = 26400)
+[2026-01-17 14:36:07,597] INFO - Progress: 26500 / 40703 conflicts aggregated + inserted (last conflict_id = 26500)
+[2026-01-17 14:36:07,603] INFO - Progress: 26600 / 40703 conflicts aggregated + inserted (last conflict_id = 26600)
+[2026-01-17 14:36:07,606] INFO - Progress: 26700 / 40703 conflicts aggregated + inserted (last conflict_id = 26700)
+[2026-01-17 14:36:07,609] INFO - Progress: 26800 / 40703 conflicts aggregated + inserted (last conflict_id = 26800)
+[2026-01-17 14:36:07,612] INFO - Progress: 26900 / 40703 conflicts aggregated + inserted (last conflict_id = 26900)
+[2026-01-17 14:36:07,615] INFO - Progress: 27000 / 40703 conflicts aggregated + inserted (last conflict_id = 27000)
+[2026-01-17 14:36:07,620] INFO - Progress: 27100 / 40703 conflicts aggregated + inserted (last conflict_id = 27100)
+[2026-01-17 14:36:07,624] INFO - Progress: 27200 / 40703 conflicts aggregated + inserted (last conflict_id = 27200)
+[2026-01-17 14:36:07,627] INFO - Progress: 27300 / 40703 conflicts aggregated + inserted (last conflict_id = 27300)
+[2026-01-17 14:36:07,629] INFO - Progress: 27400 / 40703 conflicts aggregated + inserted (last conflict_id = 27400)
+[2026-01-17 14:36:07,632] INFO - Progress: 27500 / 40703 conflicts aggregated + inserted (last conflict_id = 27500)
+[2026-01-17 14:36:07,636] INFO - Progress: 27600 / 40703 conflicts aggregated + inserted (last conflict_id = 27600)
+[2026-01-17 14:36:07,639] INFO - Progress: 27700 / 40703 conflicts aggregated + inserted (last conflict_id = 27700)
+[2026-01-17 14:36:07,643] INFO - Progress: 27800 / 40703 conflicts aggregated + inserted (last conflict_id = 27800)
+[2026-01-17 14:36:07,686] INFO - Progress: 27900 / 40703 conflicts aggregated + inserted (last conflict_id = 27900)
+[2026-01-17 14:36:07,689] INFO - Progress: 28000 / 40703 conflicts aggregated + inserted (last conflict_id = 28000)
+[2026-01-17 14:36:07,693] INFO - Progress: 28100 / 40703 conflicts aggregated + inserted (last conflict_id = 28100)
+[2026-01-17 14:36:07,696] INFO - Progress: 28200 / 40703 conflicts aggregated + inserted (last conflict_id = 28200)
+[2026-01-17 14:36:07,699] INFO - Progress: 28300 / 40703 conflicts aggregated + inserted (last conflict_id = 28300)
+[2026-01-17 14:36:07,702] INFO - Progress: 28400 / 40703 conflicts aggregated + inserted (last conflict_id = 28400)
+[2026-01-17 14:36:07,704] INFO - Progress: 28500 / 40703 conflicts aggregated + inserted (last conflict_id = 28500)
+[2026-01-17 14:36:07,707] INFO - Progress: 28600 / 40703 conflicts aggregated + inserted (last conflict_id = 28600)
+[2026-01-17 14:36:07,710] INFO - Progress: 28700 / 40703 conflicts aggregated + inserted (last conflict_id = 28700)
+[2026-01-17 14:36:07,713] INFO - Progress: 28800 / 40703 conflicts aggregated + inserted (last conflict_id = 28800)
+[2026-01-17 14:36:07,716] INFO - Progress: 28900 / 40703 conflicts aggregated + inserted (last conflict_id = 28900)
+[2026-01-17 14:36:07,718] INFO - Progress: 29000 / 40703 conflicts aggregated + inserted (last conflict_id = 29000)
+[2026-01-17 14:36:07,721] INFO - Progress: 29100 / 40703 conflicts aggregated + inserted (last conflict_id = 29100)
+[2026-01-17 14:36:07,724] INFO - Progress: 29200 / 40703 conflicts aggregated + inserted (last conflict_id = 29200)
+[2026-01-17 14:36:07,727] INFO - Progress: 29300 / 40703 conflicts aggregated + inserted (last conflict_id = 29300)
+[2026-01-17 14:36:07,730] INFO - Progress: 29400 / 40703 conflicts aggregated + inserted (last conflict_id = 29400)
+[2026-01-17 14:36:07,733] INFO - Progress: 29500 / 40703 conflicts aggregated + inserted (last conflict_id = 29500)
+[2026-01-17 14:36:07,735] INFO - Progress: 29600 / 40703 conflicts aggregated + inserted (last conflict_id = 29600)
+[2026-01-17 14:36:07,738] INFO - Progress: 29700 / 40703 conflicts aggregated + inserted (last conflict_id = 29700)
+[2026-01-17 14:36:07,740] INFO - Progress: 29800 / 40703 conflicts aggregated + inserted (last conflict_id = 29800)
+[2026-01-17 14:36:07,742] INFO - Progress: 29900 / 40703 conflicts aggregated + inserted (last conflict_id = 29900)
+[2026-01-17 14:36:07,745] INFO - Progress: 30000 / 40703 conflicts aggregated + inserted (last conflict_id = 30000)
+[2026-01-17 14:36:07,747] INFO - Progress: 30100 / 40703 conflicts aggregated + inserted (last conflict_id = 30100)
+[2026-01-17 14:36:07,750] INFO - Progress: 30200 / 40703 conflicts aggregated + inserted (last conflict_id = 30200)
+[2026-01-17 14:36:07,752] INFO - Progress: 30300 / 40703 conflicts aggregated + inserted (last conflict_id = 30300)
+[2026-01-17 14:36:07,763] INFO - Progress: 30400 / 40703 conflicts aggregated + inserted (last conflict_id = 30400)
+[2026-01-17 14:36:07,772] INFO - Progress: 30500 / 40703 conflicts aggregated + inserted (last conflict_id = 30500)
+[2026-01-17 14:36:07,775] INFO - Progress: 30600 / 40703 conflicts aggregated + inserted (last conflict_id = 30600)
+[2026-01-17 14:36:07,778] INFO - Progress: 30700 / 40703 conflicts aggregated + inserted (last conflict_id = 30700)
+[2026-01-17 14:36:07,781] INFO - Progress: 30800 / 40703 conflicts aggregated + inserted (last conflict_id = 30800)
+[2026-01-17 14:36:07,783] INFO - Progress: 30900 / 40703 conflicts aggregated + inserted (last conflict_id = 30900)
+[2026-01-17 14:36:07,787] INFO - Progress: 31000 / 40703 conflicts aggregated + inserted (last conflict_id = 31000)
+[2026-01-17 14:36:07,789] INFO - Progress: 31100 / 40703 conflicts aggregated + inserted (last conflict_id = 31100)
+[2026-01-17 14:36:07,793] INFO - Progress: 31200 / 40703 conflicts aggregated + inserted (last conflict_id = 31200)
+[2026-01-17 14:36:07,796] INFO - Progress: 31300 / 40703 conflicts aggregated + inserted (last conflict_id = 31300)
+[2026-01-17 14:36:07,798] INFO - Progress: 31400 / 40703 conflicts aggregated + inserted (last conflict_id = 31400)
+[2026-01-17 14:36:07,801] INFO - Progress: 31500 / 40703 conflicts aggregated + inserted (last conflict_id = 31500)
+[2026-01-17 14:36:07,804] INFO - Progress: 31600 / 40703 conflicts aggregated + inserted (last conflict_id = 31600)
+[2026-01-17 14:36:07,807] INFO - Progress: 31700 / 40703 conflicts aggregated + inserted (last conflict_id = 31700)
+[2026-01-17 14:36:07,810] INFO - Progress: 31800 / 40703 conflicts aggregated + inserted (last conflict_id = 31800)
+[2026-01-17 14:36:07,814] INFO - Progress: 31900 / 40703 conflicts aggregated + inserted (last conflict_id = 31900)
+[2026-01-17 14:36:07,816] INFO - Progress: 32000 / 40703 conflicts aggregated + inserted (last conflict_id = 32000)
+[2026-01-17 14:36:07,819] INFO - Progress: 32100 / 40703 conflicts aggregated + inserted (last conflict_id = 32100)
+[2026-01-17 14:36:07,822] INFO - Progress: 32200 / 40703 conflicts aggregated + inserted (last conflict_id = 32200)
+[2026-01-17 14:36:07,824] INFO - Progress: 32300 / 40703 conflicts aggregated + inserted (last conflict_id = 32300)
+[2026-01-17 14:36:07,827] INFO - Progress: 32400 / 40703 conflicts aggregated + inserted (last conflict_id = 32400)
+[2026-01-17 14:36:07,830] INFO - Progress: 32500 / 40703 conflicts aggregated + inserted (last conflict_id = 32500)
+[2026-01-17 14:36:07,832] INFO - Progress: 32600 / 40703 conflicts aggregated + inserted (last conflict_id = 32600)
+[2026-01-17 14:36:07,836] INFO - Progress: 32700 / 40703 conflicts aggregated + inserted (last conflict_id = 32700)
+[2026-01-17 14:36:07,839] INFO - Progress: 32800 / 40703 conflicts aggregated + inserted (last conflict_id = 32800)
+[2026-01-17 14:36:07,841] INFO - Progress: 32900 / 40703 conflicts aggregated + inserted (last conflict_id = 32900)
+[2026-01-17 14:36:07,844] INFO - Progress: 33000 / 40703 conflicts aggregated + inserted (last conflict_id = 33000)
+[2026-01-17 14:36:07,846] INFO - Progress: 33100 / 40703 conflicts aggregated + inserted (last conflict_id = 33100)
+[2026-01-17 14:36:07,849] INFO - Progress: 33200 / 40703 conflicts aggregated + inserted (last conflict_id = 33200)
+[2026-01-17 14:36:07,852] INFO - Progress: 33300 / 40703 conflicts aggregated + inserted (last conflict_id = 33300)
+[2026-01-17 14:36:07,855] INFO - Progress: 33400 / 40703 conflicts aggregated + inserted (last conflict_id = 33400)
+[2026-01-17 14:36:07,857] INFO - Progress: 33500 / 40703 conflicts aggregated + inserted (last conflict_id = 33500)
+[2026-01-17 14:36:07,860] INFO - Progress: 33600 / 40703 conflicts aggregated + inserted (last conflict_id = 33600)
+[2026-01-17 14:36:07,862] INFO - Progress: 33700 / 40703 conflicts aggregated + inserted (last conflict_id = 33700)
+[2026-01-17 14:36:07,864] INFO - Progress: 33800 / 40703 conflicts aggregated + inserted (last conflict_id = 33800)
+[2026-01-17 14:36:07,867] INFO - Progress: 33900 / 40703 conflicts aggregated + inserted (last conflict_id = 33900)
+[2026-01-17 14:36:07,869] INFO - Progress: 34000 / 40703 conflicts aggregated + inserted (last conflict_id = 34000)
+[2026-01-17 14:36:07,872] INFO - Progress: 34100 / 40703 conflicts aggregated + inserted (last conflict_id = 34100)
+[2026-01-17 14:36:07,875] INFO - Progress: 34200 / 40703 conflicts aggregated + inserted (last conflict_id = 34200)
+[2026-01-17 14:36:07,877] INFO - Progress: 34300 / 40703 conflicts aggregated + inserted (last conflict_id = 34300)
+[2026-01-17 14:36:07,879] INFO - Progress: 34400 / 40703 conflicts aggregated + inserted (last conflict_id = 34400)
+[2026-01-17 14:36:07,882] INFO - Progress: 34500 / 40703 conflicts aggregated + inserted (last conflict_id = 34500)
+[2026-01-17 14:36:07,888] INFO - Progress: 34600 / 40703 conflicts aggregated + inserted (last conflict_id = 34600)
+[2026-01-17 14:36:07,892] INFO - Progress: 34700 / 40703 conflicts aggregated + inserted (last conflict_id = 34700)
+[2026-01-17 14:36:07,895] INFO - Progress: 34800 / 40703 conflicts aggregated + inserted (last conflict_id = 34800)
+[2026-01-17 14:36:07,897] INFO - Progress: 34900 / 40703 conflicts aggregated + inserted (last conflict_id = 34900)
+[2026-01-17 14:36:07,900] INFO - Progress: 35000 / 40703 conflicts aggregated + inserted (last conflict_id = 35000)
+[2026-01-17 14:36:07,903] INFO - Progress: 35100 / 40703 conflicts aggregated + inserted (last conflict_id = 35100)
+[2026-01-17 14:36:07,905] INFO - Progress: 35200 / 40703 conflicts aggregated + inserted (last conflict_id = 35200)
+[2026-01-17 14:36:07,907] INFO - Progress: 35300 / 40703 conflicts aggregated + inserted (last conflict_id = 35300)
+[2026-01-17 14:36:07,911] INFO - Progress: 35400 / 40703 conflicts aggregated + inserted (last conflict_id = 35400)
+[2026-01-17 14:36:07,913] INFO - Progress: 35500 / 40703 conflicts aggregated + inserted (last conflict_id = 35500)
+[2026-01-17 14:36:07,915] INFO - Progress: 35600 / 40703 conflicts aggregated + inserted (last conflict_id = 35600)
+[2026-01-17 14:36:07,917] INFO - Progress: 35700 / 40703 conflicts aggregated + inserted (last conflict_id = 35700)
+[2026-01-17 14:36:07,920] INFO - Progress: 35800 / 40703 conflicts aggregated + inserted (last conflict_id = 35800)
+[2026-01-17 14:36:07,923] INFO - Progress: 35900 / 40703 conflicts aggregated + inserted (last conflict_id = 35900)
+[2026-01-17 14:36:07,925] INFO - Progress: 36000 / 40703 conflicts aggregated + inserted (last conflict_id = 36000)
+[2026-01-17 14:36:07,928] INFO - Progress: 36100 / 40703 conflicts aggregated + inserted (last conflict_id = 36100)
+[2026-01-17 14:36:07,930] INFO - Progress: 36200 / 40703 conflicts aggregated + inserted (last conflict_id = 36200)
+[2026-01-17 14:36:07,932] INFO - Progress: 36300 / 40703 conflicts aggregated + inserted (last conflict_id = 36300)
+[2026-01-17 14:36:07,935] INFO - Progress: 36400 / 40703 conflicts aggregated + inserted (last conflict_id = 36400)
+[2026-01-17 14:36:07,937] INFO - Progress: 36500 / 40703 conflicts aggregated + inserted (last conflict_id = 36500)
+[2026-01-17 14:36:07,939] INFO - Progress: 36600 / 40703 conflicts aggregated + inserted (last conflict_id = 36600)
+[2026-01-17 14:36:07,942] INFO - Progress: 36700 / 40703 conflicts aggregated + inserted (last conflict_id = 36700)
+[2026-01-17 14:36:07,945] INFO - Progress: 36800 / 40703 conflicts aggregated + inserted (last conflict_id = 36800)
+[2026-01-17 14:36:07,947] INFO - Progress: 36900 / 40703 conflicts aggregated + inserted (last conflict_id = 36900)
+[2026-01-17 14:36:07,950] INFO - Progress: 37000 / 40703 conflicts aggregated + inserted (last conflict_id = 37000)
+[2026-01-17 14:36:07,952] INFO - Progress: 37100 / 40703 conflicts aggregated + inserted (last conflict_id = 37100)
+[2026-01-17 14:36:07,954] INFO - Progress: 37200 / 40703 conflicts aggregated + inserted (last conflict_id = 37200)
+[2026-01-17 14:36:07,957] INFO - Progress: 37300 / 40703 conflicts aggregated + inserted (last conflict_id = 37300)
+[2026-01-17 14:36:07,959] INFO - Progress: 37400 / 40703 conflicts aggregated + inserted (last conflict_id = 37400)
+[2026-01-17 14:36:07,961] INFO - Progress: 37500 / 40703 conflicts aggregated + inserted (last conflict_id = 37500)
+[2026-01-17 14:36:07,964] INFO - Progress: 37600 / 40703 conflicts aggregated + inserted (last conflict_id = 37600)
+[2026-01-17 14:36:07,966] INFO - Progress: 37700 / 40703 conflicts aggregated + inserted (last conflict_id = 37700)
+[2026-01-17 14:36:07,968] INFO - Progress: 37800 / 40703 conflicts aggregated + inserted (last conflict_id = 37800)
+[2026-01-17 14:36:07,971] INFO - Progress: 37900 / 40703 conflicts aggregated + inserted (last conflict_id = 37900)
+[2026-01-17 14:36:07,973] INFO - Progress: 38000 / 40703 conflicts aggregated + inserted (last conflict_id = 38000)
+[2026-01-17 14:36:07,976] INFO - Progress: 38100 / 40703 conflicts aggregated + inserted (last conflict_id = 38100)
+[2026-01-17 14:36:07,978] INFO - Progress: 38200 / 40703 conflicts aggregated + inserted (last conflict_id = 38200)
+[2026-01-17 14:36:07,980] INFO - Progress: 38300 / 40703 conflicts aggregated + inserted (last conflict_id = 38300)
+[2026-01-17 14:36:07,982] INFO - Progress: 38400 / 40703 conflicts aggregated + inserted (last conflict_id = 38400)
+[2026-01-17 14:36:07,985] INFO - Progress: 38500 / 40703 conflicts aggregated + inserted (last conflict_id = 38500)
+[2026-01-17 14:36:07,988] INFO - Progress: 38600 / 40703 conflicts aggregated + inserted (last conflict_id = 38600)
+[2026-01-17 14:36:07,990] INFO - Progress: 38700 / 40703 conflicts aggregated + inserted (last conflict_id = 38700)
+[2026-01-17 14:36:07,994] INFO - Progress: 38800 / 40703 conflicts aggregated + inserted (last conflict_id = 38800)
+[2026-01-17 14:36:07,998] INFO - Progress: 38900 / 40703 conflicts aggregated + inserted (last conflict_id = 38900)
+[2026-01-17 14:36:08,002] INFO - Progress: 39000 / 40703 conflicts aggregated + inserted (last conflict_id = 39000)
+[2026-01-17 14:36:08,005] INFO - Progress: 39100 / 40703 conflicts aggregated + inserted (last conflict_id = 39100)
+[2026-01-17 14:36:08,007] INFO - Progress: 39200 / 40703 conflicts aggregated + inserted (last conflict_id = 39200)
+[2026-01-17 14:36:08,010] INFO - Progress: 39300 / 40703 conflicts aggregated + inserted (last conflict_id = 39300)
+[2026-01-17 14:36:08,013] INFO - Progress: 39400 / 40703 conflicts aggregated + inserted (last conflict_id = 39502)
+[2026-01-17 14:36:08,015] INFO - Progress: 39500 / 40703 conflicts aggregated + inserted (last conflict_id = 40007)
+[2026-01-17 14:36:08,017] INFO - Progress: 39600 / 40703 conflicts aggregated + inserted (last conflict_id = 40625)
+[2026-01-17 14:36:08,019] INFO - Progress: 39700 / 40703 conflicts aggregated + inserted (last conflict_id = 41307)
+[2026-01-17 14:36:08,022] INFO - Progress: 39800 / 40703 conflicts aggregated + inserted (last conflict_id = 41966)
+[2026-01-17 14:36:08,024] INFO - Progress: 39900 / 40703 conflicts aggregated + inserted (last conflict_id = 42313)
+[2026-01-17 14:36:08,026] INFO - Progress: 40000 / 40703 conflicts aggregated + inserted (last conflict_id = 42500)
+[2026-01-17 14:36:08,028] INFO - Progress: 40100 / 40703 conflicts aggregated + inserted (last conflict_id = 42939)
+[2026-01-17 14:36:08,030] INFO - Progress: 40200 / 40703 conflicts aggregated + inserted (last conflict_id = 43319)
+[2026-01-17 14:36:08,033] INFO - Progress: 40300 / 40703 conflicts aggregated + inserted (last conflict_id = 43851)
+[2026-01-17 14:36:08,036] INFO - Progress: 40400 / 40703 conflicts aggregated + inserted (last conflict_id = 44369)
+[2026-01-17 14:36:08,038] INFO - Progress: 40500 / 40703 conflicts aggregated + inserted (last conflict_id = 44623)
+[2026-01-17 14:36:08,041] INFO - Progress: 40600 / 40703 conflicts aggregated + inserted (last conflict_id = 45098)
+[2026-01-17 14:36:08,043] INFO - Progress: 40700 / 40703 conflicts aggregated + inserted (last conflict_id = 46808)
+[2026-01-17 14:36:08,045] INFO - Progress: 40703 / 40703 conflicts aggregated + inserted (last conflict_id = 46915)
+[2026-01-17 14:36:08,045] INFO - END: Table filled sucessfully (40703 conflicts)
+[2026-01-17 14:36:08,046] INFO - Type count tables ensured.
+[2026-01-17 14:36:08,046] INFO - conflict_features schema ensured.
+[2026-01-17 14:36:08,046] INFO - Rebuilding conflict features base (clearing table)...
+[2026-01-17 14:36:08,056] INFO - Table cleared. Now, rebuilding...
+[2026-01-17 14:36:08,139] INFO - Parsing conflict_key -> country/actor1/primary_assoc_actor_1 ...
+[2026-01-17 14:36:08,443] INFO - conflict_features base rebuilt (40703 conflicts parsed).
+[2026-01-17 14:36:08,448] INFO - Rebuilding type counts ...
+[2026-01-17 14:36:17,122] INFO - Type counts rebuilt.
+[2026-01-17 14:36:17,122] INFO - Filling disorder type modes and event type modes
+[2026-01-17 14:37:14,742] INFO - disorder_type + event_type filled
+[2026-01-17 14:37:14,742] INFO - Filling assoc_actor_1 (mode across events) ...
+[2026-01-17 14:39:30,736] INFO - assoc_actor_1 filled.
+[2026-01-17 14:39:30,736] INFO - conflict_time schema ensured.
+[2026-01-17 14:39:33,985] INFO - conflict_time rebuilt.
+[2026-01-17 14:39:34,172] INFO - Time columns pushed into conflict_features.
+[2026-01-17 14:39:34,173] INFO - Dashboard indexes ensured.
+[2026-01-17 14:39:34,173] INFO - ✓ Unique conflicts processing completed
+[2026-01-17 14:39:34,994] INFO - 
+--- Validation: Unique Conflicts ---
+[2026-01-17 14:39:34,994] INFO -   ✓ total_unique_conflicts: 40,703
+[2026-01-17 14:39:34,994] INFO -   ✓ conflicts_zero_events: 0
+[2026-01-17 14:39:34,994] INFO -   ✓ mismatched_event_counts: 0
+[2026-01-17 14:39:34,994] INFO -   ✓ avg_events_per_conflict: 38.96
+[2026-01-17 14:39:34,994] INFO -   ✓ avg_fatalities_per_conflict: 21.42
+[2026-01-17 14:39:34,994] WARNING - 
+Warnings:
+[2026-01-17 14:39:34,994] WARNING -   ⚠️  conflicts_zero_fatalities: 27405
+[2026-01-17 14:39:35,015] INFO - 
+--- Validation: Conflict Features ---
+[2026-01-17 14:39:35,015] INFO -   ✓ total_features: 40,703
+[2026-01-17 14:39:35,015] INFO -   ✓ missing_country: 0
+[2026-01-17 14:39:35,015] INFO -   ✓ missing_actor1: 0
+[2026-01-17 14:39:35,015] INFO -   ✓ missing_dates: 0
+[2026-01-17 14:39:35,015] INFO -   ✓ invalid_duration: 0
+[2026-01-17 14:39:35,015] INFO -   ✓ features_completeness_pct: 100.00
+[2026-01-17 14:39:35,015] INFO - ============================================================
+[2026-01-17 14:39:35,015] INFO - STEP 4: AGGREGATING BY COUNTRY
+[2026-01-17 14:39:35,015] INFO - ============================================================
+[2026-01-17 14:39:35,015] INFO - Dropping conflict_country if exists...
+[2026-01-17 14:39:35,020] INFO - Reading source rows from conflict_features...
+[2026-01-17 14:39:35,079] INFO - Aggregating in Python (countries=229 source rows=40703)...
+[2026-01-17 14:39:35,130] INFO - Creating conflict_country table schema...
+[2026-01-17 14:39:35,133] INFO - Inserting aggregated rows into conflict_country...
+[2026-01-17 14:39:35,150] INFO - Creating indexes...
+[2026-01-17 14:39:35,153] INFO - Done. Inserted 229 countries.
+[2026-01-17 14:39:35,159] INFO - ✓ Country aggregation completed
+[2026-01-17 14:39:35,167] INFO - 
+--- Validation: Country Aggregation ---
+[2026-01-17 14:39:35,167] INFO -   ✓ total_countries: 229
+[2026-01-17 14:39:35,167] INFO -   ✓ countries_zero_events: 0
+[2026-01-17 14:39:35,167] INFO -   ✓ missing_top_actors: 0
+[2026-01-17 14:39:35,167] INFO -   ✓ sum_events_match: 1
+[2026-01-17 14:39:35,167] INFO -   ✓ total_events_aggregated: 1,585,854
+[2026-01-17 14:39:35,167] INFO - ============================================================
+[2026-01-17 14:39:35,167] INFO - FINAL DATABASE STATISTICS
+[2026-01-17 14:39:35,167] INFO - ============================================================
+[2026-01-17 14:39:35,177] INFO - Total events: 1,585,854
+[2026-01-17 14:39:35,177] INFO - Total conflicts: 40,703
+[2026-01-17 14:39:35,177] INFO - Total countries: 229
+[2026-01-17 14:39:35,652] INFO - Date range: 2020-01-01 to 2025-01-17
+[2026-01-17 14:39:35,653] INFO - 
+Top 5 countries by event count:
+[2026-01-17 14:39:35,653] INFO -   1. Ukraine: 179,097 events, 158,255 fatalities
+[2026-01-17 14:39:35,653] INFO -   2. India: 105,873 events, 5,732 fatalities
+[2026-01-17 14:39:35,653] INFO -   3. Myanmar: 75,932 events, 78,321 fatalities
+[2026-01-17 14:39:35,653] INFO -   4. United States: 74,998 events, 461 fatalities
+[2026-01-17 14:39:35,653] INFO -   5. Mexico: 71,223 events, 40,468 fatalities
+[2026-01-17 14:39:35,653] INFO - ============================================================
+[2026-01-17 14:39:35,653] INFO - 
+============================================================
+VALIDATION SUMMARY
+============================================================
+Events Table............................ ✓ PASS
+Conflict Mapping........................ ✓ PASS
+Unique Conflicts........................ ✓ PASS
+  └─ Warnings: 1
+Conflict Features....................... ✓ PASS
+Country Aggregation..................... ✓ PASS
+------------------------------------------------------------
+Total Warnings: 1
+Total Errors: 0
+============================================================
+[2026-01-17 14:39:35,653] INFO - 
+============================================================
+PERFORMANCE METRICS
+============================================================
+1. Fetch ACLED Data..........................   707.21s ( 76.8%)
+2. Conflict Mapping..........................     1.75s (  0.2%)
+3. Unique Conflicts..........................   211.47s ( 23.0%)
+4. Country Aggregation.......................     0.15s (  0.0%)
+------------------------------------------------------------
+TOTAL TIME...................................   920.58s
+============================================================
+[2026-01-17 14:39:35,653] INFO - 
+============================================================
+[2026-01-17 14:39:35,653] INFO - ✓ PIPELINE COMPLETED SUCCESSFULLY
+[2026-01-17 14:39:35,653] INFO - Finished at: 2026-01-17 14:39:35
+[2026-01-17 14:39:35,653] INFO - Total duration: 923.31s (15.39 minutes)
+[2026-01-17 14:39:35,653] INFO - ============================================================
+[2026-01-17 14:39:35,654] INFO - Database connection closed
+
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Solomon Islands_2024-04-17_to_2025-01-17.json
+Page 1: received 41 rows
+Reached final page.
+✅ Saved 41 total rows to raw/ACLEDoutput_Somalia_2025-01-14_to_2025-01-17.json
+Page 1: received 29 rows
+Reached final page.
+✅ Saved 29 total rows to raw/ACLEDoutput_South Africa_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 100 rows
+Reached final page.
+✅ Saved 100 total rows to raw/ACLEDoutput_South Korea_2025-01-14_to_2025-01-17.json
+Page 1: received 55 rows
+Reached final page.
+✅ Saved 55 total rows to raw/ACLEDoutput_South Sudan_2025-01-14_to_2025-01-17.json
+Page 1: received 56 rows
+Reached final page.
+✅ Saved 56 total rows to raw/ACLEDoutput_Spain_2025-01-14_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Sri Lanka_2025-01-13_to_2025-01-17.json
+Page 1: received 90 rows
+Reached final page.
+✅ Saved 90 total rows to raw/ACLEDoutput_Sudan_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Suriname_2024-11-22_to_2025-01-17.json
+Page 1: received 14 rows
+Reached final page.
+✅ Saved 14 total rows to raw/ACLEDoutput_Sweden_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Switzerland_2025-01-09_to_2025-01-17.json
+Page 1: received 141 rows
+Reached final page.
+✅ Saved 141 total rows to raw/ACLEDoutput_Syria_2025-01-14_to_2025-01-17.json
+Page 1: received 16 rows
+Reached final page.
+✅ Saved 16 total rows to raw/ACLEDoutput_Taiwan_2025-01-13_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Tajikistan_2024-06-28_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Tanzania_2025-01-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Thailand_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Togo_2025-01-12_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Tokelau_2023-01-26_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Tonga_2024-12-09_to_2025-01-17.json
+Page 1: received 4 rows
+Reached final page.
+✅ Saved 4 total rows to raw/ACLEDoutput_Trinidad and Tobago_2025-01-13_to_2025-01-17.json
+Page 1: received 7 rows
+Reached final page.
+✅ Saved 7 total rows to raw/ACLEDoutput_Tunisia_2025-01-13_to_2025-01-17.json
+Page 1: received 47 rows
+Reached final page.
+✅ Saved 47 total rows to raw/ACLEDoutput_Turkey_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Turks and Caicos Islands_2023-11-06_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Tuvalu_2024-01-26_to_2025-01-17.json
+Page 1: received 6 rows
+Reached final page.
+✅ Saved 6 total rows to raw/ACLEDoutput_Uganda_2025-01-14_to_2025-01-17.json
+Page 1: received 735 rows
+Reached final page.
+✅ Saved 735 total rows to raw/ACLEDoutput_Ukraine_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_United Arab Emirates_2025-01-13_to_2025-01-17.json
+Page 1: received 2 rows
+Reached final page.
+✅ Saved 2 total rows to raw/ACLEDoutput_United Kingdom_2025-01-14_to_2025-01-17.json
+Page 1: received 111 rows
+Reached final page.
+✅ Saved 111 total rows to raw/ACLEDoutput_United States_2025-01-14_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Uruguay_2025-01-09_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Uzbekistan_2025-01-14_to_2025-01-17.json
+Page 1: received 3 rows
+Reached final page.
+✅ Saved 3 total rows to raw/ACLEDoutput_Vanuatu_2024-06-07_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Vatican City_2024-02-18_to_2025-01-17.json
+Page 1: received 17 rows
+Reached final page.
+✅ Saved 17 total rows to raw/ACLEDoutput_Venezuela_2025-01-14_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Vietnam_2024-07-20_to_2025-01-17.json
+Page 1: received 0 rows
+No data returned — stopping pagination.
+⚠️ No data retrieved.
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Wallis and Futuna_2024-09-10_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Zambia_2024-12-29_to_2025-01-17.json
+Page 1: received 1 rows
+Reached final page.
+✅ Saved 1 total rows to raw/ACLEDoutput_Zimbabwe_2025-01-14_to_2025-01-17.json

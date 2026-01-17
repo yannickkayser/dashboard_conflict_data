@@ -1,0 +1,3 @@
+
+# Or run full pipeline daily at 2 AM
+ 0 15 * * * /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/run-pipelines.sh all

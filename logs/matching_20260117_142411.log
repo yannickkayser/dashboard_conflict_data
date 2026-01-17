@@ -1,0 +1,110 @@
+[2026-01-17 14:49:48,371] INFO - ============================================================
+[2026-01-17 14:49:48,371] INFO - ARTICLE-COUNTRY MATCHING PIPELINE
+[2026-01-17 14:49:48,371] INFO - Started: 2026-01-17 14:49:48
+[2026-01-17 14:49:48,371] INFO - ============================================================
+[2026-01-17 14:49:48,371] INFO - 
+Configuration:
+[2026-01-17 14:49:48,371] INFO -   Raw DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/gnews_articles_from2023.db
+[2026-01-17 14:49:48,371] INFO -   Dedup DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/deleted_dupgnews2023.db
+[2026-01-17 14:49:48,371] INFO -   Conflict DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/conflict_data.db
+[2026-01-17 14:49:48,371] INFO -   Matching DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/matched_conflict.db
+[2026-01-17 14:49:48,371] INFO -   Restriction: Articles <= latest conflict date per country
+[2026-01-17 14:49:48,371] INFO - 
+============================================================
+[2026-01-17 14:49:48,371] INFO - STEP 1: MATCHING
+[2026-01-17 14:49:48,371] INFO - ============================================================
+[2026-01-17 14:49:48,371] INFO - Matching articles to countries
+[2026-01-17 14:49:48,371] INFO -   Article DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/deleted_dupgnews2023.db
+[2026-01-17 14:49:48,371] INFO -   Conflict DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/conflict_data.db
+[2026-01-17 14:49:48,371] INFO -   Output DB: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/matched_conflict.db
+[2026-01-17 14:49:48,373] INFO - Schema validation passed
+[2026-01-17 14:49:48,373] INFO - Finding latest conflict dates per country...
+[2026-01-17 14:49:49,399] INFO - Found latest dates for 229 countries
+[2026-01-17 14:49:49,416] INFO - Building WIDE table...
+[2026-01-17 14:49:51,772] INFO -   Wide: 1/229 (0.4%) - ETA: 0.0 min
+[2026-01-17 14:49:52,431] INFO -   Wide: 10/229 (4.4%) - ETA: 0.2 min
+[2026-01-17 14:49:53,094] INFO -   Wide: 20/229 (8.7%) - ETA: 0.2 min
+[2026-01-17 14:49:53,757] INFO -   Wide: 30/229 (13.1%) - ETA: 0.2 min
+[2026-01-17 14:49:54,402] INFO -   Wide: 40/229 (17.5%) - ETA: 0.2 min
+[2026-01-17 14:49:55,114] INFO -   Wide: 50/229 (21.8%) - ETA: 0.2 min
+[2026-01-17 14:49:55,888] INFO -   Wide: 60/229 (26.2%) - ETA: 0.2 min
+[2026-01-17 14:49:56,635] INFO -   Wide: 70/229 (30.6%) - ETA: 0.2 min
+[2026-01-17 14:49:57,422] INFO -   Wide: 80/229 (34.9%) - ETA: 0.2 min
+[2026-01-17 14:50:00,196] INFO -   Wide: 90/229 (39.3%) - ETA: 0.2 min
+[2026-01-17 14:50:01,047] INFO -   Wide: 100/229 (43.7%) - ETA: 0.2 min
+[2026-01-17 14:50:01,928] INFO -   Wide: 110/229 (48.0%) - ETA: 0.2 min
+[2026-01-17 14:50:02,910] INFO -   Wide: 120/229 (52.4%) - ETA: 0.2 min
+[2026-01-17 14:50:03,692] INFO -   Wide: 130/229 (56.8%) - ETA: 0.2 min
+[2026-01-17 14:50:04,461] INFO -   Wide: 140/229 (61.1%) - ETA: 0.1 min
+[2026-01-17 14:50:05,255] INFO -   Wide: 150/229 (65.5%) - ETA: 0.1 min
+[2026-01-17 14:50:06,071] INFO -   Wide: 160/229 (69.9%) - ETA: 0.1 min
+[2026-01-17 14:50:06,841] INFO -   Wide: 170/229 (74.2%) - ETA: 0.1 min
+[2026-01-17 14:50:07,703] INFO -   Wide: 180/229 (78.6%) - ETA: 0.1 min
+[2026-01-17 14:50:08,468] INFO -   Wide: 190/229 (83.0%) - ETA: 0.1 min
+[2026-01-17 14:50:09,250] INFO -   Wide: 200/229 (87.3%) - ETA: 0.0 min
+[2026-01-17 14:50:10,039] INFO -   Wide: 210/229 (91.7%) - ETA: 0.0 min
+[2026-01-17 14:50:11,167] INFO -   Wide: 220/229 (96.1%) - ETA: 0.0 min
+[2026-01-17 14:50:12,773] INFO - Wide table: 66,212 rows in 21.0s
+[2026-01-17 14:50:12,773] INFO - Building SLIM table...
+[2026-01-17 14:50:12,801] INFO -   Slim: 1/229 (0.4%) - ETA: 0.0 min
+[2026-01-17 14:50:13,448] INFO -   Slim: 10/229 (4.4%) - ETA: 0.2 min
+[2026-01-17 14:50:14,168] INFO -   Slim: 20/229 (8.7%) - ETA: 0.2 min
+[2026-01-17 14:50:14,868] INFO -   Slim: 30/229 (13.1%) - ETA: 0.2 min
+[2026-01-17 14:50:15,566] INFO -   Slim: 40/229 (17.5%) - ETA: 0.2 min
+[2026-01-17 14:50:16,355] INFO -   Slim: 50/229 (21.8%) - ETA: 0.2 min
+[2026-01-17 14:50:17,105] INFO -   Slim: 60/229 (26.2%) - ETA: 0.2 min
+[2026-01-17 14:50:17,828] INFO -   Slim: 70/229 (30.6%) - ETA: 0.2 min
+[2026-01-17 14:50:18,555] INFO -   Slim: 80/229 (34.9%) - ETA: 0.2 min
+[2026-01-17 14:50:19,803] INFO -   Slim: 90/229 (39.3%) - ETA: 0.2 min
+[2026-01-17 14:50:20,538] INFO -   Slim: 100/229 (43.7%) - ETA: 0.2 min
+[2026-01-17 14:50:21,375] INFO -   Slim: 110/229 (48.0%) - ETA: 0.2 min
+[2026-01-17 14:50:22,100] INFO -   Slim: 120/229 (52.4%) - ETA: 0.1 min
+[2026-01-17 14:50:22,818] INFO -   Slim: 130/229 (56.8%) - ETA: 0.1 min
+[2026-01-17 14:50:23,575] INFO -   Slim: 140/229 (61.1%) - ETA: 0.1 min
+[2026-01-17 14:50:24,333] INFO -   Slim: 150/229 (65.5%) - ETA: 0.1 min
+[2026-01-17 14:50:25,099] INFO -   Slim: 160/229 (69.9%) - ETA: 0.1 min
+[2026-01-17 14:50:25,829] INFO -   Slim: 170/229 (74.2%) - ETA: 0.1 min
+[2026-01-17 14:50:26,608] INFO -   Slim: 180/229 (78.6%) - ETA: 0.1 min
+[2026-01-17 14:50:27,371] INFO -   Slim: 190/229 (83.0%) - ETA: 0.0 min
+[2026-01-17 14:50:28,094] INFO -   Slim: 200/229 (87.3%) - ETA: 0.0 min
+[2026-01-17 14:50:28,891] INFO -   Slim: 210/229 (91.7%) - ETA: 0.0 min
+[2026-01-17 14:50:29,934] INFO -   Slim: 220/229 (96.1%) - ETA: 0.0 min
+[2026-01-17 14:50:30,762] INFO - Slim table: 66,212 rows in 18.0s
+[2026-01-17 14:50:30,762] INFO - Creating indexes...
+[2026-01-17 14:50:31,063] INFO - ✓ Matching completed
+[2026-01-17 14:50:31,168] INFO - 
+============================================================
+[2026-01-17 14:50:31,168] INFO - STEP 2: COVERAGE
+[2026-01-17 14:50:31,168] INFO - ============================================================
+[2026-01-17 14:50:31,169] INFO - Building coverage_country table...
+[2026-01-17 14:50:31,194] INFO - Coverage: 146 countries, 66,212 articles
+[2026-01-17 14:50:31,194] INFO - ✓ Coverage table completed
+[2026-01-17 14:50:31,203] INFO - ============================================================
+[2026-01-17 14:50:31,203] INFO - FINAL DATABASE STATISTICS
+[2026-01-17 14:50:31,203] INFO - ============================================================
+[2026-01-17 14:50:31,370] INFO - Total matches: 66,212
+[2026-01-17 14:50:31,370] INFO - Unique articles: 66,212
+[2026-01-17 14:50:31,370] INFO - Countries: 146
+[2026-01-17 14:50:31,370] INFO - 
+Top 5 countries by coverage:
+[2026-01-17 14:50:31,370] INFO -   1. Germany: 30,977 articles
+[2026-01-17 14:50:31,370] INFO -   2. Ukraine: 17,219 articles
+[2026-01-17 14:50:31,370] INFO -   3. Israel: 6,969 articles
+[2026-01-17 14:50:31,370] INFO -   4. United States: 2,358 articles
+[2026-01-17 14:50:31,370] INFO -   5. Russia: 1,649 articles
+[2026-01-17 14:50:31,370] INFO - ============================================================
+[2026-01-17 14:50:31,371] INFO - 
+============================================================
+PERFORMANCE METRICS
+============================================================
+1. Match Countries to Articles...............    42.80s ( 99.9%)
+2. Build Coverage Country....................     0.03s (  0.1%)
+------------------------------------------------------------
+TOTAL TIME...................................    42.83s
+============================================================
+[2026-01-17 14:50:31,371] INFO - 
+============================================================
+[2026-01-17 14:50:31,371] INFO - ✓ PIPELINE COMPLETED
+[2026-01-17 14:50:31,371] INFO - Duration: 43.00s (0.72 min)
+[2026-01-17 14:50:31,371] INFO - Output: /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/data/matched_conflict.db
+[2026-01-17 14:50:31,371] INFO - ============================================================
