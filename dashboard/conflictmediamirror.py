@@ -24,6 +24,15 @@ import plotly.express as px
 import plotly.graph_objects as go
 from transformers import pipeline
 
+# ChatBot imports
+import re
+
+try:
+    from openai import OpenAI
+except Exception:
+    OpenAI = None  # type: ignore
+
+
 # -------------------------
 # Paths
 # -------------------------
@@ -119,6 +128,21 @@ def table_cols(which: str, table: str) -> set[str]:
     conn = get_conf_conn() if which == "conf" else get_match_conn()
     df = pd.read_sql_query(f"PRAGMA table_info({table})", conn)
     return set(df["name"].tolist())
+
+@st.cache_data
+def _get_country_date_bounds(country: str):
+    con = get_conf_conn()
+    row = con.execute(
+        """
+        SELECT MIN(event_date), MAX(event_date)
+        FROM events
+        WHERE country = ?
+          AND event_date IS NOT NULL
+          AND event_date <> ''
+        """,
+        (country,),
+    ).fetchone()
+    return row[0], row[1]  # strings like "YYYY-MM-DD"
 
 
 def pick(colset: set[str], *names, required=False):
@@ -363,9 +387,148 @@ def build_geojson_underrep(world: gpd.GeoDataFrame, df_plot: pd.DataFrame, clip:
     return json.loads(merged.to_json()), merged
 
 
-# --------------------------
-# End Helpers Underrepresentation Tab
-# --------------------------
+
+
+# -------------------------
+# Chatbot helpers (FTS5 + recent-events fallback)
+# -------------------------
+
+_CHAT_STOPWORDS = {
+    "what", "whats", "is", "are", "was", "were", "be", "been", "being",
+    "going", "on", "in", "this", "that", "the", "a", "an", "and", "or", "to",
+    "of", "for", "with", "about", "please", "country", "happening", "happen",
+    "tell", "me", "give", "overview", "summary", "currently", "now",
+}
+
+@st.cache_resource
+def get_openai_client():
+    """Create OpenAI client once. Returns None if package/key is missing."""
+    if OpenAI is None:
+        return None
+
+    api_key = None
+    # Allow either OPENAI_API_KEY at root or under [general]
+    try:
+        api_key = st.secrets.get("OPENAI_API_KEY")
+    except Exception:
+        api_key = None
+    if not api_key:
+        try:
+            api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
+        except Exception:
+            api_key = None
+
+    if not api_key:
+        return None
+    return OpenAI(api_key=api_key)
+
+def _sanitize_fts_query(user_text: str) -> str:
+    """Turn user text into a forgiving FTS5 MATCH query."""
+    user_text = user_text.replace('"', " ").replace("'", " ")
+    tokens = re.findall(r"[A-Za-z0-9_]+", user_text.lower())
+
+    # Remove generic words + very short tokens
+    tokens = [t for t in tokens if t not in _CHAT_STOPWORDS and len(t) >= 3]
+    if not tokens:
+        return ""
+
+    # Prefix-match longer tokens to increase recall (demonstrat*, offic*, etc.)
+    tokens = tokens[:20]
+    tokens = [f"{t}*" if len(t) >= 6 else t for t in tokens]
+    return " OR ".join(tokens)
+
+
+def _retrieve_notes(country: str, question: str, start_date: str, end_date: str, k: int):
+    """
+    Retrieve notes for a country within a chosen date range.
+    1) Try FTS MATCH (if we can build a meaningful query)
+    2) Fallback to most recent notes within the same date range
+
+    Returns: (rows, used_fallback)
+      rows: List[Tuple[event_id_cnty, event_date, notes]]
+    """
+    con = get_conf_conn()
+    match_q = _sanitize_fts_query(question)
+
+    if match_q:
+        sql_fts = """
+            SELECT e.event_id_cnty, e.event_date, e.notes
+            FROM events_fts
+            JOIN events e ON e.rowid = events_fts.rowid
+            WHERE events_fts.country = ?
+              AND e.event_date IS NOT NULL
+              AND e.event_date BETWEEN ? AND ?
+              AND events_fts MATCH ?
+            ORDER BY bm25(events_fts)
+            LIMIT ?;
+        """
+        try:
+            rows = con.execute(
+                sql_fts, (country, start_date, end_date, match_q, int(k))
+            ).fetchall()
+            if rows:
+                return rows, False
+        except sqlite3.Error:
+            # If FTS/bm25 is unavailable, fall back to recent notes.
+            pass
+
+    # Fallback: most recent notes inside the selected date range
+    sql_recent = """
+        SELECT event_id_cnty, event_date, notes
+        FROM events
+        WHERE country = ?
+          AND event_date IS NOT NULL
+          AND event_date BETWEEN ? AND ?
+          AND notes IS NOT NULL AND notes <> ''
+        ORDER BY event_date DESC
+        LIMIT ?;
+    """
+    rows = con.execute(sql_recent, (country, start_date, end_date, int(k))).fetchall()
+    return rows, True
+
+def _build_context(rows, max_chars: int = 12000) -> str:
+    parts = []
+    total = 0
+    for event_id, event_date, notes in rows:
+        if not notes:
+            continue
+        piece = f"[event_id_cnty={event_id} | date={event_date}] {str(notes).strip()}\n"
+        if total + len(piece) > max_chars:
+            break
+        parts.append(piece)
+        total += len(piece)
+    return "".join(parts)
+
+def _chat_answer(country: str, question: str, rows, model: str = "gpt-4o-mini") -> str:
+    client = get_openai_client()
+    if client is None:
+        return (
+            "Chatbot is not configured. Add an OpenAI API key in `.streamlit/secrets.toml` "
+            "as `OPENAI_API_KEY = \"...\"` (or under `[general]`)."
+        )
+
+    context = _build_context(rows)
+    system = (
+        "You are a conflict dashboard assistant.\n"
+        "Answer ONLY using the provided event notes as factual evidence.\n"
+        "Do NOT use external knowledge, background facts, or assumptions.\n"
+        "If the notes are insufficient, say so explicitly and suggest how to refine the question.\n"
+        "When making factual claims, cite event_id_cnty values from the notes.\n"
+        "Keep the answer clear and concise."
+    )
+    user = f"Country: {country}\nQuestion: {question}\n\nEvent notes:\n{context}"
+
+    resp = client.chat.completions.create(
+        model=model,
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": user},
+        ],
+        temperature=0.2,
+        max_tokens=450,
+    )
+    return resp.choices[0].message.content
+
 
 
 # --------------------------
@@ -738,7 +901,7 @@ with tab1:
         ev_df["event_date"] = pd.to_datetime(ev_df["event_date"], errors="coerce")
         ev_df = ev_df.dropna(subset=["event_date"])
 
-        # --- Filters: country + time window ---
+        # --- Filters: country + date range ---
         f_col1, f_col2, f_col3 = st.columns([1.5, 1, 1])
 
         with f_col1:
@@ -1383,7 +1546,7 @@ with tab3:
             unsafe_allow_html=True,
         )
 
-        # -------------------------
+    # -------------------------
     # Country overview 
     # -------------------------
     st.caption(
@@ -1500,6 +1663,152 @@ with tab3:
     if not selected_country.strip():
         st.info("Select a country from the overview table above to see details.")
         st.stop()
+
+    # Chatbot
+    # -------------------------
+    # Chatbot (prominent, tied to selected country)
+    # -------------------------
+    st.markdown(
+        """
+        <h4 style="margin-bottom:0.1rem;">Ask the event notes about this country</h4>
+        <p style="font-size:0.9rem; color:#555; margin-top:0.15rem;">
+            Answers are generated <b>only</b> from ACLED event notes stored in the database (no external sources).
+            Use the date range to control which events are summarized.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Reset chat when country changes
+    if st.session_state.get("_chat_country") != selected_country:
+        st.session_state["_chat_country"] = selected_country
+        st.session_state["_chat_messages"] = []
+        st.session_state.pop("_chat_date_range", None)
+
+    chat_left, chat_right = st.columns([2.2, 1])
+
+    with chat_right:
+        # --- Date bounds for this country ---
+        min_d_str, max_d_str = _get_country_date_bounds(selected_country.strip())
+
+        if not min_d_str or not max_d_str:
+            st.warning("No dated events available for this country.")
+            chat_start_iso, chat_end_iso = None, None
+        else:
+            min_d = datetime.fromisoformat(min_d_str).date()
+            max_d = datetime.fromisoformat(max_d_str).date()
+
+            st.caption(f"Available event dates: {min_d_str} → {max_d_str}")
+
+            # Default range = last ~180 days within the dataset for this country
+            default_start = max(min_d, max_d - timedelta(days=180))
+            default_range = st.session_state.get("_chat_date_range", (default_start, max_d))
+
+            picked = st.date_input(
+                "Event date range",
+                value=default_range,
+                min_value=min_d,
+                max_value=max_d,
+                key="_chat_date_range",
+            )
+
+            # Streamlit returns either a single date or a tuple/list of two dates
+            if isinstance(picked, (tuple, list)) and len(picked) == 2:
+                start_d, end_d = picked
+            else:
+                start_d, end_d = picked, picked
+
+            # Ensure ordering
+            if start_d > end_d:
+                start_d, end_d = end_d, start_d
+
+            chat_start_iso = start_d.isoformat()
+            chat_end_iso = end_d.isoformat()
+
+        chat_k = st.slider(
+            "Notes to retrieve",
+            min_value=30,
+            max_value=200,
+            value=80,
+            step=10,
+            key="_chat_k",
+            help="More notes can improve grounding but makes prompts larger.",
+        )
+        chat_model = st.selectbox(
+            "Model",
+            options=["gpt-4o-mini", "gpt-4o"],
+            index=0,
+            key="_chat_model",
+        )
+        if st.button("Clear chat", use_container_width=True, key="_chat_clear"):
+            st.session_state["_chat_messages"] = []
+
+        st.caption(
+            "Tip: Specific questions work best (actors, cities, event type). "
+            "For broad questions, the app will summarize the most recent events in the date range."
+        )
+
+    with chat_left:
+        # Render history
+        for m in st.session_state.get("_chat_messages", []):
+            with st.chat_message(m["role"]):
+                st.markdown(m["content"])
+
+        with st.form(key="_chat_form", clear_on_submit=True):
+            user_q = st.text_input(
+                "Ask a question",
+                value="",
+                placeholder="E.g., What are the main conflict dynamics in the last 6 months?",
+            )
+            submitted = st.form_submit_button("Ask")
+
+        if submitted and user_q.strip():
+            st.session_state.setdefault("_chat_messages", []).append(
+                {"role": "user", "content": user_q.strip()}
+            )
+            with st.chat_message("user"):
+                st.markdown(user_q.strip())
+
+            with st.chat_message("assistant"):
+                with st.spinner("Searching notes and generating answer..."):
+                    if chat_start_iso is None or chat_end_iso is None:
+                        rows, used_fallback = [], True
+                    else:
+                        rows, used_fallback = _retrieve_notes(
+                            selected_country.strip(),
+                            user_q.strip(),
+                            start_date=chat_start_iso,
+                            end_date=chat_end_iso,
+                            k=int(chat_k),
+                        )
+
+                    if not rows:
+                        out = (
+                            "I couldn't find usable event notes for this country in the selected date range. "
+                            "Try expanding the date range or asking about a different aspect."
+                        )
+                        st.markdown(out)
+                    else:
+                        if used_fallback:
+                            st.caption(
+                                "No strong keyword match detected — summarizing the most recent events in the date range."
+                            )
+                        out = _chat_answer(
+                            selected_country.strip(),
+                            user_q.strip(),
+                            rows,
+                            model=chat_model,
+                        )
+                        st.markdown(out)
+
+                        with st.expander("Sources used (top rows)"):
+                            for event_id, event_date, _ in rows[:15]:
+                                st.write(f"- event_id_cnty={event_id}, date={event_date}")
+
+            st.session_state["_chat_messages"].append({"role": "assistant", "content": out})
+
+    # End ChatBot
+
 
     if "conf_filtered" in locals():
         conf_for_detail = conf_filtered
