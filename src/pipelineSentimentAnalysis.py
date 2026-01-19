@@ -715,6 +715,78 @@ def merge_and_save(df_all: pd.DataFrame, df_events: pd.DataFrame, conn: sqlite3.
     
     metrics.end_step()
 
+def get_date_range_from_processed(config: PipelineConfig, logger, weeks_forward: int = 2) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Read the latest date from processed data and calculate next date range
+    
+    Args:
+        config: PipelineConfig object
+        logger: Logger instance
+        weeks_forward: Number of weeks to process forward (default: 2)
+    
+    Returns:
+        Tuple of (start_date, end_date) as strings in 'YYYY-MM-DD' format
+        Returns (None, None) if no processed data exists
+    """
+    from datetime import timedelta
+    
+    logger.info("Checking for existing processed data...")
+    
+    # Check if processed CSV exists
+    if not os.path.exists(config.output_art):
+        logger.info(f"No processed data found at {config.output_art}")
+        logger.info("Will process all available data")
+        return None, None
+    
+    try:
+        # Read only the date column for efficiency
+        df_processed = pd.read_csv(config.output_art, usecols=['published_date'])
+        
+        if df_processed.empty:
+            logger.info("Processed data file is empty")
+            return None, None
+        
+        # Get the latest date
+        latest_date_str = df_processed['published_date'].max()
+        latest_date = pd.to_datetime(latest_date_str).date()
+        
+        logger.info(f"Latest processed date: {latest_date}")
+        
+        # Calculate new date range (start from day after latest)
+        start_date = latest_date + timedelta(days=1)
+        end_date = start_date + timedelta(weeks=weeks_forward)
+        
+        # Convert to strings
+        start_date_str = start_date.strftime('%Y-%m-%d')
+        end_date_str = end_date.strftime('%Y-%m-%d')
+        
+        logger.info(f"New processing range: {start_date_str} to {end_date_str}")
+        
+        return start_date_str, end_date_str
+        
+    except Exception as e:
+        logger.error(f"Error reading processed data: {str(e)}")
+        logger.info("Will use configured date range instead")
+        return None, None
+
+
+def update_config_dates(config: PipelineConfig, logger, weeks_forward: int = 2):
+    """
+    Update config dates based on processed data
+    
+    Args:
+        config: PipelineConfig object to update
+        logger: Logger instance
+        weeks_forward: Number of weeks to process forward (default: 2)
+    """
+    start_date, end_date = get_date_range_from_processed(config, logger, weeks_forward)
+    
+    if start_date and end_date:
+        config.start_date = start_date
+        config.end_date = end_date
+        logger.info("✓ Config dates updated based on processed data")
+    else:
+        logger.info("Using original config dates")
 
 def log_final_statistics(conn, logger):
     """
@@ -788,11 +860,19 @@ def main():
         config_dict = load_config()
         config = PipelineConfig(config_dict)
         
+        #  Update dates based on processed data
+        logger.info("\n" + "=" * 60)
+        logger.info("CHECKING PROCESSED DATA FOR DATE RANGE")
+        logger.info("=" * 60)
+        update_config_dates(config, logger, weeks_forward=2)  # Change weeks_forward as needed
+        
         logger.info(f"\nConfiguration:")
         logger.info(f"  Raw DB: {config.raw_db}")
         logger.info(f"  Dedup DB: {config.dedup_db}")
         logger.info(f"  Articles CSV: {config.output_art}")
         logger.info(f"  Events CSV: {config.output_evt}")
+        logger.info(f"  Date range: {config.start_date} to {config.end_date}")  # Add this line
+        
         
         # Configuration with defaults
         similarity_threshold = config.similarity_treshold
