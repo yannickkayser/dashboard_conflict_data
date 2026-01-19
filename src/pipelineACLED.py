@@ -37,6 +37,8 @@ from unique_conflicts import (
 )
 from aggregate_country_conflict import ensure_conflict_country_table
 
+from build_fts_index import build_fts
+
 
 class PerformanceMetrics:
     """Track performance metrics for each pipeline step"""
@@ -556,6 +558,25 @@ def process_country_aggregation(conn, logger, metrics: PerformanceMetrics, valid
     
     metrics.end_step()
 
+def process_fts_index(conn, logger, metrics: PerformanceMetrics):
+    """
+    Step 5: Build Full-Text Search index
+    """
+    metrics.start_step("5. FTS Index")
+    
+    logger.info("=" * 60)
+    logger.info("STEP 5: BUILDING FULL-TEXT SEARCH INDEX")
+    logger.info("=" * 60)
+    
+    # Close the connection temporarily since build_fts creates its own
+    conn.close()
+    
+    build_fts()
+    
+    logger.info("✓ FTS index build completed")
+    
+    metrics.end_step()
+
 
 def log_final_statistics(conn, logger):
     """
@@ -648,7 +669,13 @@ def main():
             
             # Step 4: Aggregate by country
             process_country_aggregation(conn, logger, metrics, validator)
-            
+
+            # Step 5: Build FTS index
+            process_fts_index(conn, logger, metrics)
+
+            # Reconnect after FTS build (since we closed it)
+            conn = get_db_connection(db_path)
+
             # Final statistics
             log_final_statistics(conn, logger)
             
