@@ -8,5 +8,5 @@
 0 4 * * 0 /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/run-pipelines.sh matching
 
 # Run sentiment weekly on Sundays at 5 AM
-0 5 * * 0 /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/run-pipelines.sh sentiment
+0 5 * * * /home/mlci_2025s1_group2/conflictmediamirror/dashboard_conflict_data/run-pipelines.sh sentiment
 

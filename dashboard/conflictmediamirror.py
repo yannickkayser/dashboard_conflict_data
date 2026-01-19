@@ -580,20 +580,103 @@ df = load_data()
 # -------------------------
 # Main Tabs
 # -------------------------
-tab1, tab2, tab3, tab5 = st.tabs(
-    [
-        "Conflict Underrepresentation",
-        "Sentiment Analysis",
-        "Conflict Media Explorer",
-        "Impressum",
-    ]
-)
+if "page" not in st.session_state:
+    st.session_state.page = "landing"
+
+with st.sidebar:
+    st.markdown("## Navigation")
+
+    page = st.radio(
+        "Go to",
+        [
+            "Landing Page",
+            "Conflict Underrepresentation",
+            "Sentiment Analysis",
+            "Conflict Media Explorer",
+            "Impressum",
+        ]
+    )
+
+    # mapping page key
+    page_map = {
+        "Landing Page": "landing",
+        "Conflict Underrepresentation": "underrep",
+        "Sentiment Analysis": "sentiment",
+        "Conflict Media Explorer": "explorer",
+        "Impressum": "impressum",
+    }
+
+    st.session_state.page = page_map[page]
+
+
+# -------------------------
+# Landing Page
+# -------------------------
+if st.session_state.page == "landing":
+    col_left, col_right = st.columns([1.2, 1])
+
+    with col_left:
+        st.markdown("### Project Overview")
+        st.markdown("""
+        This project links **real-world conflict event data** with **German news coverage**
+        to analyze how conflicts are reported, framed, and emotionally contextualized.
+
+        The focus is not only on *what happened*, but on **what becomes visible in media reporting**
+        — and what remains underrepresented.
+        """)
+
+        st.markdown("### Why does this matter?")
+        st.markdown("""
+        Media coverage shapes public perception of conflicts.
+        Yet attention is uneven, and reporting often emphasizes specific narratives or emotions.
+
+        This dashboard helps identify:
+        - gaps between events and media attention  
+        - dominant emotional framings  
+        - recurring narrative patterns
+        """)
+
+    with col_right:
+        st.markdown("### What can you explore?")
+        st.markdown("""
+        **Conflict Underrepresentation**  
+        Regions or event types receiving limited media attention.
+
+        **Emotional & Sentiment Framing**  
+        How language frames conflict through emotions and tone.
+
+        **Narrative Discovery**  
+        Recurring storylines beyond broad conflict categories.
+
+        **Conflict Media Explorer**  
+        Individual articles linked to specific events.
+        """)
+
+        st.markdown("### Data Sources")
+        st.markdown("""
+        **ACLED**  
+        Global event-level data on protests, violence, and armed conflict.
+
+        **German News Media**  
+        Conflict-related reporting matched by time and location.
+        """)
+    st.markdown("""
+    <div style="margin-top:1rem; font-size:0.9em;">
+        🔗 Project repository:
+        <a href="https://github.com/yannickkayser/dashboard_conflict_data" target="_blank">
+            github.com/yannickkayser/dashboard_conflict_data
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
 
 
 # -------------------------
 # Tab 1: Conflict Underrepresentation
 # -------------------------
-with tab1:
+elif st.session_state.page == "underrep":
     st.markdown("## Conflict Underrepresentation Analysis")
 
     
@@ -1012,447 +1095,344 @@ with tab1:
 
 
     
-
 # -------------------------
 # Tab 2: Sentiment Analysis
 # -------------------------
-with tab2:
-    st.markdown("## Sentiment Analysis")
-
-    st.markdown(
-        """
-        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-            Which conflict event types are framed in a more negative or positive emotional tone, and which emotions dominate non‑neutral conflict reporting?
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
-
+elif st.session_state.page == "sentiment":
     if df is None:
         st.error("Data files not found. Please run data_processor.py first.")
     else:
+        st.markdown("## Sentiment Analysis")
         # --- User Guide ---
-        with st.expander("How to use this Dashboard"):
+        # ============================================================
+        # 2. FILTERS
+        # ============================================================
+        with st.container():
             st.markdown(
-                """
-                <div class="guide-box">
-                    1. <b>Observe Emotional Framing:</b> Examine how different conflict categories and outlets use emotions in their reporting.<br>
-                    2. <b>Compare Media:</b> Identify systematic differences in tone and emotion profiles across media organizations.<br>
-                    3. <b>Deep Dive:</b> Explore narrative clusters to see how specific conflict stories are framed.
-                </div>
-                """,
-                unsafe_allow_html=True,
+                "<div class='filter-box'><b>Analytics Filters</b></div>",
+                unsafe_allow_html=True
             )
 
-        # ============================================================
-        # 2. FILTERS (now on page, above graphs)
-        # ============================================================
-        fcol1, fcol2= st.columns([1.4, 0.8])
+            f1, f2 = st.columns([2, 1])
 
-        with fcol1:
-            date_range = st.date_input(
-                "Date range",
-                [df["published_date"].min(), df["published_date"].max()],
-            )
-        with fcol2:
-            scope = st.selectbox("Scope", ["All News", "International", "Domestic"])
-        
+            with f1:
+                date_range = st.date_input(
+                    "Date Range",
+                    [df['published_date'].min(), df['published_date'].max()]
+                )
+
+            with f2:
+                scope = st.selectbox(
+                    "Scope",
+                    ["All News", "International", "Domestic"]
+                )
 
         if len(date_range) == 2:
-            mask = (df["published_date"].dt.date >= date_range[0]) & (
-                df["published_date"].dt.date <= date_range[1]
-            )
+            mask = (df['published_date'].dt.date >= date_range[0]) & (df['published_date'].dt.date <= date_range[1])
             df_f = df.loc[mask]
         else:
             df_f = df.copy()
 
-        if scope == "International":
-            df_f = df_f[df_f["is_domestic"] == False]
-        elif scope == "Domestic":
-            df_f = df_f[df_f["is_domestic"] == True]
+        if scope == "International": 
+            df_f = df_f[df_f['is_domestic'] == False]
+        elif scope == "Domestic": 
+            df_f = df_f[df_f['is_domestic'] == True]
 
         # ============================================================
-        # 3. KPIs
+        # 4. Trends & Attention Dynamics
         # ============================================================
+        st.markdown("""
+        <div style="margin-top:2.2rem;">
+            <div style="font-size:1.6em; font-weight:700;">
+                Trends and Attention Dynamics
+            </div>
+            <div style="color:#666; font-size:0.9em;">
+                How media attention to conflict events evolves over time
+            </div>
+            <hr>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # --- Attention metrics calculation ---
         def calc_attention_metrics(data):
             if data.empty:
                 return 0.0, "N/A"
 
-            daily_series = data.groupby("published_date").size().sort_index()
+            daily_series = data.groupby('published_date').size().sort_index()
             if daily_series.empty:
                 return 0.0, "N/A"
 
             sorted_series = daily_series.sort_values(ascending=False)
             top_10_percent_days = max(1, int(len(sorted_series) * 0.1))
-            burstiness = (
-                sorted_series.head(top_10_percent_days).sum() / daily_series.sum()
-            ) * 100
+            burstiness = (sorted_series.head(top_10_percent_days).sum() / daily_series.sum()) * 100
 
             peak_date = sorted_series.idxmax()
             peak_val = sorted_series.max()
 
-            post_peak_data = daily_series[daily_series.index >= peak_date]
-            half_life_threshold = peak_val / 2
-            decay_dates = post_peak_data[post_peak_data <= half_life_threshold]
+            post_peak = daily_series[daily_series.index >= peak_date]
+            half_threshold = peak_val / 2
+            decay = post_peak[post_peak <= half_threshold]
 
-            if not decay_dates.empty:
-                half_life_val = (decay_dates.index[0] - peak_date).days
-                half_life_str = f"{half_life_val} Days"
+            if not decay.empty:
+                half_life = f"{(decay.index[0] - peak_date).days} Days"
             else:
-                max_tracked = (daily_series.index[-1] - peak_date).days
-                half_life_str = f">{max_tracked} Days"
+                half_life = f">{(daily_series.index[-1] - peak_date).days} Days"
 
-            return burstiness, half_life_str
+            return burstiness, half_life
 
         burstiness, half_life = calc_attention_metrics(df_f)
 
-        m1, m2, m3, m4 = st.columns(4)
-        m1.metric("Total Articles", len(df_f))
-        m2.metric(
-            "Burstiness Index",
-            f"{burstiness:.1f}%",
-            help=(
-                "Does coverage cluster in a few days? A high percentage indicates "
-                "highly concentrated media attention."
-            ),
-        )
-        m3.metric(
-            "Avg Emotional Tone",
-            f"{df_f['sentiment_numeric'].mean():.2f}" if not df_f.empty else "N/A",
-        )
-        m4.metric(
-            "Attention Half-life",
-            half_life,
-            help=(
-                "The speed at which media interest fades. Smaller values indicate "
-                "faster dissipation."
-            ),
-        )
+        # --- KPI Cards ---
+        def kpi_card(label, value, description=None):
+            st.markdown(f"""
+            <div style="
+                background-color:#ffffff;
+                border-radius:10px;
+                padding:14px;
+                box-shadow:0 2px 6px rgba(0,0,0,0.08);
+                text-align:center;
+            ">
+                <div style="font-size:0.85em; color:#666;">{label}</div>
+                <div style="font-size:1.6em; font-weight:700;">{value}</div>
+                {f"<div style='font-size:0.75em; color:#999;'>{description}</div>" if description else ""}
+            </div>
+            """, unsafe_allow_html=True)
+
+        k1, k2, k3, k4 = st.columns(4)
+
+        with k1:
+            kpi_card("Total Articles", len(df_f))
+
+        with k2:
+            kpi_card("Burstiness Index", f"{burstiness:.1f}%",
+                     "Share of coverage concentrated in peak days")
+
+        with k3:
+            avg_tone = f"{df_f['sentiment_numeric'].mean():.2f}" if not df_f.empty else "N/A"
+            kpi_card("Avg Emotional Tone", avg_tone)
+
+        with k4:
+            kpi_card("Attention Half-life", half_life,
+                     "Speed at which media interest fades")
+
+        # --- Attention time series ---
+        if not df_f.empty:
+            ts = df_f.groupby('published_date').size().reset_index(name='Count')
+            fig_area = px.area(
+                ts,
+                x='published_date',
+                y='Count',
+                title="Daily Media Attention"
+            )
+            st.plotly_chart(fig_area, use_container_width=True)
 
         # ============================================================
-        # 4. EMOTIONAL FRAMING (event types + emotions)
+        # 5. Emotional Framing Analysis
         # ============================================================
+        st.markdown("""
+        <div style="margin-top:2.2rem;">
+            <div style="font-size:1.6em; font-weight:700;">
+                Emotional Framing Analysis
+            </div>
+            <div style="color:#666; font-size:0.9em;">
+                How conflict events are linguistically framed in German media
+            </div>
+            <hr>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+        <div class="insight-box">
+        <strong>How to read this section</strong><br><br>
+        This analysis applies an NLP-based emotion classification model to German news texts.
+        Detected emotions reflect <b>linguistic framing</b>, not personal feelings of journalists or readers.<br><br>
+
+        <b>Typical framing patterns:</b>
+        <ul>
+            <li><b>Anger / Disappointment:</b> Blame-oriented or adversarial framing</li>
+            <li><b>Sadness / Grief:</b> Humanitarian or victim-centered framing</li>
+            <li><b>Curiosity / Confusion:</b> Explanatory or uncertainty-driven framing</li>
+        </ul>
+
+        Neutral labels indicate factual reporting.
+        The charts below focus on <b>active emotional framings</b>.
+        </div>
+        """, unsafe_allow_html=True)
+
         col1, col2 = st.columns(2)
 
-        exclude = ["neutral", "others", "other", "label_1"]
-        df_active = df_f[~df_f["emotion_label"].str.lower().isin(exclude)]
+        exclude = ['neutral', 'others', 'other', 'label_1']
+        df_active = df_f[~df_f['emotion_label'].str.lower().isin(exclude)]
 
         # --- Tone by event type ---
         with col1:
-            st.markdown(
-                """
-                <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-                    Tone Intensity by Event Type
-                </p>
-                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                    The tone‑intensity chart aggregates sentiment scores by ACLED event type to show systematic differences
-                    in emotional framing across conflict categories. It helps identify whether certain event types
-                    (e.g. protests vs. battles) are consistently reported with more negative or more neutral language,
-                    indicating potential framing biases in conflict coverage.
-                </p>
-                """,
-                unsafe_allow_html=True,
-            )
+            st.subheader("Tone Intensity by Event Type")
 
             if not df_f.empty:
-                df_ev_sent = (
-                    df_f.groupby("acled_event_type")["sentiment_numeric"]
+                df_ev = (
+                    df_f.groupby('acled_event_type')['sentiment_numeric']
                     .mean()
                     .sort_values()
                     .reset_index()
                 )
+
                 fig_bar = px.bar(
-                    df_ev_sent,
-                    x="sentiment_numeric",
-                    y="acled_event_type",
-                    orientation="h",
-                    color="sentiment_numeric",
-                    color_continuous_scale=["#FF69B4", "#008000"],
+                    df_ev,
+                    x='sentiment_numeric',
+                    y='acled_event_type',
+                    orientation='h',
+                    color='sentiment_numeric',
+                    color_continuous_scale='RdYlGn',
                     range_x=[-0.6, 0.4],
-                    labels={
-                        "sentiment_numeric": "Aggregated Tone (Negative ⟵⟶ Positive)",
-                        "acled_event_type": "Event type",
-                    },
+                    labels={'sentiment_numeric': 'Negative ←→ Positive'},
+                    title="Average Emotional Tone per Conflict Category"
                 )
-                fig_bar.update_layout(showlegend=False, coloraxis_showscale=False)
                 st.plotly_chart(fig_bar, use_container_width=True)
 
-        # --- Top‑5 emotions distribution ---
+        # --- Emotion distribution ---
         with col2:
+            st.subheader("Top 5 Emotional Framing Patterns")
+
             total_len = len(df_f)
-            neutral_count = len(
-                df_f[df_f["emotion_label"].str.lower().isin(exclude)]
-            )
+            neutral_count = len(df_f[df_f['emotion_label'].str.lower().isin(exclude)])
             neutral_perc = (neutral_count / total_len * 100) if total_len > 0 else 0
 
             st.markdown(
-                f"""
-                <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-                    Top 5 Emotion Distribution
-                </p>
-                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                    This view focuses on the distribution of active emotions in conflict‑related articles after removing neutral and residual categories.
-                    The relative shares of anger, fear, sadness, joy, and other emotions illustrate how often media narratives rely on adversarial,
-                    threat‑focused, or hopeful framing when describing conflict situations. Importantly, all articles in this analysis were pre‑selected
-                    using conflict‑related keywords (for example “protest”, “armed conflict”, “violence”), so the underlying corpus does not represent
-                    the full set of all articles published by German media, but only a conflict‑focused subset.
-                </p>
-                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                    <b>Neutral/Other coverage share: {neutral_perc:.1f}%</b><br>
-                    (a high neutral share indicates that most reporting consists of factual statements)
-                </p>
-                """,
-                unsafe_allow_html=True,
+                f"<div style='font-size:0.85em; color:#777;'>"
+                f"Neutral / Other coverage share: <b>{neutral_perc:.1f}%</b>"
+                "</div>",
+                unsafe_allow_html=True
             )
 
             if not df_active.empty:
-                top_5_emotions = (
-                    df_active["emotion_label"]
-                    .value_counts()
-                    .nlargest(5)
-                    .index.tolist()
-                )
-                df_active_top5 = df_active[
-                    df_active["emotion_label"].isin(top_5_emotions)
-                ]
+                top5 = df_active['emotion_label'].value_counts().nlargest(5).index.tolist()
+                df_top = df_active[df_active['emotion_label'].isin(top5)]
 
                 fig_pie = px.pie(
-                    df_active_top5,
-                    names="emotion_label",
+                    df_top,
+                    names='emotion_label',
                     hole=0.4,
+                    title="Active Emotional Framing (Top 5)"
                 )
-                fig_pie.update_traces(
-                    marker=dict(
-                        colors=[
-                            "#FF69B4",
-                            "#1f77b4",
-                            "#FFE4F3",
-                            "#A6D4FF",
-                            "#FFC1E6",
-                        ]
-                    )
-                )
-                fig_pie.update_layout(
-                    width=470,
-                    height=470,
-                    legend=dict(
-                        orientation="v",
-                        y=0.5,
-                        yanchor="middle",
-                        x=1.02,
-                        xanchor="left",
-                        font=dict(size=9),
-                    ),
-                    margin=dict(l=10, r=80, t=25, b=10),
-                )
-                st.plotly_chart(fig_pie, use_container_width=False)
+                st.plotly_chart(fig_pie, use_container_width=True)
+
+
+        # Media Outlet Comparison
+        st.markdown('<div class="section-header">Media Outlet Comparison</div>', unsafe_allow_html=True)
+        st.write("Comparing institutional bias: Which of the Top 5 emotions do different media sources emphasize?")
+
+        top_outlets = df_f['source_name'].value_counts().head(10).index
+        df_top_outlets = df_f[df_f['source_name'].isin(top_outlets)]
+        df_top_active = df_top_outlets[~df_top_outlets['emotion_label'].str.lower().isin(exclude)]
+
+        tab_heatmap, tab_sentiment = st.tabs(["Institutional Emotion Profile", "Tone Variance Score"])
+
+        with tab_heatmap:
+            st.subheader("Institutional Emotion Heatmap (Top 5 Emotions)")
+            if not df_top_active.empty:
+                top_5_global = df_active['emotion_label'].value_counts().nlargest(5).index.tolist()
+                df_top_active_top5 = df_top_active[df_top_active['emotion_label'].isin(top_5_global)]
+                
+                if not df_top_active_top5.empty:
+                    ctab = pd.crosstab(df_top_active_top5['source_name'], df_top_active_top5['emotion_label'], normalize='index') * 100
+                    fig_heat = px.imshow(ctab, text_auto=".1f", aspect="auto",
+                                        labels=dict(x="Top 5 Emotions", y="Media Outlet", color="Percentage (%)"),
+                                        color_continuous_scale="Purples",
+                                        title="Framing Choice by Outlet (Top 5 Active Emotions %)")
+                    st.plotly_chart(fig_heat, use_container_width=True)
+                else:
+                    st.warning("No articles matching the Top 5 global emotions found for these outlets.")
             else:
-                st.info("No active emotional labels found in the selected range.")
+                st.warning("Insufficient specific emotional data.")
 
-
-        st.markdown(
-                f"""
-                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                    In this context, the emotions represent distinct framing styles that shape how audiences interpret conflict:
-                </div>
-                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                    • <b>Anger:</b> Adversarial framing, typically highlighting blame or intense opposition between conflict parties.<br>
-                    • <b>Fear/Sadness:</b> Humanitarian or victim framing, focusing on threats, suffering, and losses resulting from the conflict.<br>
-                    • <b>Surprise/Joy:</b> Breakthrough or optimistic framing, often linked to de‑escalation, peace developments, or unexpected positive outcomes.
-                    </p>
-                """,
-                unsafe_allow_html=True,
-            )
-
-
-        # ============================================================
-        # 5. MEDIA OUTLET COMPARISON (heatmap + tone variance)
-        # ============================================================
-        st.markdown(
-            """
-            <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-                Do media outlets systematically differ in how they emotionally frame conflicts?
-            </p>
-            <p style="font-size:0.95rem; color:#444; margin:0 0 0.8rem 0;">
-                The institutional emotion heatmap compares the relative use of the top emotions across major outlets,
-                normalised within each outlet. Differences in the dominant emotional palette highlight outlet‑specific
-                framing styles and allow hypotheses about editorial choices, such as a preference for anger‑driven
-                versus fear‑ or sadness‑driven coverage.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        top_outlets = df_f["source_name"].value_counts().head(10).index
-        df_top_outlets = df_f[df_f["source_name"].isin(top_outlets)]
-        df_top_active = df_top_outlets[
-            ~df_top_outlets["emotion_label"].str.lower().isin(exclude)
-        ]
-
-        # --- Institutional emotion heatmap ---
-        #st.subheader("Institutional Emotion Heatmap (Top 5 Emotions)")
-        if not df_top_active.empty:
-            top_5_global = (
-                df_active["emotion_label"].value_counts().nlargest(5).index.tolist()
-            )
-            df_top_active_top5 = df_top_active[
-                df_top_active["emotion_label"].isin(top_5_global)
-            ]
-
-            if not df_top_active_top5.empty:
-                ctab = (
-                    pd.crosstab(
-                        df_top_active_top5["source_name"],
-                        df_top_active_top5["emotion_label"],
-                        normalize="index",
-                    )
-                    * 100
-                )
-                fig_heat = px.imshow(
-                    ctab,
-                    text_auto=".1f",
-                    aspect="auto",
-                    labels=dict(
-                        x="Top 5 Emotions",
-                        y="Media Outlet",
-                        color="Percentage (%)",
-                    ),
-                    color_continuous_scale=[
-                        "#FFFFFF",
-                        "#FF69B4",
-                        #"#1f77b4",
-                    ],
-                    #title="Framing Choice by Outlet (Top 5 Active Emotions %)",
-                )
-                st.plotly_chart(fig_heat, use_container_width=True)
+        with tab_sentiment:
+            st.subheader("Average Tone Variance (Bias Check)")
+            if not df_top_outlets.empty:
+                df_outlet_avg = df_top_outlets.groupby('source_name')['sentiment_numeric'].agg(['mean', 'count']).reset_index()
+                df_outlet_avg.columns = ['Media Outlet', 'Avg Tone Score', 'Article Volume']
+                
+                fig_outlet = px.scatter(df_outlet_avg, x='Avg Tone Score', y='Media Outlet', 
+                                        size='Article Volume', color='Avg Tone Score',
+                                        color_continuous_scale='RdBu', 
+                                        color_continuous_midpoint=0,
+                                        range_x=[-0.2, 0.2], # Zoomed in to see bias variance near zero
+                                                                                title="Outlet Positioning on the Emotional Spectrum",
+                                        labels={'Avg Tone Score': 'Intense/Negative Framing <---> Calm/Positive Framing'})
+                fig_outlet.add_vline(x=df_f['sentiment_numeric'].mean(), line_dash="dash", line_color="gray", annotation_text="Market Avg")
+                st.plotly_chart(fig_outlet, use_container_width=True)
             else:
-                st.warning(
-                    "No articles matching the Top 5 global emotions found for these outlets."
-                )
-        else:
-            st.warning("Insufficient specific emotional data.")
-
-        # --- Average Tone Variance (Bias Check) directly below heatmap ---
-        st.markdown(
-            """
-            <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-                Which outlets deviate most from the overall emotional tone of conflict reporting?
-            </p>
-            <p style="font-size:0.95rem; color:#444; margin:0 0 0.8rem 0;">
-                The average tone variance graph positions each outlet by its mean sentiment score and article volume, with a reference line indicating the market‑wide average tone. Outlets that lie far to the negative or positive side of this line, especially with many articles, can be interpreted as having stronger systematic tone biases in how they frame conflicts.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
+                st.info("No media outlet data available for the current selection.")
 
 
-        if not df_top_outlets.empty:
-            df_outlet_avg = (
-                df_top_outlets.groupby("source_name")["sentiment_numeric"]
-                .agg(["mean", "count"])
-                .reset_index()
-            )
-            df_outlet_avg.columns = ["Media Outlet", "Avg Tone Score", "Article Volume"]
-
-            # no color= or size= here -> no color scale / legend
-            fig_outlet = px.scatter(
-                df_outlet_avg,
-                x="Avg Tone Score",
-                y="Media Outlet",
-                labels={
-                    "Avg Tone Score": "Intense/Negative Framing ⟵⟶ Calm/Positive Framing",
-                    "Media Outlet": "Media Outlet",
-                },
-            )
-
-            # make all points same color and size
-            fig_outlet.update_traces(
-                marker=dict(color="#FF69B4", size=10),
-                showlegend=False,
-            )
-
-            # remove any color axis / legend just in case
-            fig_outlet.update_layout(
-                showlegend=False,
-                coloraxis_showscale=False,
-            )
-
-            fig_outlet.add_vline(
-                x=df_f["sentiment_numeric"].mean(),
-                line_dash="dash",
-                line_color="gray",
-                annotation_text="Market Avg",
-            )
-
-            st.plotly_chart(fig_outlet, use_container_width=True)
-        else:
-            st.info("No media outlet data available for the current selection.")
 
 
         # ============================================================
         # 6. NARRATIVE DEEP DIVE (With On-Demand Translation)
         # ============================================================
-        st.markdown('<div class="section-header">Narrative Discovery</div>', unsafe_allow_html=True)
-
-        st.markdown(
-            """
-            <div style='background-color: #f5f5f5; padding: 10px; border-radius: 5px; margin-bottom: 10px; font-size: 0.9em; color:#555;'>
-                💡 <b>What is this?</b> This section uses algorithms to identify recurring storylines, answering:
-                beyond macro categories like "Protests", what are the specific narrative focuses of the media?
+        st.markdown("""
+        <div style="margin-top:2.2rem;">
+            <div style="font-size:1.6em; font-weight:700;">
+                Narrative Discovery
             </div>
-            """,
-            unsafe_allow_html=True,
-        )
+            <div style="color:#666; font-size:0.9em;">
+                This section uses BERTopic modelling to identify recurring storylines, answering: beyond macro categories like "Protests," what are the specific narrative focuses of the media?
+        </div>
+            <hr>
+        </div>
+        """, unsafe_allow_html=True)
 
-        top_clusters = df_f["article_cluster_id"].value_counts().head(5)
+        top_clusters = df_f['article_cluster_id'].value_counts().head(5)
+
         if not top_clusters.empty:
             translate = st.checkbox("Enable Translation for Event Headlines")
             if translate:
                 ts = get_translator()
 
-            for cid, count in top_clusters.items():
-                cluster_data = df_f[df_f["article_cluster_id"] == cid]
-                if not cluster_data.empty:
-                    sample = cluster_data.iloc[0]
-                    label = sample.get("acled_event_type", "Unknown")
+            for rank, (cid, count) in enumerate(top_clusters.items(), start=1):
+                cluster_data = df_f[df_f['article_cluster_id'] == cid]
+                if cluster_data.empty:
+                    continue
 
-                    display_title = sample["title"]
+                sample = cluster_data.iloc[0]
+
+                # ---- headline ----
+                display_title = sample.get('title', 'No headline available')
+                if translate:
+                    try:
+                        display_title = ts(display_title[:512])[0]['translation_text']
+                    except:
+                        pass
+
+                # ---- expander title ----
+                event_type = sample.get('acled_event_type', 'Unknown event type')
+
+                expander_title = (
+                    f"Top {rank} · {event_type} · "
+                    f"{display_title[:80]}{'…' if len(display_title) > 80 else ''} "
+                    f"({count} articles)"
+                )
+
+                with st.expander(expander_title):
+                    st.write(f"**Headline:** {display_title}")
                     if translate:
-                        try:
-                            display_title = ts(display_title[:512])[0][
-                                "translation_text"
-                            ]
-                        except Exception:
-                            pass
+                        st.caption(f"Original German: {sample.get('title', '')}")
 
-                    with st.expander(
-                        f"Event Cluster {cid}: {label} ({count} articles)"
-                    ):
-                        st.write(f"**Headline:** {display_title}")
-                        if translate:
-                            st.caption(f"Original German: {sample['title']}")
-                        st.write(
-                            f"**Location:** {sample.get('detected_locations', 'Not specified')}"
-                        )
-                        st.write(
-                            f"**Tone Intensity Score:** {sample.get('sentiment_numeric', 0):.2f}"
-                        )
-                        st.progress(
-                            min(1.0, abs(sample.get("sentiment_numeric", 0)))
-                        )
+                    st.write(f"**Event Type:** {sample.get('acled_event_type', 'Unknown')}")
+                    st.write(f"**Location:** {sample.get('detected_locations', 'Not specified')}")
+                    st.write(f"**Tone Intensity Score:** {sample.get('sentiment_numeric', 0):.2f}")
+                    st.progress(min(1.0, abs(sample.get('sentiment_numeric', 0))))
 
         st.divider()
-        st.caption(
-            "Native German processing with English UI representation. The news were already preselected with conflict related news. Data source: processed_conflict_articles.csv"
-        )
-
+        st.caption("Native German processing with English UI representation. The news were already preselected with conflict related news. Data source: processed_conflict_articles.csv")
 
             
+
+
 
 # -------------------------
 # Tab 3: Conflict × Media Explorer
 # -------------------------
-with tab3:
+elif st.session_state.page == "explorer":
     st.markdown("## Conflict Media Explorer")
 
     # Leitfrage + Beschreibung für Länder-Übersicht
@@ -2296,31 +2276,39 @@ with tab3:
 # -------------------------
 # Tab 5: Impressum
 # -------------------------
-with tab5:
-    st.markdown("### ℹ️ Impressum")
-    st.info(
-        "🚧 This section is under development. It will display sentiment trends "
-        "in conflict-related media coverage."
-    )
-    st.markdown(
-        """
-    #### About this Dashboard
+elif st.session_state.page == "impressum":
+    st.markdown("## Impressum")
 
-    This dashboard provides insights into the relationship between conflict events and media coverage.
+    st.markdown("""
+    **Project Title:** Conflict Media Mirror  
 
-    **Data Sources:**
-    - Conflict data from ACLED (Armed Conflict Location & Event Data Project)
-    - Media coverage from news article databases
+    **Project Type:** Academic / Non-commercial data analysis project  
 
-    **Purpose:**
-    - Analyze conflict underrepresentation in media
-    - Explore media outlet coverage patterns
-    - Track temporal trends in conflict reporting
+    **Description:**  
+    This dashboard was developed as part of an academic research project
+    analyzing the relationship between real-world conflict events and
+    German-language media coverage.
 
-    **Contact:**
-    For questions or feedback about this dashboard, please contact the research team.
+    **Data Sources:**  
+    - Armed Conflict Location & Event Data Project (ACLED)  
+    - German-language news media articles  
+
+    **Disclaimer:**  
+    This project is for research and educational purposes only.
+    The visualizations and analyses do not claim completeness or factual correctness
+    of individual events or media reports.
+
+    **Responsibility for content:**  
+    The project authors are responsible for the content presented in this dashboard.
+
+    **Contact:**  
+    For questions or feedback, please refer to the project repository.
 
     **Version:** 1.0  
     **Last Updated:** January 2026
-    """
+    """)
+
+    st.markdown(
+        "🔗 **GitHub Repository:** "
+        "[dashboard_conflict_data](https://github.com/yannickkayser/dashboard_conflict_data)"
     )

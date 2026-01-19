@@ -12,10 +12,12 @@ import json
 import time
 import sqlite3
 import pandas as pd
+import unicodedata
+import re
 from pathlib import Path
 from datetime import datetime
 from difflib import SequenceMatcher
-from typing import Dict, Tuple, Optional
+from typing import Dict, Tuple, Optional, Set
 
 import geonamescache
 import spacy
@@ -24,6 +26,62 @@ from bertopic import BERTopic
 from sklearn.feature_extraction.text import CountVectorizer
 
 from utils import load_config, get_db_connection, init_logger
+
+# Country detection constants
+GERMANY_CITY_ALIASES = {
+    "Berlin", "Hamburg",
+    "Munich", "Muenchen", "München",
+    "Cologne", "Koeln", "Köln",
+    "Frankfurt", "Frankfurt am Main",
+    "Dusseldorf", "Düsseldorf",
+    "Stuttgart", "Leipzig", "Dortmund", "Bremen", "Essen", "Dresden",
+    "Nuremberg", "Nuernberg", "Nürnberg",
+    "Hanover", "Hannover",
+    "Duisburg", "Wuppertal", "Bochum", "Bielefeld", "Bonn", "Mannheim",
+    "Karlsruhe", "Augsburg", "Wiesbaden", "Gelsenkirchen",
+    "Monchengladbach", "Mönchengladbach",
+    "Braunschweig", "Chemnitz", "Kiel", "Aachen",
+    "Halle", "Halle (Saale)", "Magdeburg",
+    "Freiburg", "Freiburg im Breisgau",
+    "Krefeld", "Luebeck", "Lübeck", "Oberhausen", "Erfurt", "Mainz",
+    "Rostock", "Kassel", "Hagen", "Saarbruecken", "Saarbrücken",
+    "Hamm", "Potsdam", "Ludwigshafen", "Ludwigshafen am Rhein",
+    "Oldenburg", "Leverkusen", "Osnabrueck", "Osnabrück",
+    "Solingen", "Heidelberg", "Herne", "Neuss", "Darmstadt", "Paderborn",
+    "Regensburg", "Ingolstadt", "Wuerzburg", "Würzburg", "Ulm",
+    "Offenbach", "Offenbach am Main", "Heilbronn", "Pforzheim", "Wolfsburg",
+    "Goettingen", "Göttingen",
+}
+
+GERMANY_STATE_ALIASES = {
+    "Baden-Württemberg", "Baden Württemberg",
+    "Bavaria", "Bayern",
+    "Berlin", "Brandenburg", "Bremen", "Hamburg",
+    "Hesse", "Hessen",
+    "Lower Saxony", "Niedersachsen",
+    "Mecklenburg-Western Pomerania", "Mecklenburg-Vorpommern",
+    "North Rhine-Westphalia", "Nordrhein-Westfalen",
+    "Rhineland-Palatinate", "Rheinland-Pfalz",
+    "Saarland",
+    "Saxony", "Sachsen",
+    "Saxony-Anhalt", "Sachsen-Anhalt",
+    "Schleswig-Holstein",
+    "Thuringia", "Thüringen", "Thueringen",
+}
+
+MANUAL_COUNTRY_ALIAS_PATCHES = {
+    "United States": {"us", "u.s.", "u.s", "usa", "united states of america", "american"},
+    "United Kingdom": {"uk", "u.k.", "u.k", "britain", "great britain"},
+    "Côte d’Ivoire": {"ivory coast", "cote d'ivoire", "cote d ivoire", "cote divoire"},
+    "Democratic Republic of the Congo": {"drc", "dr congo", "congo-kinshasa"},
+    "Republic of the Congo": {"congo-brazzaville"},
+    "Türkiye": {"turkey"},
+    "Czechia": {"czech republic"},
+    "Eswatini": {"swaziland"},
+    "Myanmar": {"burma"},
+    "Viet Nam": {"vietnam"},
+    "Ukraine": {"kiev"},
+}
 
 
 # =============================
@@ -52,10 +110,14 @@ class PipelineConfig:
         self.similarity_treshold = 0.7
 
         # Date range filtering (add these lines)
-        self.start_date = "2024-01-01"  # Change to your desired start date
+        self.start_date = "2024-01-01"  # Are updated automatically 
         self.end_date = "2024-03-31"    # Change to your desired end date
         # Set to None to disable: self.start_date = None
 
+        # Country detection
+        # Country detection
+        self.conflict_countries = config_dict.get("conflict_countries", None)
+        self.country_detection_enabled = config_dict.get("country_detection_enabled", True)
 
 
 
@@ -316,6 +378,21 @@ class DataValidator:
         
         return "\n".join(lines)
 
+# Country detection Helper functions
+def strip_accents(s: str) -> str:
+    """Remove accents from text"""
+    return "".join(c for c in unicodedata.normalize("NFKD", s) 
+                   if not unicodedata.combining(c))
+
+def normalize_text(s: str) -> str:
+    """Normalize text for comparison"""
+    return strip_accents((s or "").lower())
+
+def regex_count(text_norm: str, alias_norm: str) -> int:
+    """Count occurrences of alias in text using word boundaries"""
+    pattern = r"(?<![a-z])" + re.escape(alias_norm) + r"(?![a-z])"
+    return len(re.findall(pattern, text_norm))
+
 
 class GermanLocationDetector:
     """Handle German location detection"""
@@ -373,6 +450,78 @@ class GermanLocationDetector:
         
         return is_domestic, ", ".join(set(found_locs))
 
+
+class CountryDetector:
+    """Detect article country based on text analysis"""
+    
+    def __init__(self, logger, conflict_countries: list = None):
+        self.logger = logger
+        self.logger.info("Initializing Country Detector...")
+        
+        # Default to common conflict countries if none provided
+        if conflict_countries is None:
+            conflict_countries = [
+                "Germany", "United States", "United Kingdom", "France", 
+                "Russia", "Ukraine", "China", "Syria", "Afghanistan",
+                "Israel", "Palestine", "Iraq", "Iran", "Yemen"
+            ]
+        
+        self.country_aliases = self._build_country_aliases(conflict_countries)
+        self.logger.info(f"Loaded {len(self.country_aliases)} countries for detection")
+    
+    def _build_country_aliases(self, countries: list) -> Dict[str, Set[str]]:
+        """Build country alias mapping"""
+        aliases: Dict[str, Set[str]] = {}
+        
+        for country in countries:
+            base = {normalize_text(country)}
+            patch = MANUAL_COUNTRY_ALIAS_PATCHES.get(country, set())
+            aliases[country] = set(base) | {normalize_text(p) for p in patch}
+        
+        # Special handling for Germany
+        if "Germany" in aliases:
+            extra = (
+                {"germany", "german", "deutschland"} |
+                {normalize_text(x) for x in GERMANY_CITY_ALIASES} |
+                {normalize_text(x) for x in GERMANY_STATE_ALIASES}
+            )
+            aliases["Germany"] |= extra
+        
+        return aliases
+    
+    def detect_country(self, text: str, top_k: int = 3) -> Tuple[str, int]:
+        """
+        Detect country from text
+        Returns: (country_name, confidence_score)
+        """
+        if not text or not text.strip():
+            return "NA", 0
+        
+        text_norm = normalize_text(text)
+        scored = []
+        
+        # Score each country based on alias matches
+        for country, aliases in self.country_aliases.items():
+            score = 0
+            for alias in aliases:
+                score += regex_count(text_norm, alias)
+            if score > 0:
+                scored.append((country, score))
+        
+        # Sort by score
+        scored.sort(key=lambda x: x[1], reverse=True)
+        candidates = scored[:top_k]
+        
+        # If only one candidate, return with high confidence
+        if len(candidates) == 1:
+            return candidates[0][0], 100
+        
+        # If no clear winner, return NA
+        if not candidates:
+            return "NA", 0
+        
+        # Return top candidate with its score
+        return candidates[0][0], candidates[0][1]
 
 class NLPModels:
     """Initialize and manage NLP models"""
@@ -522,6 +671,39 @@ def geographic_detection(df: pd.DataFrame, location_detector: GermanLocationDete
     
     metrics.end_step()
     return df
+
+def country_detection(df: pd.DataFrame, country_detector: CountryDetector, 
+                     logger, metrics: PerformanceMetrics) -> pd.DataFrame:
+    """
+    Step 2b: Detect country mentioned in article
+    """
+    metrics.start_step("2b. Country Detection")
+    
+    logger.info("=" * 60)
+    logger.info("STEP 2b: COUNTRY DETECTION")
+    logger.info("=" * 60)
+    
+    logger.info(f"Processing {len(df):,} articles for country detection...")
+    
+    def detect_for_row(row):
+        text = f"{row['title']} {row['description']}"
+        return country_detector.detect_country(text)
+    
+    country_results = df.apply(detect_for_row, axis=1)
+    df['article_country'] = country_results.apply(lambda x: x[0])
+    df['article_country_score'] = country_results.apply(lambda x: x[1])
+    
+    # Log country distribution
+    country_dist = df['article_country'].value_counts().head(10)
+    logger.info("\nTop 10 detected countries:")
+    for country, count in country_dist.items():
+        logger.info(f"  {country}: {count:,} ({count/len(df)*100:.1f}%)")
+    
+    logger.info(f"✓ Country detection completed")
+    
+    metrics.end_step()
+    return df
+    
 
 
 def cluster_articles(df: pd.DataFrame, similarity_threshold: float, logger, 
@@ -687,7 +869,9 @@ def merge_and_save(df_all: pd.DataFrame, df_events: pd.DataFrame, conn: sqlite3.
         'emotion_label',
         'sentiment_numeric',
         'acled_event_type',
-        'narrative_topic_id'
+        'narrative_topic_id',
+        'article_country',
+        'article_country_score'
     ]]
     
     df_enriched = df_all.merge(nlp_results, on='article_cluster_id', how='left')
@@ -893,10 +1077,21 @@ def main():
             # Initialize NLP models
             nlp_models = NLPModels(logger)
             location_detector = GermanLocationDetector(logger)
+
+            # Initialize country detector
+            country_detector = CountryDetector(logger, config.conflict_countries)
             
             # Step 2: Geographic detection
             df = geographic_detection(df, location_detector, nlp_models, logger, metrics)
-            
+
+            # Step 2b: Country detection
+            if config.country_detection_enabled:
+                df = country_detection(df, country_detector, logger, metrics)
+            else:
+                logger.info("Country detection disabled in config")
+                df['article_country'] = 'NA'
+                df['article_country_score'] = 0
+
             # Step 3: Cluster articles
             df = cluster_articles(df, similarity_threshold, logger, metrics)
             
