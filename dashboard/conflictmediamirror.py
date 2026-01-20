@@ -739,41 +739,128 @@ def calc_attention_metrics(data):
     return burstiness, half_life_str
 
 df = load_data()
-# --------------------------
-# End Helpers Sentiment
-# --------------------------
+
+# -------------------------
+# Drilldown helpers
+# -------------------------
+def init_drilldown_state():
+    if "selected_iso3" not in st.session_state:
+        st.session_state.selected_iso3 = None
+    if "selected_country_name" not in st.session_state:
+        st.session_state.selected_country_name = None
+    if "drilldown_pending" not in st.session_state:
+        st.session_state.drilldown_pending = False
+
+
+@st.cache_data(ttl=300)
+def get_country_maps():
+    """
+    Build ISO3 <-> country name maps from country_indices.
+    Assumes columns: iso_a3, country (adjust here if yours differ).
+    """
+    df = load_indices().copy()
+
+    # Normalize column names (if needed)
+    iso_col = "iso_a3"
+    name_col = "country"
+
+    if iso_col not in df.columns or name_col not in df.columns:
+        raise KeyError(
+            f"country_indices must include '{iso_col}' and '{name_col}'. "
+            f"Found: {list(df.columns)}"
+        )
+
+    tmp = df[[iso_col, name_col]].dropna().drop_duplicates().copy()
+    tmp[iso_col] = tmp[iso_col].astype(str).str.upper().str.strip()
+    tmp[name_col] = tmp[name_col].astype(str).str.strip()
+
+    iso3_to_country = dict(zip(tmp[iso_col], tmp[name_col]))
+    country_to_iso3 = dict(zip(tmp[name_col].str.lower(), tmp[iso_col]))
+
+    return iso3_to_country, country_to_iso3
+
+
+def set_selected_country(*, iso3=None, country=None):
+    """
+    Store both ISO3 and country name in session_state.
+    If only one is provided, derive the other via country_indices maps.
+    """
+    iso3_to_country, country_to_iso3 = get_country_maps()
+
+    if iso3:
+        iso3 = str(iso3).upper().strip()
+        if not country:
+            country = iso3_to_country.get(iso3)
+
+    if country:
+        country = str(country).strip()
+        if not iso3:
+            iso3 = country_to_iso3.get(country.lower())
+
+    st.session_state.selected_iso3 = iso3
+    st.session_state.selected_country_name = country
+
+
+def extract_clicked_iso3(event, layer_id="countries"):
+    """
+    Read the clicked GeoJSON feature from st.pydeck_chart selection state
+    and extract ISO3 from its properties.
+    """
+    if not event:
+        return None
+
+    sel = getattr(event, "selection", None)
+    if not sel:
+        return None
+
+    objects = sel.get("objects") if isinstance(sel, dict) else getattr(sel, "objects", None)
+    if not objects or layer_id not in objects:
+        return None
+
+    feats = objects.get(layer_id) if isinstance(objects, dict) else None
+    if not feats:
+        return None
+
+    feat = feats[0]
+    props = feat.get("properties", {})
+
+    # In your app, iso_a3 should exist (you merged on it).
+    # Keep fallbacks just in case.
+    for k in ("iso_a3", "ISO_A3", "adm0_a3", "ADM0_A3", "sov_a3", "SOV_A3"):
+        v = props.get(k)
+        if v and str(v).strip():
+            return str(v).strip()
+
+    return None
 
 
 # -------------------------
 # Main Tabs
 # -------------------------
+# init once
+init_drilldown_state()
 if "page" not in st.session_state:
     st.session_state.page = "landing"
+
+page_map = {
+    "Landing Page": "landing",
+    "Conflict Underrepresentation": "underrep",
+    "Sentiment Analysis": "sentiment",
+    "Conflict Media Explorer": "explorer",
+    "Impressum": "impressum",
+}
+labels = list(page_map.keys())
 
 with st.sidebar:
     st.markdown("## Navigation")
 
-    page = st.radio(
-        "Go to",
-        [
-            "Landing Page",
-            "Conflict Underrepresentation",
-            "Sentiment Analysis",
-            "Conflict Media Explorer",
-            "Impressum",
-        ]
-    )
+    # apply programmatic nav change BEFORE the widget is created
+    if "_nav_override" in st.session_state:
+        st.session_state["nav_radio"] = st.session_state["_nav_override"]
+        del st.session_state["_nav_override"]
 
-    # mapping page key
-    page_map = {
-        "Landing Page": "landing",
-        "Conflict Underrepresentation": "underrep",
-        "Sentiment Analysis": "sentiment",
-        "Conflict Media Explorer": "explorer",
-        "Impressum": "impressum",
-    }
-
-    st.session_state.page = page_map[page]
+    chosen_label = st.radio("Go to", labels, key="nav_radio")
+    st.session_state.page = page_map[chosen_label]
 
 
 # -------------------------
@@ -867,7 +954,9 @@ elif st.session_state.page == "underrep":
     df_plot = load_indices()
     world = load_world()
 
+    # -------------------------
     # Global controls
+    # -------------------------
     #st.sidebar.header("Global metric")
     w = st.slider(
         "Weight on fatalities (w) in severity share",
@@ -933,6 +1022,7 @@ elif st.session_state.page == "underrep":
         layer2d = pdk.Layer(
             "GeoJsonLayer",
             data=geojson2d,
+            id="countries",
             stroked=True,
             filled=True,
             extruded=False,
@@ -955,10 +1045,36 @@ elif st.session_state.page == "underrep":
             "style": {"backgroundColor": "white", "color": "black"},
         }
 
-        st.pydeck_chart(
-            pdk.Deck(layers=[layer2d], initial_view_state=view_state_2d, tooltip=tooltip2d, map_style=None),
-            width="stretch",
+        
+        deck2d = pdk.Deck(
+            layers=[layer2d],
+            initial_view_state=view_state_2d,
+            tooltip=tooltip2d,
+            map_style=None,
         )
+
+        event = st.pydeck_chart(
+            deck2d,
+            width="stretch",
+            on_select="rerun",              # enable click selections :contentReference[oaicite:1]{index=1}
+            selection_mode="single-object", # one country at a time :contentReference[oaicite:2]{index=2}
+            key="underrep_map2d",
+        )
+
+        clicked_iso3 = extract_clicked_iso3(event, layer_id="countries")
+
+        if clicked_iso3:
+            # store ISO3 + derive country name from country_indices
+            set_selected_country(iso3=clicked_iso3)
+
+            if st.session_state.selected_country_name:
+                st.session_state.drilldown_pending = True
+                st.session_state.page = "explorer"
+                st.session_state._nav_override = "Conflict Media Explorer"
+                st.rerun()
+            else:
+                st.warning(f"Clicked ISO3='{clicked_iso3}', but couldn't map it to a country name in country_indices.")
+
 
     # -------------------------
     # 3D map
@@ -1602,6 +1718,28 @@ elif st.session_state.page == "sentiment":
 elif st.session_state.page == "explorer":
     st.markdown("## Conflict Media Explorer")
 
+    top_l, top_r = st.columns([1, 3])
+    with top_l:
+        if st.button("← Back to map", key="back_to_map"):
+            st.session_state.page = "underrep"
+            st.session_state._nav_override = "Conflict Underrepresentation"
+            st.rerun()
+
+    with top_r:
+        if st.session_state.get("selected_country_name"):
+            st.caption(
+                f"Current selection: {st.session_state.selected_country_name}"
+                f" ({st.session_state.selected_iso3 or 'no ISO3'})"
+            )
+
+        if st.button("Clear selection", key="clear_country"):
+            set_selected_country(iso3=None, country=None)
+            st.session_state.drilldown_pending = False
+            # also clear filter widget if we add a key
+            st.session_state["filt_country"] = ""
+            st.rerun()
+
+
     # Leitfrage + Beschreibung für Länder-Übersicht
     st.markdown(
         """
@@ -1703,14 +1841,31 @@ elif st.session_state.page == "explorer":
 
     # ---- Country-level Filter ----
     c1, c2, c3, c4 = st.columns([2, 1.2, 1.2, 1.2])
+    # --- prefill once when arriving from drilldown ---
+    if "filt_country" not in st.session_state:
+        st.session_state.filt_country = ""
+    if "min_fatal_str" not in st.session_state:
+        st.session_state.min_fatal_str = ""
+    if "min_events_str" not in st.session_state:
+        st.session_state.min_events_str = ""
+    if "max_articles_str" not in st.session_state:
+        st.session_state.max_articles_str = "300"
+
+    if st.session_state.get("drilldown_pending") and st.session_state.get("selected_country_name"):
+        st.session_state.filt_country = st.session_state.selected_country_name
+        st.session_state.min_fatal_str = ""
+        st.session_state.min_events_str = ""
+        st.session_state.max_articles_str = "300"
+        st.session_state.drilldown_pending = False
+
     with c1:
-        filt_country = st.text_input("Country", value="")
+        filt_country = st.text_input("Country", key="filt_country")
     with c2:
-        min_fatal_str = st.text_input("Min total fatalities", value="")
+        min_fatal_str = st.text_input("Min total fatalities", key="min_fatal_str")
     with c3:
-        min_events_str = st.text_input("Min events", value="")
+        min_events_str = st.text_input("Min events", key="min_events_str")
     with c4:
-        max_articles_str = st.text_input("Amount articles (detail)", value="300")
+        max_articles_str = st.text_input("Amount articles (detail)", key="max_articles_str")
 
 
     def to_float(x, default=0.0):
@@ -1788,6 +1943,15 @@ elif st.session_state.page == "explorer":
     if "evt" in locals() and evt and evt.selection.rows:
         i = evt.selection.rows[0]
         selected_country = str(show_master.iloc[i]["country"])
+
+    # Fallback: if no row clicked, use drilldown selection (or last selection)
+    if not selected_country and st.session_state.get("selected_country_name"):
+        selected_country = st.session_state.selected_country_name
+
+    # Keep session_state synced if user picked a different row
+    if selected_country:
+        set_selected_country(country=selected_country)
+
 
     #selected_country = st.text_input("Selected country", value=selected_country)
 
@@ -1962,13 +2126,10 @@ elif st.session_state.page == "explorer":
     else:
         conf_for_detail = conf
 
-    row = conf_for_detail[conf_for_detail[C_COUNTRY].astype(str) == selected_country.strip()]
+    row = conf[conf[C_COUNTRY].astype(str) == selected_country.strip()]
     if row.empty:
-        st.warning(
-            "Selected country not found in current filtered table. Try adjusting filters."
-        )
+        st.warning("Selected country not found in conflict_country. Try another country.")
         st.stop()
-
     r = row.iloc[0]
 
     # Konfliktprofil-Daten
