@@ -528,6 +528,143 @@ def _chat_answer(country: str, question: str, rows, model: str = "gpt-4o-mini") 
         max_tokens=450,
     )
     return resp.choices[0].message.content
+    
+# -------------------------
+# HELPER IMPRESSUM
+# -------------------------
+
+@st.cache_data(ttl=300)  # Cache for 5 minutes
+def get_pipeline_status():
+    """
+    Query databases to get last update times and date ranges.
+    Returns dict with status for each pipeline component.
+    """
+    status = {}
+    
+    # ACLED Data Status
+    try:
+        con_acled = get_conf_conn()
+        
+        # Last event date and date range
+        acled_query = """
+        SELECT 
+            MIN(event_date) as first_event,
+            MAX(event_date) as last_event,
+            COUNT(*) as total_events
+        FROM events
+        WHERE event_date IS NOT NULL
+        """
+        acled_data = pd.read_sql_query(acled_query, con_acled)
+        
+        status['acled'] = {
+            'last_update': acled_data['last_event'].iloc[0] if not acled_data.empty else 'N/A',
+            'date_range_start': acled_data['first_event'].iloc[0] if not acled_data.empty else 'N/A',
+            'date_range_end': acled_data['last_event'].iloc[0] if not acled_data.empty else 'N/A',
+            'total_records': int(acled_data['total_events'].iloc[0]) if not acled_data.empty else 0,
+            'status': 'operational'
+        }
+    except Exception as e:
+        status['acled'] = {
+            'last_update': 'Error',
+            'date_range_start': 'N/A',
+            'date_range_end': 'N/A',
+            'total_records': 0,
+            'status': 'error'
+        }
+    
+    # News Articles Status
+    try:
+        con_match = get_match_conn()
+        
+        articles_query = f"""
+        SELECT 
+            MIN({A_PUB}) as first_article,
+            MAX({A_PUB}) as last_article,
+            COUNT(*) as total_articles
+        FROM {MATCH_TABLE}
+        WHERE {A_PUB} IS NOT NULL
+        """
+        articles_data = pd.read_sql_query(articles_query, con_match)
+        
+        status['articles'] = {
+            'last_update': articles_data['last_article'].iloc[0] if not articles_data.empty else 'N/A',
+            'date_range_start': articles_data['first_article'].iloc[0] if not articles_data.empty else 'N/A',
+            'date_range_end': articles_data['last_article'].iloc[0] if not articles_data.empty else 'N/A',
+            'total_records': int(articles_data['total_articles'].iloc[0]) if not articles_data.empty else 0,
+            'status': 'operational'
+        }
+    except Exception as e:
+        status['articles'] = {
+            'last_update': 'Error',
+            'date_range_start': 'N/A',
+            'date_range_end': 'N/A',
+            'total_records': 0,
+            'status': 'error'
+        }
+    
+    # Matching Status (based on article dates since matching depends on articles)
+    status['matching'] = {
+        'last_update': status['articles']['last_update'],
+        'date_range_start': status['articles']['date_range_start'],
+        'date_range_end': status['articles']['date_range_end'],
+        'total_records': status['articles']['total_records'],
+        'status': status['articles']['status']
+    }
+    
+    # Sentiment Analysis Status (if available)
+    try:
+        if DATA_PATH.exists():
+            df_sent = pd.read_csv(DATA_PATH, usecols=['published_date'], parse_dates=['published_date'])
+            status['sentiment'] = {
+                'last_update': df_sent['published_date'].max().strftime('%Y-%m-%d') if not df_sent.empty else 'N/A',
+                'date_range_start': df_sent['published_date'].min().strftime('%Y-%m-%d') if not df_sent.empty else 'N/A',
+                'date_range_end': df_sent['published_date'].max().strftime('%Y-%m-%d') if not df_sent.empty else 'N/A',
+                'total_records': len(df_sent),
+                'status': 'operational'
+            }
+        else:
+            status['sentiment'] = {
+                'last_update': 'N/A',
+                'date_range_start': 'N/A',
+                'date_range_end': 'N/A',
+                'total_records': 0,
+                'status': 'not available'
+            }
+    except Exception as e:
+        status['sentiment'] = {
+            'last_update': 'Error',
+            'date_range_start': 'N/A',
+            'date_range_end': 'N/A',
+            'total_records': 0,
+            'status': 'error'
+        }
+    
+    return status
+
+
+def format_date_short(date_str):
+    """Format date string to readable format."""
+    if date_str == 'N/A' or date_str == 'Error':
+        return date_str
+    try:
+        dt = pd.to_datetime(date_str)
+        return dt.strftime('%b %d, %Y')
+    except:
+        return date_str
+
+
+def get_status_color(status):
+    """Return color based on status."""
+    colors = {
+        'operational': '#4CAF50',  # Green
+        'error': '#F44336',        # Red
+        'not available': '#FFC107' # Amber
+    }
+    return colors.get(status, '#9E9E9E')  # Gray default
+
+# --------------------------
+# END HELPER IMPRESSUM
+# --------------------------
 
 
 
@@ -2277,38 +2414,341 @@ elif st.session_state.page == "explorer":
 # Tab 5: Impressum
 # -------------------------
 elif st.session_state.page == "impressum":
-    st.markdown("## Impressum")
-
+    st.markdown("## About This Project")
+    
+    # ============================================================
+    # 1. VIDEO SHOWCASE
+    # ============================================================
     st.markdown("""
-    **Project Title:** Conflict Media Mirror  
-
-    **Project Type:** Academic / Non-commercial data analysis project  
-
-    **Description:**  
-    This dashboard was developed as part of an academic research project
-    analyzing the relationship between real-world conflict events and
-    German-language media coverage.
-
-    **Data Sources:**  
-    - Armed Conflict Location & Event Data Project (ACLED)  
-    - German-language news media articles  
-
-    **Disclaimer:**  
-    This project is for research and educational purposes only.
-    The visualizations and analyses do not claim completeness or factual correctness
-    of individual events or media reports.
-
-    **Responsibility for content:**  
-    The project authors are responsible for the content presented in this dashboard.
-
-    **Contact:**  
-    For questions or feedback, please refer to the project repository.
-
-    **Version:** 1.0  
-    **Last Updated:** January 2026
+    <div style="margin-top:1.5rem;">
+        <div style="font-size:1.6em; font-weight:700;">
+            Project Overview
+        </div>
+        <div style="color:#666; font-size:0.9em;">
+            Watch how we analyze conflict media coverage
+        </div>
+        <hr>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Video container
+    video_col1, video_col2 = st.columns([2, 1])
+    
+    with video_col1:
+        # Check if video file exists
+        video_path = PROJECT_ROOT / "data" / "project_video.mp4"
+        
+        if video_path.exists():
+            video_file = open(video_path, 'rb')
+            video_bytes = video_file.read()
+            st.video(video_bytes)
+        else:
+            st.info(
+                "📹 **Video placeholder**: Place your `project_video.mp4` file in the `data/` directory.\n\n"
+                "Alternative: You can also use a YouTube link by replacing this section with:\n"
+                "```python\nst.video('https://www.youtube.com/watch?v=YOUR_VIDEO_ID')\n```"
+            )
+    
+    with video_col2:
+        st.markdown("""
+        **What you'll see:**
+        
+        - How we connect conflict events with media coverage
+        - Pipeline architecture and data flow
+        - Key insights from our analysis
+        - Interactive dashboard features
+        
+        **Project Goals:**
+        
+        Analyze how German media frames global conflicts and identify 
+        systematic patterns in coverage, attention, and emotional framing.
+        """)
+    
+    st.divider()
+    
+    # ============================================================
+    # 2. PIPELINE STATUS & DATA FRESHNESS
+    # ============================================================
+    st.markdown("""
+    <div style="margin-top:2rem;">
+        <div style="font-size:1.6em; font-weight:700;">
+            Pipeline Status & Data Freshness
+        </div>
+        <div style="color:#666; font-size:0.9em;">
+            Real-time status of automated data collection and processing
+        </div>
+        <hr>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Get pipeline status
+    with st.spinner("Loading pipeline status..."):
+        pipeline_status = get_pipeline_status()
+    
+    # Status cards in grid
+    col1, col2, col3, col4 = st.columns(4)
+    
+    components = [
+        ('ACLED Events', 'acled', col1, '📊'),
+        ('News Articles', 'articles', col2, '📰'),
+        ('Country Matching', 'matching', col3, '🔗'),
+        ('Sentiment Analysis', 'sentiment', col4, '💭')
+    ]
+    
+    for name, key, col, icon in components:
+        with col:
+            data = pipeline_status.get(key, {})
+            status_color = get_status_color(data.get('status', 'unknown'))
+            last_update = format_date_short(data.get('last_update', 'N/A'))
+            total_records = f"{data.get('total_records', 0):,}"
+            
+            st.markdown(f"""
+            <div style="
+                background-color:#f5f5f5;
+                padding:1rem 1.1rem;
+                border-radius:12px;
+                border-left: 4px solid {status_color};
+                margin-bottom:1rem;
+            ">
+                <div style="font-size:1.2rem; margin-bottom:0.3rem;">{icon} {name}</div>
+                <div style="font-size:0.75rem; color:#666; margin-bottom:0.5rem;">
+                    Status: <span style="color:{status_color}; font-weight:600;">●</span> 
+                    {data.get('status', 'unknown').title()}
+                </div>
+                <div style="font-size:0.85rem; color:#555;">
+                    <b>Last Update:</b><br/>{last_update}
+                </div>
+                <div style="font-size:0.85rem; color:#555; margin-top:0.5rem;">
+                    <b>Total Records:</b><br/>{total_records}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+    
+    # Date ranges section
+    st.markdown("""
+    <div style="margin-top:1.5rem;">
+        <div style="font-size:1.3em; font-weight:600;">
+            Available Data Ranges
+        </div>
+        <hr>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    range_col1, range_col2 = st.columns(2)
+    
+    with range_col1:
+        st.markdown("#### 📊 ACLED Conflict Events")
+        acled_data = pipeline_status.get('acled', {})
+        st.markdown(f"""
+        - **First Event:** {format_date_short(acled_data.get('date_range_start', 'N/A'))}
+        - **Latest Event:** {format_date_short(acled_data.get('date_range_end', 'N/A'))}
+        - **Total Events:** {acled_data.get('total_records', 0):,}
+        """)
+    
+    with range_col2:
+        st.markdown("#### 📰 German News Coverage")
+        articles_data = pipeline_status.get('articles', {})
+        st.markdown(f"""
+        - **First Article:** {format_date_short(articles_data.get('date_range_start', 'N/A'))}
+        - **Latest Article:** {format_date_short(articles_data.get('date_range_end', 'N/A'))}
+        - **Total Articles:** {articles_data.get('total_records', 0):,}
+        """)
+    
+    st.divider()
+    
+    # ============================================================
+    # 3. AUTOMATION SCHEDULE
+    # ============================================================
+    st.markdown("""
+    <div style="margin-top:2rem;">
+        <div style="font-size:1.6em; font-weight:700;">
+            Automation Schedule
+        </div>
+        <div style="color:#666; font-size:0.9em;">
+            Automated pipeline execution using Supercronic
+        </div>
+        <hr>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Schedule visualization
+    schedule_data = pd.DataFrame([
+        {
+            'Pipeline': 'ACLED Data Collection',
+            'Frequency': 'Weekly (Sunday)',
+            'Time': '02:00 AM UTC',
+            'Purpose': 'Fetch latest conflict events from ACLED API',
+            'Icon': '📊'
+        },
+        {
+            'Pipeline': 'GNews Article Fetching',
+            'Frequency': 'Daily',
+            'Time': '06:00 AM UTC',
+            'Purpose': 'Collect German-language conflict news',
+            'Icon': '📰'
+        },
+        {
+            'Pipeline': 'Country Matching',
+            'Frequency': 'Weekly (Sunday)',
+            'Time': '04:00 AM UTC',
+            'Purpose': 'Match articles to countries and conflicts',
+            'Icon': '🔗'
+        },
+        {
+            'Pipeline': 'Sentiment Analysis',
+            'Frequency': 'Daily',
+            'Time': '05:00 AM UTC',
+            'Purpose': 'Analyze emotional framing and topics',
+            'Icon': '💭'
+        }
+    ])
+    
+    # Create visual schedule
+    for _, row in schedule_data.iterrows():
+        st.markdown(f"""
+        <div style="
+            background-color:#ffffff;
+            padding:1rem 1.5rem;
+            border-radius:10px;
+            border-left: 4px solid #4A90E2;
+            margin-bottom:1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        ">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="flex: 1;">
+                    <div style="font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;">
+                        {row['Icon']} {row['Pipeline']}
+                    </div>
+                    <div style="font-size:0.85rem; color:#666;">
+                        {row['Purpose']}
+                    </div>
+                </div>
+                <div style="text-align: right; min-width: 200px;">
+                    <div style="font-size:0.9rem; color:#4A90E2; font-weight:600;">
+                        {row['Frequency']}
+                    </div>
+                    <div style="font-size:0.8rem; color:#999;">
+                        {row['Time']}
+                    </div>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Execution flow diagram
+    st.markdown("#### ⏱️ Sunday Execution Flow")
+    st.markdown("""
+    ```
+    02:00 AM  ──→  ACLED starts
+    02:15 AM  ──→  ACLED completes
+    04:00 AM  ──→  Matching starts (uses fresh ACLED data)
+    04:10 AM  ──→  Matching completes
+    05:00 AM  ──→  Sentiment starts (processes week's articles)
+    05:45 AM  ──→  Sentiment completes
+    06:00 AM  ──→  GNews starts (collects new day's articles)
+    06:20 AM  ──→  GNews completes
+    ```
     """)
-
-    st.markdown(
-        "🔗 **GitHub Repository:** "
-        "[dashboard_conflict_data](https://github.com/yannickkayser/dashboard_conflict_data)"
-    )
+    
+    st.divider()
+    
+    # ============================================================
+    # 4. PROJECT INFORMATION (Original Impressum)
+    # ============================================================
+    st.markdown("""
+    <div style="margin-top:2rem;">
+        <div style="font-size:1.6em; font-weight:700;">
+            Project Information
+        </div>
+        <hr>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    info_col1, info_col2 = st.columns(2)
+    
+    with info_col1:
+        st.markdown("""
+        **Project Title:** Conflict Media Mirror  
+        
+        **Project Type:** Academic / Non-commercial data analysis project  
+        
+        **Description:**  
+        This dashboard was developed as part of an academic research project
+        analyzing the relationship between real-world conflict events and
+        German-language media coverage.
+        
+        **Data Sources:**  
+        - Armed Conflict Location & Event Data Project (ACLED)  
+        - German-language news media articles  
+        """)
+    
+    with info_col2:
+        st.markdown("""
+        **Disclaimer:**  
+        This project is for research and educational purposes only.
+        The visualizations and analyses do not claim completeness or factual correctness
+        of individual events or media reports.
+        
+        **Responsibility for content:**  
+        The project authors are responsible for the content presented in this dashboard.
+        
+        **Version:** 1.0  
+        **Last Updated:** January 2026
+        """)
+    
+    st.markdown("""
+    <div style="margin-top:1.5rem; text-align:center;">
+        <a href="https://github.com/yannickkayser/dashboard_conflict_data" target="_blank" 
+           style="
+               display: inline-block;
+               background: linear-gradient(135deg, #87CEEB, #4A90E2);
+               color: white;
+               padding: 0.8rem 2rem;
+               border-radius: 8px;
+               text-decoration: none;
+               font-weight: 600;
+               box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+           ">
+            📂 View GitHub Repository
+        </a>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Technical details expander
+    with st.expander("🔧 Technical Details"):
+        st.markdown("""
+        **Technologies Used:**
+        - **Frontend:** Streamlit
+        - **Data Processing:** Python (pandas, transformers, scikit-learn)
+        - **NLP Models:** Helsinki-NLP translation, sentiment analysis
+        - **Visualization:** Altair, Plotly, PyDeck
+        - **Databases:** SQLite
+        - **Automation:** Supercronic (cron scheduler)
+        
+        **Pipeline Components:**
+        1. **Data Acquisition:** GNews API + ACLED API
+        2. **Deduplication:** SimHash algorithm
+        3. **Translation:** German → English (M2M-100)
+        4. **Classification:** TF-IDF country matching
+        5. **NLP Enrichment:** Sentiment, emotion, topic modeling
+        6. **Matching:** Article-to-conflict linking
+        
+        **Databases:**
+        - `conflict_data.db` - ACLED events and aggregations
+        - `matching_country.db` - Article-country matches
+        - `processed_conflict_articles.csv` - NLP-enriched articles
+        """)
+    
+    # Contact section
+    st.markdown("""
+    <div style="margin-top:2rem; padding:1.5rem; background-color:#f9f9f9; border-radius:10px;">
+        <div style="font-size:1.2em; font-weight:600; margin-bottom:0.8rem;">
+            📧 Contact & Feedback
+        </div>
+        <div style="font-size:0.9rem; color:#666;">
+            For questions, feedback, or collaboration inquiries, please open an issue 
+            on our GitHub repository or contact the project maintainers through the 
+            repository's discussion section.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
