@@ -40,8 +40,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-#MATCHING_DB = DATA_DIR / "matching_country.db"
-MATCHING_DB = DATA_DIR / "matched_conflict.db"
+#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -931,22 +931,22 @@ if st.session_state.page == "landing":
 # Tab 1: Conflict Underrepresentation
 # -------------------------
 elif st.session_state.page == "underrep":
-    st.markdown("## Conflict Underrepresentation Analysis")
+    #st.markdown("## Conflict Underrepresentation Analysis")
 
     
-    st.markdown(
-        """
-        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-            In which countries does media attention diverge most from conflict severity?
-        </p>
-        <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-            This page compares how severe each country’s conflict situation is (events and fatalities)
-            with how often it appears in conflict-related news. Countries where coverage lags behind
-            severity can be interpreted as systematically underrepresented in media reporting.
-        </p>
-        """,
-        unsafe_allow_html=True,
-    )
+#    st.markdown(
+#        """
+#        <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
+#            In which countries does media attention diverge most from conflict severity?
+#        </p>
+#        <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
+#            This page compares how severe each country’s conflict situation is (events and fatalities)
+#            with how often it appears in conflict-related news. Countries where coverage lags behind
+#            severity can be interpreted as systematically underrepresented in media reporting.
+#       </p>
+#        """,
+#        unsafe_allow_html=True,
+#    )
 
     
 
@@ -957,14 +957,68 @@ elif st.session_state.page == "underrep":
     # -------------------------
     # Global controls
     # -------------------------
-    #st.sidebar.header("Global metric")
-    w = st.slider(
-        "Weight on fatalities (w) in severity share",
-        0.0, 1.0, 0.5, 0.05,
-        help="0 = only events share, 1 = only fatalities share; affects directly formula of severity_share"
-    )
+    # -----------------------------
+    SCENARIO_W = {
+        "Fatalities": 1.00,
+        "Events": 0.00,
+        "Balanced": 0.50,
+    }
 
-    # compute once, right after w exists
+    def _init_state():
+        st.session_state.setdefault("scenario", "Balanced")
+        st.session_state.setdefault("w_fat", SCENARIO_W["Balanced"])
+
+        # 2D advanced defaults
+        st.session_state.setdefault("clip_2d", 0.01)
+        st.session_state.setdefault("gamma_2d", 1.0)
+
+        # 3D advanced defaults
+        st.session_state.setdefault("height_scale", 3_000_000)
+        st.session_state.setdefault("height_gamma", 0.5)
+        st.session_state.setdefault("color_gamma", 1.0)
+        st.session_state.setdefault("pitch", 45)
+        st.session_state.setdefault("opacity", 0.9)
+
+    def _set_scenario(name: str):
+        st.session_state["scenario"] = name
+        st.session_state["w_fat"] = SCENARIO_W[name]
+
+    _init_state()
+
+    st.markdown("### Scenarios")
+
+    c1, c2, c3 = st.columns(3)
+    active = st.session_state["scenario"]
+
+    with c1:
+        st.button(
+            "Fatalities",
+            use_container_width=True,
+            on_click=_set_scenario,
+            args=("Fatalities",),
+            disabled=(active == "Fatalities"),
+        )
+    with c2:
+        st.button(
+            "Events",
+            use_container_width=True,
+            on_click=_set_scenario,
+            args=("Events",),
+            disabled=(active == "Events"),
+        )
+    with c3:
+        st.button(
+            "Balanced",
+            use_container_width=True,
+            on_click=_set_scenario,
+            args=("Balanced",),
+            disabled=(active == "Balanced"),
+        )
+
+    w = float(st.session_state["w_fat"])
+    st.caption(f"Active: **{active}** · events weight: {1-w:.0%} · fatalities weight: {w:.0%}")
+
+    # compute once, right after w exists (same as before)
     df_plot["severity_share"] = (1 - w) * df_plot["share_events"] + w * df_plot["share_fatalities"]
     df_plot["underrep_share"] = df_plot["share_articles"] - df_plot["severity_share"]
 
@@ -980,44 +1034,11 @@ elif st.session_state.page == "underrep":
         #st.subheader("Which countries are visibly under- or overrepresented in media coverage?")
         st.caption("Color = share_articles − severity_share (negative = undercovered)")
 
-        # Question + explanation for 2D map
-        st.markdown(
-            """
-            
-            </p>
-            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
-                The 2D map contrasts each country’s share of global conflict severity (events and fatalities)
-                with its share of conflict-related articles. Countries shaded towards the undercovered end
-                have fewer articles than their severity would suggest, while overcovered countries receive
-                disproportionate attention relative to their conflict burden.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
 
-        # Controls in one line
-        col_clip, col_gamma = st.columns(2)
-
-        with col_clip:
-            clip = st.slider(
-                "2D color clip",
-                min_value=0.001,
-                max_value=0.1,
-                value=0.01,
-                step=0.01,
-                help="Values beyond ±clip are saturated to the max color.",
-            )
-
-        with col_gamma:
-            gamma = st.slider(
-                "2D color gamma",
-                min_value=0.2,
-                max_value=2.0,
-                value=1.0,
-                step=0.05,
-                help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
-            )
+        clip = float(st.session_state["clip_2d"])
+        gamma = float(st.session_state["gamma_2d"])
         geojson2d, merged2d = build_geojson_underrep(world, df_plot, clip=clip, gamma=gamma)
+
 
         layer2d = pdk.Layer(
             "GeoJsonLayer",
@@ -1075,59 +1096,57 @@ elif st.session_state.page == "underrep":
             else:
                 st.warning(f"Clicked ISO3='{clicked_iso3}', but couldn't map it to a country name in country_indices.")
 
+        with st.expander("Advanced 2D Visuals", expanded=False):
+            col1, col2 = st.columns(2)
+            with col1:
+                st.slider(
+                    "2D color clip",
+                    min_value=0.001,
+                    max_value=0.1,
+                    step=0.01,
+                    key="clip_2d",
+                    help="Values beyond ±clip are saturated to the max color.",
+                )
+            with col2:
+                st.slider(
+                    "2D color gamma",
+                    min_value=0.2,
+                    max_value=2.0,
+                    step=0.05,
+                    key="gamma_2d",
+                    help="Lower (<1) boosts contrast; higher (>1) compresses.",
+                )
+        
+        # Question + explanation for 2D map
+        st.markdown(
+            """
+            
+            </p>
+            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                The 2D map contrasts each country’s share of global conflict severity (events and fatalities)
+                with its share of conflict-related articles. Countries shaded towards the undercovered end
+                have fewer articles than their severity would suggest, while overcovered countries receive
+                disproportionate attention relative to their conflict burden.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+
+
 
     # -------------------------
     # 3D map
     # -------------------------
     with tab3d:
 
-        # Question + explanation for 3D map (playground)
-        st.markdown(
-            """
-            
-            </p>
-            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
-                The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
-                settings to explore how conflict severity (height) and media coverage (color) vary across
-                countries. Tall but relatively pale countries indicate intense conflict with limited coverage,
-                while brightly colored pillars highlight locations that receive comparatively strong media attention.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
+        # Read advanced values (no sliders here)
+        height_scale = int(st.session_state["height_scale"])
+        height_gamma = float(st.session_state["height_gamma"])
+        color_gamma = float(st.session_state["color_gamma"])
+        pitch = int(st.session_state["pitch"])
+        opacity = float(st.session_state["opacity"])
 
-        # Controls
-        col1, col2 = st.columns([1, 2])
-
-        with col1:
-            height_scale = st.slider(
-                "Height scale",
-                min_value=100_000,
-                max_value=5_000_000,
-                value=3_000_000,
-                step=100_000,
-                help="DeckGL elevation is in 'meters' visually; this is a multiplier.",
-            )
-            height_gamma = st.slider(
-                "Height exponent (gamma)",
-                min_value=0.2,
-                max_value=2.0,
-                value=0.5,
-                step=0.05,
-                help="Lower (<1) boosts contrast among low severity values; higher (>1) compresses.",
-            )
-            color_gamma = st.slider(
-                "Color exponent (gamma)",
-                min_value=0.2,
-                max_value=2.0,
-                value=1.0,
-                step=0.05,
-                help="Lower (<1) boosts contrast among low coverage values; higher (>1) compresses.",
-            )
-
-        with col2:
-            pitch = st.slider("3D pitch", 0, 70, 45, 1)
-            opacity = st.slider("Opacity", 0.1, 1.0, 0.9, 0.05)
 
         geojson, merged = build_geojson(world, df_plot, color_gamma=color_gamma)
 
@@ -1178,6 +1197,57 @@ elif st.session_state.page == "underrep":
         )
 
         st.pydeck_chart(deck, width="stretch")
+
+
+        with st.expander("Advanced 3D Visuals", expanded=False):
+            colA, colB = st.columns([1, 2])
+
+            with colA:
+                st.slider(
+                    "Height scale",
+                    min_value=100_000,
+                    max_value=5_000_000,
+                    step=100_000,
+                    key="height_scale",
+                    help="DeckGL elevation multiplier.",
+                )
+                st.slider(
+                    "Height exponent (gamma)",
+                    min_value=0.2,
+                    max_value=2.0,
+                    step=0.05,
+                    key="height_gamma",
+                    help="Lower boosts low values; higher compresses.",
+                )
+                st.slider(
+                    "Color exponent (gamma)",
+                    min_value=0.2,
+                    max_value=2.0,
+                    step=0.05,
+                    key="color_gamma",
+                    help="Lower boosts low coverage contrast; higher compresses.",
+                )
+
+            with colB:
+                st.slider("3D pitch", 0, 70, 45, 1, key="pitch")
+                st.slider("Opacity", 0.1, 1.0, 0.9, 0.05, key="opacity")
+
+        # Question + explanation for 3D map (playground)
+        st.markdown(
+            """
+            
+            </p>
+            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
+                settings to explore how conflict severity (height) and media coverage (color) vary across
+                countries. Tall but relatively pale countries indicate intense conflict with limited coverage,
+                while brightly colored pillars highlight locations that receive comparatively strong media attention.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+
 
     # -------------------------
     # Top 10 countries table
@@ -1716,7 +1786,7 @@ elif st.session_state.page == "sentiment":
 # Tab 3: Conflict × Media Explorer
 # -------------------------
 elif st.session_state.page == "explorer":
-    st.markdown("## Conflict Media Explorer")
+    st.markdown("### Conflict Media Explorer")
 
     top_l, top_r = st.columns([1, 3])
     with top_l:
@@ -1726,12 +1796,6 @@ elif st.session_state.page == "explorer":
             st.rerun()
 
     with top_r:
-        if st.session_state.get("selected_country_name"):
-            st.caption(
-                f"Current selection: {st.session_state.selected_country_name}"
-                f" ({st.session_state.selected_iso3 or 'no ISO3'})"
-            )
-
         if st.button("Clear selection", key="clear_country"):
             set_selected_country(iso3=None, country=None)
             st.session_state.drilldown_pending = False
@@ -1739,6 +1803,13 @@ elif st.session_state.page == "explorer":
             st.session_state["filt_country"] = ""
             st.rerun()
 
+        if st.session_state.get("selected_country_name"):
+            st.caption(
+                f"Current selection: {st.session_state.selected_country_name}"
+                f" ({st.session_state.selected_iso3 or 'no ISO3'})"
+            )
+
+        
 
     # Leitfrage + Beschreibung für Länder-Übersicht
     st.markdown(
