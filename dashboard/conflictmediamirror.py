@@ -2765,7 +2765,7 @@ elif st.session_state.page == "impressum":
         
         **Databases:**
         - `conflict_data.db` - ACLED events and aggregations
-        - `matching_country.db` - Article-country matches
+        - `matchde_conflict.db` - Article-country matches
         - `processed_conflict_articles.csv` - NLP-enriched articles
         """)
     
