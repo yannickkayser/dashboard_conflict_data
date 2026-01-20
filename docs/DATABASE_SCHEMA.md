@@ -109,41 +109,6 @@ CREATE TABLE articles_eng (
 
 ---
 
-#### Table: `enriched_articles`
-**Purpose:** Articles with NLP features (sentiment, topics, clusters)
-
-```sql
-CREATE TABLE enriched_articles (
-    id TEXT PRIMARY KEY,                       -- Article URL
-    is_domestic INTEGER,                       -- 1=domestic, 0=international
-    detected_locations TEXT,                   -- Named entity locations
-    emotion_label TEXT,                        -- Sentiment: positive, negative, neutral
-    acled_event_type TEXT,                     -- ACLED classification
-    narrative_topic_id INTEGER,                -- Topic model cluster
-    article_cluster_id TEXT,                   -- Duplicate cluster ID
-    is_duplicate INTEGER                       -- 1=duplicate, 0=unique
-);
-
--- Analysis queries:
--- SELECT emotion_label, COUNT(*) FROM enriched_articles GROUP BY emotion_label;
--- SELECT is_domestic, COUNT(*) FROM enriched_articles GROUP BY is_domestic;
--- SELECT narrative_topic_id, COUNT(*) FROM enriched_articles WHERE narrative_topic_id IS NOT NULL 
---   GROUP BY narrative_topic_id ORDER BY COUNT(*) DESC LIMIT 10;
-
--- Find clusters of similar articles:
--- SELECT article_cluster_id, COUNT(*) as cluster_size FROM enriched_articles
---   WHERE is_duplicate = 1 GROUP BY article_cluster_id ORDER BY cluster_size DESC;
-```
-
-**Field Details:**
-- `is_domestic`: Geographic scope (country-internal vs. international coverage)
-- `emotion_label`: Output from emotion classifier (e.g., "angry", "fearful", "sad")
-- `acled_event_type`: Predicted ACLED classification (Violence, Protest, Riot, etc.)
-- `narrative_topic_id`: LDA topic model cluster (0-19 typically)
-- `article_cluster_id`: Groups semantically similar/duplicate articles together
-
----
-
 ### Database 3: `conflict_data.db`
 
 #### Table: `events` (Raw ACLED Data)
@@ -278,31 +243,14 @@ CREATE TABLE conflict_country (
 
 ### Database 4: `matched_conflict.db`
 
-#### Table: `match_country_wide`
-**Purpose:** Articles matched to countries (complete data)
+#### Table: `coverage_country`
+**Purpose:** Country overview, quickly access number of articles per country
 
 ```sql
 CREATE TABLE match_country_wide (
-    -- Article fields (prefixed: art_)
-    art_id TEXT,                               -- Article URL
-    art_publishedAt DATETIME,                  -- Article date
-    art_title_en TEXT,                         -- English title
-    art_description_en TEXT,                   -- English description
-    art_url TEXT,                              -- Source URL
-    art_source_name TEXT,                      -- News outlet
-    art_source_url TEXT,                       -- News website
-    
-    -- Country fields (from articles_eng)
-    article_country TEXT,                      -- Country code
-    article_country_score INTEGER              -- Classification confidence
+    country TEXT,                               -- Country name
+    n_articles INTEGER,                             -- Numver of articles
 );
-
--- Match statistics:
--- SELECT COUNT(DISTINCT art_id) FROM match_country_wide;  -- Total articles
--- SELECT article_country, COUNT(*) FROM match_country_wide 
---   GROUP BY article_country ORDER BY COUNT(*) DESC;
--- SELECT article_country, article_country_score, COUNT(*) FROM match_country_wide
---   GROUP BY article_country, article_country_score;
 ```
 
 ---
@@ -367,26 +315,6 @@ CREATE TABLE match_conflict_wide (
 --   GROUP BY time_proximity_days ORDER BY time_proximity_days;
 ```
 
----
-
-#### Table: `match_conflict_slim`
-**Purpose:** Articles matched to conflicts (minimal fields)
-
-```sql
-CREATE TABLE match_conflict_slim (
-    art_id TEXT PRIMARY KEY,                   -- Article
-    conf_conflict_id TEXT,                     -- Conflict ID
-    conf_n_events INTEGER,                     -- Event count
-    conf_total_fatalities INTEGER,             -- Fatalities
-    conf_country TEXT,                         -- Conflict country
-    conf_start_date DATE,                      -- Conflict start
-    conf_end_date DATE                         -- Conflict end
-);
-
--- Fast conflict lookups:
--- SELECT * FROM match_conflict_slim WHERE conf_conflict_id = 'CONFLICT_ID';
--- SELECT COUNT(*) FROM match_conflict_slim WHERE conf_total_fatalities > 100;
-```
 
 ---
 
@@ -419,114 +347,3 @@ CREATE TABLE match_conflict_slim (
 - `conflict_key`: Human-readable identifier
 
 ---
-
-## Common SQL Patterns
-
-### 1. Coverage Analysis
-```sql
--- Countries with highest article coverage
-SELECT article_country, COUNT(*) as article_count
-FROM articles_eng
-WHERE article_country != 'NA'
-GROUP BY article_country
-ORDER BY article_count DESC
-LIMIT 20;
-```
-
-### 2. Sentiment by Country
-```sql
--- Emotional tone of conflict coverage by country
-SELECT ae.article_country, ea.emotion_label, COUNT(*) as count
-FROM articles_eng ae
-JOIN enriched_articles ea ON ae.id = ea.id
-GROUP BY ae.article_country, ea.emotion_label
-ORDER BY ae.article_country, COUNT(*) DESC;
-```
-
-### 3. Conflict-Article Lag
-```sql
--- How quickly do news articles appear after conflict events?
-SELECT 
-    time_proximity_days,
-    COUNT(*) as article_count,
-    AVG(conf_total_fatalities) as avg_fatalities
-FROM match_conflict_wide
-WHERE time_proximity_days BETWEEN -30 AND 30
-GROUP BY time_proximity_days
-ORDER BY time_proximity_days;
-```
-
-### 4. High-Fatality Conflicts
-```sql
--- Articles about deadliest conflicts
-SELECT DISTINCT
-    conf_conflict_id,
-    conf_country,
-    conf_total_fatalities,
-    COUNT(*) as article_count
-FROM match_conflict_wide
-WHERE conf_total_fatalities > 100
-GROUP BY conf_conflict_id
-ORDER BY conf_total_fatalities DESC;
-```
-
-### 5. Data Quality Checks
-```sql
--- Check for missing values
-SELECT 
-    (SELECT COUNT(*) FROM articles_eng WHERE title_en IS NULL) as missing_titles,
-    (SELECT COUNT(*) FROM articles_eng WHERE article_country IS NULL) as missing_country,
-    (SELECT COUNT(*) FROM enriched_articles WHERE emotion_label IS NULL) as missing_emotion;
-```
-
----
-
-## Index Recommendations
-
-For better query performance, consider adding:
-
-```sql
--- For date-range queries
-CREATE INDEX idx_articles_eng_publishedAt ON articles_eng(publishedAt);
-CREATE INDEX idx_events_event_date ON events(event_date);
-
--- For country lookups
-CREATE INDEX idx_articles_eng_country ON articles_eng(article_country);
-CREATE INDEX idx_conflict_features_country ON conflict_features(country);
-
--- For matching queries
-CREATE INDEX idx_match_conflict_wide_conflict_id ON match_conflict_wide(conf_conflict_id);
-CREATE INDEX idx_match_conflict_wide_article_id ON match_conflict_wide(art_id);
-
--- For source tracking
-CREATE INDEX idx_articles_eng_source ON articles_eng(source_name);
-
--- For deduplication lookups
-CREATE INDEX idx_enriched_articles_cluster ON enriched_articles(article_cluster_id);
-```
-
----
-
-## Backup & Maintenance
-
-**Database Backup:**
-```bash
-# Backup all databases
-mkdir -p backups
-for db in data/*.db; do
-    cp "$db" "backups/$(basename $db).backup.$(date +%Y%m%d_%H%M%S)"
-done
-```
-
-**Integrity Check:**
-```sql
--- Run in SQLite
-PRAGMA integrity_check;
-PRAGMA foreign_key_check;
-```
-
-**Space Analysis:**
-```bash
-ls -lh data/*.db
-sqlite3 data/matched_conflict.db "SELECT page_count * page_size as bytes FROM pragma_page_count(), pragma_page_size();"
-```
