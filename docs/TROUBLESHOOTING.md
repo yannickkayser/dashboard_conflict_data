@@ -81,10 +81,7 @@ sqlite3.OperationalError: disk I/O error
   ```bash
   df -h data/
   ```
-- Remove old backup databases:
-  ```bash
-  rm -f backups/*.backup.*
-  ```
+
 - Compress old databases:
   ```bash
   gzip data/gnews_articles_from2023.db
