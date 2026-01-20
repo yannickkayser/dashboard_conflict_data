@@ -34,6 +34,7 @@ Use this section as the main entry point to the technical documentation and oper
 | `DATABASE_SCHEMA.md` | Full schema reference for all SQLite databases produced by the pipeline (GNews, ACLED, matching outputs). | When writing custom SQL, building visualizations, or checking how a specific field is defined. |
 | `QUICK_START.md` | Operational checklist for running the pipeline (commands, order of execution, basic validation queries). | For day-to-day use: running or re-running the full pipeline or onboarding collaborators. |
 | `TROUBLESHOOTING.md` | Common errors, performance issues, and optimization strategies (APIs, GPU/CPU limits, DB locks, memory). | When a stage fails, is too slow, or when moving to different hardware. |
+| `AUTOMATION.md` | Scheduled execution with supercronic, monitoring, and alerting setup. | For understanding/modifying the automated scheduling or troubleshooting cron jobs. |
 
 
 ***
@@ -68,6 +69,7 @@ For a practical entry point:
 2. Use [**`QUICK_START.md`**](docs/QUICK_START.md) to run the full pipeline once and generate all databases.
 3. Refer to [**`DATABASE_SCHEMA.md`**](docs/DATABASE_SCHEMA.md) when constructing your first analytical queries (e.g., coverage vs. fatalities by country).
 4. Keep [**`TROUBLESHOOTING.md`**](docs/TROUBLESHOOTING.md) nearby when scaling up, moving to GPU, or encountering API/database issues.
+5. Look at [**ÀUTOMATION.md`**](docs/AUTOMATION.md) for the constant fetching and updating of the pipeline to ensure that the dashboard shows the newest possible data.
 
 
 
