@@ -16,8 +16,7 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
 1. DATA ACQUISITION
    ├── GNews API (pipelineGNEWS.py)
    │   ├── Fetch articles (German language)
-   │   ├── Query: Protest, Demonstration, Violence, Conflict, Corruption
-   │   └── Time range: Dec 21, 2025 - Dec 31, 2025
+   │   └── Query: Protest, Demonstration, Violence, Conflict, Corruption
    │
    └── ACLED API (pipelineACLED.py)
        ├── Fetch conflict events worldwide
@@ -79,28 +78,40 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
 **Purpose:** Processed article data with deduplication and enrichment
 
 **Table: `article_without_duplicates`**
+| Field | Type | Description |
+|-------|------|-------------|
+| id | String (PK) | Article URL |
+| publishedAt | DateTime | Publication timestamp |
+| title | String | German title |
+| description | String | German description |
+| content | String | Article body text |
+| url | String | Source URL |
+| source_name | String | News outlet name |
+| source_url | String | Source website |
+
 - Raw articles after SimHash deduplication
 - Removes near-duplicate content
 - Preserves: id, publishedAt, title, description, url, source_name, source_url
 
 **Table: `articles_eng`**
+| Field | Type | Description |
+|-------|------|-------------|
+| id | String (PK) | Article URL |
+| publishedAt | DateTime | Publication timestamp |
+| url | String | Source URL |
+| source_name | String | News outlet name |
+| source_url | String | Source website |
+| title_eng | String | translated title |
+| description_eng | String | translated description |
+| article_country | String | detected country |
+| article_country_score | Int | confidence score |
+
 - Articles with English translations and country classification
 - Key enrichments:
   - `title_en`: Translated title (German → English)
   - `description_en`: Translated description
   - `article_country`: Detected country (TF-IDF classifier)
   - `article_country_score`: Confidence score (0-100)
-
-**Table: `enriched_articles`** (Added by Sentiment Analysis Pipeline)
-- NLP-enriched articles
-- Fields:
-  - `is_domestic`: Boolean (1 = domestic, 0 = international)
-  - `detected_locations`: Named entities found
-  - `emotion_label`: Sentiment classification
-  - `acled_event_type`: Predicted ACLED event type
-  - `narrative_topic_id`: Topic model cluster ID
-  - `article_cluster_id`: Duplicate cluster ID
-  - `is_duplicate`: Boolean (True if near-duplicate)
 
 ---
 
@@ -146,13 +157,54 @@ Your system implements a sophisticated multi-stage data pipeline for extracting,
 #### 4. `matched_conflict.db`
 **Purpose:** Matched articles to conflicts and countries
 
+**Table: `coverage_country`**
+- `county`: detected country
+- `n_articles`: number of articles per country
+
+
 **Table: `match_country_wide`**
+| Field | Type | Description |
+|-------|------|-------------|
+| art_id | String (PK) | Article URL |
+| art_publishedAt | DateTime | Article Publication timestamp |
+| art_url | String | Source URL |
+| art_source_name | String | Name of media outlet |
+| art_title_eng | String | Translated Title |
+| art_description_eng | String | Translated Description |
+| conf_country | String | Conflict country |
+| conf_n_events | Int | number of events per country |
+| conf_total_fatalities | Int | number of fatalities per country |
+| ... | ... | ... |
 - Complete article-country matches
+- Contains all fields of article and conflict description
 - Combines article fields (`art_*`) with country data
 
 **Table: `match_country_slim`**
 - Minimal fields: article ID, publishedAt, URL, article_country
 - Fast query access
+
+---
+
+#### 5. `processed_conflict_articles.csv`
+| Field | Type | Description |
+|-------|------|-------------|
+| id | String (PK) | Article URL |
+| title | String | German title |
+| description | String | German description |
+| content | String | Article body text |
+| url | String | Source URL |
+| source_name | String | News outlet name |
+| source_url | String | Source website |
+| published_date | DateTime | Published date |
+| is_domestic | Boolean | domestic or international article |
+| detect_locations | String | country, region, city extraction |
+| article_country | String | detected country |
+| article_country_score | Int | confidence score |
+| is_duplicate | Boolean | detect duplicates |
+| emotion_label | String | categorized emotions |
+| sentiment numeric | Float | numeric sentiment |
+| narrative_topic_id | Int | classification for articles |
+
 
 ---
 
@@ -173,7 +225,6 @@ python pipelineGNEWS.py
 - Language: German (de)
 - Country: Germany (de)
 - Keywords: Protest, Demonstration, Violence, Conflict, Corruption, etc.
-- Date range: 2025-12-21 to 2025-12-31
 - Batch size: 200 articles
 
 ---
@@ -287,14 +338,6 @@ python pipelinematchingCountry.py
 # Install dependencies
 pip install -r requirements.txt
 
-# Required packages (inferred from imports):
-# - sqlite3
-# - transformers (M2M-100 translation, sentiment models)
-# - torch
-# - simhash
-# - requests (for APIs)
-# - python-dateutil
-# - scikit-learn (TF-IDF)
 ```
 
 ### 2. Configuration
@@ -461,33 +504,6 @@ WHERE ae.article_country = 'Syria'
 GROUP BY emotion_label;
 ```
 
----
-
-## Performance Optimization Tips
-
-1. **Batch Processing:** Increase batch sizes for GPU availability
-2. **Indexing:** Add indices on frequently queried fields (country, date, conflict_id)
-3. **Slim Tables:** Use `*_slim` tables for faster queries on simple lookups
-4. **Caching:** Cache TF-IDF models and translation models between runs
-5. **Parallel Execution:** Run Stage 2 (ACLED) in parallel with Stage 1 (GNews) if independent data sources
-
----
-
-## Troubleshooting
-
-### Issue: Translation Model Download Slow
-**Solution:** Pre-download models or use GPU acceleration
-
-### Issue: High Deduplication Rate (>80%)
-**Cause:** Possibly fetching redundant content from aggregator sites
-**Solution:** Review query terms or increase date range for diversity
-
-### Issue: Low Country Match Rate (<30%)
-**Cause:** Articles may not mention country explicitly
-**Solution:** Enhance with named entity recognition or manual review
-
-### Issue: Memory Errors During Sentiment Analysis
-**Solution:** Reduce batch size, use CPU instead of GPU, or process in smaller date ranges
 
 ---
 
