@@ -40,7 +40,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-MATCHING_DB = DATA_DIR / "matching_country.db"
+#MATCHING_DB = DATA_DIR / "matching_country.db"
+MATCHING_DB = DATA_DIR / "matched_conflict.db"
+GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
 MATCH_TABLE = "match_country_slim"
@@ -95,6 +97,9 @@ st.markdown(
 def get_conf_conn():
     return sqlite3.connect(str(CONFLICT_DB), check_same_thread=False)
 
+@st.cache_resource
+def get_gnews_conn():
+    return sqlite3.connect(str(GNEWS_DB), check_same_thread=False)
 
 @st.cache_resource
 def get_match_conn():
@@ -178,6 +183,10 @@ if not CONFLICT_DB.exists():
     st.stop()
 if not MATCHING_DB.exists():
     st.error(f"Missing DB: {MATCHING_DB}")
+    st.stop()
+
+if not GNEWS_DB.exists():
+    st.error(f"Missing DB: {GNEWS_DB}")
     st.stop()
 
 CC_COLS = table_cols("conf", COUNTRY_TABLE)
@@ -571,21 +580,20 @@ def get_pipeline_status():
             'total_records': 0,
             'status': 'error'
         }
-    
-    # News Articles Status
-    try:
-        con_match = get_match_conn()
-        
-        articles_query = f"""
-        SELECT 
-            MIN({A_PUB}) as first_article,
-            MAX({A_PUB}) as last_article,
-            COUNT(*) as total_articles
-        FROM {MATCH_TABLE}
-        WHERE {A_PUB} IS NOT NULL
+
+    # GNews Articles Status
+    try: 
+        con_gnews = get_gnews_conn()
+
+        news_query = """
+        SELECT
+            MIN(publishedAt) as first_article,
+            MAX(publishedAt) as last_article,
+            COUNT (*) as total_articles
+        FROM articles_eng
         """
-        articles_data = pd.read_sql_query(articles_query, con_match)
-        
+        articles_data = pd.read_sql_query(news_query, con_gnews)
+
         status['articles'] = {
             'last_update': articles_data['last_article'].iloc[0] if not articles_data.empty else 'N/A',
             'date_range_start': articles_data['first_article'].iloc[0] if not articles_data.empty else 'N/A',
@@ -601,15 +609,37 @@ def get_pipeline_status():
             'total_records': 0,
             'status': 'error'
         }
+
     
-    # Matching Status (based on article dates since matching depends on articles)
-    status['matching'] = {
-        'last_update': status['articles']['last_update'],
-        'date_range_start': status['articles']['date_range_start'],
-        'date_range_end': status['articles']['date_range_end'],
-        'total_records': status['articles']['total_records'],
-        'status': status['articles']['status']
-    }
+    # Matched Articles Status
+    try:
+        con_match = get_match_conn()
+        
+        articles_query = f"""
+        SELECT 
+            MIN({A_PUB}) as first_article,
+            MAX({A_PUB}) as last_article,
+            COUNT(*) as total_articles
+        FROM {MATCH_TABLE}
+        WHERE {A_PUB} IS NOT NULL
+        """
+        matched_data = pd.read_sql_query(articles_query, con_match)
+        
+        status['matching'] = {
+            'last_update': matched_data['last_article'].iloc[0] if not matched_data.empty else 'N/A',
+            'date_range_start': matched_data['first_article'].iloc[0] if not matched_data.empty else 'N/A',
+            'date_range_end': matched_data['last_article'].iloc[0] if not matched_data.empty else 'N/A',
+            'total_records': int(matched_data['total_articles'].iloc[0]) if not matched_data.empty else 0,
+            'status': 'operational'
+        }
+    except Exception as e:
+        status['matching'] = {
+            'last_update': 'Error',
+            'date_range_start': 'N/A',
+            'date_range_end': 'N/A',
+            'total_records': 0,
+            'status': 'error'
+        }
     
     # Sentiment Analysis Status (if available)
     try:
@@ -671,7 +701,7 @@ def get_status_color(status):
 # --------------------------
 # Helpers Sentiment
 # --------------------------
-DATA_PATH = PROJECT_ROOT / "data" / "processed_conflict_articles.csv"
+DATA_PATH = PROJECT_ROOT / "data" / "processed_conflict_articles_test.csv"
 @st.cache_data
 def load_data():
     if not DATA_PATH.exists():
@@ -2436,7 +2466,7 @@ elif st.session_state.page == "impressum":
     
     with video_col1:
         # Check if video file exists
-        video_path = PROJECT_ROOT / "data" / "project_video.mp4"
+        video_path = PROJECT_ROOT / "data" / "project_video_small.mp4"
         
         if video_path.exists():
             video_file = open(video_path, 'rb')
@@ -2489,13 +2519,13 @@ elif st.session_state.page == "impressum":
     col1, col2, col3, col4 = st.columns(4)
     
     components = [
-        ('ACLED Events', 'acled', col1, '📊'),
-        ('News Articles', 'articles', col2, '📰'),
-        ('Country Matching', 'matching', col3, '🔗'),
-        ('Sentiment Analysis', 'sentiment', col4, '💭')
+        ('ACLED Events', 'acled', col1),
+        ('News Articles', 'articles', col2),
+        ('Country Matching', 'matching', col3),
+        ('Sentiment Analysis', 'sentiment', col4)
     ]
     
-    for name, key, col, icon in components:
+    for name, key, col in components:
         with col:
             data = pipeline_status.get(key, {})
             status_color = get_status_color(data.get('status', 'unknown'))
@@ -2510,7 +2540,7 @@ elif st.session_state.page == "impressum":
                 border-left: 4px solid {status_color};
                 margin-bottom:1rem;
             ">
-                <div style="font-size:1.2rem; margin-bottom:0.3rem;">{icon} {name}</div>
+                <div style="font-size:1.2rem; color:#666; margin-bottom:0.3rem;">{name}</div>
                 <div style="font-size:0.75rem; color:#666; margin-bottom:0.5rem;">
                     Status: <span style="color:{status_color}; font-weight:600;">●</span> 
                     {data.get('status', 'unknown').title()}
@@ -2537,7 +2567,7 @@ elif st.session_state.page == "impressum":
     range_col1, range_col2 = st.columns(2)
     
     with range_col1:
-        st.markdown("#### 📊 ACLED Conflict Events")
+        st.markdown("#### ACLED Conflict Events")
         acled_data = pipeline_status.get('acled', {})
         st.markdown(f"""
         - **First Event:** {format_date_short(acled_data.get('date_range_start', 'N/A'))}
@@ -2546,7 +2576,7 @@ elif st.session_state.page == "impressum":
         """)
     
     with range_col2:
-        st.markdown("#### 📰 German News Coverage")
+        st.markdown("#### German News Coverage")
         articles_data = pipeline_status.get('articles', {})
         st.markdown(f"""
         - **First Article:** {format_date_short(articles_data.get('date_range_start', 'N/A'))}
@@ -2616,7 +2646,7 @@ elif st.session_state.page == "impressum":
         ">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="flex: 1;">
-                    <div style="font-size:1.1rem; font-weight:600; margin-bottom:0.3rem;">
+                    <div style="font-size:1.1rem; color:#666; font-weight:600; margin-bottom:0.3rem;">
                         {row['Icon']} {row['Pipeline']}
                     </div>
                     <div style="font-size:0.85rem; color:#666;">
@@ -2697,7 +2727,7 @@ elif st.session_state.page == "impressum":
         """)
     
     st.markdown("""
-    <div style="margin-top:1.5rem; text-align:center;">
+    <div style="margin-top:1.5rem; margin-bottom:1.5rem; text-align:center;">
         <a href="https://github.com/yannickkayser/dashboard_conflict_data" target="_blank" 
            style="
                display: inline-block;
@@ -2742,7 +2772,7 @@ elif st.session_state.page == "impressum":
     # Contact section
     st.markdown("""
     <div style="margin-top:2rem; padding:1.5rem; background-color:#f9f9f9; border-radius:10px;">
-        <div style="font-size:1.2em; font-weight:600; margin-bottom:0.8rem;">
+        <div style="font-size:1.2em; color:#666; font-weight:600; margin-bottom:0.8rem;">
             📧 Contact & Feedback
         </div>
         <div style="font-size:0.9rem; color:#666;">
