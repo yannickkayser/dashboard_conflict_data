@@ -451,34 +451,76 @@ class GermanLocationDetector:
         return is_domestic, ", ".join(set(found_locs))
 
 
+import geonamescache
+from typing import Dict, Set, Tuple
+
 class CountryDetector:
     """Detect article country based on text analysis"""
     
-    def __init__(self, logger, conflict_countries: list = None):
+    def __init__(self, logger, conflict_countries: list = None, use_all_countries: bool = True):
         self.logger = logger
         self.logger.info("Initializing Country Detector...")
         
-        # Default to common conflict countries if none provided
-        if conflict_countries is None:
-            conflict_countries = [
+        # Option 1: Use all countries from geonamescache
+        if use_all_countries:
+            countries = self._get_all_countries_from_geonames()
+            self.logger.info(f"Loading ALL countries from GeonamesCache: {len(countries)} countries")
+        # Option 2: Use only specified conflict countries
+        elif conflict_countries is not None:
+            countries = conflict_countries
+            self.logger.info(f"Using {len(countries)} specified countries")
+        # Option 3: Fallback to default conflict countries
+        else:
+            countries = [
                 "Germany", "United States", "United Kingdom", "France", 
                 "Russia", "Ukraine", "China", "Syria", "Afghanistan",
                 "Israel", "Palestine", "Iraq", "Iran", "Yemen"
             ]
+            self.logger.info(f"Using {len(countries)} default conflict countries")
         
-        self.country_aliases = self._build_country_aliases(conflict_countries)
-        self.logger.info(f"Loaded {len(self.country_aliases)} countries for detection")
+        self.country_aliases = self._build_country_aliases(countries)
+        self.logger.info(f"Built aliases for {len(self.country_aliases)} countries")
+    
+    def _get_all_countries_from_geonames(self) -> list:
+        """Extract all country names from geonamescache"""
+        gc = geonamescache.GeonamesCache()
+        countries_dict = gc.get_countries()
+        
+        # Get country names (using 'name' field)
+        country_names = [country['name'] for country in countries_dict.values()]
+        
+        return country_names
     
     def _build_country_aliases(self, countries: list) -> Dict[str, Set[str]]:
         """Build country alias mapping"""
         aliases: Dict[str, Set[str]] = {}
         
+        # Get additional data from geonamescache for better aliases
+        gc = geonamescache.GeonamesCache()
+        countries_dict = gc.get_countries()
+        
+        # Create reverse lookup: country name -> country code
+        name_to_code = {country['name']: code for code, country in countries_dict.items()}
+        
         for country in countries:
+            # Base alias is the country name itself
             base = {normalize_text(country)}
+            
+            # Add manual patches
             patch = MANUAL_COUNTRY_ALIAS_PATCHES.get(country, set())
+            
+            # Add ISO codes and alternative names from geonamescache
+            country_code = name_to_code.get(country)
+            if country_code:
+                country_data = countries_dict[country_code]
+                # Add ISO codes
+                base.add(normalize_text(country_code))
+                base.add(normalize_text(country_data.get('iso', '')))
+                base.add(normalize_text(country_data.get('iso3', '')))
+            
             aliases[country] = set(base) | {normalize_text(p) for p in patch}
         
-        # Special handling for Germany
+        # Special handling for Germany (keep your existing logic)
         if "Germany" in aliases:
             extra = (
                 {"germany", "german", "deutschland"} |
@@ -522,6 +564,40 @@ class CountryDetector:
         
         # Return top candidate with its score
         return candidates[0][0], candidates[0][1]
+    
+    def get_country_statistics(self) -> Dict:
+        """Get statistics about loaded countries"""
+        stats = {
+            "total_countries": len(self.country_aliases),
+            "total_aliases": sum(len(aliases) for aliases in self.country_aliases.values()),
+            "avg_aliases_per_country": sum(len(aliases) for aliases in self.country_aliases.values()) / len(self.country_aliases) if self.country_aliases else 0,
+            "countries_with_most_aliases": sorted(
+                [(country, len(aliases)) for country, aliases in self.country_aliases.items()],
+                key=lambda x: x[1],
+                reverse=True
+            )[:10]
+        }
+        return stats
+
+
+# Keep your existing helper functions
+def strip_accents(s: str) -> str:
+    """Remove accents from text"""
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", s) 
+                   if not unicodedata.combining(c))
+
+def normalize_text(s: str) -> str:
+    """Normalize text for comparison"""
+    return strip_accents((s or "").lower())
+
+def regex_count(text_norm: str, alias_norm: str) -> int:
+    """Count occurrences of alias in text using word boundaries"""
+    import re
+    pattern = r"(?<![a-z])" + re.escape(alias_norm) + r"(?![a-z])"
+    return len(re.findall(pattern, text_norm))
+
+
 
 class NLPModels:
     """Initialize and manage NLP models"""
@@ -889,15 +965,33 @@ def merge_and_save(df_all: pd.DataFrame, df_events: pd.DataFrame, conn: sqlite3.
     events_output = config.output_evt
     
     logger.info(f"Saving all articles to: {articles_output}")
-    df_enriched.to_csv(articles_output, index=False, encoding='utf-8-sig')
+    #df_enriched.to_csv(articles_output, index=False, encoding='utf-8-sig')
+    safe_append_csv(df_enriched, articles_output)
+
     
     logger.info(f"Saving unique events to: {events_output}")
-    df_events.to_csv(events_output, index=False, encoding='utf-8-sig')
+    #df_events.to_csv(events_output, index=False, encoding='utf-8-sig')
+    safe_append_csv(df_events, events_output)
     
     logger.info(f"✓ Saved {len(df_enriched):,} enriched articles")
     logger.info(f"✓ Saved {len(df_events):,} unique events")
     
     metrics.end_step()
+
+def safe_append_csv(df: pd.DataFrame, path: str):
+    """
+    Append DataFrame to CSV without overwriting existing data.
+    Writes header only if file does not exist.
+    """
+    write_header = not os.path.exists(path)
+    df.to_csv(
+        path,
+        mode="a",
+        header=write_header,
+        index=False,
+        encoding="utf-8-sig"
+    )
+
 
 def get_date_range_from_processed(config: PipelineConfig, logger, weeks_forward: int = 2) -> Tuple[Optional[str], Optional[str]]:
     """
@@ -1048,7 +1142,7 @@ def main():
         logger.info("\n" + "=" * 60)
         logger.info("CHECKING PROCESSED DATA FOR DATE RANGE")
         logger.info("=" * 60)
-        update_config_dates(config, logger, weeks_forward=2)  # Change weeks_forward as needed
+        update_config_dates(config, logger, weeks_forward=4)  # Change weeks_forward as needed
         
         logger.info(f"\nConfiguration:")
         logger.info(f"  Raw DB: {config.raw_db}")
@@ -1086,6 +1180,14 @@ def main():
 
             # Step 2b: Country detection
             if config.country_detection_enabled:
+                # Initialize country detector with ALL countries
+                country_detector = CountryDetector(
+                    logger, 
+                    conflict_countries=config.conflict_countries,
+                    use_all_countries=True  # <-- This enables detection of all countries
+                )
+                
+                # Actually run the country detection! (This was missing)
                 df = country_detection(df, country_detector, logger, metrics)
             else:
                 logger.info("Country detection disabled in config")
