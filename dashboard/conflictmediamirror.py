@@ -1644,27 +1644,67 @@ elif st.session_state.page == "sentiment":
                 st.plotly_chart(fig_area, use_container_width=True)
             
             # Tone by event type
-            st.markdown("#### Tone by Event Type")
-            if not df_country.empty:
-                df_ev = (
-                    df_country.groupby('acled_event_type')['sentiment_numeric']
-                    .mean()
-                    .sort_values()
-                    .reset_index()
-                )
+            #st.markdown("#### Tone by Event Type")
+            #if not df_country.empty:
+            #    df_ev = (
+            #        df_country.groupby('acled_event_type')['sentiment_numeric']
+            #        .mean()
+            #        .sort_values()
+            #        .reset_index()
+            #    )
+            #
+            #    fig_bar = px.bar(
+            #        df_ev,
+            #        x='sentiment_numeric',
+            #        y='acled_event_type',
+            #        orientation='h',
+            #        color='sentiment_numeric',
+            #        color_continuous_scale='RdYlGn',
+            #        range_x=[-0.6, 0.4],
+            #        labels={'sentiment_numeric': 'Negative ←→ Positive'},
+            #        title=f"Emotional Tone - {country_name}"
+            #    )
+            #    st.plotly_chart(fig_bar, use_container_width=True)
 
-                fig_bar = px.bar(
-                    df_ev,
-                    x='sentiment_numeric',
-                    y='acled_event_type',
-                    orientation='h',
-                    color='sentiment_numeric',
-                    color_continuous_scale='RdYlGn',
-                    range_x=[-0.6, 0.4],
-                    labels={'sentiment_numeric': 'Negative ←→ Positive'},
-                    title=f"Emotional Tone - {country_name}"
-                )
-                st.plotly_chart(fig_bar, use_container_width=True)
+            st.markdown("#### Institutional Emotion Profile")
+            if not df_country.empty:
+                # Filter out neutral emotions
+                exclude = ['neutral', 'others', 'other', 'label_1']
+                df_active = df_country[~df_country['emotion_label'].str.lower().isin(exclude)]
+        
+                if not df_active.empty:
+                    # Get top 10 outlets for this country
+                    top_outlets = df_country['source_name'].value_counts().head(10).index
+                    df_top_outlets = df_country[df_country['source_name'].isin(top_outlets)]
+                    df_top_active = df_top_outlets[~df_top_outlets['emotion_label'].str.lower().isin(exclude)]
+            
+                    # Get top 5 emotions globally from this country's data
+                    top_5_emotions = df_active['emotion_label'].value_counts().nlargest(5).index.tolist()
+                    df_top_active_top5 = df_top_active[df_top_active['emotion_label'].isin(top_5_emotions)]
+            
+                    if not df_top_active_top5.empty:
+                        # Create crosstab with percentage normalization
+                        ctab = pd.crosstab(
+                            df_top_active_top5['source_name'], 
+                            df_top_active_top5['emotion_label'], 
+                            normalize='index'
+                        ) * 100
+                
+                        fig_heat = px.imshow(
+                            ctab, 
+                            text_auto=".1f", 
+                            aspect="auto",
+                            labels=dict(x="Top 5 Emotions", y="Media Outlet", color="Percentage (%)"),
+                            color_continuous_scale="Purples",
+                            title=f"Emotion Framing by Outlet - {country_name}"
+                        )
+                        st.plotly_chart(fig_heat, use_container_width=True)
+                else:
+                    st.info(f"Insufficient emotion data for {country_name}")
+                
+            else:
+                st.info(f"No active emotional framing data for {country_name}")
+    
             
             # Emotion distribution
             st.markdown("#### Emotional Framing")
@@ -1738,184 +1778,60 @@ elif st.session_state.page == "sentiment":
         # ============================================================
         # 4. CROSS-COUNTRY COMPARISON CHARTS
         # ============================================================
-        if country_comparison_mode and len(selected_countries) == 2:
-            st.markdown("""
-            <div style="margin-top:2.2rem;">
-                <div style="font-size:1.6em; font-weight:700;">
-                    Cross-Country Comparison
-                </div>
-                <hr>
-            </div>
-            """, unsafe_allow_html=True)
+        #if country_comparison_mode and len(selected_countries) == 2:
+        #    st.markdown("""
+        #    <div style="margin-top:2.2rem;">
+        #        <div style="font-size:1.6em; font-weight:700;">
+        #            Cross-Country Comparison
+        #        </div>
+        #        <hr>
+        #    </div>
+        #    """, unsafe_allow_html=True)
+        #    
+        #    # Side-by-side sentiment comparison
+        #    comp_col1, comp_col2 = st.columns(2)
+        #    
+        #    with comp_col1:
+        #        st.markdown("#### Average Sentiment Comparison")
+        #        df_country_1 = df_filtered[df_filtered['article_country_x'] == selected_countries[0]]
+        #        df_country_2 = df_filtered[df_filtered['article_country_x'] == selected_countries[1]]
+        #        
+        #       comparison_data = pd.DataFrame({
+        #            'Country': selected_countries,
+        #            'Avg Sentiment': [
+        #                df_country_1['sentiment_numeric'].mean() if not df_country_1.empty else 0,
+        #                df_country_2['sentiment_numeric'].mean() if not df_country_2.empty else 0
+        #            ]
+        #        })
+                
+         #       fig_comp = px.bar(
+         #           comparison_data,
+         #           x='Country',
+         #           y='Avg Sentiment',
+         #           color='Avg Sentiment',
+         #           color_continuous_scale='RdYlGn',
+         #           title="Sentiment Score Comparison"
+         #       )
+         #       st.plotly_chart(fig_comp, use_container_width=True)
             
-            # Side-by-side sentiment comparison
-            comp_col1, comp_col2 = st.columns(2)
-            
-            with comp_col1:
-                st.markdown("#### Average Sentiment Comparison")
-                df_country_1 = df_filtered[df_filtered['article_country_x'] == selected_countries[0]]
-                df_country_2 = df_filtered[df_filtered['article_country_x'] == selected_countries[1]]
+         #   with comp_col2:
+         #       st.markdown("#### Coverage Volume Comparison")
+         #       coverage_data = pd.DataFrame({
+         #           'Country': selected_countries,
+         #           'Article Count': [
+         #               len(df_country_1),
+         #               len(df_country_2)
+         #           ]
+         #       })
                 
-                comparison_data = pd.DataFrame({
-                    'Country': selected_countries,
-                    'Avg Sentiment': [
-                        df_country_1['sentiment_numeric'].mean() if not df_country_1.empty else 0,
-                        df_country_2['sentiment_numeric'].mean() if not df_country_2.empty else 0
-                    ]
-                })
-                
-                fig_comp = px.bar(
-                    comparison_data,
-                    x='Country',
-                    y='Avg Sentiment',
-                    color='Avg Sentiment',
-                    color_continuous_scale='RdYlGn',
-                    title="Sentiment Score Comparison"
-                )
-                st.plotly_chart(fig_comp, use_container_width=True)
-            
-            with comp_col2:
-                st.markdown("#### Coverage Volume Comparison")
-                coverage_data = pd.DataFrame({
-                    'Country': selected_countries,
-                    'Article Count': [
-                        len(df_country_1),
-                        len(df_country_2)
-                    ]
-                })
-                
-                fig_coverage = px.bar(
-                    coverage_data,
-                    x='Country',
-                    y='Article Count',
-                    color='Country',
-                    title="Media Attention Volume"
-                )
-                st.plotly_chart(fig_coverage, use_container_width=True)
-        # ============================================================
-        # 5. MEDIA OUTLET COMPARISON (Aggregate Analysis)
-        # ============================================================
-        st.markdown("""
-        <div style="margin-top:3rem; margin-bottom:1.5rem;">
-            <div style="
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                padding: 20px;
-                border-radius: 12px;
-                color: white;
-                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            ">
-                <div style="font-size:1.6em; font-weight:700; margin-bottom:8px;">
-                    📰 Media Outlet Comparison
-                </div>
-                <div style="font-size:0.95em; opacity:0.95;">
-                    <strong>⚠️ Analysis Scope Change:</strong> This section analyzes all selected data 
-                    (both countries combined) to identify institutional patterns and editorial biases 
-                    across German media outlets.
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        top_outlets = df_filtered['source_name'].value_counts().head(10).index
-        df_top_outlets = df_filtered[df_filtered['source_name'].isin(top_outlets)]
-        exclude = ['neutral', 'others', 'other', 'label_1']
-        df_top_active = df_top_outlets[~df_top_outlets['emotion_label'].str.lower().isin(exclude)]
-
-        tab_heatmap, tab_sentiment = st.tabs(["Institutional Emotion Profile", "Tone Variance Score"])
-
-        with tab_heatmap:
-            st.subheader("Institutional Emotion Heatmap (Top 5 Emotions)")
-            if not df_top_active.empty:
-                df_active_all = df_filtered[~df_filtered['emotion_label'].str.lower().isin(exclude)]
-                top_5_global = df_active_all['emotion_label'].value_counts().nlargest(5).index.tolist()
-                df_top_active_top5 = df_top_active[df_top_active['emotion_label'].isin(top_5_global)]
-                
-                if not df_top_active_top5.empty:
-                    ctab = pd.crosstab(df_top_active_top5['source_name'], df_top_active_top5['emotion_label'], normalize='index') * 100
-                    fig_heat = px.imshow(ctab, text_auto=".1f", aspect="auto",
-                                        labels=dict(x="Top 5 Emotions", y="Media Outlet", color="Percentage (%)"),
-                                        color_continuous_scale="Purples",
-                                        title="Framing Choice by Outlet (Top 5 Active Emotions %)")
-                    st.plotly_chart(fig_heat, use_container_width=True)
-                else:
-                    st.warning("No articles matching the Top 5 global emotions found for these outlets.")
-            else:
-                st.warning("Insufficient specific emotional data.")
-
-        with tab_sentiment:
-            st.subheader("Average Tone Variance (Bias Check)")
-            if not df_top_outlets.empty:
-                df_outlet_avg = df_top_outlets.groupby('source_name')['sentiment_numeric'].agg(['mean', 'count']).reset_index()
-                df_outlet_avg.columns = ['Media Outlet', 'Avg Tone Score', 'Article Volume']
-                
-                fig_outlet = px.scatter(df_outlet_avg, x='Avg Tone Score', y='Media Outlet', 
-                                        size='Article Volume', color='Avg Tone Score',
-                                        color_continuous_scale='RdBu', 
-                                        color_continuous_midpoint=0,
-                                        range_x=[-0.2, 0.2],
-                                        title="Outlet Positioning on the Emotional Spectrum",
-                                        labels={'Avg Tone Score': 'Intense/Negative Framing <---> Calm/Positive Framing'})
-                fig_outlet.add_vline(x=df_filtered['sentiment_numeric'].mean(), line_dash="dash", line_color="gray", annotation_text="Market Avg")
-                st.plotly_chart(fig_outlet, use_container_width=True)
-            else:
-                st.info("No media outlet data available for the current selection.")
-
-        # ============================================================
-        # 6. NARRATIVE DEEP DIVE (Applied to all filtered data)
-        # ============================================================
-        st.markdown("""
-        <div style="margin-top:2.2rem;">
-            <div style="font-size:1.6em; font-weight:700;">
-                Narrative Discovery
-            </div>
-            <div style="color:#666; font-size:0.9em;">
-                Recurring storylines across selected countries
-            </div>
-            <hr>
-        </div>
-        """, unsafe_allow_html=True)
-
-        top_clusters = df_filtered['article_cluster_id'].value_counts().head(5)
-
-        if not top_clusters.empty:
-            translate = st.checkbox("Enable Translation for Event Headlines")
-            if translate:
-                ts = get_translator()
-
-            for rank, (cid, count) in enumerate(top_clusters.items(), start=1):
-                cluster_data = df_filtered[df_filtered['article_cluster_id'] == cid]
-                if cluster_data.empty:
-                    continue
-
-                sample = cluster_data.iloc[0]
-
-                display_title = sample.get('title', 'No headline available')
-                if translate:
-                    try:
-                        display_title = ts(display_title[:512])[0]['translation_text']
-                    except:
-                        pass
-
-                event_type = sample.get('acled_event_type', 'Unknown event type')
-
-                expander_title = (
-                    f"Top {rank} · {event_type} · "
-                    f"{display_title[:80]}{'…' if len(display_title) > 80 else ''} "
-                    f"({count} articles)"
-                )
-
-                with st.expander(expander_title):
-                    st.write(f"**Headline:** {display_title}")
-                    if translate:
-                        st.caption(f"Original German: {sample.get('title', '')}")
-
-                    st.write(f"**Event Type:** {sample.get('acled_event_type', 'Unknown')}")
-                    st.write(f"**Location:** {sample.get('detected_locations', 'Not specified')}")
-                    st.write(f"**Tone Intensity Score:** {sample.get('sentiment_numeric', 0):.2f}")
-                    st.progress(min(1.0, abs(sample.get('sentiment_numeric', 0))))
-
-        st.divider()
-        st.caption("Native German processing with English UI representation. Data source: processed_conflict_articles.csv")
+         #       fig_coverage = px.bar(
+         #           coverage_data,
+         #           x='Country',
+         #           y='Article Count',
+         #           color='Country',
+         #           title="Media Attention Volume"
+         #       )
+         #       st.plotly_chart(fig_coverage, use_container_width=True)
 
 
 
@@ -3101,3 +3017,166 @@ elif st.session_state.page == "impressum":
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+
+    # BONUS
+    if df is None:
+        st.error("Data files not found. Please run data_processor.py first.")
+    else:
+        # ============================================================
+        # 5. MEDIA OUTLET COMPARISON (Aggregate Analysis)
+        # ============================================================
+        st.markdown("""
+        <div style="margin-top:3rem; margin-bottom:1.5rem;">
+            <div style="
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                padding: 20px;
+                border-radius: 12px;
+                color: white;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            ">
+                <div style="font-size:1.6em; font-weight:700; margin-bottom:8px;">
+                    BONUS Media Outlet Comparison
+                </div>
+                <div style="font-size:0.95em; opacity:0.95;">
+                    This section analyzes all selected data 
+                    to identify institutional patterns and editorial biases 
+                    across German media outlets.
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        with st.container():
+            st.markdown(
+                "<div class='filter-box'><b>Analytics Filters</b></div>",
+                unsafe_allow_html=True
+            )
+
+            f1, f2 = st.columns([2, 1])
+
+            with f1:
+                date_range = st.date_input(
+                    "Date Range",
+                    [df['published_date'].min(), df['published_date'].max()]
+                )
+
+            with f2:
+                scope = st.selectbox(
+                    "Scope",
+                    ["All News", "International", "Domestic"]
+                )
+
+        # Apply date filter
+        if len(date_range) == 2:
+            mask = (df['published_date'].dt.date >= date_range[0]) & (df['published_date'].dt.date <= date_range[1])
+            df_filtered = df.loc[mask]
+        else:
+            df_filtered = df.copy()
+
+        # Apply scope filter
+        if scope == "International": 
+            df_filtered = df_filtered[df_filtered['is_domestic'] == False]
+        elif scope == "Domestic": 
+            df_filtered = df_filtered[df_filtered['is_domestic'] == True]    
+
+        top_outlets = df_filtered['source_name'].value_counts().head(10).index
+        df_top_outlets = df_filtered[df_filtered['source_name'].isin(top_outlets)]
+        exclude = ['neutral', 'others', 'other', 'label_1']
+        df_top_active = df_top_outlets[~df_top_outlets['emotion_label'].str.lower().isin(exclude)]
+
+        tab_heatmap, tab_sentiment = st.tabs(["Institutional Emotion Profile", "Tone Variance Score"])
+
+        with tab_heatmap:
+            st.subheader("Institutional Emotion Heatmap (Top 5 Emotions)")
+            if not df_top_active.empty:
+                df_active_all = df_filtered[~df_filtered['emotion_label'].str.lower().isin(exclude)]
+                top_5_global = df_active_all['emotion_label'].value_counts().nlargest(5).index.tolist()
+                df_top_active_top5 = df_top_active[df_top_active['emotion_label'].isin(top_5_global)]
+                
+                if not df_top_active_top5.empty:
+                    ctab = pd.crosstab(df_top_active_top5['source_name'], df_top_active_top5['emotion_label'], normalize='index') * 100
+                    fig_heat = px.imshow(ctab, text_auto=".1f", aspect="auto",
+                                        labels=dict(x="Top 5 Emotions", y="Media Outlet", color="Percentage (%)"),
+                                        color_continuous_scale="Purples",
+                                        title="Framing Choice by Outlet (Top 5 Active Emotions %)")
+                    st.plotly_chart(fig_heat, use_container_width=True)
+                else:
+                    st.warning("No articles matching the Top 5 global emotions found for these outlets.")
+            else:
+                st.warning("Insufficient specific emotional data.")
+
+        with tab_sentiment:
+            st.subheader("Average Tone Variance (Bias Check)")
+            if not df_top_outlets.empty:
+                df_outlet_avg = df_top_outlets.groupby('source_name')['sentiment_numeric'].agg(['mean', 'count']).reset_index()
+                df_outlet_avg.columns = ['Media Outlet', 'Avg Tone Score', 'Article Volume']
+                
+                fig_outlet = px.scatter(df_outlet_avg, x='Avg Tone Score', y='Media Outlet', 
+                                        size='Article Volume', color='Avg Tone Score',
+                                        color_continuous_scale='RdBu', 
+                                        color_continuous_midpoint=0,
+                                        range_x=[-0.2, 0.2],
+                                        title="Outlet Positioning on the Emotional Spectrum",
+                                        labels={'Avg Tone Score': 'Intense/Negative Framing <---> Calm/Positive Framing'})
+                fig_outlet.add_vline(x=df_filtered['sentiment_numeric'].mean(), line_dash="dash", line_color="gray", annotation_text="Market Avg")
+                st.plotly_chart(fig_outlet, use_container_width=True)
+            else:
+                st.info("No media outlet data available for the current selection.")
+
+        # ============================================================
+        # 6. NARRATIVE DEEP DIVE (Applied to all filtered data)
+        # ============================================================
+        st.markdown("""
+        <div style="margin-top:2.2rem;">
+            <div style="font-size:1.6em; font-weight:700;">
+                Narrative Discovery
+            </div>
+            <div style="color:#666; font-size:0.9em;">
+                Recurring storylines across selected countries
+            </div>
+            <hr>
+        </div>
+        """, unsafe_allow_html=True)
+
+        top_clusters = df_filtered['article_cluster_id'].value_counts().head(5)
+
+        if not top_clusters.empty:
+            translate = st.checkbox("Enable Translation for Event Headlines")
+            if translate:
+                ts = get_translator()
+
+            for rank, (cid, count) in enumerate(top_clusters.items(), start=1):
+                cluster_data = df_filtered[df_filtered['article_cluster_id'] == cid]
+                if cluster_data.empty:
+                    continue
+
+                sample = cluster_data.iloc[0]
+
+                display_title = sample.get('title', 'No headline available')
+                if translate:
+                    try:
+                        display_title = ts(display_title[:512])[0]['translation_text']
+                    except:
+                        pass
+
+                event_type = sample.get('acled_event_type', 'Unknown event type')
+
+                expander_title = (
+                    f"Top {rank} · {event_type} · "
+                    f"{display_title[:80]}{'…' if len(display_title) > 80 else ''} "
+                    f"({count} articles)"
+                )
+
+                with st.expander(expander_title):
+                    st.write(f"**Headline:** {display_title}")
+                    if translate:
+                        st.caption(f"Original German: {sample.get('title', '')}")
+
+                    st.write(f"**Event Type:** {sample.get('acled_event_type', 'Unknown')}")
+                    st.write(f"**Location:** {sample.get('detected_locations', 'Not specified')}")
+                    st.write(f"**Tone Intensity Score:** {sample.get('sentiment_numeric', 0):.2f}")
+                    st.progress(min(1.0, abs(sample.get('sentiment_numeric', 0))))
+
+        st.divider()
+        st.caption("Native German processing with English UI representation. Data source: processed_conflict_articles.csv")
