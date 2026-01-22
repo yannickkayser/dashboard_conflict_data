@@ -334,6 +334,45 @@ def safe_div(a, b):
 def to_month(dt: pd.Series) -> pd.Series:
     return dt.dt.to_period("M").astype(str)
 
+@st.cache_data(ttl=60)
+def build_indices_live() -> pd.DataFrame:
+    # 1) ISO3 mapping from precomputed table (only for iso_a3 <-> country)
+    idx = load_indices()[["country", "iso_a3"]].drop_duplicates()
+
+    # 2) Live conflict totals (same as explorer uses via `conf`)
+    cc = qdf_conf(f"""
+        SELECT
+            {C_COUNTRY} AS country,
+            {C_EVENTS}  AS n_events,
+            {C_FATAL}   AS total_fatalities
+        FROM {COUNTRY_TABLE}
+    """)
+
+    # 3) Live article totals (same DB/table as explorer KPI)
+    ac = qdf_match(f"""
+        SELECT {M_COUNTRY} AS country, COUNT(*) AS n_articles
+        FROM {MATCH_TABLE}
+        GROUP BY {M_COUNTRY}
+    """)
+
+    df = cc.merge(ac, on="country", how="left").fillna({"n_articles": 0})
+    df["n_articles"] = df["n_articles"].astype(int)
+
+    # 4) Attach iso_a3 (for map join)
+    df = df.merge(idx, on="country", how="left")
+
+    # 5) Recompute shares from LIVE totals (so undercoverage score matches the explorer’s data)
+    tot_articles = df["n_articles"].sum()
+    tot_events   = df["n_events"].sum()
+    tot_fat      = df["total_fatalities"].sum()
+
+    df["share_articles"]    = df["n_articles"] / tot_articles if tot_articles else 0.0
+    df["share_events"]      = df["n_events"] / tot_events     if tot_events else 0.0
+    df["share_fatalities"]  = df["total_fatalities"] / tot_fat if tot_fat else 0.0
+
+    return df
+
+
 
 # -------------------------
 # Check DBs exist
@@ -918,7 +957,7 @@ def get_country_maps():
     Build ISO3 <-> country name maps from country_indices.
     Assumes columns: iso_a3, country (adjust here if yours differ).
     """
-    df = load_indices().copy()
+    df = build_indices_live().copy()
 
     # Normalize column names (if needed)
     iso_col = "iso_a3"
@@ -1040,7 +1079,7 @@ with st.sidebar:
 # -------------------------
 if st.session_state.page == "landing":
 
-    df_plot = load_indices()
+    df_plot = build_indices_live()
     world = load_world()
 
 
@@ -1283,7 +1322,7 @@ elif st.session_state.page == "underrep":
     
 
     #df_idx = load_indices()
-    df_plot = load_indices()
+    df_plot = build_indices_live()
     world = load_world()
 
     # -------------------------
