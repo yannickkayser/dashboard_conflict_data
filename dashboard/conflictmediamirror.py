@@ -855,10 +855,10 @@ if "page" not in st.session_state:
     st.session_state.page = "landing"
 
 page_map = {
-    "Landing Page": "landing",
-    "Conflict Underrepresentation": "underrep",
-    "Sentiment Analysis": "sentiment",
-    "Conflict Media Explorer": "explorer",
+    "Our Mission": "landing",
+    "Media Gap Map": "underrep",
+    "Conflict Coverage Explorer": "explorer",
+    "Framing the Conflict": "sentiment",
     "Impressum": "impressum",
 }
 labels = list(page_map.keys())
@@ -870,6 +870,10 @@ with st.sidebar:
     if "_nav_override" in st.session_state:
         st.session_state["nav_radio"] = st.session_state["_nav_override"]
         del st.session_state["_nav_override"]
+
+    # guard against stale/renamed labels from previous runs
+    if "nav_radio" in st.session_state and st.session_state["nav_radio"] not in labels:
+        st.session_state["nav_radio"] = labels[1]   # or "Media Gap Map"
 
     chosen_label = st.radio("Go to", labels, key="nav_radio")
     st.session_state.page = page_map[chosen_label]
@@ -906,51 +910,35 @@ if st.session_state.page == "landing":
     # -----------------------------
     slides = [
         {
-            "title": "Project Overview",
+            "title": "Making Media Bias Visible",
             "body": """
     This project links **real-world conflict event data** with **German news coverage**
-    to analyze how conflicts are reported, framed, and emotionally contextualized.
-
-    The focus is not only on *what happened*, but on **what becomes visible in media reporting**
-    — and what remains underrepresented.
+    to mirror which countries are currently undercovered in media reporting.
+    The focus is not only on **what becomes visible in media reporting** but also how it is **framed** in reporting.
     """,
         },
         {
-            "title": "Why does this matter?",
-            "body": """
-    Media coverage shapes public perception of conflicts.
-    Yet attention is uneven, and reporting often emphasizes specific narratives or emotions.
+            "title": "When Coverage Fails Reality",
+"body": """
+Media coverage shapes how conflicts are perceived and prioritized.
+Yet attention is uneven: German media tend to focus on countries with cultural, geographic, or economic proximity to Germany — leaving other conflicts largely invisible.
+""",
 
-    This dashboard helps identify:
-    - gaps between events and media attention  
-    - dominant emotional framings  
-    - recurring narrative patterns
+        },
+        {
+            "title": "See the Gap Yourself",
+            "body": """
+    - **Media Gap Map**: Explore undercovered countries based on conflict severity and media coverage.
+    - **Conflict Coverage Explorer**: Dive into event details and related articles of a country.
+    - **Framing the Conflict**: Analyze framing patterns in news articles about conflicts in country.
     """,
         },
         {
-            "title": "What can you explore?",
+            "title": "Data & People Behind It",
             "body": """
-    **Conflict Underrepresentation**  
-    Regions or event types receiving limited media attention.
-
-    **Emotional & Sentiment Framing**  
-    How language frames conflict through emotions and tone.
-
-    **Narrative Discovery**  
-    Recurring storylines beyond broad conflict categories.
-
-    **Conflict Media Explorer**  
-    Individual articles linked to specific events.
-    """,
-        },
-        {
-            "title": "Data Sources",
-            "body": """
-    **ACLED**  
-    Global event-level data on protests, violence, and armed conflict.
-
-    **German News Media**  
-    Conflict-related reporting matched by time and location.
+    - ACLED: Global event-level data on protests, violence, and armed conflict. 
+    - German News Media: Conflict-related reporting matched by time and location.
+    - People: Yannick Kayser, Johannes Reithmeier, Jana Speldrich, Hanshi Zhang
     """,
         },
     ]
@@ -970,7 +958,7 @@ if st.session_state.page == "landing":
     # -----------------------------
     # Carousel UI
     # -----------------------------
-    st.markdown("## Our Mission")
+    st.markdown("### Our Mission")
 
     nav_l, nav_c, nav_r = st.columns([1, 6, 1], vertical_alignment="center")
 
@@ -1008,11 +996,17 @@ if st.session_state.page == "landing":
 
     w = float(st.session_state["w_fat"])
     active = st.session_state["scenario"]
-    st.caption(f"Active: **{active}** · events weight: {1-w:.0%} · fatalities weight: {w:.0%}")
-
+    
     # compute once, right after w exists (same as before)
     df_plot["severity_share"] = (1 - w) * df_plot["share_events"] + w * df_plot["share_fatalities"]
     df_plot["underrep_share"] = df_plot["share_articles"] - df_plot["severity_share"]
+
+    df_plot["severity_pct"] = df_plot["severity_share"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["articles_pct"] = df_plot["share_articles"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["underrep_pct"] = df_plot["underrep_share"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["events_pct"] = df_plot["share_events"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["fatalities_pct"] = df_plot["share_fatalities"].map(lambda x: f"{x*100:.1f}%")
+
 
     # --------------------------
     #  Top 5 underrepresented countries
@@ -1021,7 +1015,7 @@ if st.session_state.page == "landing":
     st.markdown(
         """
         <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-            TOP 5 Underrepresented Countries
+            TOP 5 Undercovered Countries
         </p>
         """,
         unsafe_allow_html=True,
@@ -1030,11 +1024,11 @@ if st.session_state.page == "landing":
     
     cols = [
         "country",
-        "underrep_share",
-        "share_articles",
-        "severity_share",
-        "share_events",
-        "share_fatalities",
+        "underrep_pct",
+        "articles_pct",
+        "severity_pct",
+        "events_pct",
+        "fatalities_pct",
         "n_events",
         "total_fatalities",
         "n_articles",  # (typo fix: not n_artciles)
@@ -1042,11 +1036,11 @@ if st.session_state.page == "landing":
 
     rename_map = {
         "country": "Country",
-        "underrep_share": "Underrepresentation",
-        "share_articles": "Article Share",
-        "severity_share": "Conflict Severity",
-        "share_events": "Event Share",
-        "share_fatalities": "Fatality Share",
+        "underrep_pct": "Undercoverage Score",
+        "articles_pct": "Article Share",
+        "severity_pct": "Conflict Severity",
+        "events_pct": "Event Share",
+        "fatalities_pct": "Fatality Share",
         "n_events": "Number of Events",
         "total_fatalities": "Total Fatalities",
         "n_articles": "Number of Articles",
@@ -1060,6 +1054,8 @@ if st.session_state.page == "landing":
     )
 
     st.dataframe(df_display, use_container_width=True)
+    st.caption(f"Active Scenario: **{active}** · events weight: {1-w:.0%} · fatalities weight: {w:.0%}")
+
 
     #  --------------------------
     #  Scenario buttons
@@ -1086,7 +1082,7 @@ if st.session_state.page == "landing":
         )
     with c3:
         st.button(
-            "Balanced",
+            "Combined",
             use_container_width=True,
             on_click=_set_scenario,
             args=("Balanced",),
@@ -1189,7 +1185,7 @@ elif st.session_state.page == "underrep":
         )
     with c3:
         st.button(
-            "Balanced",
+            "Combined",
             use_container_width=True,
             on_click=_set_scenario,
             args=("Balanced",),
@@ -1203,6 +1199,10 @@ elif st.session_state.page == "underrep":
     df_plot["severity_share"] = (1 - w) * df_plot["share_events"] + w * df_plot["share_fatalities"]
     df_plot["underrep_share"] = df_plot["share_articles"] - df_plot["severity_share"]
 
+    df_plot["severity_pct"] = df_plot["severity_share"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["articles_pct"] = df_plot["share_articles"].map(lambda x: f"{x*100:.1f}%")
+    df_plot["underrep_pct"] = df_plot["underrep_share"].map(lambda x: f"{x*100:.1f}%")
+
     # STRUCTURE OF PAGE IN TABS
     tab2d, tab3d = st.tabs(["2D Map", "3D Map"])
 
@@ -1213,7 +1213,23 @@ elif st.session_state.page == "underrep":
 
         
         #st.subheader("Which countries are visibly under- or overrepresented in media coverage?")
-        st.caption("Color = share_articles − severity_share (negative = undercovered)")
+        st.markdown(
+            """
+            <div style="font-size:0.85rem; color:#555;">
+                &nbsp;
+                <span style="display:inline-block; width:12px; height:12px; background:#FF69B4; border-radius:2px;"></span>
+                undercovered
+                &nbsp;
+                <span style="display:inline-block; width:12px; height:12px; background:#5082FF; border-radius:2px;"></span>
+                overcovered
+                &nbsp;
+                <span style="display:inline-block; width:12px; height:12px; background:#B4B4B4; border-radius:2px;"></span>
+                balanced
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
 
 
         clip = float(st.session_state["clip_2d"])
@@ -1238,11 +1254,10 @@ elif st.session_state.page == "underrep":
         tooltip2d = {
             "html": """
             <b>{name}</b><br/>
-            underrep_share: {underrep_share}<br/>
-            severity_share: {severity_share}<br/>
-            share_articles: {share_articles}<br/>
-            share_events: {share_events}<br/>
-            share_fatalities: {share_fatalities}
+            Undercoverage Score: {underrep_pct}<br/>
+            Articles: {n_articles}<br/>
+            Events: {n_events}<br/>
+            Fatalities: {total_fatalities}
             """,
             "style": {"backgroundColor": "white", "color": "black"},
         }
@@ -1272,7 +1287,7 @@ elif st.session_state.page == "underrep":
             if st.session_state.selected_country_name:
                 st.session_state.drilldown_pending = True
                 st.session_state.page = "explorer"
-                st.session_state._nav_override = "Conflict Media Explorer"
+                st.session_state._nav_override = "Conflict Coverage Explorer"
                 st.rerun()
             else:
                 st.warning(f"Clicked ISO3='{clicked_iso3}', but couldn't map it to a country name in country_indices.")
@@ -1281,37 +1296,46 @@ elif st.session_state.page == "underrep":
             col1, col2 = st.columns(2)
             with col1:
                 st.slider(
-                    "2D color clip",
+                    "Saturation threshold",
                     min_value=0.001,
                     max_value=0.1,
                     step=0.01,
                     key="clip_2d",
-                    help="Values beyond ±clip are saturated to the max color.",
+                    help="“Limits how extreme values affect the color scale. Lower = more countries reach full pink/blue; higher = only the most extreme do.”",
                 )
             with col2:
                 st.slider(
-                    "2D color gamma",
+                    "Emphasize mid-range",
                     min_value=0.2,
                     max_value=2.0,
                     step=0.05,
                     key="gamma_2d",
-                    help="Lower (<1) boosts contrast; higher (>1) compresses.",
+                    help="Changes how strongly mid-range differences show up. < 1 highlights small differences; > 1 makes colors more gradual.",
                 )
         
         # Question + explanation for 2D map
-        st.markdown(
-            """
-            
-            </p>
-            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
-                The 2D map contrasts each country’s share of global conflict severity (events and fatalities)
-                with its share of conflict-related articles. Countries shaded towards the undercovered end
-                have fewer articles than their severity would suggest, while overcovered countries receive
-                disproportionate attention relative to their conflict burden.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
+        with st.expander("How to read the 2D map", expanded=False):
+            st.markdown(
+                """
+                <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                    The 2D map contrasts each country’s share of global conflict severity (events and fatalities)
+                    with its share of conflict-related articles. Countries shaded towards the undercovered end
+                    have fewer articles than their severity would suggest, while overcovered countries receive
+                    disproportionate attention relative to their conflict burden.
+                </p>
+                <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                    The undercoverage score is calculated as the difference between a country’s article share
+                    and its conflict severity. A negative score indicates undercoverage, while a positive
+                    score indicates overcoverage.
+                </p>
+                <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                    Conflict severity itself is computed as a weighted combination of event share and fatality share,
+                    with user-adjustable weights via the scenario buttons above. The user can choose to emphasize
+                    fatalities, events, or balance both equally when assessing undercoverage.
+                </p>
+                """,
+                unsafe_allow_html=True,
+            )
 
 
 
@@ -1320,6 +1344,20 @@ elif st.session_state.page == "underrep":
     # 3D map
     # -------------------------
     with tab3d:
+
+        st.markdown(
+            """
+            <div style="font-size:0.85rem; color:#555;">
+                &nbsp;
+                <span style="display:inline-block; width:12px; height:12px; background:#FF69B4; border-radius:2px;"></span>
+                low coverage
+                &nbsp;
+                <span style="display:inline-block; width:12px; height:12px; background:#B4B4B4; border-radius:2px;"></span>
+                high coverage
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
         # Read advanced values (no sliders here)
         height_scale = int(st.session_state["height_scale"])
@@ -1361,11 +1399,8 @@ elif st.session_state.page == "underrep":
         tooltip3d = {
             "html": """
             <b>{name}</b><br/>
-            severity_share (height): {severity_share}<br/>
-            share_articles (color): {share_articles}<br/>
-            share_events: {share_events}<br/>
-            share_fatalities: {share_fatalities}<br/>
-            underrep_share: {underrep_share}
+            Conflict severity (height): {severity_pct}<br/>
+            Articles share (color): {articles_pct}<br/>
             """,
             "style": {"backgroundColor": "white", "color": "black"},
         }
@@ -1385,48 +1420,59 @@ elif st.session_state.page == "underrep":
 
             with colA:
                 st.slider(
-                    "Height scale",
+                    "Overall height",
                     min_value=100_000,
                     max_value=5_000_000,
                     step=100_000,
                     key="height_scale",
-                    help="DeckGL elevation multiplier.",
+                    help="Scales the overall height of all pillars",
                 )
                 st.slider(
-                    "Height exponent (gamma)",
+                    "Height contrast",
                     min_value=0.2,
                     max_value=2.0,
                     step=0.05,
                     key="height_gamma",
-                    help="Lower boosts low values; higher compresses.",
+                    help=(
+                        "Adjusts how height differences are distributed. "
+                        "< 1 highlights smaller conflicts; > 1 emphasizes only the largest ones."
+                    ),
                 )
                 st.slider(
-                    "Color exponent (gamma)",
+                    "Color contrast",
                     min_value=0.2,
                     max_value=2.0,
                     step=0.05,
                     key="color_gamma",
-                    help="Lower boosts low coverage contrast; higher compresses.",
+                    help=(
+                        "Adjusts how strongly coverage differences appear in color. "
+                        "< 1 highlights subtle differences; > 1 makes colors more gradual."
+                    ),
                 )
 
             with colB:
-                st.slider("3D pitch", 0, 70, 45, 1, key="pitch")
-                st.slider("Opacity", 0.1, 1.0, 0.9, 0.05, key="opacity")
+                st.slider("Viewing angle", 0, 70, 45, 1, key="pitch", help="Tilt the camera to better compare pillar heights.",)
+                st.slider("Pillar opacity", 0.1, 1.0, 0.9, 0.05, key="opacity", help="Reduce opacity to see overlapping countries more clearly.",)
 
         # Question + explanation for 3D map (playground)
-        st.markdown(
-            """
+        with st.expander("How to read the 3D map", expanded=False):
+            st.markdown(
+                """
             
-            </p>
-            <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
-                The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
-                settings to explore how conflict severity (height) and media coverage (color) vary across
-                countries. Tall but relatively pale countries indicate intense conflict with limited coverage,
-                while brightly colored pillars highlight locations that receive comparatively strong media attention.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
+                </p>
+                <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                    The 3D map is an interactive playground: users can rotate, zoom, and adjust height and color
+                    settings to explore how conflict severity (height) and media coverage (color) vary across
+                    countries. Tall but relatively pale countries indicate intense conflict with sufficient coverage,
+                    while brightly colored pillars highlight locations that receive comparatively weak media attention.
+                </p>
+                <p style="font-size:0.9rem; color:#555; margin:0 0 0.7rem 0;">
+                    Within our 3D map it is especially easy to spot countries of similar height
+                    (conflict severity) but differing color intensity (media coverage).
+                </p>
+                """,
+                unsafe_allow_html=True,
+            )
 
     
 # -------------------------
