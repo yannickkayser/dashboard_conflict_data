@@ -40,8 +40,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
