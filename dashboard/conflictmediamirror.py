@@ -40,8 +40,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -50,33 +50,180 @@ CONFLICT_FEATURES_TABLE = "conflict_features"
 
 st.set_page_config(page_title="Conflict Media Mirror", layout="wide")
 
+# ------------------------- 
+# Init Sweep
+# -------------------------
+if "page" not in st.session_state:
+    st.session_state.page = "landing"
+if "anim_nonce" not in st.session_state:
+    st.session_state.anim_nonce = 0
+
 # -------------------------
 # Styling
 # -------------------------
+
+# -------------------------
+# Background + cards + spacing
+# ------------------------
+
+
+
+# -------------------------
+# Headline Sweep
+# -------------------------
+nonce = st.session_state.anim_nonce
+anim_name = f"cmm_sweep_{nonce}"
+
 st.markdown(
-    """
+    f"""
 <style>
-.block-container {padding-top: 0rem; padding-bottom: 2.5rem; max-width: 1400px;}
-.small-muted {color: rgba(250,250,250,0.65); font-size: 0.9rem;}
-.main-header {
-  padding: 2rem 2rem;
-  background: linear-gradient(135deg, #87CEEB, #4A90E2);
-  border-radius: 0px;
-  margin: -1rem -1rem 2rem -1rem;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-.main-header h1 {
-  color: white;
-  font-size: 2.5rem;
-  font-weight: 700;
+/* Layout spacing */
+.block-container {{
+  padding-top: 2.0rem;
+  padding-bottom: 2.5rem;
+  max-width: 1400px;
+}}
+
+.cmm-hero {{
+  margin: 0 0 1.2rem 0;
+}}
+
+.cmm-title-top {{
+  font-size: 3.1rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
   margin: 0;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-}
+}}
+
+.cmm-title-bottom {{
+  font-size: 3.1rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+}}
+
+/* Axis base (fade at ends) */
+.cmm-axis-fade {{
+  height: 2px;
+  width: 520px;
+  max-width: 80vw;
+  margin: 0.55rem 0;
+
+  /* your sweeping highlight background */
+  background-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.16) 22%,
+    rgba(180,180,180,0.70) 50%,
+    rgba(0,0,0,0.16) 78%,
+    rgba(0,0,0,0) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+
+  animation: cmm_sweep_X 1.2s ease-out forwards; /* keep your {anim_name} here */
+
+  /* THIS is what creates the fade at both ends */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 14%,
+    rgba(0,0,0,1) 86%,
+    rgba(0,0,0,0) 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,1) 14%,
+    rgba(0,0,0,1) 86%,
+    rgba(0,0,0,0) 100%
+  );
+}}
+
+/* IMPORTANT: make sweep styles win over title colors */
+.cmm-title-top.cmm-sweep-text,
+.cmm-title-bottom.cmm-sweep-text {{
+  background-image: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.88) 42%,
+    rgba(180,180,180,0.98) 50%,
+    rgba(0,0,0,0.88) 58%,
+    rgba(0,0,0,0.88) 100%
+  );
+  background-size: 220% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* helps Chrome/Safari */
+  color: transparent;
+  animation: {anim_name} 1.2s ease-out forwards;
+}}
+
+@keyframes {anim_name} {{
+  0%   {{ background-position: 0% 50%; }}
+  75%  {{ background-position: 100% 50%; }}
+  100% {{ background-position: 50% 50%; }}
+}}
 </style>
 """,
     unsafe_allow_html=True,
 )
+
+# ===== Button styles with mirror effect =====
+st.markdown(
+    """
+    <style>
+        button {
+            background-color: white;
+            border: 1px solid rgba(0,0,0,0.14);   /* slightly stronger border */
+            border-radius: 14px;
+            font-weight: 500;
+            transition: all 0.18s ease;
+        }
+
+        /* Hover: clearer mirror reflection */
+        button:hover {
+            background:
+                linear-gradient(90deg,
+                    rgba(255,255,255,0.98) 0%,
+                    rgba(180,180,180,0.32) 50%,
+                    rgba(255,255,255,0.98) 100%);
+        }
+
+        /* Active & selected: mirror stays */
+        button:active,
+        button[aria-pressed="true"] {
+            background:
+                linear-gradient(90deg,
+                    rgba(240,240,240,1.0) 0%,
+                    rgba(170,170,170,0.45) 50%,
+                    rgba(240,240,240,1.0) 100%);
+            border-color: rgba(0,0,0,0.14);
+            transform: scale(0.98);
+        }
+
+        /* Selected scenario button (you disable it) -> keep mirror */
+        button:disabled {
+            background:
+                linear-gradient(90deg,
+                    rgba(240,240,240,1.0) 0%,
+                    rgba(170,170,170,0.45) 50%,
+                    rgba(240,240,240,1.0) 100%);
+            border-color: rgba(0,0,0,0.14);
+            transform: none;          /* don't "pressed" shrink permanently */
+            opacity: 1 !important;    /* Streamlit dims disabled buttons; override */
+            cursor: default;
+        }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # Sentiment analysis
 st.markdown("""
@@ -89,16 +236,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-
 # -------------------------
 # Main Header
 # -------------------------
 st.markdown(
     """
-<div class="main-header">
-  <h1> Conflict Media Mirror</h1>
-</div>
-""",
+    <div class="cmm-hero">
+      <div class="cmm-title-top cmm-sweep-text">Conflict Media</div>
+      <div class="cmm-axis-fade"></div>
+      <div class="cmm-title-bottom cmm-sweep-text">Mirror</div>
+    </div>
+    """,
     unsafe_allow_html=True,
 )
 
@@ -846,6 +994,7 @@ def extract_clicked_iso3(event, layer_id="countries"):
     return None
 
 
+
 # -------------------------
 # Main Tabs
 # -------------------------
@@ -876,7 +1025,14 @@ with st.sidebar:
         st.session_state["nav_radio"] = labels[1]   # or "Media Gap Map"
 
     chosen_label = st.radio("Go to", labels, key="nav_radio")
-    st.session_state.page = page_map[chosen_label]
+    new_page = page_map[chosen_label]
+
+    # Sweep at every page change
+    # bump animation nonce when page changes
+    if st.session_state.page != new_page:
+        st.session_state.anim_nonce += 1
+        st.session_state.page = new_page
+    ####
 
 
 # -------------------------
@@ -958,7 +1114,6 @@ if st.session_state.page == "landing":
     # -----------------------------
     # Carousel UI
     # -----------------------------
-    st.markdown("### Our Mission")
 
     nav_l, nav_c, nav_r = st.columns([1, 6, 1], vertical_alignment="center")
 
