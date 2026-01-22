@@ -2,7 +2,7 @@
 
 How accurately and comprehensively does German media reflect the global landscape of protests and conflicts, and what systematic biases or emotional framings emerge when news coverage is compared to real-world conflict data?
 
-This project builds a **data pipeline and analytical dashboard** to connect **event-level conflict data** with **German-language news coverage**, enabling systematic study of visibility, bias, and emotional framing in reporting on protests, conflicts, and political violence.
+This project builds a **data pipeline and analytical dashboard** to connect **country-level conflict data** with **German-language news coverage**, enabling systematic study of visibility, bias, and emotional framing in reporting on protests, conflicts, and political violence.
 
 ***
 
@@ -10,7 +10,7 @@ This project builds a **data pipeline and analytical dashboard** to connect **ev
 
 The workflow starts from **ACLED**, one of the most comprehensive open datasets on global conflict events, providing a “ground truth” of what happens: each protest, battle, or political violence incident is recorded with location, date, actors, and event type. On the media side, the project collects German-language news from **GNews** (and can be extended with other outlets), querying by country, keyword, and time window to retrieve headlines, article texts, timestamps, and outlet metadata.
 
-A central matching layer links **real-world events** to **media articles** using geographic and temporal proximity. Once events and articles are connected, NLP components perform sentiment and emotion analysis, topic and keyword extraction, and article clustering to characterize how conflicts are framed and which conflicts receive coverage at all.
+A central matching layer links **country-level conflicts** to **media articles** using geographic and temporal proximity. Once conflicts and articles are connected, NLP components perform sentiment and emotion analysis, topic and keyword extraction, and article clustering to characterize how conflicts are framed and which conflicts receive coverage at all.
 
 All processed data feeds into an interactive dashboard that allows users to:
 
@@ -69,7 +69,7 @@ For a practical entry point:
 2. Use [**`QUICK_START.md`**](docs/QUICK_START.md) to run the full pipeline once and generate all databases.
 3. Refer to [**`DATABASE_SCHEMA.md`**](docs/DATABASE_SCHEMA.md) when constructing your first analytical queries (e.g., coverage vs. fatalities by country).
 4. Keep [**`TROUBLESHOOTING.md`**](docs/TROUBLESHOOTING.md) nearby when scaling up, moving to GPU, or encountering API/database issues.
-5. Look at [**ÀUTOMATION.md`**](docs/AUTOMATION.md) for the constant fetching and updating of the pipeline to ensure that the dashboard shows the newest possible data.
+5. Look at [**`AUTOMATION.md`**](docs/AUTOMATION.md) for the constant fetching and updating of the pipeline to ensure that the dashboard shows the newest possible data.
 
 
 
