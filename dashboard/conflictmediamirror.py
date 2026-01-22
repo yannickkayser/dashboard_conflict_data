@@ -40,8 +40,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -912,34 +912,34 @@ if st.session_state.page == "landing":
         {
             "title": "Making Media Bias Visible",
             "body": """
-    This project links **real-world conflict event data** with **German news coverage**
-    to mirror which countries are currently undercovered in media reporting.
-    The focus is not only on **what becomes visible in media reporting** but also how it is **framed** in reporting.
-    """,
-        },
+            This project links **real-world conflict event data** with **German news coverage**
+            to mirror which countries are currently undercovered in media reporting.
+            The focus is not only on **what becomes visible in media reporting** but also how it is **framed** in reporting.
+            """,
+                },
         {
             "title": "When Coverage Fails Reality",
-"body": """
-Media coverage shapes how conflicts are perceived and prioritized.
-Yet attention is uneven: German media tend to focus on countries with cultural, geographic, or economic proximity to Germany — leaving other conflicts largely invisible.
-""",
+            "body": """
+            Media coverage shapes how conflicts are perceived and prioritized.
+            Yet attention is uneven: German media tend to focus on countries with cultural, geographic, or economic proximity to Germany — leaving other conflicts largely invisible.
+            """,
 
         },
         {
             "title": "See the Gap Yourself",
             "body": """
-    - **Media Gap Map**: Explore undercovered countries based on conflict severity and media coverage.
-    - **Conflict Coverage Explorer**: Dive into event details and related articles of a country.
-    - **Framing the Conflict**: Analyze framing patterns in news articles about conflicts in country.
-    """,
+            - **Media Gap Map**: Explore undercovered countries based on conflict severity and media coverage.
+            - **Conflict Coverage Explorer**: Dive into event details and related articles of a country.
+            - **Framing the Conflict**: Analyze framing patterns in news articles about conflicts in country.
+            """,
         },
         {
             "title": "Data & People Behind It",
             "body": """
-    - ACLED: Global event-level data on protests, violence, and armed conflict. 
-    - German News Media: Conflict-related reporting matched by time and location.
-    - People: Yannick Kayser, Johannes Reithmeier, Jana Speldrich, Hanshi Zhang
-    """,
+            - ACLED: Global event-level data on protests, violence, and armed conflict. 
+            - German News Media: Conflict-related reporting matched by time and location.
+            - People: Yannick Kayser, Johannes Reithmeier, Jana Speldrich, Hanshi Zhang
+            """,
         },
     ]
 
@@ -1482,28 +1482,29 @@ elif st.session_state.page == "sentiment":
     if df is None:
         st.error("Data files not found. Please run data_processor.py first.")
     else:
-        st.markdown("### Sentiment Analysis - Country Comparision")
+        st.markdown("### Media Attention Across Countries")
+
+        with st.expander("What does this comparison show?", expanded=False):
+                st.markdown("""
+                This section compares how international media covers conflicts between different countries.
+                It highlights differences in **emotional framing**, **attention intensity**, and **volatility**
+                over the selected time period.
+                """)
         # ============================================================
         # 2. FILTERS (Applied to both countries)
         # ============================================================
         with st.container():
             st.markdown(
-                "<div class='filter-box'><b>Analytics Filters</b></div>",
-                unsafe_allow_html=True
+            "<div class='filter-box'><b>Country Comparison Setup</b></div>",
+            unsafe_allow_html=True
             )
 
-            f1, f2 = st.columns([2, 1])
+            f1 = st.columns(1)[0]
 
             with f1:
                 date_range = st.date_input(
                     "Date Range",
                     [df['published_date'].min(), df['published_date'].max()]
-                )
-
-            with f2:
-                scope = st.selectbox(
-                    "Scope",
-                    ["All News", "International", "Domestic"]
                 )
 
         # Apply date filter
@@ -1513,23 +1514,28 @@ elif st.session_state.page == "sentiment":
         else:
             df_filtered = df.copy()
 
-        # Apply scope filter
-        if scope == "International": 
-            df_filtered = df_filtered[df_filtered['is_domestic'] == False]
-        elif scope == "Domestic": 
-            df_filtered = df_filtered[df_filtered['is_domestic'] == True]
-
-        
         # ============================================================
         # 1. COUNTRY SELECTION (NEW)
         # ============================================================
-        st.markdown(
-            "<div class='filter-box'><b>Country Comparison Setup</b></div>",
-            unsafe_allow_html=True
-        )
         
         # Get unique countries from the dataset
         available_countries = sorted(df['article_country_x'].dropna().unique().tolist())
+
+        # --- pick default for Country A from map selection ---
+        map_country = st.session_state.get("selected_country_name", None)
+
+        # if map_country is present & valid, use it; else fall back to 0
+        if map_country in available_countries:
+            default_a_idx = available_countries.index(map_country)
+        else:
+            default_a_idx = 0
+
+        # --- force update when coming from map drilldown ---
+        if st.session_state.get("drilldown_pending") and map_country in available_countries:
+            st.session_state["country_a"] = map_country
+            st.session_state.drilldown_pending = False
+
+        # end default country code
         
         if len(available_countries) < 2:
             st.warning("Not enough countries in the dataset for comparison. Showing single country view.")
@@ -1543,7 +1549,7 @@ elif st.session_state.page == "sentiment":
                 country_1 = st.selectbox(
                     "Country A",
                     available_countries,
-                    index=0,
+                    index=default_a_idx,
                     key="country_a"
                 )
             
@@ -1560,6 +1566,22 @@ elif st.session_state.page == "sentiment":
             selected_countries = [country_1, country_2]
         
         st.markdown("---")
+
+        with st.expander("How to read the indicators", expanded=False):
+            st.markdown("""
+            Indicators
+            - **Total Articles** – Number of matched news articles in the selected period.  
+            - **Burstiness Index** – Share of total coverage occurring on peak days. 
+            - **Attention Half-life** – Days until attention drops by half after a peak.  
+            - **Avg Emotional Tone** – Average sentiment score across all articles.
+                        
+            Charts
+            - **Top 5 Emotions** - Emotion charts show the distribution of the five most frequent **non-neutral**
+            emotions in media coverage. Neutral articles are excluded from the pie charts.
+            - **Daily Media Attention** – Area chart of daily article counts over time.
+            - **Emotion Framing Heatmap** - Each row represents a media outlet. Values show the percentage distribution of emotions **within that outlet**. Rows are normalized to sum to 100%.
+            """)
+
         
        
         # ============================================================
@@ -1609,7 +1631,7 @@ elif st.session_state.page == "sentiment":
         def render_country_analysis(df_country, country_name):
             """Render all analysis components for a single country"""
             
-            st.markdown(f"### 🌍 {country_name}")
+            st.markdown(f"### {country_name}")
             
             # Calculate metrics
             burstiness, half_life = calc_attention_metrics(df_country)
@@ -1631,6 +1653,38 @@ elif st.session_state.page == "sentiment":
                          "Interest fade speed")
             
             st.markdown("---")
+
+            # Emotion distribution
+            exclude = ['neutral', 'others', 'other', 'label_1']
+            df_active = df_country[~df_country['emotion_label'].str.lower().isin(exclude)]
+            
+            total_len = len(df_country)
+            neutral_count = len(df_country[df_country['emotion_label'].str.lower().isin(exclude)])
+            neutral_perc = (neutral_count / total_len * 100) if total_len > 0 else 0
+
+            
+
+            if not df_active.empty:
+                top5 = df_active['emotion_label'].value_counts().nlargest(5).index.tolist()
+                df_top = df_active[df_active['emotion_label'].isin(top5)]
+
+                fig_pie = px.pie(
+                    df_top,
+                    names='emotion_label',
+                    hole=0.4,
+                    title=f"Top 5 Emotions - {country_name}"
+                )
+                st.plotly_chart(fig_pie, use_container_width=True)
+
+            st.markdown(
+                f"<div style='font-size:0.85em; color:#777;'>"
+                f"Neutral coverage: <b>{neutral_perc:.1f}%</b>"
+                "</div>",
+                unsafe_allow_html=True
+            )
+
+            st.markdown("---")
+
             
             # Attention time series
             if not df_country.empty:
@@ -1643,6 +1697,7 @@ elif st.session_state.page == "sentiment":
                 )
                 st.plotly_chart(fig_area, use_container_width=True)
             
+            st.markdown("---")
             # Tone by event type
             #st.markdown("#### Tone by Event Type")
             #if not df_country.empty:
@@ -1666,7 +1721,7 @@ elif st.session_state.page == "sentiment":
             #    )
             #    st.plotly_chart(fig_bar, use_container_width=True)
 
-            st.markdown("#### Institutional Emotion Profile")
+            #st.markdown("#### Institutional Emotion Profile")
             if not df_country.empty:
                 # Filter out neutral emotions
                 exclude = ['neutral', 'others', 'other', 'label_1']
@@ -1706,48 +1761,10 @@ elif st.session_state.page == "sentiment":
                 st.info(f"No active emotional framing data for {country_name}")
     
             
-            # Emotion distribution
-            st.markdown("#### Emotional Framing")
-            exclude = ['neutral', 'others', 'other', 'label_1']
-            df_active = df_country[~df_country['emotion_label'].str.lower().isin(exclude)]
             
-            total_len = len(df_country)
-            neutral_count = len(df_country[df_country['emotion_label'].str.lower().isin(exclude)])
-            neutral_perc = (neutral_count / total_len * 100) if total_len > 0 else 0
-
-            st.markdown(
-                f"<div style='font-size:0.85em; color:#777;'>"
-                f"Neutral coverage: <b>{neutral_perc:.1f}%</b>"
-                "</div>",
-                unsafe_allow_html=True
-            )
-
-            if not df_active.empty:
-                top5 = df_active['emotion_label'].value_counts().nlargest(5).index.tolist()
-                df_top = df_active[df_active['emotion_label'].isin(top5)]
-
-                fig_pie = px.pie(
-                    df_top,
-                    names='emotion_label',
-                    hole=0.4,
-                    title=f"Top 5 Emotions - {country_name}"
-                )
-                st.plotly_chart(fig_pie, use_container_width=True)
-
         # ============================================================
         # 3. RENDER COUNTRY COMPARISONS
         # ============================================================
-        st.markdown("""
-        <div style="margin-top:2.2rem;">
-            <div style="font-size:1.6em; font-weight:700;">
-                Trends and Attention Dynamics
-            </div>
-            <div style="color:#666; font-size:0.9em;">
-                How media attention to conflict events evolves over time by country
-            </div>
-            <hr>
-        </div>
-        """, unsafe_allow_html=True)
 
         if country_comparison_mode and len(selected_countries) == 2:
             col1, col2 = st.columns(2)
@@ -2039,20 +2056,18 @@ elif st.session_state.page == "explorer":
 
     with tab_evolution:
 
-        st.markdown(
-            """
-            <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
-                How does global media attention to conflict evolve over time?
-            </p>
-            <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
-                The coverage-over-time graph aggregates all conflict-related articles by month to show how overall
-                reporting intensity fluctuates, including bursts and quiet periods. Using the date filters, users can
-                examine whether major conflict episodes coincide with sustained increases in coverage or only trigger
-                short-lived spikes, informing interpretations of attention cycles and potential media fatigue.
-            </p>
-            """,
-            unsafe_allow_html=True,
-        )
+        with st.expander("What this chart shows", expanded=False):
+            st.markdown(
+                """
+                <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
+                    The coverage-over-time graph aggregates all conflict-related articles by month to show how overall
+                    reporting intensity fluctuates, including bursts and quiet periods. Using the date filters, users can
+                    examine whether major conflict episodes coincide with sustained increases in coverage or only trigger
+                    short-lived spikes, informing interpretations of attention cycles and potential media fatigue.
+                </p>
+                """,
+                unsafe_allow_html=True,
+            )
 
 
         # --- load article dates & countries from MATCH_TABLE ---
@@ -2362,8 +2377,17 @@ elif st.session_state.page == "explorer":
         # -------------------------
         st.markdown(
             f"""
-            <h4 style="margin-bottom:0.1rem;">Ask the event notes about conflicts in {selected_country}</h4>
+            <h4 style="margin-bottom:0.1rem;">Chat with Mirror AI about conflicts in {selected_country}</h4>
+            
+            """,
+            unsafe_allow_html=True,
+        )
+
+        with st.expander("How our AI Assistant works", expanded=False):
+            st.markdown(
+            f"""
             <p style="font-size:0.9rem; color:#555; margin-top:0.15rem;">
+                Ask about conflict events and developments, independent of media coverage.
                 Answers are generated <b>only</b> from ACLED event notes stored in the database (no external sources).
                 Use the date range to control which events are summarized.
             </p>
@@ -2563,11 +2587,19 @@ elif st.session_state.page == "explorer":
         # --- Outlet distribution below article table ---
         if not art_filtered.empty and A_SOURCE in art_filtered.columns:
             
+            
             st.markdown(
                     """
                     <p style="font-size:1.4rem; font-weight:700; margin-top:1.2rem; margin-bottom:0.35rem;">
                         Which media outlets contribute most to the conflict coverage?
                     </p>
+                    """,
+                    unsafe_allow_html=True,
+                )
+            
+            with st.expander("What this chart shows", expanded=False):
+                st.markdown(
+                    """
                     <p style="font-size:0.95rem; color:#444; margin:0 0 1.0rem 0;">
                         The outlet detail chart ranks news organizations by the number of related articles they publish about the selected country, showing how strongly each outlet shapes the countries news agenda. Longer bars and higher article counts indicate a larger influence on the narrative, while shorter bars highlight outlets that report on the same events far less frequently.
                     </p>
