@@ -3041,7 +3041,7 @@ elif st.session_state.page == "explorer":
             else:
                 st.dataframe(out, use_container_width=True, hide_index=True)
             
-    st.caption(f"Maximum articles displayed: {MAX_TABLE_ROWS}")
+        st.caption(f"Maximum articles displayed: {MAX_TABLE_ROWS}")
 
 
 # -------------------------
