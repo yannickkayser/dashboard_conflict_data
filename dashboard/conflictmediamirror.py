@@ -33,8 +33,8 @@ except Exception:
     OpenAI = None  # type: ignore
 
 # UI
-import time
-from streamlit_autorefresh import st_autorefresh
+#import time
+#from streamlit_autorefresh import st_autorefresh
 
 
 # -------------------------
@@ -1083,7 +1083,7 @@ with st.sidebar:
 # -------------------------
 if st.session_state.page == "landing":
     # Auto-refresh every 4 seconds
-    st_autorefresh(interval=4000, key="carousel_refresh")
+    #st_autorefresh(interval=4000, key="carousel_refresh")
 
     df_plot = build_indices_live()
     world = load_world()
@@ -1150,35 +1150,35 @@ if st.session_state.page == "landing":
     if "info_slide_idx" not in st.session_state:
         st.session_state.info_slide_idx = 0
     
-    if "last_slide_ts" not in st.session_state:
-        st.session_state.last_slide_ts = time.time()
+    #if "last_slide_ts" not in st.session_state:  # autorefresh
+    #    st.session_state.last_slide_ts = time.time() #autorefresh
 
-    def prev_slide():
-        st.session_state.info_slide_idx = (
-            st.session_state.info_slide_idx - 1
-        ) % len(slides)
-        st.session_state.last_slide_ts = time.time()
-
-    def next_slide():
-        st.session_state.info_slide_idx = (
-            st.session_state.info_slide_idx + 1
-        ) % len(slides)
-        st.session_state.last_slide_ts = time.time()
-
-
-    #def prev_slide():
-    #    st.session_state.info_slide_idx = (st.session_state.info_slide_idx - 1) % len(slides)
+    # autorefresh 
+    #def prev_slide(): 
+    #    st.session_state.info_slide_idx = (
+    #        st.session_state.info_slide_idx - 1
+    #    ) % len(slides)
+    #    st.session_state.last_slide_ts = time.time()
 
     #def next_slide():
-    #    st.session_state.info_slide_idx = (st.session_state.info_slide_idx + 1) % len(slides)
+    #    st.session_state.info_slide_idx = (
+    #        st.session_state.info_slide_idx + 1
+    #    ) % len(slides)
+    #    st.session_state.last_slide_ts = time.time()
 
-    # Auto-advance slide every 4 seconds
-    now = time.time()
-    if now - st.session_state.last_slide_ts >= 4:
-        st.session_state.info_slide_idx = (
-            st.session_state.info_slide_idx + 1
-        ) % len(slides)
-        st.session_state.last_slide_ts = now
+    def prev_slide():
+        st.session_state.info_slide_idx = (st.session_state.info_slide_idx - 1) % len(slides)
+
+    def next_slide():
+        st.session_state.info_slide_idx = (st.session_state.info_slide_idx + 1) % len(slides)
+
+    # Autorefresh: Auto-advance slide every 4 seconds
+    #now = time.time()
+    #if now - st.session_state.last_slide_ts >= 4:
+    #    st.session_state.info_slide_idx = (
+    #        st.session_state.info_slide_idx + 1
+    #    ) % len(slides)
+    #    st.session_state.last_slide_ts = now
 
     # -----------------------------
     # Carousel UI
