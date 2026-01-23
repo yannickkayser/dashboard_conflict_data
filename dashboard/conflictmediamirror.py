@@ -45,8 +45,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -2522,17 +2522,24 @@ elif st.session_state.page == "explorer":
                 title_suffix = f" – {cov_country}" if cov_country != "All countries" else " – all countries"
 
                 month_long = month_all.melt(
-                    id_vars="month",
+                    id_vars=["month", "n_articles", "n_events"],
                     value_vars=["articles_norm", "events_norm"],
-                    var_name="series",
+                    var_name="series_raw",
                     value_name="value",
                 )
 
                 # prettier legend labels
-                month_long["series"] = month_long["series"].map({
+                month_long["series"] = month_long["series_raw"].map({
                     "articles_norm": "Articles (normalized)",
                     "events_norm": "Events (normalized)",
                 })
+
+                # absolute value matching the hovered series
+                month_long["abs_count"] = np.where(
+                    month_long["series_raw"] == "articles_norm",
+                    month_long["n_articles"],
+                    month_long["n_events"],
+                )
 
                 color_scale = alt.Scale(
                     domain=["Articles (normalized)", "Events (normalized)"],
@@ -2552,12 +2559,13 @@ elif st.session_state.page == "explorer":
                             legend=alt.Legend(orient="bottom"),
                         ),
                         tooltip=[
-                            "month",
-                            "series",
+                            alt.Tooltip("month:N", title="Month"),
+                            alt.Tooltip("series:N", title="Series"),
                             alt.Tooltip("value:Q", title="Normalized", format=".2f"),
-                        ],
+                            alt.Tooltip("abs_count:Q", title="Absolute", format=",.0f"),
+                            ],
                     )
-                    .properties(title=f"Coverage vs. conflict events over time{title_suffix}")
+                    .properties(title=f"Coverage vs. Conflict events over time{title_suffix}")
                 )
 
                 st.altair_chart(line_chart, use_container_width=True)
