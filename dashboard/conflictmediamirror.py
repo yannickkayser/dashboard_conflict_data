@@ -44,8 +44,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -1827,11 +1827,9 @@ elif st.session_state.page == "sentiment":
 
         with st.expander("How to read the indicators", expanded=False):
             st.markdown("""
-            Indicators
-            - **Total Articles** – Number of matched news articles in the selected period.  
+            Indicators 
             - **Burstiness Index** – Share of total coverage occurring on peak days. 
             - **Attention Half-life** – Days until attention drops by half after a peak.  
-            - **Avg Emotional Tone** – Average sentiment score across all articles.
                         
             Charts
             - **Top 5 Emotions** - Emotion charts show the distribution of the five most frequent **non-neutral**
@@ -1897,18 +1895,11 @@ elif st.session_state.page == "sentiment":
             # KPI Cards
             k1, k2 = st.columns(2)
             with k1:
-                kpi_card("Total Articles", len(df_country))
-            with k2:
-                kpi_card("Burstiness Index", f"{burstiness:.1f}%",
-                         "Peak day concentration")
-            
-            k3, k4 = st.columns(2)
-            with k3:
-                avg_tone = f"{df_country['sentiment_numeric'].mean():.2f}" if not df_country.empty else "N/A"
-                kpi_card("Avg Emotional Tone", avg_tone)
-            with k4:
                 kpi_card("Attention Half-life", half_life,
                          "Interest fade speed")
+            with k2:
+                kpi_card("Burstiness Index", f"{burstiness:.1f}%",
+                         "Peak day concentration")    
             
             st.markdown("---")
 
