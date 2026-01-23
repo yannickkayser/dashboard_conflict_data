@@ -3034,13 +3034,6 @@ elif st.session_state.page == "explorer":
     st.caption(f"Maximum articles displayed: {MAX_TABLE_ROWS}")
 
 
-
-
-    
-
-   
-
-
 # -------------------------
 # Tab 5: Impressum
 # -------------------------
