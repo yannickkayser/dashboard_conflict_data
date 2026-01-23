@@ -32,6 +32,8 @@ try:
 except Exception:
     OpenAI = None  # type: ignore
 
+import os
+
 # UI
 #import time
 #from streamlit_autorefresh import st_autorefresh
@@ -612,26 +614,43 @@ _CHAT_STOPWORDS = {
     "tell", "me", "give", "overview", "summary", "currently", "now",
 }
 
+# previous extraction via .streamlit/secrets.toml
+
+#@st.cache_resource
+#def get_openai_client():
+#    """Create OpenAI client once. Returns None if package/key is missing."""
+#    if OpenAI is None:
+#        return None
+#
+#    api_key = None
+#    # Allow either OPENAI_API_KEY at root or under [general]
+#    try:
+#        api_key = st.secrets.get("OPENAI_API_KEY")
+#    except Exception:
+#        api_key = None
+#    if not api_key:
+#        try:
+#            api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
+#        except Exception:
+#            api_key = None
+#
+#    if not api_key:
+#        return None
+#    return OpenAI(api_key=api_key)
+
+# more robust key extraction
 @st.cache_resource
 def get_openai_client():
-    """Create OpenAI client once. Returns None if package/key is missing."""
     if OpenAI is None:
         return None
 
-    api_key = None
-    # Allow either OPENAI_API_KEY at root or under [general]
-    try:
-        api_key = st.secrets.get("OPENAI_API_KEY")
-    except Exception:
-        api_key = None
+    api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY")
     if not api_key:
-        try:
-            api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
-        except Exception:
-            api_key = None
+        api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
 
     if not api_key:
         return None
+
     return OpenAI(api_key=api_key)
 
 def _sanitize_fts_query(user_text: str) -> str:
