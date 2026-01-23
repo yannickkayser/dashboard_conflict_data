@@ -38,7 +38,6 @@ import os
 #import time
 #from streamlit_autorefresh import st_autorefresh
 
-
 # -------------------------
 # Paths
 # -------------------------
@@ -616,42 +615,44 @@ _CHAT_STOPWORDS = {
 
 # previous extraction via .streamlit/secrets.toml
 
-#@st.cache_resource
-#def get_openai_client():
-#    """Create OpenAI client once. Returns None if package/key is missing."""
-#    if OpenAI is None:
-#        return None
-#
-#    api_key = None
-#    # Allow either OPENAI_API_KEY at root or under [general]
-#    try:
-#        api_key = st.secrets.get("OPENAI_API_KEY")
-#    except Exception:
-#        api_key = None
-#    if not api_key:
-#        try:
-#            api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
-#        except Exception:
-#            api_key = None
-#
-#    if not api_key:
-#        return None
-#    return OpenAI(api_key=api_key)
-
-# more robust key extraction
 @st.cache_resource
 def get_openai_client():
+    """Create OpenAI client once. Returns None if package/key is missing."""
     if OpenAI is None:
         return None
 
-    api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY")
+    api_key = None
+    # Allow either OPENAI_API_KEY at root or under [general]
+    try:
+        api_key = st.secrets.get("OPENAI_API_KEY")
+    except Exception:
+        api_key = None
     if not api_key:
-        api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
+        try:
+            api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
+        except Exception:
+            api_key = None
 
     if not api_key:
         return None
-
     return OpenAI(api_key=api_key)
+
+# more robust key extraction
+#@st.cache_resource
+#def get_openai_client():
+#    if OpenAI is None:
+#        return None
+
+#    api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY")
+#    if not api_key:
+#        api_key = st.secrets.get("general", {}).get("OPENAI_API_KEY")
+
+#    if not api_key:
+#        return None
+
+#    return OpenAI(api_key=api_key)
+
+# hard code alternative since cluster environment does not grant access to .streamlit/secrets.toml
 
 def _sanitize_fts_query(user_text: str) -> str:
     """Turn user text into a forgiving FTS5 MATCH query."""
