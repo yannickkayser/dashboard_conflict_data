@@ -32,6 +32,10 @@ try:
 except Exception:
     OpenAI = None  # type: ignore
 
+# UI
+import time
+from streamlit_autorefresh import st_autorefresh
+
 
 # -------------------------
 # Paths
@@ -40,8 +44,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
 CONFLICT_DB = DATA_DIR / "conflict_data.db"
-#MATCHING_DB = DATA_DIR / "matching_country.db" #comment
-MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
+MATCHING_DB = DATA_DIR / "matching_country.db" #comment
+#MATCHING_DB = DATA_DIR / "matched_conflict.db" #uncomment
 GNEWS_DB = DATA_DIR / "deleted_dupgnews2023.db"
 
 COUNTRY_TABLE = "conflict_country"
@@ -448,7 +452,7 @@ conf["articles_per_100_fatal"] = conf.apply(
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DB_CONFLICT = PROJECT_ROOT / "data" / "conflict_data.db"
 
-st.set_page_config(page_title="Underrepresentation Map", layout="wide")
+st.set_page_config(page_title="Conflict Media Mirror", layout="wide")
 
 
 @st.cache_data
@@ -1078,6 +1082,8 @@ with st.sidebar:
 # Landing Page
 # -------------------------
 if st.session_state.page == "landing":
+    # Auto-refresh every 4 seconds
+    st_autorefresh(interval=4000, key="carousel_refresh")
 
     df_plot = build_indices_live()
     world = load_world()
@@ -1143,12 +1149,36 @@ if st.session_state.page == "landing":
     # -----------------------------
     if "info_slide_idx" not in st.session_state:
         st.session_state.info_slide_idx = 0
+    
+    if "last_slide_ts" not in st.session_state:
+        st.session_state.last_slide_ts = time.time()
 
     def prev_slide():
-        st.session_state.info_slide_idx = (st.session_state.info_slide_idx - 1) % len(slides)
+        st.session_state.info_slide_idx = (
+            st.session_state.info_slide_idx - 1
+        ) % len(slides)
+        st.session_state.last_slide_ts = time.time()
 
     def next_slide():
-        st.session_state.info_slide_idx = (st.session_state.info_slide_idx + 1) % len(slides)
+        st.session_state.info_slide_idx = (
+            st.session_state.info_slide_idx + 1
+        ) % len(slides)
+        st.session_state.last_slide_ts = time.time()
+
+
+    #def prev_slide():
+    #    st.session_state.info_slide_idx = (st.session_state.info_slide_idx - 1) % len(slides)
+
+    #def next_slide():
+    #    st.session_state.info_slide_idx = (st.session_state.info_slide_idx + 1) % len(slides)
+
+    # Auto-advance slide every 4 seconds
+    now = time.time()
+    if now - st.session_state.last_slide_ts >= 4:
+        st.session_state.info_slide_idx = (
+            st.session_state.info_slide_idx + 1
+        ) % len(slides)
+        st.session_state.last_slide_ts = now
 
     # -----------------------------
     # Carousel UI
@@ -1497,6 +1527,7 @@ elif st.session_state.page == "underrep":
                     key="clip_2d",
                     help="“Limits how extreme values affect the color scale. Lower = more countries reach full pink/blue; higher = only the most extreme do.”",
                 )
+        
             with col2:
                 st.slider(
                     "Emphasize mid-range",
@@ -1506,7 +1537,9 @@ elif st.session_state.page == "underrep":
                     key="gamma_2d",
                     help="Changes how strongly mid-range differences show up. < 1 highlights small differences; > 1 makes colors more gradual.",
                 )
+
         
+
         # Question + explanation for 2D map
         with st.expander("How to read the 2D map", expanded=False):
             st.markdown(
@@ -1563,12 +1596,20 @@ elif st.session_state.page == "underrep":
 
         geojson, merged = build_geojson(world, df_plot, color_gamma=color_gamma)
 
+        # --- ensure we have an iso3 field in properties for click drilldown ---
+        if "iso3" not in merged.columns:
+            for cand in ["ISO3", "ISO_A3", "ADM0_A3", "id"]:
+                if cand in merged.columns:
+                    merged["iso3"] = merged[cand]
+                    break
+
         # compute elevation in Python (more robust than JS expressions)
         merged["elevation"] = (merged["severity_share"] ** height_gamma) * height_scale
 
         layer = pdk.Layer(
             "GeoJsonLayer",
             data=json.loads(merged.to_json()),
+            id = "countries3d",
             opacity=opacity,
             stroked=True,
             filled=True,
@@ -1606,7 +1647,30 @@ elif st.session_state.page == "underrep":
             map_style=None,
         )
 
-        st.pydeck_chart(deck, width="stretch")
+        event3d = st.pydeck_chart(
+            deck,
+            width="stretch",
+            on_select="rerun",              # enable click selections
+            selection_mode="single-object", # one country at a time
+            key="underrep_map3d",
+        )
+
+        clicked_iso3 = extract_clicked_iso3(event3d, layer_id="countries3d")
+
+        if clicked_iso3:
+            set_selected_country(iso3=clicked_iso3)
+
+            if st.session_state.selected_country_name:
+                st.session_state.drilldown_pending = True
+                st.session_state.page = "explorer"
+                st.session_state._nav_override = "Conflict Coverage Explorer"
+                st.rerun()
+            else:
+                st.warning(
+                    f"Clicked ISO3='{clicked_iso3}', but couldn't map it to a country name in country_indices."
+                )
+
+        #st.pydeck_chart(deck, width="stretch")
 
 
         with st.expander("Advanced 3D Visuals", expanded=False):
@@ -2050,6 +2114,18 @@ elif st.session_state.page == "sentiment":
 # Tab 3: Conflict × Media Explorer
 # -------------------------
 elif st.session_state.page == "explorer":
+    selected_country = (st.session_state.get("selected_country_name") or "").strip()
+
+    # If user opened Explorer directly (no map click), show guidance + exit early
+    if not selected_country:
+        st.info("No country selected yet. Please go back and click a country on the map to explore its coverage.")
+        if st.button("← Back to map", key="back_to_map_no_country"):
+            st.session_state.page = "underrep"
+            st.session_state._nav_override = "Conflict Underrepresentation"
+            st.rerun()
+        st.stop()
+
+
     st.markdown(f"### {st.session_state.selected_country_name}")
 
     if st.button("← Back to map", key="back_to_map"):
@@ -2076,7 +2152,7 @@ elif st.session_state.page == "explorer":
     selected_country = st.session_state.selected_country_name
 
     # Keep session_state synced if user picked a different row
-    MAX_ARTICLES = 30000
+    MAX_TABLE_ROWS = 1000
 
     if selected_country:
         set_selected_country(country=selected_country)
@@ -2091,23 +2167,46 @@ elif st.session_state.page == "explorer":
         FROM {MATCH_TABLE}
         WHERE {M_COUNTRY} = ?
         ORDER BY {A_PUB} DESC
-        LIMIT ?
         """
-        art = qdf_match(articles_sql, [selected_country.strip(), MAX_ARTICLES])
+        art = qdf_match(articles_sql, [selected_country.strip()])
+        if not art.empty:
+            art[A_PUB] = pd.to_datetime(art[A_PUB], errors="coerce")
+
+
 
         # Ensure datetime for recency metrics and time plots
         if not art.empty:
             art[A_PUB] = pd.to_datetime(art[A_PUB], errors="coerce")
 
         # Recency metrics
-        now = datetime.utcnow()
-        if not art.empty and art[A_PUB].notna().any():
-            last_article_date = art[A_PUB].max()
-            days_since_last = (now - last_article_date).days
-            last_7 = (now - art[A_PUB] <= timedelta(days=7)).sum()
+        DATA_LAG_DAYS = 365
+        effective_now = datetime.utcnow() - timedelta(days=DATA_LAG_DAYS)
+        window_start = effective_now - timedelta(days=7)
+
+        # last article date (no LIMIT)
+        last_sql = f"""
+        SELECT MAX({A_PUB}) AS last_pub
+        FROM {MATCH_TABLE}
+        WHERE {M_COUNTRY} = ?
+        """
+        last_pub = qdf_match(last_sql, [selected_country.strip()]).iloc[0]["last_pub"]
+
+        if last_pub is not None and str(last_pub) != "nan":
+            last_article_date = pd.to_datetime(last_pub, errors="coerce")
+            days_since_last = (effective_now - last_article_date.to_pydatetime()).days
         else:
             days_since_last = None
-            last_7 = 0
+
+        # articles in last 7 days (no LIMIT)
+        last7_sql = f"""
+        SELECT COUNT(*) AS n_last7
+        FROM {MATCH_TABLE}
+        WHERE {M_COUNTRY} = ?
+        AND {A_PUB} >= ?
+        AND {A_PUB} <= ?
+        """
+        last_7 = int(qdf_match(last7_sql, [selected_country.strip(), window_start, effective_now]).iloc[0]["n_last7"])
+
 
         # --- Total matched articles KPI (accurate, no LIMIT) ---
         total_sql = f"""
@@ -2214,7 +2313,7 @@ elif st.session_state.page == "explorer":
                     border-radius:12px;
                     margin-top:0.2rem;
                 ">
-                <div style="font-size:0.85rem; color:#555;">Days since last article</div>
+                <div style="font-size:0.85rem; color:#555;">Days since last article (data timeline)</div>
                 <div style="font-size:1.6rem; color:#555;font-weight:600;">{ds}</div>
                 </div>
                 """,
@@ -2230,7 +2329,7 @@ elif st.session_state.page == "explorer":
                     border-radius:12px;
                     margin-top:0.2rem;
                 ">
-                <div style="font-size:0.85rem; color:#555;">Articles last 7 days</div>
+                <div style="font-size:0.85rem; color:#555;">Articles last 7 days (data timeline)</div>
                 <div style="font-size:1.6rem; color:#555;font-weight:600;">{last_7}</div>
                 </div>
                 """,
@@ -2246,9 +2345,27 @@ elif st.session_state.page == "explorer":
     # Country conflict profile (VOR der Artikelliste)
     # -------------------------
 
-    tab_evolution, tab_events, tab_articles = st.tabs(["Evolution", "Events", "Articles"])
+    #tab_evolution, tab_events, tab_articles = st.tabs(["Evolution", "Events", "Articles"])
 
-    with tab_evolution:
+    #-------------------------
+    # Stateful Tab bar
+    # -------------------------
+
+    TAB_LABELS = ["Evolution", "Events", "Articles"]
+
+    # pick a default *once*
+    if "explorer_tab" not in st.session_state:
+        st.session_state["explorer_tab"] = "Evolution"   
+
+    active = st.radio(
+        "",
+        TAB_LABELS,
+        key="explorer_tab",
+        horizontal=True,
+        label_visibility="collapsed",
+    )   
+
+    if active == "Evolution":
 
         with st.expander("What this chart shows", expanded=False):
             st.markdown(
@@ -2258,6 +2375,8 @@ elif st.session_state.page == "explorer":
                     reporting intensity fluctuates, including bursts and quiet periods. Using the date filters, users can
                     examine whether major conflict episodes coincide with sustained increases in coverage or only trigger
                     short-lived spikes, informing interpretations of attention cycles and potential media fatigue.
+                    To enable direct trend comparison, article coverage and conflict events are normalized, allowing users to assess 
+                    whether both rise and fall together over time regardless of differences in absolute scale.
                 </p>
                 """,
                 unsafe_allow_html=True,
@@ -2379,36 +2498,53 @@ elif st.session_state.page == "explorer":
                 month_all["n_articles"] = month_all["n_articles"].fillna(0)
                 month_all["n_events"] = month_all["n_events"].fillna(0)
 
-                title_suffix = (
-                    f" – {cov_country}" if cov_country != "All countries" else " – all countries"
+                # --- normalize both series (0..1) for trend comparison ---
+                month_all["articles_norm"] = (
+                    (month_all["n_articles"] - month_all["n_articles"].min())
+                    / ((month_all["n_articles"].max() - month_all["n_articles"].min()) or 1)
+                )
+                month_all["events_norm"] = (
+                    (month_all["n_events"] - month_all["n_events"].min())
+                    / ((month_all["n_events"].max() - month_all["n_events"].min()) or 1)
                 )
 
-                # reshape to long format for two colored lines + legend
+                title_suffix = f" – {cov_country}" if cov_country != "All countries" else " – all countries"
+
                 month_long = month_all.melt(
                     id_vars="month",
-                    value_vars=["n_articles", "n_events"],
+                    value_vars=["articles_norm", "events_norm"],
                     var_name="series",
-                    value_name="count",
+                    value_name="value",
                 )
 
+                # prettier legend labels
+                month_long["series"] = month_long["series"].map({
+                    "articles_norm": "Articles (normalized)",
+                    "events_norm": "Events (normalized)",
+                })
+
                 color_scale = alt.Scale(
-                    domain=["n_articles", "n_events"],
-                    range=["#FF69B4", "#1f77b4"],  # pink & blue
+                    domain=["Articles (normalized)", "Events (normalized)"],
+                    range=["#FF69B4", "#1f77b4"],
                 )
 
                 line_chart = (
                     alt.Chart(month_long)
-                    .mark_line(point=False)  # only lines, no dots
+                    .mark_line(point=False)
                     .encode(
                         x=alt.X("month:N", title="Month"),
-                        y=alt.Y("count:Q", title="Count"),
+                        y=alt.Y("value:Q", title="Normalized (0–1)"),
                         color=alt.Color(
                             "series:N",
                             title="",
                             scale=color_scale,
                             legend=alt.Legend(orient="bottom"),
                         ),
-                        tooltip=["month", "series", "count"],
+                        tooltip=[
+                            "month",
+                            "series",
+                            alt.Tooltip("value:Q", title="Normalized", format=".2f"),
+                        ],
                     )
                     .properties(title=f"Coverage vs. conflict events over time{title_suffix}")
                 )
@@ -2417,7 +2553,7 @@ elif st.session_state.page == "explorer":
 
 
 
-    with tab_events:
+    elif active == "Events":
 
         # Konfliktprofil-Daten
         cf = qdf_conf_features(selected_country.strip())
@@ -2720,7 +2856,7 @@ elif st.session_state.page == "explorer":
         # End ChatBot
 
 
-    with tab_articles:
+    else:  # Articles tab
 
         if not selected_country.strip():
             st.info("Select a country from the overview table above to see details.")
@@ -2869,7 +3005,9 @@ elif st.session_state.page == "explorer":
             if A_URL and A_URL in art_filtered.columns:
                 final_cols.append(A_URL)
 
-            out = art_filtered[final_cols].rename(
+            art_table = art_filtered.head(MAX_TABLE_ROWS)
+
+            out = art_table[final_cols].rename(
                 columns={
                     A_PUB: "Published",
                     A_TITLE: "Title",
@@ -2892,6 +3030,8 @@ elif st.session_state.page == "explorer":
                 )
             else:
                 st.dataframe(out, use_container_width=True, hide_index=True)
+            
+    st.caption(f"Maximum articles displayed: {MAX_TABLE_ROWS}")
 
 
 
